@@ -1,0 +1,21 @@
+.level h6 {
+  margin-top: 2rem;
+}
+
+.level ul {
+  list-style: none;
+}
+
+.level ul li {
+  margin-bottom: 0.5rem;
+}
+
+.level svg {
+  color: gold;
+  margin-right: 0.5rem;
+}
+
+.token-dist {
+  font-size: 14px;
+  margin-left: 5px;
+}

@@ -1,0 +1,494 @@
+/* Common styles for all devices can be placed here */
+
+.hero {
+  width: 100%;
+  height: 87vh;
+  display: flex;
+  overflow: hidden;
+  padding-bottom: 165px;
+  flex-direction: column;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../../assets/images/hero-bg.png);
+  background-size: cover;
+  z-index: -1;
+}
+
+.hero-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  z-index: 1;
+}
+
+.coins {
+  width: 1107px;
+  height: 393px;
+  position: absolute;
+  top: 18%;
+  left: 18%;
+}
+
+.content-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: slideInAnimation 2s ease forwards;
+  max-width: 918px;
+  height: 505px;
+  top: 43.5%;
+  position: absolute;
+}
+
+.content-title h1 {
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 67px;
+  text-align: left;
+}
+
+.content-title h1 span {
+  font-size: 112px;
+  font-weight: 700;
+  line-height: 136.53px;
+  text-align: left;
+  margin-bottom: 7px;
+}
+
+.content-title p {
+  margin-top: 26px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24.62px;
+  text-align: left;
+}
+
+.hero-actions .hero-btn {
+  width: 240px;
+  height: 73px;
+  gap: 0px;
+  border-radius: 70px;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 28.62px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coins .hero-img {
+  position: relative;
+}
+
+.img-1 {
+  top: 28%;
+  width: 60px;
+  height: 63px;
+}
+
+.img-2 {
+  width: 89px;
+  height: 18.99px;
+  top: 13%;
+  left: 26%;
+}
+
+.img-3 {
+  width: 60px;
+  height: 63px;
+
+  top: 31%;
+  left: 41.5%;
+}
+
+.img-4 {
+  width: 60px;
+  height: 70px;
+  left: 59%;
+  top: 40%;
+}
+
+.img-5 {
+  width: 57px;
+  height: 60px;
+  left: 59%;
+  top: 114%;
+}
+
+.img-6 {
+  width: 80.55px;
+  height: 30px;
+  left: 70%;
+  top: 72.5%;
+}
+
+.img-7 {
+  width: 55px;
+  height: 64px;
+  left: 75%;
+  top: 15%;
+  transform: rotate(180deg);
+}
+
+.img-8 {
+  width: 70px;
+  height: 82px;
+
+  left: 72%;
+  top: 115.55%;
+}
+
+.landing-ray {
+  position: absolute;
+  z-index: -1;
+  margin-top: 7rem;
+}
+
+@keyframes slideInAnimation {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInAnimation {
+  from {
+    opacity: 0; /* Start from 0 opacity */
+  }
+  to {
+    opacity: 1; /* End at full opacity */
+  }
+}
+
+/* For large devices (e.g., laptops, desktops) */
+@media (min-width: 769px) and (max-width: 992px) {
+  .hero {
+    padding-bottom: 0;
+    height: 75vh;
+  }
+  .hero-background {
+    top: -11%;
+    background-size: 100% 58%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .hero-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5rem;
+    z-index: 1;
+  }
+
+  .coins {
+    width: 612px;
+    top: 10%;
+    height: 256px;
+  }
+
+  .content-title {
+    max-width: 740px;
+    top: 25.5%;
+    height: 490px;
+    padding-left: 23px;
+  }
+
+  .content-title h1 {
+    font-size: 51px;
+    line-height: 49px;
+  }
+
+  .content-title h1 span {
+    font-size: 83px;
+    line-height: 136.53px;
+  }
+
+  .content-title p {
+    font-size: 17px;
+    line-height: 22.62px;
+    max-width: 606px;
+  }
+
+  .hero-actions .hero-btn {
+    width: 240px;
+    height: 73px;
+    gap: 0px;
+    border-radius: 70px;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 28.62px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .coins .hero-img {
+    position: relative;
+  }
+
+  .img-1 {
+    top: 41%;
+    width: 30px;
+    height: 33px;
+  }
+
+  .img-2 {
+    width: 49px;
+    height: 8.99px;
+    top: 42%;
+    left: 17%;
+  }
+
+  .img-3 {
+    width: 30px;
+    height: 33px;
+    top: 52%;
+    left: 30.5%;
+  }
+
+  .img-4 {
+    width: 30px;
+    height: 40px;
+    left: 44%;
+    top: 59%;
+  }
+
+  .img-5 {
+    width: 27px;
+    height: 30px;
+    left: 42%;
+    top: 113%;
+  }
+
+  .img-6 {
+    width: 40.55px;
+    height: 16px;
+    left: 51%;
+    top: 88.5%;
+  }
+
+  .img-7 {
+    width: 28px;
+    height: 34px;
+    left: 55.2%;
+    top: 38%;
+    transform: rotate(180deg);
+  }
+
+  .img-8 {
+    width: 26px;
+    height: 37px;
+    left: 54%;
+    top: 111.55%;
+    transform: rotate(180deg);
+  }
+
+  .landing-ray {
+    position: absolute;
+    z-index: -1;
+    margin-top: 12rem;
+  }
+}
+
+/* For medium devices (e.g., tablets) */
+@media (max-width: 768px) {
+  .hero {
+    max-height: 65vh;
+  }
+  .hero-background {
+    top: -18%;
+    left: 0;
+    background-image: url(../../assets/images/hero-bg.png);
+    background-size: 100% 35%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .coins {
+    width: 298px;
+    height: 105.79px;
+    top: 90px;
+    left: 60px;
+    gap: 0px;
+    position: relative;
+  }
+
+  .content-title {
+    top: 15%;
+    padding: 15px;
+  }
+
+  .content-title h1 {
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 34px;
+    text-align: left;
+    padding-left: 21px;
+  }
+
+  .content-title h1 span {
+    font-size: 53px;
+    font-weight: 700;
+    line-height: 58.2px;
+    text-align: left;
+  }
+
+  .content-title p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18.03px;
+    text-align: left;
+    max-width: 329px;
+  }
+
+  .hero-actions .hero-btn {
+    width: 91%;
+    height: 43px;
+    border-radius: 10px;
+  }
+
+  .img-1 {
+    top: 50%;
+    left: -5%;
+    width: 22.07px;
+    height: 23.42px;
+  }
+
+  .img-2 {
+    width: 23.96px;
+    height: 5.11px;
+    left: 16%;
+    top: 25%;
+  }
+
+  .img-3 {
+    width: 16.15px;
+    height: 16.96px;
+    top: 48%;
+    left: 26.5%;
+  }
+
+  .img-4 {
+    width: 16.15px;
+    height: 18.84px;
+    left: 39%;
+    top: 69%;
+  }
+
+  .img-5 {
+    width: 15.34px;
+    height: 16.15px;
+    left: 36%;
+    top: 128%;
+  }
+
+  .img-6 {
+    width: 21.68px;
+    height: 8.08px;
+    left: 50%;
+    top: 86.5%;
+  }
+
+  .img-7 {
+    width: 14.81px;
+    height: 17.23px;
+    left: 52%;
+    top: 21%;
+  }
+
+  .img-8 {
+    width: 18.84px;
+    height: 22.07px;
+    left: 51%;
+    top: 124.55%;
+  }
+  .landing-ray {
+    display: none;
+  }
+}
+
+/* For small devices (e.g., phones) */
+@media (max-width: 576px) {
+  .content-title h1 {
+    font-size: 31px;
+  }
+
+  .content-title h1 span {
+    font-size: 46px;
+  }
+
+  .content-title p {
+    font-size: 13px;
+    line-height: 19.03px;
+  }
+
+  .img-1 {
+    top: 31%;
+    left: -8%;
+    width: 22.07px;
+    height: 23.42px;
+  }
+
+  .img-2 {
+    width: 23.96px;
+    height: 5.11px;
+    left: 8%;
+    top: 8%;
+  }
+
+  .img-3 {
+    width: 16.15px;
+    height: 16.96px;
+    top: 24%;
+    left: 16.5%;
+  }
+
+  .img-4 {
+    width: 16.15px;
+    height: 18.84px;
+    left: 28%;
+    top: 46%;
+  }
+
+  .img-5 {
+    width: 15.34px;
+    height: 16.15px;
+    left: 27%;
+    top: 84%;
+  }
+
+  .img-6 {
+    width: 21.68px;
+    height: 8.08px;
+    left: 37%;
+    top: 61.5%;
+  }
+
+  .img-7 {
+    width: 14.81px;
+    height: 17.23px;
+    left: 54%;
+    top: 2%;
+  }
+
+  .img-8 {
+    width: 18.84px;
+    height: 22.07px;
+    left: 54%;
+    top: 76.55%;
+  }
+  .landing-ray {
+    display: none;
+  }
+}

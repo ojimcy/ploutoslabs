@@ -1,0 +1,23 @@
+.coming-soon-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.coming-soon-page .section-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.coming-soon-page .section-title p {
+  font-size: 15px;
+}
+
+.description {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #777;
+}

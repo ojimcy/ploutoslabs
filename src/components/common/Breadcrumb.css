@@ -1,0 +1,111 @@
+.breadcrumb-bg {
+  background-image: url(../../assets/images/hero-bg.png);
+  background-size: cover;
+  background-position: 50%;
+  position: relative;
+  padding: 235px 0 150px;
+}
+
+.breadcrumb-bg:before {
+  position: absolute;
+  content: '';
+  /* background-image: url(../../assets/images/bg/breadcrumb_shape.png); */
+  background-repeat: repeat;
+  background-position: 50%;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 19px;
+}
+
+.breadcrumb-content {
+  text-align: center;
+}
+
+.breadcrumb-content .title {
+  font-size: 65px;
+  margin-bottom: 30px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin-bottom: 1rem;
+  list-style: none;
+}
+
+.breadcrumb-content .breadcrumb {
+  display: flex;
+  margin-bottom: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.breadcrumb-content .breadcrumb .breadcrumb-item:first-child {
+  text-decoration: none;
+}
+
+.breadcrumb-content .breadcrumb .breadcrumb-item {
+  color: #fff;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  line-height: 1.27;
+  text-decoration: underline;
+}
+
+.breadcrumb-content .breadcrumb .breadcrumb-item a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.breadcrumb-content .breadcrumb-item + .breadcrumb-item:before {
+ margin-top: 1px;
+    transform: translateY(-50%);
+    content: '';
+    width: 5px;
+    height: 7px;
+    background-color: #fff;
+    border-radius: 50%;
+    margin-top: 9px;
+}
+
+.breadcrumb-item + .breadcrumb-item:before {
+  float: left;
+  padding-right: 0.5rem;
+  color: #6c757d;
+  content: var(--bs-breadcrumb-divider, '/');
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-bg {
+    padding: 160px 0 100px;
+  }
+  .breadcrumb-content .title {
+    font-size: 38px;
+    margin-bottom: 20px;
+  }
+  .breadcrumb-content .breadcrumb-item + .breadcrumb-item:before {
+    padding-right: 10px;
+    font-size: 16px;
+    padding-top: 2px;
+  }
+}
+
+@media (max-width: 1500px) {
+  .breadcrumb-bg {
+    padding: 180px 0 120px;
+  }
+  .breadcrumb-content .title {
+    font-size: 50px;
+  }
+  .breadcrumb-content .breadcrumb .breadcrumb-item {
+    font-size: 15px;
+  }
+}
