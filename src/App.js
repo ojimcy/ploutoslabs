@@ -9,6 +9,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Dashboard from './pages/dashboard/Dashboard';
 import Register from './pages/auth';
 import Layout from './components/layout/Layout';
+import Airdrop from './pages/dashboard/Airdrop';
 
 const App = () => {
   useEffect(() => {
@@ -34,6 +35,7 @@ const App = () => {
             <Layout>
               <Routes>
                 <Route index element={<Dashboard />} />
+                <Route path='airdrop' element={<Airdrop />} />
               </Routes>
             </Layout>
           }

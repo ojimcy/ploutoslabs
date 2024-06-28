@@ -51,6 +51,8 @@
 
 .portfolio .nav-tabs {
   border-bottom: none !important;
+  display: flex;
+  justify-content: space-between;
 }
 
 .portfolio .nav-tabs .nav-link {

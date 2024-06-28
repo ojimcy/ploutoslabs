@@ -1,0 +1,101 @@
+.referral-card {
+  padding: 20px 12px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 25, 255, 0.24) 0%,
+    rgba(0, 15, 153, 0.24) 100%
+  );
+}
+
+.referral-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.referral-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.referral-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ref-title {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.ref-count {
+  font-size: 1em;
+  color: #888;
+  display: flex;
+  align-items: center;
+}
+
+.right-arrow {
+  font-size: 1.5em;
+}
+
+.storage .storage-card {
+  height: 100px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 25, 255, 0.24) 0%,
+    rgba(0, 15, 153, 0.24) 100%
+  );
+  border-radius: 0 0 15px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.storage .mining-rate {
+  font-size: 1em;
+  color: #afa5a5;
+}
+
+.airdrop-balance .to-claim h5 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 37.2px;
+}
+
+.airdrop-balance .to-claim {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.airdrop-balance .to-claim span {
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 58.2px;
+}
+
+.airdrop-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 25, 255, 0.24) 0%,
+    rgba(0, 15, 153, 0.24) 100%
+  );
+  z-index: 1000;
+  margin-left: -24px !important;
+  padding: 15px 0;
+}
+
+.airdrop-footer .footer-link a {
+  color: #ffffff;
+  text-decoration: none;
+}

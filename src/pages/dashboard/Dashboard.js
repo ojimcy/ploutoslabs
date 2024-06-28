@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'reactstrap';
 import BalanceCard from '../../components/wallet/BalanceCard';
-import AirdropCard from '../../components/wallet/AirdropCard';
+import ClaimCard from '../../components/wallet/ClaimCard';
 import Portfolio from '../../components/wallet/Portfolio';
 
 import logo from '../../assets/images/logo.png'
@@ -53,7 +53,7 @@ function Dashboard() {
     <div className="wallet">
       <Container>
         <BalanceCard />
-        <AirdropCard />
+        <ClaimCard />
         <Portfolio crypto={cryptoData} transactions={transactionData}/>
       </Container>
     </div>

@@ -60,14 +60,7 @@ const Portfolio = ({ crypto, transactions }) => {
         <TabPane tabId="1">
           <Row className="mt-4">
             {crypto.map((coin, index) => (
-              <Col
-                key={index}
-                xs="12"
-                sm="6"
-                md="4"
-                lg="3"
-                className="crypto-card"
-              >
+              <Col key={index} xs="12" className="crypto-card">
                 <div className="crypto-card-content mt-2">
                   <div className="crypto-icon">
                     <img src={coin.icon} alt={coin.symbol} />
