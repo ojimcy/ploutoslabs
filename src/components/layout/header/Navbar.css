@@ -7,14 +7,13 @@
 
 .navbar {
   z-index: 9;
-  background: #ffffffe5;
-  height: 109px;
+  height: 73px;
   width: 100%;
   max-width: 100%;
   margin-top: 0;
   margin-left: auto;
   margin-right: auto;
-  padding: 20px 0 !important;
+  padding: 14px 0 !important;
   top: 0;
 }
 
@@ -116,7 +115,7 @@
 
   .navbar-card {
     position: fixed;
-    top: 0;
+    top: 73px;
     left: 0;
     width: 100%;
     height: 100vh;
@@ -124,7 +123,7 @@
     z-index: 1000;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
-    padding: 118px 30px;
+    padding: 8px 20px;
   }
 
   .navbar-card.open {

@@ -14,8 +14,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <WebappProvider>
     <React.StrictMode>
-      <ToastContainer position="top-right" autoClose={3000} />
       <App />
+      <ToastContainer />
     </React.StrictMode>
   </WebappProvider>
 );

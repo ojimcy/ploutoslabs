@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 
 // import demoData from './demo_data';
-import { WebappContext } from 'context/telegram';
+import { WebappContext } from '../context/telegram';
 
 export const useWebApp = () => {
   const { webapp } = useContext(WebappContext);
