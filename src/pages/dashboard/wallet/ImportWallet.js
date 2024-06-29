@@ -63,6 +63,7 @@ const ImportWallet = ({ onImport }) => {
                 onChange={handleInputChange}
                 rows="4"
                 className="import-input"
+                placeholder='Seed phrase'
               />
               {error && <div className="error-text">{error}</div>}
             </FormGroup>

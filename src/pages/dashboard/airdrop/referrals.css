@@ -1,0 +1,57 @@
+.referrals-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.referrals-content {
+  padding-top: 80px;
+}
+
+.referrals-grid {
+  margin-bottom: 35px;
+}
+
+.referrals-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2px;
+  margin-right: 20px;
+}
+
+.referrals-title {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: 'Chakra Petch, sans-serif';
+}
+
+.referrals-text {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.referral-link-container,
+.referral-bonus-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.referral-link-text,
+.referral-bonus-text {
+  font-weight: 800;
+}
+
+.copy-link-button,
+.claim-bonus-button {
+  background-color: #29DBDF;
+  padding: 20px;
+  color: white;
+}
+
+.hr-separator {
+  margin-bottom: 5px;
+}

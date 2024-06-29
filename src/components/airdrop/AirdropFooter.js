@@ -11,7 +11,7 @@ function AirdropFooter() {
         <Row className="text-center airdrop-footer">
           <Col xs="4" className="footer-link">
             <Link
-              to="/admin/tasks"
+              to="/dashboard/tasks"
               className="d-flex flex-column align-items-center"
             >
               <FiList size={34} className="icon" />
@@ -20,7 +20,7 @@ function AirdropFooter() {
           </Col>
           <Col xs="4" className="footer-link">
             <Link
-              to="/admin/boosts"
+              to="/dashboard/boosts"
               className="d-flex flex-column align-items-center"
             >
               <FiActivity size={34} className="icon" />
@@ -29,7 +29,7 @@ function AirdropFooter() {
           </Col>
           <Col xs="4" className="footer-link">
             <Link
-              to="/admin/referrals"
+              to="/dashboard/referrals"
               className="d-flex flex-column align-items-center"
             >
               <FiUsers size={34} className="icon" />

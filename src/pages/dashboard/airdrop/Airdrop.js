@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
-import ReferralCard from '../../components/airdrop/ReferralCard';
-import StorageCard from '../../components/airdrop/StorageCard';
-import { computeTokensToCliam, useCurrentUser } from '../../hooks/telegram';
-import AirdropFooter from '../../components/airdrop/AirdropFooter';
+import ReferralCard from '../../../components/airdrop/ReferralCard';
+import StorageCard from '../../../components/airdrop/StorageCard';
+import { computeTokensToCliam, useCurrentUser } from '../../../hooks/telegram';
+import AirdropFooter from '../../../components/airdrop/AirdropFooter';
 
 function Airdrop() {
   const currentUser = useCurrentUser();

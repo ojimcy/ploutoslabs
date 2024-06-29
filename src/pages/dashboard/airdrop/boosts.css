@@ -1,0 +1,30 @@
+.boosts-container {
+  padding-top: 80px;
+}
+
+.boosts-content {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.total-balance-text {
+  color: var(--secondaryGray-900);
+}
+
+.balance-value {
+  font-weight: 800;
+  font-size: 38px;
+}
+
+.mining-info-text {
+  color: var(--secondaryGray-900);
+}
+
+.boost-card-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

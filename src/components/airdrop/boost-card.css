@@ -1,0 +1,66 @@
+.boost-card {
+  margin-top: 15px;
+  border-radius: 15px;
+  padding: 10px;
+
+  background: linear-gradient(
+    270deg,
+    #001d87 100%,
+    #001d86 57.51%,
+    #03014c 57.5%
+  );
+}
+
+.boost-card-content {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boost-card-info {
+  display: flex;
+  align-items: center;
+}
+
+.boost-card-image-container {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+}
+
+.boost-card-title {
+  font-size: 1rem;
+  color: var(--gray-700);
+  font-weight: bold;
+}
+
+.boost-card-description {
+  font-size: 0.75rem;
+  color: gray;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+}
+
+.boost-card-value {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.boost-card-logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+.boost-card-button {
+  background: transparent;
+  padding: 10px;
+  color: white;
+}
