@@ -1,0 +1,53 @@
+.receive-container {
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.receive-header {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.qrcode {
+  margin-bottom: 20px;
+}
+
+.wallet-address {
+  word-wrap: break-word;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+  max-width: 340px;
+}
+
+.copy-button {
+  width: 200px;
+  background-color: #ff7a00;
+  border-color: #ff7a00;
+  font-size: 16px;
+}
+
+.copy-button:hover {
+  background-color: #e66a00;
+  border-color: #e66a00;
+}
+
+.address-code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 24px;
+  padding-top: 24px !important;
+}
+
+.qr-info {
+  color: white;
+  text-align: center;
+  font-style: normal;
+  font-weight: 600;
+  opacity: 1;
+  font-size: 16px;
+  margin: 16px 0px 8px;
+  line-height: 22px;
+}

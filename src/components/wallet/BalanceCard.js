@@ -1,6 +1,4 @@
-// File Path: src/components/BalanceCard.js
-
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row } from 'reactstrap';
 import { toast } from 'react-toastify';
@@ -13,9 +11,15 @@ import {
   FaQrcode,
 } from 'react-icons/fa';
 import './wallet.css';
+import TokenListModal from '../common/modal/TokenListModal';
+import ReceiveTokenListModal from '../common/modal/RecieveTokenListModal';
 
-function BalanceCard(props) {
-  const { netWorth } = props;
+function BalanceCard({ netWorth, tokens }) {
+  const [sendModal, setSendModal] = useState(false);
+  const [receiveModal, setReceiveModal] = useState(false);
+
+  const toggleSendModal = () => setSendModal(!sendModal);
+  const toggleReceiveModal = () => setReceiveModal(!receiveModal);
 
   const handleComingSoonClicked = () => {
     if (toast) {
@@ -34,11 +38,11 @@ function BalanceCard(props) {
         </div>
       </Row>
       <div className="wallet-actions">
-        <div className="wallet-action" onClick={handleComingSoonClicked}>
+        <div className="wallet-action" onClick={toggleSendModal}>
           <FaArrowUp className="icon" />
           <div className="label">Send</div>
         </div>
-        <div className="wallet-action" onClick={handleComingSoonClicked}>
+        <div className="wallet-action" onClick={toggleReceiveModal}>
           <FaArrowDown className="icon" />
           <div className="label">Receive</div>
         </div>
@@ -59,12 +63,21 @@ function BalanceCard(props) {
           <div className="label">Games</div>
         </div>
       </div>
+      <TokenListModal isOpen={sendModal} toggle={toggleSendModal} tokens={tokens} />
+      <ReceiveTokenListModal isOpen={receiveModal} toggle={toggleReceiveModal} tokens={tokens} />
     </Container>
   );
 }
 
 BalanceCard.propTypes = {
   netWorth: PropTypes.string,
+  tokens: PropTypes.arrayOf(
+    PropTypes.shape({
+      icon: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      quantity: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
 export default BalanceCard;

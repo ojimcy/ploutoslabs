@@ -1,0 +1,110 @@
+.token-modal .modal-content {
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
+  height: 65vh;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-radius: 15px 15px 0 0;
+  background-color: #001d86;
+  color: #ffffff;
+  margin-left: -8px;
+  padding: 20px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.search-input {
+  padding: 16px !important;
+  background: transparent !important;
+  color: #ffffff !important;
+}
+
+.token-item {
+  display: flex !important;
+  align-items: center;
+  padding: 16px !important;
+}
+
+.receive .token-item {
+  border: none;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.token-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.token-name {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.token-amount {
+  color: #aaa;
+}
+
+.form-control:focus {
+  color: #ffffff;
+}
+
+
+.token-modal .search-input::placeholder {
+  color: #aaa;
+}
+
+.token-modal .list-group {
+  border: none;
+}
+
+.token-modal .list-group-item {
+  border: none;
+  padding: 10px 15px;
+  background: transparent;
+}
+
+.token-modal hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #cecaca, transparent);
+}
+
+.token-actions {
+  display: flex;
+  align-items: center;
+}
+
+.token-action-btn {
+  background: #001d86;
+  height: 40px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.close-button {
+  width: 100%;
+  background-color: #ff7a00;
+  border-color: #ff7a00;
+  color: #fff;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+.token-modal .list-group-item {
+  color: #aaa !important;
+  font-size: 14px;
+}

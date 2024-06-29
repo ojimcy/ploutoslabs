@@ -1,0 +1,46 @@
+.confirm-send-modal .modal-header {
+  text-align: center;
+  font-weight: bold;
+}
+
+.confirm-send-modal .modal-content {
+  height: 65vh;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+  background-color: #001d86;
+  color: #ffffff;
+  margin-left: -8px;
+  padding: 20px;
+}
+
+.confirm-send-modal .modal-body {
+  text-align: center;
+}
+
+.confirm-header .token-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.confirm-send-modal .confirm-header .amount {
+  margin: 10px 0;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 34.35px;
+  text-align: left;
+}
+
+.confirm-send-modal .confirm-details .detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.confirm-actions .cancel-button,
+.confirm-actions .send-button {
+  width: 48%;
+  margin-top: 25px;
+}

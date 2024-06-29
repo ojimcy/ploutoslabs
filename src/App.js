@@ -10,6 +10,8 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Register from './pages/auth';
 import Layout from './components/layout/Layout';
 import Airdrop from './pages/dashboard/Airdrop';
+import Send from './pages/dashboard/wallet/Send';
+import Receive from './pages/dashboard/wallet/Receive';
 
 const App = () => {
   useEffect(() => {
@@ -35,11 +37,14 @@ const App = () => {
             <Layout>
               <Routes>
                 <Route index element={<Dashboard />} />
-                <Route path='airdrop' element={<Airdrop />} />
+                <Route path="airdrop" element={<Airdrop />} />
+                <Route path="send" element={<Send />} />
+                <Route path="receive" element={<Receive />} />
               </Routes>
             </Layout>
           }
         />
+
         <Route
           path="/auth/*"
           element={
