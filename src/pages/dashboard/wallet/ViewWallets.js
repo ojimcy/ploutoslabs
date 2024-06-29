@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import { FaPlus, FaWallet } from 'react-icons/fa';
+import { FaPlus, FaWallet, FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './wallets.css';
 
 const wallets = [
   {
+    id: 1,
     name: 'Account 1',
     balance: '6.803827164444447',
     address: '0x123...789abc',
   },
   {
+    id: 2,
     name: 'Account 2',
     balance: '12.456789123456789',
     address: '0x456...def012',
   },
 ];
+
 const ViewWallets = () => {
+  const [selectedWalletId, setSelectedWalletId] = useState(null);
+
+  const handleWalletSelect = (id) => {
+    setSelectedWalletId(id);
+  };
 
   return (
     <Container className="mt-4">
@@ -29,15 +37,25 @@ const ViewWallets = () => {
       <Row>
         {wallets.map((wallet) => (
           <Col md="4" key={wallet.id} className="mb-3">
-            <Card>
+            <Card onClick={() => handleWalletSelect(wallet.id)}>
               <CardBody>
                 <div className="wallet-card-content">
                   <div className="wallet-icon">
                     <FaWallet />
                   </div>
-                  <div className="wallet-info">
-                    <div className="wallet-title">{wallet.name}</div>
-                    <div className="wallet-balance">{wallet.balance} PLTL</div>
+                  <div className="wallet-info d-flex justify-content-between align-items-center">
+                    <div className="info-main">
+                      <div className="wallet-title">{wallet.name}</div>
+                      <div className="wallet-balance">
+                        {wallet.balance} PLTL
+                      </div>
+                    </div>
+
+                    {selectedWalletId === wallet.id && (
+                      <div className="selected-check">
+                        <FaCheck />
+                      </div>
+                    )}
                   </div>
                 </div>
               </CardBody>

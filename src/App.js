@@ -13,6 +13,8 @@ import Airdrop from './pages/dashboard/Airdrop';
 import Send from './pages/dashboard/wallet/Send';
 import Receive from './pages/dashboard/wallet/Receive';
 import ViewWallets from './pages/dashboard/wallet/ViewWallets';
+import WalletCredentials from './pages/dashboard/wallet/WalletCredentials';
+import ImportWallet from './pages/dashboard/wallet/ImportWallet';
 
 const App = () => {
   useEffect(() => {
@@ -41,7 +43,9 @@ const App = () => {
                 <Route path="airdrop" element={<Airdrop />} />
                 <Route path="send" element={<Send />} />
                 <Route path="receive" element={<Receive />} />
-                <Route path="view-wallet" element={<ViewWallets />} />
+                <Route path="accounts" element={<ViewWallets />} />
+                <Route path="wallet-credentials" element={<WalletCredentials />} />
+                <Route path="import-wallet" element={<ImportWallet />} />
               </Routes>
             </Layout>
           }

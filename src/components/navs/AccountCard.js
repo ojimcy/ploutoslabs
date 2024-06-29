@@ -27,7 +27,7 @@ function AccountCard() {
     <div>
       <Container>
         {smartWallet && (
-          <Link to="/dashboard/view-wallet" style={{textDecoration: 'none', color: '#ffffff'}}>
+          <Link to="/dashboard/accounts" style={{textDecoration: 'none', color: '#ffffff'}}>
             <Row className="mt-4 account-card">
               <Col xs="12" className="referral-card">
                 <div className="referral-card-content mt-2">
@@ -80,7 +80,7 @@ function AccountCard() {
               )}
 
               <div>
-                <Link to="/create" className="links">
+                <Link to="/dashboard/import-wallet" className="links">
                   <div className="referral-card-content my-4">
                     <div className="referral-icon">
                       <div className="ref-icon">
@@ -100,7 +100,7 @@ function AccountCard() {
                 <Separator />
               </div>
               <div>
-                <Link to="/create" className="links">
+                <Link to="/dashboard/wallet-credentials" className="links">
                   <div className="referral-card-content my-4">
                     <div className="referral-icon">
                       <div className="ref-icon">

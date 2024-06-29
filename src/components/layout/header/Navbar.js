@@ -8,7 +8,7 @@ import MobileMenu from '../../navs/MobileNav';
 
 import logo from '../../../assets/images/logo.png';
 
-const userName = 'cryptzjay.tg'
+const userName = 'cryptzjay.tg';
 
 function MainNavigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -94,10 +94,14 @@ function MainNavigation() {
           </Link>
 
           {/* Wallet Name */}
-          <div className="wallet-name d-flex align-items-center">
+          <Link
+            to="/dashboard/accounts"
+            style={{ color: '#ffffff', textDecoration: 'none' }}
+            className="wallet-name d-flex align-items-center"
+          >
             <span>{userName}</span>
             <FaCaretDown className="caret-icon" />
-          </div>
+          </Link>
 
           {/* Navbar Toggler */}
           <div className="navbar-right d-flex justify-content-between align-items-center">
