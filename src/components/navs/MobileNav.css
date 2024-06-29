@@ -12,3 +12,45 @@
   padding: 4px 6px;
   text-align: center;
 }
+
+.account-card .referral-card {
+  padding: 20px 12px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 25, 255, 0.24) 0%,
+    rgba(0, 15, 153, 0.24) 100%
+  );
+}
+
+.account-card .referral-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-card .referral-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.account-card .referral-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ref-title {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.ref-count {
+  font-size: 1em;
+  color: #888;
+  display: flex;
+  align-items: center;
+}

@@ -119,7 +119,7 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.95);
     z-index: 1000;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
@@ -143,7 +143,6 @@
   }
 
   .navbar-card .nav-link {
-    padding: 15px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%;
   }

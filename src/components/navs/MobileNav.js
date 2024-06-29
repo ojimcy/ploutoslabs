@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Nav } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 import './MobileNav.css';
+import AccountCard from './AccountCard';
 
 function MobileMenu({ isOpen, toggleMobileMenu }) {
   const closeMenu = () => {
@@ -16,9 +16,9 @@ function MobileMenu({ isOpen, toggleMobileMenu }) {
     <div className={`navbar-card ${isOpen ? 'open' : ''}`}>
       <Nav className="ml-auto" navbar>
         {/* Nav Links */}
-        <Link className="nav-link" to="/" onClick={closeMenu}>
-          Home
-        </Link>
+        <div className="nav-link" onClick={closeMenu}>
+          <AccountCard />
+        </div>
       </Nav>
     </div>
   );
