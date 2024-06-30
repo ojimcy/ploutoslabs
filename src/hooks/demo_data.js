@@ -22,7 +22,7 @@ const data = {
       price: 0.005,
       quantity: 1451.5,
       network: 'Base',
-      address: '0x45254F4c45545341f2a657501881B20439cBAF90'
+      address: '0x45254F4c45545341f2a657501881B20439cBAF90',
     },
     {
       icon: ethLgoo,
@@ -31,28 +31,26 @@ const data = {
       price: 2300,
       quantity: 5,
       network: 'Ethereum',
-      address: '0x4200000000000000000000000000000000000006'
+      address: '0x4200000000000000000000000000000000000006',
     },
   ],
 
   transactionData: [
     {
-      date: '2024-06-28',
-      type: 'Buy',
-      amount: '1.5 BTC',
-      txid: '0x1a2b3c4d5e6f7g8h',
-    },
-    {
       date: '2024-06-27',
-      type: 'Sell',
-      amount: '5 ETH',
+      type: 'send',
+      symbol: 'ETH',
+      amount: '5',
       txid: '0x9i8u7y6t5r4e3w2q',
+      address: '0xdBBd9A8A2AAB27e928DD60E30fC0668f32D74a67',
     },
     {
       date: '2024-06-26',
-      type: 'Buy',
-      amount: '10 BNB',
+      type: 'recieve',
+      symbol: 'PLTL',
+      amount: '11050',
       txid: '0x8h7g6f5d4s3a2q1w',
+      address: '0xdBBd9A8A2AAB27e928DD60E30fC0668f32D74a67',
     },
   ],
 };
