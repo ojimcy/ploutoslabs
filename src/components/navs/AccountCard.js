@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FaArrowRight,
   FaClipboard,
@@ -9,20 +9,32 @@ import {
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import '../airdrop/airdrop.css';
 
-import { useCurrentUser } from '../../hooks/telegram';
+import { useWebApp, useTelegramUser } from '../../hooks/telegram';
 import { Separator } from '../common/Seperator';
 
 import './account.css';
 import { Link } from 'react-router-dom';
+import { getUserByTelegramID } from '../../lib/server';
 
 function AccountCard() {
-  const { currentUser, refreshUser } = useCurrentUser();
+  const [currentUser, setCurrentUser] = useState({});
+  const webApp = useWebApp();
+  const telegramUser = useTelegramUser();
 
   useEffect(() => {
-    // Refresh user data when the component mounts
-  console.log('Calling refreshUser in AccountCard');
-    refreshUser();
-  }, [refreshUser]);
+    if(!telegramUser) return
+    const fn = async () => {
+      const user = await getUserByTelegramID(telegramUser.id);
+      console.log(user);
+      setCurrentUser(user);
+    };
+
+    fn();
+  }, [telegramUser]);
+
+  const createSmartWallet = () => {
+    webApp.openLink(`https://keys.ploutoslabs.io?uid=${telegramUser.id}`);
+  };
 
   return (
     <div>
@@ -57,7 +69,7 @@ function AccountCard() {
           </Link>
         ) : (
           <Link
-            to={`https://keys.ploutoslabs.io?uid=${currentUser?.uid}`}
+            onClick={createSmartWallet}
             style={{ textDecoration: 'none', color: '#ffffff' }}
           >
             <Row className="mt-4 account-card">

@@ -1,29 +1,67 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { FaPlus, FaWallet, FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './wallets.css';
+import { useTelegramUser } from '../../../hooks/telegram';
+import { getUserByTelegramID } from '../../../lib/server';
+import { formatAddress } from '../../../lib/utils';
+import { AppContext } from '../../../context/AppContext';
 
-const wallets = [
-  {
-    id: 1,
-    name: 'Account 1',
-    balance: '6.803827164444447',
-    address: '0x123...789abc',
-  },
-  {
-    id: 2,
-    name: 'Account 2',
-    balance: '12.456789123456789',
-    address: '0x456...def012',
-  },
-];
+// const wallets = [
+//   {
+//     id: 1,
+//     name: 'Account 1',
+//     balance: '6.803827164444447',
+//     address: '0x123...789abc',
+//   },
+//   {
+//     id: 2,
+//     name: 'Account 2',
+//     balance: '12.456789123456789',
+//     address: '0x456...def012',
+//   },
+// ];
 
 const ViewWallets = () => {
-  const [selectedWalletId, setSelectedWalletId] = useState(null);
+  const [wallets, setWallets] = useState([]);
+  // const [selectedWalletId, setSelectedWalletId] = useState(null);
+  const {setSelectedWallet, selectedWallet} = useContext(AppContext);
 
-  const handleWalletSelect = (id) => {
-    setSelectedWalletId(id);
+  // const [currentUser, setCurrentUser] = useState({});
+  const telegramUser = useTelegramUser();
+
+  useEffect(() => {
+    if (!telegramUser) return;
+    const fn = async () => {
+      const user = await getUserByTelegramID(telegramUser.id);
+      // console.log(user);
+      // setCurrentUser(user);
+
+      if (user.smartWalletAddress) {
+        const wals = [
+          {
+            id: 1,
+            name: 'Smart Wallet',
+            address: user.smartWalletAddress,
+            balance: user.balance,
+          },
+        ];
+        setSelectedWallet({
+          id: 1,
+          name: 'Smart Wallet',
+          address: user.smartWalletAddress,
+          balance: user.balance,
+        });
+        setWallets(wals);
+      }
+    };
+
+    fn();
+  }, [telegramUser]);
+
+  const handleWalletSelect = (wallet) => {
+    setSelectedWallet(wallet);
   };
 
   return (
@@ -37,7 +75,7 @@ const ViewWallets = () => {
       <Row>
         {wallets.map((wallet) => (
           <Col md="4" key={wallet.id} className="mb-3">
-            <Card onClick={() => handleWalletSelect(wallet.id)}>
+            <Card onClick={() => handleWalletSelect(wallet)}>
               <CardBody>
                 <div className="wallet-card-content">
                   <div className="wallet-icon">
@@ -47,11 +85,14 @@ const ViewWallets = () => {
                     <div className="info-main">
                       <div className="wallet-title">{wallet.name}</div>
                       <div className="wallet-balance">
+                        {formatAddress(wallet.address)}
+                      </div>
+                      <div className="wallet-balance">
                         {wallet.balance} PLTL
                       </div>
                     </div>
 
-                    {selectedWalletId === wallet.id && (
+                    {selectedWallet && selectedWallet.id === wallet.id && (
                       <div className="selected-check">
                         <FaCheck />
                       </div>

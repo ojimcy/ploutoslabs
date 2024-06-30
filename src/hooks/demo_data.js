@@ -21,7 +21,7 @@ const data = {
       price: 0.005,
       quantity: 1451.5,
       network: 'Base',
-      address: '0xdBBd9A8A2AAB27e928DD60E30fC0668f32D74a67'
+      address: '0x45254F4c45545341f2a657501881B20439cBAF90'
     },
     {
       icon: logo,
@@ -30,7 +30,7 @@ const data = {
       price: 2300,
       quantity: 5,
       network: 'Ethereum',
-      address: '0xdBBd9A8A2AAB27e928DD60E30fC0668f32D74a67'
+      address: '0x4200000000000000000000000000000000000006'
     },
     {
       icon: logo,

@@ -1,19 +1,44 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Container, Button } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import './receive.css';
 import { AppContext } from '../../../context/AppContext';
 import { toast } from 'react-toastify';
+import { useTelegramUser } from '../../../hooks/telegram';
+import { getUserByTelegramID } from '../../../lib/server';
 
 const Receive = () => {
-  const { selectedToken } = useContext(AppContext);
+  const {setSelectedWallet, selectedWallet} = useContext(AppContext);
+
+  // const [currentUser, setCurrentUser] = useState({});
+  const telegramUser = useTelegramUser();
+
+  useEffect(() => {
+    if (!telegramUser) return;
+    const fn = async () => {
+      const user = await getUserByTelegramID(telegramUser.id);
+      // console.log(user);
+      // setCurrentUser(user);
+
+      if (user.smartWalletAddress) {
+        setSelectedWallet({
+          id: 1,
+          name: 'Smart Wallet',
+          address: user.smartWalletAddress,
+          balance: user.balance,
+        });
+      }
+    };
+
+    fn();
+  }, [telegramUser]);
 
   const copyAddress = () => {
-    navigator.clipboard.writeText(selectedToken?.walletAddress);
+    navigator.clipboard.writeText(selectedWallet?.address);
     toast.success('Address copied to clipboard!');
   };
 
-  if (!selectedToken) {
+  if (!selectedWallet) {
     return <div>No token selected</div>;
   }
 
@@ -23,14 +48,14 @@ const Receive = () => {
       <hr />
       <div className="address-code">
         <QRCode
-          value={selectedToken.walletAddress}
+          value={selectedWallet.address}
           size={180}
           className="qrcode"
         />
         <div className="qr-info">
-          <p>Your {selectedToken.name} address</p>
+          <p>Your {selectedWallet.name} address</p>
         </div>
-        <p className="wallet-address">{selectedToken.walletAddress}</p>
+        <p className="wallet-address">{selectedWallet.address}</p>
       </div>
 
       <Button color="warning" className="copy-button" onClick={copyAddress}>
