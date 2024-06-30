@@ -1,5 +1,3 @@
-// File Path: src/components/CryptoCard.js
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Separator } from '../common/Seperator';

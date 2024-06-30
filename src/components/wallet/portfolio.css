@@ -21,9 +21,14 @@
   align-items: center;
 }
 
-.crypto-icon img {
+.crypto-icon .icons {
   width: 45px;
   height: 45px;
+  background: #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
 }
 
 .crypto-info {
