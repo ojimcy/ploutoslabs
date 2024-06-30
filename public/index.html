@@ -34,6 +34,13 @@
     />
     <meta name="twitter:image" content="%PUBLIC_URL%/logo-white.png" />
 
+    <!-- Include Eruda from CDN (Recommended) -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+      // Initialize Eruda
+      eruda.init();
+    </script>
+
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
@@ -73,15 +80,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-      <!-- Include Eruda from CDN (Recommended) -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>
-      // Initialize Eruda
-      eruda.init();
-    </script>
-    <title>
-      Ploutos Labs - Mine PLTL
-    </title>
+    <title>Ploutos Labs - Mine PLTL</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

@@ -3,6 +3,10 @@
   border-radius: 10px;
 }
 
+.send-container .token-icon {
+  max-width: 50px;
+}
+
 .back-button {
   background: none;
   border: none;

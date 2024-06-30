@@ -1,6 +1,6 @@
 // File Path: src/components/Portfolio.js
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Row,
@@ -14,9 +14,21 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import './portfolio.css';
+import { Separator } from '../common/Seperator';
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../../context/AppContext';
 
 const Portfolio = ({ crypto, transactions }) => {
   const [activeTab, setActiveTab] = useState('1');
+
+  const navigate = useNavigate();
+  const { selectToken } = useContext(AppContext);
+
+  const handleTokenClick = (token) => {
+    selectToken(token);
+    navigate('/dashboard/send');
+    toggle();
+  };
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -59,24 +71,37 @@ const Portfolio = ({ crypto, transactions }) => {
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
           <Row className="mt-4">
-            {crypto.map((coin, index) => (
-              <Col key={index} xs="12" className="crypto-card">
-                <div className="crypto-card-content mt-2">
-                  <div className="crypto-icon">
-                    <img src={coin.icon} alt={coin.symbol} />
-                    <div className="crypto-info">
-                      <div className="crypto-symbol">{coin.symbol}</div>
-                      <div className="crypto-price">{coin.price}</div>
+            {crypto.map((token, index) => (
+              <>
+                <Col
+                  key={index}
+                  xs="12"
+                  className="crypto-card"
+                  onClick={() => handleTokenClick(token)}
+                >
+                  <div className="crypto-card-content mt-2">
+                    <div className="crypto-icon">
+                      <img
+                        src={token.icon}
+                        alt={token.symbol}
+                        width={45}
+                        height={45}
+                      />
+                      <div className="crypto-info">
+                        <div className="crypto-symbol">{token.symbol}</div>
+                        <div className="crypto-price">{token.price}</div>
+                      </div>
+                    </div>
+                    <div className="crypto-amount">
+                      <div className="crypto-quantity">{token.quantity}</div>
+                      <div className="crypto-value">
+                        ${(token.quantity * token.price).toFixed(2)}
+                      </div>
                     </div>
                   </div>
-                  <div className="crypto-amount">
-                    <div className="crypto-quantity">{coin.quantity}</div>
-                    <div className="crypto-value">
-                      ${(coin.quantity * coin.price).toFixed(2)}
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+                <Separator />
+              </>
             ))}
           </Row>
         </TabPane>

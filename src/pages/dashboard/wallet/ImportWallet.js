@@ -78,7 +78,7 @@ const ImportWallet = ({ onImport }) => {
 };
 
 ImportWallet.propTypes = {
-  onImport: PropTypes.func.isRequired,
+  onImport: PropTypes.func,
 };
 
 export default ImportWallet;

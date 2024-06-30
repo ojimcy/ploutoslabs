@@ -5,6 +5,8 @@ import {
   CLAIM,
   CLAIM_REF_BONUS,
   COMPLET_TASK,
+  GET_TRANSACTION_DETAILS,
+  INIT_TRANSACTION,
   SYNC_ACCOUNT,
   TASK,
   TASKS,
@@ -59,3 +61,27 @@ export const completeTask = async (userId, taskId, proof) => {
   const result = await axios.post(COMPLET_TASK(userId, taskId), { proof });
   return result.data;
 };
+
+export const fetchEthereumData = async () => {
+  try {
+    const response = await axios.get(
+      'https://api.coingecko.com/api/v3/coins/ethereum'
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch Ethereum data:', error);
+    return null;
+  }
+};
+
+export const initTransaction = async (transactionData) => {
+  const result = await axios.post(INIT_TRANSACTION(), transactionData);
+  return result.data;
+};
+
+
+export const getTransactionDetails = async (txid) => {
+  const result = await axios.get(GET_TRANSACTION_DETAILS(txid));
+  return result.data;
+};
+

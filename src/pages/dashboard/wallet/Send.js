@@ -3,12 +3,15 @@ import { Container, Input, Button, Form, FormGroup, Label } from 'reactstrap';
 import { AppContext } from '../../../context/AppContext';
 import './send.css';
 import ConfirmSendModal from '../../../components/common/modal/ConfirmSendModal';
+import { initTransaction } from '../../../lib/server';
 
-function Send() {
-  const { selectedToken } = useContext(AppContext);
+const Send = () => {
+  const { selectedToken, selectedWallet } = useContext(AppContext);
   const [amount, setAmount] = useState('');
   const [recipient, setRecipient] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [transactionResult, setTransactionResult] = useState(null);
+  const [error, setError] = useState(null);
 
   if (!selectedToken) {
     return <div>No token selected</div>;
@@ -22,8 +25,21 @@ function Send() {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleSendClick = () => {
-    toggleModal();
+  const handleSendClick = async () => {
+    try {
+      const transactionData = {
+        walletAddress: selectedWallet,
+        toAddress: recipient,
+        amount,
+        token: selectedToken.symbol,
+      };
+      const result = await initTransaction(transactionData);
+      setTransactionResult(result);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      toggleModal();
+    }
   };
 
   return (
@@ -48,8 +64,8 @@ function Send() {
             onChange={(e) => setRecipient(e.target.value)}
           />
         </FormGroup>
-        <FormGroup >
-          <Label for="amount" className='mt-3'>Amount</Label>
+        <FormGroup className="mt-3">
+          <Label for="amount">Amount</Label>
           <Input
             type="text"
             name="amount"
@@ -62,7 +78,6 @@ function Send() {
             Max: {selectedToken.quantity}
           </span>
         </FormGroup>
-
         <Button
           color="primary"
           className="send-button mt-4"
@@ -82,9 +97,11 @@ function Send() {
           token: selectedToken,
           networkFee: '0.0021',
         }}
+        result={transactionResult}
+        error={error}
       />
     </Container>
   );
-}
+};
 
 export default Send;

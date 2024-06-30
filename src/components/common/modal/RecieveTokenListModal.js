@@ -71,7 +71,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
                 <div className="d-flex" onClick={() => handleTokenClick(token)}>
                   <img
                     src={token.icon}
-                    alt={token.name}
+                    alt={token.name} width={35} height={45}
                     className="token-icon"
                   />
                   <div className="token-info">

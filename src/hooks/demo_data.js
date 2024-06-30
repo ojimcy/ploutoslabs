@@ -1,4 +1,5 @@
 import logo from '../assets/images/logo.png';
+import ethLgoo from '../assets/images/eth.png';
 const data = {
   user: {
     id: 278699491,
@@ -24,22 +25,13 @@ const data = {
       address: '0x45254F4c45545341f2a657501881B20439cBAF90'
     },
     {
-      icon: logo,
+      icon: ethLgoo,
       symbol: 'ETH',
       name: 'Ethereum',
       price: 2300,
       quantity: 5,
       network: 'Ethereum',
       address: '0x4200000000000000000000000000000000000006'
-    },
-    {
-      icon: logo,
-      symbol: 'SOL',
-      name: 'Solana',
-      price: 320,
-      quantity: 10,
-      network: 'Solana',
-      address: '8YeuQi3Yu7b5YgehGkXfacy7QzYy7JLu5qj4LxYiU6hj'
     },
   ],
 

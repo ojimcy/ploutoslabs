@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Input, Label } from 'reactstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useInitData, useTelegramUser } from '../../hooks/telegram';
 import { createAccount, getUserByTelegramID } from '../../lib/server';
 import { WebappContext } from '../../context/telegram';
+import { toast } from 'react-toastify';
 
 import './auth.css';
-import { toast } from 'react-toastify';
+
 function Auth() {
   const navigate = useNavigate();
   const { setUser } = useContext(WebappContext);
@@ -27,16 +28,18 @@ function Auth() {
       }
     };
     fn();
-  }, [telegramUser]);
+  }, [telegramUser, navigate]);
 
   const handlePinChange = (event) => {
     const value = event.target.value.replace(/\D/g, '');
     setPin(value);
+    setError('');
   };
 
   const handleConfirmPinChange = (event) => {
     const value = event.target.value.replace(/\D/g, '');
     setConfirmPin(value);
+    setError('');
   };
 
   const handleCreateAccount = async () => {
@@ -65,14 +68,7 @@ function Auth() {
       }
     } catch (error) {
       console.error('Error in creating account:', error);
-      // Handle error notification as needed
-      toast.error({
-        title: 'Error',
-        description: 'Error in creating account',
-        status: 'error',
-        duration: 2000,
-        position: 'top',
-      });
+      toast.error('Error in creating account');
     }
   };
 
@@ -96,7 +92,7 @@ function Auth() {
             onChange={handlePinChange}
             maxLength={4}
             autoFocus
-            invalid={error}
+            invalid={!!error}
           />
         </div>
         <div className="">
@@ -107,18 +103,18 @@ function Auth() {
             value={confirmPin}
             onChange={handleConfirmPinChange}
             maxLength={4}
-            invalid={error}
+            invalid={!!error}
           />
         </div>
         {error && <span className="error">{error}</span>}
 
         <div className="auth-actions d-flex justify-content-center mt-5">
-          <Link
+          <button
             onClick={handleCreateAccount}
-            className="btn btn-primary auth-btn "
+            className="btn btn-primary auth-btn"
           >
             Create New Account
-          </Link>
+          </button>
         </div>
       </div>
     </Container>
