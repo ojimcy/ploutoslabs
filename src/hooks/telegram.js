@@ -39,13 +39,18 @@ export const useTelegramUser = () => {
   return user;
 };
 
+// export const useCurrentUser = () => {
+//   const context = useContext(WebappContext);
+//   if (!context) {
+//     throw new Error('useCurrentUser must be used within a WebappProvider');
+//   }
+//   const { user, refreshUser } = context;
+//   return { user, refreshUser };
+// };
+
 export const useCurrentUser = () => {
-  const context = useContext(WebappContext);
-  if (!context) {
-    throw new Error('useCurrentUser must be used within a WebappProvider');
-  }
-  const { user, refreshUser } = context;
-  return { user, refreshUser };
+  const { user } = useContext(WebappContext);
+  return user;
 };
 
 export const computeTokensToCliam = (currentUser) => {
