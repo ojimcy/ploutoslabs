@@ -32,7 +32,7 @@ function Boosts() {
           <Row>
             <Col>
               <div className="balance-value">
-                {currentUser ? currentUser.balance.toFixed(6) : '0'} PLTL
+                {currentUser ? currentUser.balance?.toFixed(6) : '0'} PLTL
               </div>
             </Col>
           </Row>

@@ -40,8 +40,12 @@ export const useTelegramUser = () => {
 };
 
 export const useCurrentUser = () => {
-  const { user } = useContext(WebappContext);
-  return user;
+  const context = useContext(WebappContext);
+  if (!context) {
+    throw new Error('useCurrentUser must be used within a WebappProvider');
+  }
+  const { user, refreshUser } = context;
+  return { user, refreshUser };
 };
 
 export const computeTokensToCliam = (currentUser) => {

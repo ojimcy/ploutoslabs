@@ -55,11 +55,11 @@ function Referrals() {
         <Row className="referrals-grid">
           <Col className="referral-bonus-container">
             <div className="referral-bonus-text">Referral Bonus</div>
-            <div>{currentUser ? currentUser.referralBonus.toFixed(6) : ''}</div>
+            <div>{currentUser ? currentUser.referralBonus1?.toFixed(6) : ''}</div>
             <Separator />
             <div className="referral-bonus-text mt-3">Indirect Referral Bonus</div>
             <div>
-              {currentUser ? currentUser.referralBonus2.toFixed(6) : ''}
+              {currentUser ? currentUser.referralBonus2?.toFixed(6) : ''}
             </div>
             <Separator />
             <Button onClick={claimBonus} className="claim-bonus-button mt-4">
