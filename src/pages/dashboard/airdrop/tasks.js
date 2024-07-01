@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import {
   FaCheck,
@@ -10,36 +10,35 @@ import {
   FaTwitter,
   FaYoutube,
 } from 'react-icons/fa';
-import { useCurrentUser, useWebApp } from '../../../hooks/telegram';
-import { completeTask } from '../../../lib/server';
+import { useCurrentUser, useTelegramUser, useWebApp } from '../../../hooks/telegram';
+import { completeTask, getTasks, getUserByTelegramID } from '../../../lib/server';
 import { toast } from 'react-toastify';
 
 import logo from '../../../assets/images/logo.png';
 
 import './tasks.css';
-
-const tasks = [
-  {
-    id: 1,
-    title: 'Join Telegram',
-    reward: '0.2',
-    completed: false,
-    type: 'telegram',
-  },
-  {
-    id: 2,
-    title: 'Join Twitter',
-    reward: '0.4',
-    completed: 'completed',
-    type: true,
-  },
-];
+import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 function Tasks() {
+  const [tasks, setTasks] = useState([])
   const webApp = useWebApp();
   const currentUser = useCurrentUser();
+  const telegramUser = useTelegramUser()
+
+  useEffect(() => {
+    if(!telegramUser) return;
+    const fn = async () => {
+      const user = await getUserByTelegramID(telegramUser.id)
+      const tks = await getTasks(user.id)
+      console.log('tks', tks)
+      setTasks(tks)
+    }
+
+    fn()
+  }, [telegramUser])
 
   const handleTaskClick = async (task) => {
+    console.log(task)
     if (task.link.indexOf('t.me') >= 0) {
       webApp.openTelegramLink(task?.link);
     } else {
@@ -72,6 +71,7 @@ function Tasks() {
 
   return (
     <div className="task-page">
+      <TelegramBackButton/>
       <Container>
         <Row>
           <div className="title">
@@ -92,7 +92,7 @@ function Tasks() {
                 <div className="task-info d-flex align-items-center">
                   <div className="task-icon">{taskIcons[task.type]}</div>
                   <div className="info d-flex flex-column">
-                    <span className="task-title">{task.title}</span>
+                    <span className="task-title">{task.name}</span>
                     <span className="task-reward">
                       <img src={logo} alt="" width={20} height={20} />{' '}
                       {task.reward} PLTL

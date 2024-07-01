@@ -6,6 +6,7 @@ import { AppContext } from '../../../context/AppContext';
 import { toast } from 'react-toastify';
 import { useTelegramUser } from '../../../hooks/telegram';
 import { getUserByTelegramID } from '../../../lib/server';
+import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 const Receive = () => {
   const {setSelectedWallet, selectedWallet} = useContext(AppContext);
@@ -44,6 +45,7 @@ const Receive = () => {
 
   return (
     <Container className="receive-container d-flex flex-column justify-content-center align-items-center">
+      <TelegramBackButton/>
       <h3 className="receive-header">Receive</h3>
       <hr />
       <div className="address-code">
