@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/smart-wallet-bridge/node_modules
 /.pnp
 .pnp.js
 .env
