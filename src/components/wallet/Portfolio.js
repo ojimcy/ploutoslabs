@@ -1,13 +1,19 @@
-// File Path: src/components/Portfolio.js
-
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import {
+  Row,
+  Col,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
+} from 'reactstrap';
 import classnames from 'classnames';
 import './portfolio.css';
+import { Separator } from '../common/Seperator';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
-import CryptoCard from './CryptoCard';
 import TransactionCard from './TransactionCard';
 
 const Portfolio = ({ crypto, transactions }) => {
@@ -64,11 +70,36 @@ const Portfolio = ({ crypto, transactions }) => {
         <TabPane tabId="1">
           <Row className="mt-4">
             {crypto.map((token, index) => (
-              <CryptoCard
-                key={index}
-                token={token}
-                onClick={handleTokenClick}
-              />
+              <>
+                <Col
+                  key={index}
+                  xs="12"
+                  className="crypto-card"
+                  onClick={() => handleTokenClick(token)}
+                >
+                  <div className="crypto-card-content mt-2">
+                    <div className="crypto-icon">
+                      <img
+                        src={token.icon}
+                        alt={token.symbol}
+                        width={45}
+                        height={45}
+                      />
+                      <div className="crypto-info">
+                        <div className="crypto-symbol">{token.symbol}</div>
+                        <div className="crypto-price">{token.price}</div>
+                      </div>
+                    </div>
+                    <div className="crypto-amount">
+                      <div className="crypto-quantity">{token.quantity}</div>
+                      <div className="crypto-value">
+                        ${(token.quantity * token.price).toFixed(2)}
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Separator />
+              </>
             ))}
           </Row>
         </TabPane>
@@ -81,11 +112,9 @@ const Portfolio = ({ crypto, transactions }) => {
           </Row>
         </TabPane>
         <TabPane tabId="3">
-          <Row className="mt-4">
             {transactions.map((trx, index) => (
               <TransactionCard key={index} transaction={trx} />
             ))}
-          </Row>
         </TabPane>
       </TabContent>
     </div>
@@ -103,11 +132,10 @@ Portfolio.propTypes = {
   ).isRequired,
   transactions: PropTypes.arrayOf(
     PropTypes.shape({
-      icon: PropTypes.string.isRequired,
-      symbol: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
-      address: PropTypes.string.isRequired,
       amount: PropTypes.string.isRequired,
+      txid: PropTypes.string.isRequired,
     })
   ).isRequired,
 };
