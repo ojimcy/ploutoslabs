@@ -34,6 +34,7 @@ const tasks = [
     type: true,
   },
 ];
+
 function Tasks() {
   const webApp = useWebApp();
   const currentUser = useCurrentUser();
