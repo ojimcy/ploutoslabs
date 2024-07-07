@@ -7,6 +7,7 @@ import { useTelegramUser } from '../../../hooks/telegram';
 import { getUserByTelegramID } from '../../../lib/server';
 import { formatAddress } from '../../../lib/utils';
 import { AppContext } from '../../../context/AppContext';
+import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 // const wallets = [
 //   {
@@ -66,6 +67,7 @@ const ViewWallets = () => {
 
   return (
     <Container className="mt-4">
+      <TelegramBackButton/>
       <Row className="mb-3">
         <Col>
           <h1>Your Wallets</h1>

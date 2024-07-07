@@ -10,6 +10,7 @@ import {
   Label,
   Input,
 } from 'reactstrap';
+import TelegramBackButton from '../../../components/common/TelegramBackButton'
 import './wallets.css';
 
 const ImportWallet = ({ onImport }) => {
@@ -49,6 +50,7 @@ const ImportWallet = ({ onImport }) => {
 
   return (
     <Container className="mt-4 import-wallet">
+      <TelegramBackButton/>
       <Row>
         <Col md={{ size: 6, offset: 3 }}>
           <h2>Import Wallet</h2>

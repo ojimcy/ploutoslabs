@@ -4,6 +4,7 @@ import { AppContext } from '../../../context/AppContext';
 import './send.css';
 import ConfirmSendModal from '../../../components/common/modal/ConfirmSendModal';
 import { initTransaction } from '../../../lib/server';
+import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 const Send = () => {
   const { selectedToken, selectedWallet } = useContext(AppContext);
@@ -47,6 +48,7 @@ const Send = () => {
 
   return (
     <Container className="send-container">
+      <TelegramBackButton/>
       <div className="send-header d-flex flex-column justify-content-center align-items-center">
         <h3>Send {selectedToken.name}</h3>
         <img
