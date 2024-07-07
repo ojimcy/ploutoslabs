@@ -31,7 +31,7 @@ function Boosts() {
           </Row>
           <Row>
             <Col>
-              <div className="balance-value">
+              <div className="balance-value mt-3">
                 {currentUser ? currentUser.balance?.toFixed(6) : '0'} PLTL
               </div>
             </Col>
@@ -39,7 +39,7 @@ function Boosts() {
           <Row>
             <Col>
               {currentUser && (
-                <div className="mining-info-text">
+                <div className="mining-info-text mt-3">
                   Mining Rate: {currentUser.miningRate}; Mining Frequency:{' '}
                   {currentUser.miningFrequency}
                 </div>
