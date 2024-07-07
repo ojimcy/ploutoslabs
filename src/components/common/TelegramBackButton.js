@@ -15,9 +15,9 @@ const TelegramBackButton = () => {
     console.log(webApp);
     webApp.BackButton.isVisible = true;
     webApp.BackButton.onClick(goBack);
-    // window.Telegram.WebApp.onEvent('backButtonClicked', () => {
-    //   navigated.goBack();
-    // });
+    window.Telegram.WebApp.onEvent('backButtonClicked', () => {
+      navigated.goBack();
+    });
     return () => {
       webApp.BackButton.isVisible = false;
       webApp.BackButton.offClick(goBack);
