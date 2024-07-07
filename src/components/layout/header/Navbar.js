@@ -7,8 +7,9 @@ import { FaCaretDown, FaCog, FaTimes } from 'react-icons/fa';
 import MobileMenu from '../../navs/MobileNav';
 
 import logo from '../../../assets/images/logo.png';
+import { useTelegramUser } from '../../../hooks/telegram';
 
-const userName = 'cryptzjay.tg';
+// const userName = 'cryptzjay.tg';
 
 function MainNavigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,6 +18,7 @@ function MainNavigation() {
   const [isMobile, setIsMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const telegramUser = useTelegramUser();
 
   useEffect(() => {
     const handleResize = () => {
@@ -99,7 +101,7 @@ function MainNavigation() {
             style={{ color: '#ffffff', textDecoration: 'none' }}
             className="wallet-name d-flex align-items-center"
           >
-            <span>{userName}</span>
+            <span>{telegramUser ? telegramUser.username + '.tg' : 'me'}</span>
             <FaCaretDown className="caret-icon" />
           </Link>
 
