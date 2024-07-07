@@ -13,4 +13,4 @@ export const COMPLET_TASK = (userID, taskID) =>
   `${ROOT}/user/${userID}/complete-task/${taskID}`;
 export const TASKS = (userID) => `${ROOT}/user/${userID}/tasks`;
 export const INIT_TRANSACTION = () => `${ROOT}/init-transaction`;
-export const GET_TRANSACTION_DETAILS = (txid) => `${ROOT}/get-transaction-details?txid=${txid}`
+export const GET_TRANSACTION_DETAILS = (txid) => `${ROOT}/get-transaction-details/${txid}`

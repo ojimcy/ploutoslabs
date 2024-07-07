@@ -26,14 +26,17 @@ const Send = () => {
   };
 
   const handleSendClick = async () => {
+    console.log('selectedWallet', selectedWallet)
     try {
       const transactionData = {
         walletAddress: selectedWallet,
         toAddress: recipient,
         amount,
-        token: selectedToken.symbol,
+        token: selectedToken.address,
+        tokenDecimals: selectedToken.decimals,
       };
       const result = await initTransaction(transactionData);
+      console.log(result)
       setTransactionResult(result);
     } catch (err) {
       setError(err.message);

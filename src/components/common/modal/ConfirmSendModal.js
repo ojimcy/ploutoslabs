@@ -14,6 +14,7 @@ import {
 import './confirmSendModal.css';
 import { getTransactionDetails } from '../../../lib/server';
 import { WebappContext } from '../../../context/telegram';
+import { formatAddress } from '../../../lib/utils';
 
 function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
   const { webapp } = useContext(WebappContext);
@@ -24,7 +25,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
   useEffect(() => {
     if (result) {
       setLoading(true);
-      webapp.openTelegramLink(`https://keys.ploutoslabs.io/sign?txid=${result.id}`);
+      webapp.openLink(` https://keys.ploutoslabs.io/sign?txid=${result.id}`);
       pollTransactionDetails(result.id);
     }
   }, [result]);
@@ -34,9 +35,10 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
     const poll = setInterval(async () => {
       try {
         const response = await getTransactionDetails(txid);
-        if (response.data.status === 'confirmed') {
+        console.log(response)
+        if (response.status === 'confirmed') {
           clearInterval(poll);
-          setTransactionResult(response.data);
+          setTransactionResult(response);
           setLoading(false);
         }
       } catch (err) {
@@ -70,7 +72,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
         ) : transactionResult ? (
           <div className="success-message">
             <p>Transaction successful!</p>
-            <p>Transaction ID: {transactionResult.txid}</p>
+            <p>Hash: {transactionResult.hash}</p>
           </div>
         ) : loading ? (
           <div className="loading-message">
@@ -90,7 +92,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
                 <Col>
                   <div className="detail-item">
                     <span className="label">To</span>
-                    <span className="value">{recipient}</span>
+                    <span className="value">{formatAddress(recipient)}</span>
                   </div>
                 </Col>
               </Row>
@@ -139,7 +141,7 @@ ConfirmSendModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   transaction: PropTypes.shape({
     recipient: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
+    amount: PropTypes.string.isRequired,
     token: PropTypes.shape({
       name: PropTypes.string.isRequired,
       icon: PropTypes.string.isRequired,

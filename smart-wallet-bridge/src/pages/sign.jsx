@@ -1,7 +1,7 @@
-import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getTxDetails, updateTransaction } from "../lib/server";
-import Web3 from "web3";
+import { useAccount, useConnect, useSendTransaction, useWriteContract } from 'wagmi';
+import { erc20Abi, parseEther } from "viem";
 
 const buttonStyles = {
   background: 'transparent',
@@ -19,44 +19,29 @@ const buttonStyles = {
   borderRadius: 10,
 };
 
-const tokenABI = [ // ERC-20 Token Contract ABI
-  // Add the minimal ABI required to interact with the contract
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_to",
-        "type": "address"
-      },
-      {
-        "name": "_value",
-        "type": "uint256"
-      }
-    ],
-    "name": "transfer",
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "type": "function"
-  }
-];
 
 const Sign = () => {
+  const [done, setDone] = useState(false);
+  const account = useAccount()
+  const { connectors, connect} = useConnect();
+  const { 
+    data: hash, 
+    isPending,
+    sendTransactionAsync 
+  } = useSendTransaction();
+  const { data: erc20hash, writeContractAsync, error: erc20Error } = useWriteContract()
+
+  const createWallet = useCallback(() => {
+    const coinbaseWalletConnector = connectors.find(
+      (connector) => connector.id === 'coinbaseWalletSDK'
+    );
+    if (coinbaseWalletConnector) {
+      connect({ connector: coinbaseWalletConnector });
+    }
+  }, [connectors, connect]);
+
   const [tx, setTx] = useState(null);
-  const [created, setCreated] = useState(true);
-  const [hash, setHash] = useState('')
-
-  const sdk = new CoinbaseWalletSDK({
-    appName: 'PLTL Wallet',
-    appLogoUrl: 'https://ploutoslabs.io/favicon.svg',
-    appChainIds: [84532],
-  });
-
-  const provider = sdk.makeWeb3Provider();
-  const web3 = new Web3(provider);
+  
 
   useEffect(() => {
     const fn = async () => {
@@ -64,6 +49,7 @@ const Sign = () => {
       const txid = param.get('txid');
       const txDetail = await getTxDetails(txid);
       setTx(txDetail)
+      console.log(txDetail)
     }
 
     fn()
@@ -72,69 +58,42 @@ const Sign = () => {
 
   const send = async () => {
     if (tx.token !== '0x4200000000000000000000000000000000000006') {
-      await sendERC20Token(tx)
+      console.log(tx, [tx.toAddress, parseEther(tx.amount, tx.tokenDecimals)])
+      // await sendERC20Token(tx)
+      const data = await writeContractAsync({
+        address: tx.token,
+        abi:erc20Abi,
+        functionName: 'transfer',
+        args: [tx.toAddress, parseEther(tx.amount, tx.tokenDecimals)],
+      })
+      console.log(data)
+      await updateTransaction({...tx, hash: data, status: 'confirmed'})
+      setDone(true)
       return
     }
-    const amountToSend = web3.utils.toWei(tx.amount, 'ether');
-
-    const transactionParameters = {
-      to: tx.toWallet,
-      from: tx.walletAddress,
-      value: web3.utils.toHex(amountToSend),
-    };
-
-    const txHash = await window.ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [transactionParameters],
-    });
-
-    setHash(txHash)
-    const input = {...tx, hash: txHash}
-    await updateTransaction(input)
-    setCreated(true)
-    console.log('signature', txHash);
+    const data = await sendTransactionAsync({ to: tx.toAddress, value: parseEther(tx.amount) }) 
+    await updateTransaction({...tx, hash: data, status: 'confirmed'})
+    setDone(true)
+    console.log(data)
   }
 
-  async function sendERC20Token(tx) {
-    const accounts = await web3.eth.getAccounts();
-    const senderAddress = accounts[0];
-    const receiverAddress = tx.toAddress;
-    const amountToSend = web3.utils.toWei(tx.amount, tx.tokenDecimals);
-
-    const contract = new web3.eth.Contract(tokenABI, tx.token);
-    const data = contract.methods.transfer(receiverAddress, amountToSend).encodeABI();
-
-    const transactionParameters = {
-      to: tx.token,
-      from: senderAddress,
-      data: data,
-      gas: web3.utils.toHex(60000), // Adjust gas limit as necessary
-      gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')), // Adjust gas price as necessary
-    };
-
-    try {
-      const txHash = await window.ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [transactionParameters],
-      });
-      console.log('Transaction Hash:', txHash);
-      const input = {...tx, hash: txHash}
-      await updateTransaction(input)
-      setCreated(true)
-      setHash(txHash)
-      console.log('signature', txHash);
-    } catch (error) {
-      console.error('Transaction Error:', error);
-    }
-  }
+  useEffect(() => {
+    if(!erc20Error) return
+    console.log(erc20Error)
+  }, [erc20Error])
 
   return <>
-  {!created && <button style={buttonStyles} onClick={send}>
+  {!done && !account.isConnected && <button style={buttonStyles} onClick={createWallet}>
+      Connect Smart Wallet
+    </button>}
+  {! done && account.isConnected && <button style={buttonStyles} onClick={send}>
       Sign Transaction
     </button>}
 
-    {created && <p>Return to telegram to continue<br/>
-    Hash: {hash}
+    {isPending && <p>Sending transaction. Please wait...</p>}
+
+    {done && <p>Return to telegram to continue<br/>
+    Hash: {hash || erc20hash}
     </p>}
   </>;
 };

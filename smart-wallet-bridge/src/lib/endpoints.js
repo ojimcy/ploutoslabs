@@ -13,5 +13,5 @@ export const COMPLET_TASK = (userID, taskID) =>
   `${ROOT}/user/${userID}/complete-task/${taskID}`;
 export const TASKS = (userID) => `${ROOT}/user/${userID}/tasks`;
 export const SET_SMART_WALLET = (userID) => `${ROOT}/user/${userID}/set-smart-address`;
-export const GET_TRANSACTION_DETAILS = (txid) => `${ROOT}/get-transaction-details?txid=${txid}`;
+export const GET_TRANSACTION_DETAILS = (txid) => `${ROOT}/get-transaction-details/${txid}`;
 export const UPDATE_TRANSACTION_DETAILS = () => `${ROOT}/update-transaction`;

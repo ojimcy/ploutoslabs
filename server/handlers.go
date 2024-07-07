@@ -637,6 +637,7 @@ func initWalletTranssaction(c *gin.Context, db *gorm.DB) {
 	}
 
 	input.UserID = currentUser.ID
+	input.Date = time.Now()
 
 	uuidWithHyphen := uuid.New()
 	fmt.Println(uuidWithHyphen)
