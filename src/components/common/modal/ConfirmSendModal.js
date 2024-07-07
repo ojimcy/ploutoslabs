@@ -40,6 +40,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
           clearInterval(poll);
           setTransactionResult(response);
           setLoading(false);
+          window.history.back();
         }
       } catch (err) {
         setTransactionError(err.message);
