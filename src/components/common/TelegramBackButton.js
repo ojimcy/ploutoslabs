@@ -1,30 +1,25 @@
 import { useEffect } from 'react';
-import { useWebApp } from '../../hooks/telegram';
-import { useNavigate } from 'react-router-dom';
 
 const TelegramBackButton = () => {
-  const webApp = useWebApp();
-  const navigated = useNavigate();
-
-  const goBack = () => {
-    navigated.goBack();
-  };
-
   useEffect(() => {
-    if (!webApp) return;
-    console.log(webApp);
-    webApp.BackButton.isVisible = true;
-    webApp.BackButton.onClick(goBack);
-    window.Telegram.WebApp.onEvent('backButtonClicked', () => {
-      navigated.goBack();
-    });
-    return () => {
-      webApp.BackButton.isVisible = false;
-      webApp.BackButton.offClick(goBack);
-    };
-  });
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.BackButton.show();
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        window.history.back();
+      });
+    }
 
-  return null;
+    return () => {
+      if (window.Telegram.WebApp) {
+        window.Telegram.WebApp.BackButton.hide();
+        window.Telegram.WebApp.BackButton.offClick(() => {
+          window.history.back();
+        });
+      }
+    };
+  }, []);
+
+  return null; // This component doesn't render anything visible
 };
 
 export default TelegramBackButton;
