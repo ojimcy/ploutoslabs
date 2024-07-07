@@ -29,7 +29,7 @@ const data = {
       icon: ethLgoo,
       symbol: 'ETH',
       name: 'Ethereum',
-      price: 3500,
+      price: 0,
       quantity: 0.00,
       network: 'Base',
       address: '0x4200000000000000000000000000000000000006',
