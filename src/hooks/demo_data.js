@@ -38,22 +38,22 @@ const data = {
   ],
 
   transactionData: [
-    {
-      date: '2024-06-27',
-      type: 'send',
-      symbol: 'ETH',
-      amount: '5',
-      txid: '0x9i8u7y6t5r4e3w2q',
-      address: '0xdBBd9A8A2AAB27e928DD60E30fC0668f32D74a67',
-    },
-    {
-      date: '2024-06-26',
-      type: 'recieve',
-      symbol: 'PLTL',
-      amount: '11050',
-      txid: '0x8h7g6f5d4s3a2q1w',
-      address: '0xdBBd9A8A2AAB27e928DD60E30fC0668f32D74a67',
-    },
+    // {
+    //   date: '2024-06-27',
+    //   type: 'send',
+    //   symbol: 'ETH',
+    //   amount: '5',
+    //   txid: '0x9i8u7y6t5r4e3w2q',
+    //   address: '0xdBBd9A8A2AAB27e928DD60E30fC0668f32D74a67',
+    // },
+    // {
+    //   date: '2024-06-26',
+    //   type: 'recieve',
+    //   symbol: 'PLTL',
+    //   amount: '11050',
+    //   txid: '0x8h7g6f5d4s3a2q1w',
+    //   address: '0xdBBd9A8A2AAB27e928DD60E30fC0668f32D74a67',
+    // },
   ],
 };
 
