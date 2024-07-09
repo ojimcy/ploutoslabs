@@ -21,7 +21,7 @@ import { toast } from 'react-toastify';
 
 function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
   const navigate = useNavigate();
-  const { selectToken } = useContext(AppContext);
+  const { selectToken, selectedWallet } = useContext(AppContext);
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredTokens = tokens.filter((token) =>
@@ -34,8 +34,8 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
     toggle();
   };
 
-  const copyAddress = (address) => {
-    navigator.clipboard.writeText(address);
+  const copyAddress = () => {
+    navigator.clipboard.writeText(selectedWallet?.address);
     toast.success('Address copied to clipboard!');
   };
 
@@ -85,7 +85,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
                 <div className="token-actions">
                   <button
                     className="token-action-btn"
-                    onClick={() => copyAddress(token.address)}
+                    onClick={() => copyAddress()}
                   >
                     <FaCopy size={22} />
                   </button>
