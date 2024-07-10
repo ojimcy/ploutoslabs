@@ -1,3 +1,15 @@
+/* General layout and style for the airdrop page */
+.airdrop-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.airdrop-main {
+  flex: 1;
+  padding-bottom: 100px; 
+}
+
 .referral-card {
   padding: 20px 12px;
   border-radius: 15px;
@@ -62,12 +74,6 @@
   color: #afa5a5;
 }
 
-.airdrop-balance .to-claim h5 {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 37.2px;
-}
-
 .airdrop-balance .to-claim {
   display: flex;
   flex-direction: column;
@@ -75,10 +81,20 @@
   align-items: center;
 }
 
+.airdrop-balance .to-claim h5 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 37.2px;
+}
+
 .airdrop-balance .to-claim span {
   font-size: 46px;
   font-weight: 700;
   line-height: 58.2px;
+}
+
+.airdrop-balance .balance {
+  text-align: center;
 }
 
 .airdrop-footer {
@@ -91,7 +107,6 @@
     rgba(0, 15, 153, 0.24) 100%
   );
   z-index: 1000;
-  margin-left: -24px !important;
   padding: 15px 0;
 }
 
