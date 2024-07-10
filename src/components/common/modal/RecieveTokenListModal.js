@@ -18,11 +18,13 @@ import { AppContext } from '../../../context/AppContext';
 import './tokenList.css';
 import { FaCopy } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { useCurrentUser } from '../../../hooks/telegram';
 
 function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
   const navigate = useNavigate();
   const { selectToken, selectedWallet } = useContext(AppContext);
   const [searchTerm, setSearchTerm] = useState('');
+  const currentUser = useCurrentUser();
 
   const filteredTokens = tokens.filter((token) =>
     token.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -35,7 +37,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
   };
 
   const copyAddress = () => {
-    navigator.clipboard.writeText(selectedWallet?.address);
+    navigator.clipboard.writeText(selectedWallet?.address || currentUser.smartWalletAddress);
     toast.success('Address copied to clipboard!');
   };
 
