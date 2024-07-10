@@ -39,7 +39,7 @@ function Airdrop() {
           <div className="airdrop-balance d-flex flex-column justify-content-center align-items-center mt-5">
             <div className="to-claim">
               <h5>Amount to Claim:</h5>
-              <span>{currentAmount?.toFixed(6)} RAIN</span>
+              <span>{currentAmount?.toFixed(6)} PLTL</span>
             </div>
             <div className="balance">
               <p>
