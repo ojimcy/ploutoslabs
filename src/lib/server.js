@@ -5,7 +5,10 @@ import {
   CLAIM,
   CLAIM_REF_BONUS,
   COMPLET_TASK,
+  GET_TOKEN_BALANCES,
   GET_TRANSACTION_DETAILS,
+  GET_WALLET_HISTORY,
+  GET_WALLETS,
   INIT_TRANSACTION,
   SYNC_ACCOUNT,
   TASK,
@@ -85,3 +88,17 @@ export const getTransactionDetails = async (txid) => {
   return result.data;
 };
 
+export const getWallets = async (userID) => {
+  const result = await axios.get(GET_WALLETS(userID));
+  return result.data;
+};
+
+export const getWalletHIstory = async (wallet) => {
+  const result = await axios.get(GET_WALLET_HISTORY(wallet));
+  return result.data;
+};
+
+export const getTokenBalances = async (wallet) => {
+  const result = await axios.get(GET_TOKEN_BALANCES(wallet));
+  return result.data;
+};

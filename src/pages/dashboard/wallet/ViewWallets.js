@@ -4,7 +4,7 @@ import { FaPlus, FaWallet, FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './wallets.css';
 import { useTelegramUser } from '../../../hooks/telegram';
-import { getUserByTelegramID } from '../../../lib/server';
+import { getUserByTelegramID, getWallets } from '../../../lib/server';
 import { formatAddress } from '../../../lib/utils';
 import { AppContext } from '../../../context/AppContext';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
@@ -40,20 +40,9 @@ const ViewWallets = () => {
       // setCurrentUser(user);
 
       if (user.smartWalletAddress) {
-        const wals = [
-          {
-            id: 1,
-            name: 'Smart Wallet',
-            address: user.smartWalletAddress,
-            balance: user.balance,
-          },
-        ];
-        setSelectedWallet({
-          id: 1,
-          name: 'Smart Wallet',
-          address: user.smartWalletAddress,
-          balance: user.balance,
-        });
+        const wals = await getWallets(user.id);
+        if(!wals || wals.length == 0) return
+        setSelectedWallet(wals[0]);
         setWallets(wals);
       }
     };
@@ -90,7 +79,7 @@ const ViewWallets = () => {
                         {formatAddress(wallet.address)}
                       </div>
                       <div className="wallet-balance">
-                        {wallet.balance} PLTL
+                        {wallet.networth}
                       </div>
                     </div>
 
