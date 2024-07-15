@@ -13,4 +13,8 @@ export const COMPLET_TASK = (userID, taskID) =>
   `${ROOT}/user/${userID}/complete-task/${taskID}`;
 export const TASKS = (userID) => `${ROOT}/user/${userID}/tasks`;
 export const INIT_TRANSACTION = () => `${ROOT}/init-transaction`;
-export const GET_TRANSACTION_DETAILS = (txid) => `${ROOT}/get-transaction-details/${txid}`
+export const GET_TRANSACTION_DETAILS = (txid) =>
+  `${ROOT}/get-transaction-details/${txid}`;
+export const GET_WALLETS = (userID) => `${ROOT}/users/${userID}/wallets`;
+export const GET_WALLET_HISTORY = (userID) => `${ROOT}/users/${userID}/wallets-history`;
+export const GET_TOKEN_BALANCES = (userID) => `${ROOT}/users/${userID}/token-balances`;
