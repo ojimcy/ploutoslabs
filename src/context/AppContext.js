@@ -25,6 +25,22 @@ export const AppProvider = ({ children }) => {
   const [difficulty, setDifficulty] = useState('easy');
   const [mode, setMode] = useState('solo');
 
+  const telegramUser = useTelegramUser();
+
+  useEffect(() => {
+    if (!telegramUser) return;
+    const fn = async () => {
+      const user = await getUserByTelegramID(telegramUser.id);
+      if (user.smartWalletAddress) {
+        const wals = await getWallets(user.id);
+        if (!wals || wals.length === 0) return;
+        setSelectedWallet(wals[0]);
+      }
+    };
+
+    fn();
+  }, [telegramUser]);
+
   const selectToken = (token) => {
     setSelectedToken(token);
   };
