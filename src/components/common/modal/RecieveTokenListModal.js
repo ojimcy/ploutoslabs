@@ -20,6 +20,8 @@ import { FaCopy } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../hooks/telegram';
 
+import pltlLogo from '../../../assets/images/logo.png';
+
 function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
   const navigate = useNavigate();
   const { selectToken, selectedWallet } = useContext(AppContext);
@@ -37,7 +39,9 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
   };
 
   const copyAddress = () => {
-    navigator.clipboard.writeText(selectedWallet?.address || currentUser.smartWalletAddress);
+    navigator.clipboard.writeText(
+      selectedWallet?.address || currentUser.smartWalletAddress
+    );
     toast.success('Address copied to clipboard!');
   };
 
@@ -72,14 +76,19 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
               <ListGroupItem className="token-item">
                 <div className="d-flex" onClick={() => handleTokenClick(token)}>
                   <img
-                    src={token.icon}
-                    alt={token.name} width={35} height={45}
+                    src={token.logo === '' ? pltlLogo : token.logo}
+                    alt={token.name}
+                    width={35}
+                    height={40}
                     className="token-icon"
                   />
                   <div className="token-info">
                     <div className="token-name">{token.name}</div>
                     <div className="token-address">
-                      {formatAddress(token.address)}
+                      {currentUser &&
+                        formatAddress(
+                          token.address || currentUser.smartWalletAddress
+                        )}
                     </div>
                   </div>
                 </div>
@@ -110,7 +119,7 @@ ReceiveTokenListModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   tokens: PropTypes.arrayOf(
     PropTypes.shape({
-      icon: PropTypes.string.isRequired,
+      logo: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       address: PropTypes.string.isRequired,
     })

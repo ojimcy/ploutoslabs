@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Row,
@@ -15,9 +15,15 @@ import { Separator } from '../common/Seperator';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import TransactionCard from './TransactionCard';
+import { getTokenBalances } from '../../lib/server';
 
-const Portfolio = ({ crypto, transactions }) => {
+import pltlLogo from '../../assets/images/logo.png';
+
+const Portfolio = () => {
+  const { selectedWallet } = useContext(AppContext);
   const [activeTab, setActiveTab] = useState('1');
+
+  const [tokens, setTokens] = useState([]);
 
   const navigate = useNavigate();
   const { selectToken } = useContext(AppContext);
@@ -31,6 +37,17 @@ const Portfolio = ({ crypto, transactions }) => {
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+
+  useEffect(() => {
+    const tokenBalances = async () => {
+      if (selectedWallet) {
+        const response = await getTokenBalances(selectedWallet.address);
+        setTokens(response);
+      }
+    };
+
+    tokenBalances();
+  }, [selectedWallet]);
 
   return (
     <div className="portfolio">
@@ -69,10 +86,10 @@ const Portfolio = ({ crypto, transactions }) => {
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
           <Row className="mt-4">
-            {crypto.map((token, index) => (
+            {tokens.map((token) => (
               <>
                 <Col
-                  key={index}
+                  key={token.address}
                   xs="12"
                   className="crypto-card"
                   onClick={() => handleTokenClick(token)}
@@ -80,20 +97,26 @@ const Portfolio = ({ crypto, transactions }) => {
                   <div className="crypto-card-content mt-2">
                     <div className="crypto-icon">
                       <img
-                        src={token.icon}
+                        src={token.logo === '' ? pltlLogo : token.logo}
                         alt={token.symbol}
                         width={45}
                         height={45}
                       />
                       <div className="crypto-info">
                         <div className="crypto-symbol">{token.symbol}</div>
-                        <div className="crypto-price">{token.price}</div>
+                        <div className="crypto-price">
+                          {token.usd_price.toFixed(2)}
+                        </div>
                       </div>
                     </div>
                     <div className="crypto-amount">
-                      <div className="crypto-quantity">{token.quantity}</div>
+                      <div className="crypto-quantity">
+                        {token.symbol === 'PLTL'
+                          ? `${token.balance_formatted} M`
+                          : token.balance}
+                      </div>
                       <div className="crypto-value">
-                        ${(token.quantity * token.price).toFixed(2)}
+                        ${(token.balance * token.usd_price).toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -112,9 +135,7 @@ const Portfolio = ({ crypto, transactions }) => {
           </Row>
         </TabPane>
         <TabPane tabId="3">
-            {transactions.map((trx, index) => (
-              <TransactionCard key={index} transaction={trx} />
-            ))}
+          <TransactionCard />
         </TabPane>
       </TabContent>
     </div>
