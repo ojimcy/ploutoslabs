@@ -35,7 +35,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
     const poll = setInterval(async () => {
       try {
         const response = await getTransactionDetails(txid);
-        console.log(response)
+        console.log(response);
         if (response.status === 'confirmed') {
           clearInterval(poll);
           setTransactionResult(response);
@@ -83,7 +83,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
         ) : (
           <>
             <div className="confirm-header d-flex flex-column justify-content-center align-items-center">
-              <img src={token.icon} alt={token.name} className="token-icon" />
+              <img src={token.logo} alt={token.name} className="token-icon" />
               <h3 className="amount">
                 {amount} {token.name}
               </h3>
@@ -145,7 +145,7 @@ ConfirmSendModal.propTypes = {
     amount: PropTypes.string.isRequired,
     token: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      icon: PropTypes.string.isRequired,
+      logo: PropTypes.string.isRequired,
       network: PropTypes.string.isRequired,
       networkFee: PropTypes.string,
     }).isRequired,

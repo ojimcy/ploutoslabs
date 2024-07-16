@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row } from 'reactstrap';
 import { toast } from 'react-toastify';
@@ -13,11 +13,16 @@ import {
 import './wallet.css';
 import TokenListModal from '../common/modal/TokenListModal';
 import ReceiveTokenListModal from '../common/modal/RecieveTokenListModal';
+import { AppContext } from '../../context/AppContext';
+import { getTokenBalances } from '../../lib/server';
 import { Link } from 'react-router-dom';
 
-function BalanceCard({ netWorth, tokens }) {
+function BalanceCard() {
   const [sendModal, setSendModal] = useState(false);
   const [receiveModal, setReceiveModal] = useState(false);
+  const { selectedWallet } = useContext(AppContext);
+  const [tokens, setTokens] = useState([]);
+  const [netWorth, setNetWorth] = useState(0);
 
   const toggleSendModal = () => setSendModal(!sendModal);
   const toggleReceiveModal = () => setReceiveModal(!receiveModal);
@@ -30,12 +35,31 @@ function BalanceCard({ netWorth, tokens }) {
     }
   };
 
+  const calculateNetWorth = (tokens) => {
+    return tokens.reduce((acc, token) => {
+      return acc + token.balance * token.usd_price;
+    }, 0);
+  };
+
+  useEffect(() => {
+    const tokenBalances = async () => {
+      if (selectedWallet) {
+        const response = await getTokenBalances(selectedWallet.address);
+        setTokens(response);
+        const netWorth = calculateNetWorth(response);
+        setNetWorth(netWorth);
+      }
+    };
+
+    tokenBalances();
+  }, [selectedWallet]);
+  
   return (
     <Container className="balance-card">
       <Row className="justify-content-center align-items-center text-center">
         <div className="mt-4">
           <h4 className="net-worth">Net Worth</h4>
-          <h1 className="balance-amount">{netWorth || '~$0'}</h1>
+          <h1 className="balance-amount">{netWorth.toFixed(2) || '~$0'}</h1>
         </div>
       </Row>
       <div className="wallet-actions">

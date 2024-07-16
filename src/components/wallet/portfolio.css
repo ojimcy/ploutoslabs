@@ -8,6 +8,11 @@
   padding: 15px 12px;
 }
 
+.crypto-card .trx-link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .crypto-card-content {
   display: flex;
   flex-direction: row;

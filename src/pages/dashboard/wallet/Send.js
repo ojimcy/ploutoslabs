@@ -6,6 +6,8 @@ import ConfirmSendModal from '../../../components/common/modal/ConfirmSendModal'
 import { initTransaction } from '../../../lib/server';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
+import pltlLogo from '../../../assets/images/logo.png';
+
 const Send = () => {
   const { selectedToken, selectedWallet } = useContext(AppContext);
   const [amount, setAmount] = useState('');
@@ -19,7 +21,7 @@ const Send = () => {
   }
 
   const handleMaxClick = () => {
-    setAmount(selectedToken.quantity);
+    setAmount(selectedToken.balance);
   };
 
   const toggleModal = () => {
@@ -27,7 +29,6 @@ const Send = () => {
   };
 
   const handleSendClick = async () => {
-    console.log('selectedWallet', selectedWallet)
     try {
       const transactionData = {
         walletAddress: selectedWallet,
@@ -37,7 +38,6 @@ const Send = () => {
         tokenDecimals: selectedToken.decimals,
       };
       const result = await initTransaction(transactionData);
-      console.log(result)
       setTransactionResult(result);
     } catch (err) {
       setError(err.message);
@@ -48,11 +48,11 @@ const Send = () => {
 
   return (
     <Container className="send-container">
-      <TelegramBackButton/>
+      <TelegramBackButton />
       <div className="send-header d-flex flex-column justify-content-center align-items-center">
         <h3>Send {selectedToken.name}</h3>
         <img
-          src={selectedToken.icon}
+          src={selectedToken.logo === '' ? pltlLogo : selectedToken.logo}
           alt={selectedToken.name}
           className="token-icon"
         />
@@ -80,7 +80,7 @@ const Send = () => {
             onChange={(e) => setAmount(e.target.value)}
           />
           <span className="max-value mt-1" onClick={handleMaxClick}>
-            Max: {selectedToken.quantity}
+            Max: {selectedToken.balance}
           </span>
         </FormGroup>
         <Button

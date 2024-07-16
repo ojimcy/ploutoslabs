@@ -10,7 +10,7 @@ function Dashboard() {
   return (
     <div className="wallet">
       <Container>
-        <BalanceCard tokens={data.cryptoData}/>
+        <BalanceCard />
         <ClaimCard />
         <Portfolio crypto={data.cryptoData} transactions={data.transactionData}/>
       </Container>

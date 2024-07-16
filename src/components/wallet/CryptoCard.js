@@ -8,16 +8,16 @@ const CryptoCard = ({ token, onTokenClick }) => {
       <div className="crypto-card" onClick={() => onTokenClick(token)}>
         <div className="crypto-card-content mt-2">
           <div className="crypto-icon">
-            <img src={token.icon} alt={token.symbol} width={45} height={45} />
+            <img src={token.logo} alt={token.symbol} width={45} height={45} />
             <div className="crypto-info">
               <div className="crypto-symbol">{token.symbol}</div>
-              <div className="crypto-price">{token.price}</div>
+              <div className="crypto-price">{token.usd_price}</div>
             </div>
           </div>
           <div className="crypto-amount">
-            <div className="crypto-quantity">{token.quantity}</div>
+            <div className="crypto-quantity">{token.balance}</div>
             <div className="crypto-value">
-              ${(token.quantity * token.price).toFixed(2)}
+              ${(token.balance * token.usd_price).toFixed(2)}
             </div>
           </div>
         </div>

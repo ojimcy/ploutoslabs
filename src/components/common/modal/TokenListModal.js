@@ -14,6 +14,8 @@ import {
 import { AppContext } from '../../../context/AppContext';
 import './tokenList.css';
 
+import pltlLogo from '../../../assets/images/logo.png';
+
 function TokenListModal({ isOpen, toggle, tokens }) {
   const navigate = useNavigate();
   const { selectToken } = useContext(AppContext);
@@ -22,7 +24,6 @@ function TokenListModal({ isOpen, toggle, tokens }) {
   const filteredTokens = tokens.filter((token) =>
     token.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
 
   const handleTokenClick = (token) => {
     selectToken(token);
@@ -53,10 +54,16 @@ function TokenListModal({ isOpen, toggle, tokens }) {
                 className="token-item"
                 onClick={() => handleTokenClick(token)}
               >
-                <img src={token.icon} alt={token.name} width={35} height={45} className="token-icon" />
+                <img
+                  src={token.logo === '' ? pltlLogo : token.logo}
+                  alt={token.name}
+                  width={35}
+                  height={40}
+                  className="token-icon"
+                />
                 <div className="token-info">
                   <div className="token-name">{token.name}</div>
-                  <div className="token-amount">{token.quantity}</div>
+                  <div className="token-amount">{token.balance}</div>
                 </div>
               </ListGroupItem>
               <hr />
