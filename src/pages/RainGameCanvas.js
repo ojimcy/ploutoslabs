@@ -24,6 +24,7 @@ import TelegramBackButton from '../components/common/TelegramBackButton';
 
 const RainGameCanvas = () => {
   const canvasRef = useRef(null);
+  const startTimeRef = useRef(Date.now());
   const scoreRef = useRef(null);
   const claimModalScoreRef = useRef(null);
   const telegramUser = useTelegramUser();
@@ -171,11 +172,12 @@ const RainGameCanvas = () => {
     }
 
     class BumbDrop {
-      constructor(x, y, size, speed) {
+      constructor(x, y, size, baseSpeed) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.speed = speed;
+        this.baseSpeed = baseSpeed;
+        this.speed = baseSpeed * 0.25; // Start at 25% of base speed
       }
 
       draw(ctx) {
@@ -183,11 +185,14 @@ const RainGameCanvas = () => {
       }
 
       update(ctx) {
+        const elapsedTime = (Date.now() - startTimeRef.current) / 1000; // time in seconds
+        const speedFactor = Math.min(elapsedTime / 120, 1); // gradually increase to 1 over 120 seconds
+        this.speed = this.baseSpeed * (0.25 + 0.75 * speedFactor); // 25% to 100% over 2 minutes
+    
         this.y += this.speed;
         if (superman.collected(this.x + this.size / 2, this.y + this.size)) {
           this.reset(ctx);
           console.log('game over');
-          // gameOver();
           score = 0;
           updateScore();
           showFloatingText(-score, this.x, this.y, '55, 0, 205');
@@ -303,7 +308,7 @@ const RainGameCanvas = () => {
     }
 
     function createStarDrop() {
-      const size = Math.random() * 40 + 30;
+      const size = Math.random() * 40 + 20;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height - canvas.height;
       const speed = Math.random() * 1 + 2; // Reduced speed
@@ -311,7 +316,7 @@ const RainGameCanvas = () => {
     }
 
     function createCoinDrop() {
-      const size = Math.random() * 80 + 40;
+      const size = Math.random() * 60 + 25;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height - canvas.height;
       const speed = Math.random() * 1 + 3; // Reduced speed
