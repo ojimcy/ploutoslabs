@@ -175,7 +175,7 @@ const RainGameCanvas = () => {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.speed = speed / 4;
+        this.speed = speed;
       }
 
       draw(ctx) {
@@ -209,34 +209,40 @@ const RainGameCanvas = () => {
         this.x = x;
         this.y = y;
         this.size = size;
+        this.speed = 5; // Speed of movement
+        this.movingLeft = false;
+        this.movingRight = false;
       }
-
+    
       draw(ctx) {
-        // deviation caused by the shawdow
-        // 490+766+256 = 1512
-        // ctr = 873 != 756
-        // dev = 117 = 0.1547
-
-        ctx.fillStyle = '#999'
-        ctx.fillRect(this.x + 0.32 * this.size, this.y, this.size/2, 20)
         ctx.drawImage(supermanImage, this.x, this.y, this.size, this.size);
       }
-
+    
       update(ctx) {
-        // this.y += this.speed;
-
+        // Move left
+        if (this.movingLeft && this.x > -(0.32 * this.size)) {
+          this.x -= this.speed;
+        }
+        // Move right
+        if (this.movingRight && this.x + 0.82 * this.size < ctx.canvas.width) {
+          this.x += this.speed;
+        }
+    
         this.draw(ctx);
       }
-
+    
       reset(ctx) {
         this.y = -this.size;
         this.x = Math.random() * ctx.canvas.width;
       }
-
+    
       collected(x, y) {
-        if (y <= this.y+60 || y > this.y + 70) return false;
-
-        return x >= this.x + 0.32 * this.size && x <= (this.x + 0.4 * this.size) + this.size/2;
+        if (y <= this.y + 60 || y > this.y + 70) return false;
+    
+        return (
+          x >= this.x + 0.32 * this.size &&
+          x <= this.x + 0.4 * this.size + this.size / 2
+        );
       }
     }
 
@@ -245,6 +251,27 @@ const RainGameCanvas = () => {
       canvas.height - 250,
       250
     );
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowLeft') {
+        superman.movingLeft = true;
+      }
+      if (event.key === 'ArrowRight') {
+        superman.movingRight = true;
+      }
+    };
+  
+    const handleKeyUp = (event) => {
+      if (event.key === 'ArrowLeft') {
+        superman.movingLeft = false;
+      }
+      if (event.key === 'ArrowRight') {
+        superman.movingRight = false;
+      }
+    };
+  
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
     class FloatingText {
       constructor(text, x, y, color = 'white') {
@@ -331,7 +358,7 @@ const RainGameCanvas = () => {
         text.draw(ctx);
       });
 
-      superman.draw(ctx);
+      superman.update(ctx);
 
       requestAnimationFrame(animate);
     }
@@ -366,6 +393,11 @@ const RainGameCanvas = () => {
     // Ensure the background image is loaded before starting the game
     backgroundImage.onload = () => {
       animate();
+    };
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
