@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import starImageSrc from '../assets/game/star.png';
 import bgImage from '../assets/game/atmosphere.png';
 import rainLogo from '../assets/game/coin.png';
-import bumbImageScr from '../assets/game/bomb.png';
+import bumbImageScr from '../assets/game/bumb.png';
 import supermanSrc from '../assets/game/superman.png';
 
 import {
@@ -120,12 +120,13 @@ const RainGameCanvas = () => {
 
       update(ctx) {
         this.y += this.speed;
+        if (superman.collected(this.x + this.size / 2, this.y + this.size)) {
+          score += 30;
+          updateScore();
+          showFloatingText('+30', this.x, this.y, '255, 255, 255');
+          this.reset(ctx);
+        }
         if (this.y - this.size > ctx.canvas.height - 80) {
-          if (superman.collected(this.x, this.y)) {
-            score += 30;
-            updateScore();
-            showFloatingText('+30', this.x, this.y, '255, 255, 255');
-          }
           this.reset(ctx);
         }
         this.draw(ctx);
@@ -134,24 +135,6 @@ const RainGameCanvas = () => {
       reset(ctx) {
         this.y = -this.size;
         this.x = Math.random() * ctx.canvas.width;
-      }
-
-      collectedBySuperman(ctx) {
-        const burnerWidth = 25;
-        const yPosition = ctx.canvas.height - 80;
-
-        const burner1X = ctx.canvas.width * 0.125 - burnerWidth / 2;
-        const burner2X = ctx.canvas.width * 0.625 - burnerWidth / 2;
-
-        if (this.y + this.size >= yPosition) {
-          if (
-            (this.x >= burner1X && this.x <= burner1X + burnerWidth) ||
-            (this.x >= burner2X && this.x <= burner2X + burnerWidth)
-          ) {
-            return true;
-          }
-        }
-        return false;
       }
     }
 
@@ -169,12 +152,13 @@ const RainGameCanvas = () => {
 
       update(ctx) {
         this.y += this.speed;
+        if (superman.collected(this.x + this.size / 2, this.y + this.size)) {
+          score += 50;
+          updateScore();
+          showFloatingText('+50', this.x, this.y, '255, 255, 255');
+          this.reset(ctx);
+        }
         if (this.y - this.size > ctx.canvas.height - 80) {
-          if (superman.collected(this.x, this.y)) {
-            score += 50;
-            updateScore();
-            showFloatingText('+50', this.x, this.y, '255, 255, 255');
-          }
           this.reset(ctx);
         }
         this.draw(ctx);
@@ -183,24 +167,6 @@ const RainGameCanvas = () => {
       reset(ctx) {
         this.y = -this.size;
         this.x = Math.random() * ctx.canvas.width;
-      }
-
-      collectedBySuperman(ctx) {
-        const burnerWidth = 25;
-        const yPosition = ctx.canvas.height - 80;
-
-        const burner1X = ctx.canvas.width * 0.125 - burnerWidth / 2;
-        const burner2X = ctx.canvas.width * 0.625 - burnerWidth / 2;
-
-        if (this.y + this.size >= yPosition) {
-          if (
-            (this.x >= burner1X && this.x <= burner1X + burnerWidth) ||
-            (this.x >= burner2X && this.x <= burner2X + burnerWidth)
-          ) {
-            return true;
-          }
-        }
-        return false;
       }
     }
 
@@ -209,7 +175,7 @@ const RainGameCanvas = () => {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.speed = speed;
+        this.speed = speed / 4;
       }
 
       draw(ctx) {
@@ -218,11 +184,15 @@ const RainGameCanvas = () => {
 
       update(ctx) {
         this.y += this.speed;
-        if (this.y - this.size > ctx.canvas.height - 80) {
-          if (superman.collected(this.x, this.y)) {
-            window.alert('game over');
-            // gameOver();
-          }
+        if (superman.collected(this.x + this.size / 2, this.y + this.size)) {
+          this.reset(ctx);
+          console.log('game over');
+          // gameOver();
+          score = 0;
+          updateScore();
+          showFloatingText(-score, this.x, this.y, '55, 0, 205');
+        }
+        if (this.y - this.size > ctx.canvas.height - 40) {
           this.reset(ctx);
         }
         this.draw(ctx);
@@ -231,24 +201,6 @@ const RainGameCanvas = () => {
       reset(ctx) {
         this.y = -this.size;
         this.x = Math.random() * ctx.canvas.width;
-      }
-
-      collectedBySuperman(ctx) {
-        const burnerWidth = 25;
-        const yPosition = ctx.canvas.height - 80;
-
-        const burner1X = ctx.canvas.width * 0.125 - burnerWidth / 2;
-        const burner2X = ctx.canvas.width * 0.625 - burnerWidth / 2;
-
-        if (this.y + this.size >= yPosition) {
-          if (
-            (this.x >= burner1X && this.x <= burner1X + burnerWidth) ||
-            (this.x >= burner2X && this.x <= burner2X + burnerWidth)
-          ) {
-            return true;
-          }
-        }
-        return false;
       }
     }
 
@@ -260,6 +212,13 @@ const RainGameCanvas = () => {
       }
 
       draw(ctx) {
+        // deviation caused by the shawdow
+        // 490+766+256 = 1512
+        // ctr = 873 != 756
+        // dev = 117 = 0.1547
+
+        ctx.fillStyle = '#999'
+        ctx.fillRect(this.x + 0.32 * this.size, this.y, this.size/2, 20)
         ctx.drawImage(supermanImage, this.x, this.y, this.size, this.size);
       }
 
@@ -275,17 +234,16 @@ const RainGameCanvas = () => {
       }
 
       collected(x, y) {
-        if (y > this.y || y < this.y - 20) return false;
-        if (x < this.x - 10 || x > this.x + 10) return false;
+        if (y <= this.y+60 || y > this.y + 70) return false;
 
-        return true;
+        return x >= this.x + 0.32 * this.size && x <= (this.x + 0.4 * this.size) + this.size/2;
       }
     }
 
     const superman = new Superman(
-      canvas.width / 2 - 150,
-      canvas.height - 350,
-      350
+      canvas.width / 2 - 125,
+      canvas.height - 250,
+      250
     );
 
     class FloatingText {
@@ -318,7 +276,7 @@ const RainGameCanvas = () => {
     }
 
     function createStarDrop() {
-      const size = Math.random() * 65 + 45;
+      const size = Math.random() * 40 + 30;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height - canvas.height;
       const speed = Math.random() * 1 + 2; // Reduced speed
@@ -326,7 +284,7 @@ const RainGameCanvas = () => {
     }
 
     function createCoinDrop() {
-      const size = Math.random() * 140 + 70;
+      const size = Math.random() * 80 + 40;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height - canvas.height;
       const speed = Math.random() * 1 + 3; // Reduced speed
@@ -334,7 +292,7 @@ const RainGameCanvas = () => {
     }
 
     function createBumbDrop() {
-      const size = Math.random() * 100 + 60;
+      const size = Math.random() * 60 + 25;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height - canvas.height;
       const speed = Math.random() * 1 + 6; // Reduced speed
