@@ -82,7 +82,7 @@ function BalanceCard() {
           <FaPlay className="icon" />
           <div className="label">Launchpad</div>
         </div>
-        <div className="wallet-action" onClick={handleComingSoonClicked}>
+        <div className="wallet-action" onClick={() => {location.href = '/game/super-catch'}}>
           <FaGamepad className="icon" />
           <div className="label">Games</div>
         </div>

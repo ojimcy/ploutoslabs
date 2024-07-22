@@ -102,3 +102,7 @@ export const getTokenBalances = async (wallet) => {
   const result = await axios.get(GET_TOKEN_BALANCES(wallet));
   return result.data;
 };
+
+export const collectGame = async () => {
+  
+}

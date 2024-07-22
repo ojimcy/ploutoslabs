@@ -1,0 +1,102 @@
+/* src/App.css */
+.App {
+  text-align: center;
+}
+
+.score {
+  font-size: 20px;
+  color: #fff;
+}
+
+canvas {
+  border: 2px solid #000;
+}
+
+.section-wrapper {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  /* background: url('../assets/game/atmosphere.png') repeat-x;
+  animation: moveBackground 60s linear infinite; */
+}
+
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.raindrop {
+  z-index: 0;
+}
+
+/* Fade-in animation for the modal */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal {
+  background-color: rgba(3, 1, 76, 0.5) !important;
+}
+
+.modal-content {
+  background-color: #03014c !important;
+  color: #fff !important;
+}
+
+.modal-fade {
+  animation: fadeInUp 0.5s ease-in-out;
+  top: 35% !important;
+}
+
+.earned-points {
+  font-weight: 700;
+}
+
+.rainbow-cup {
+  position: absolute;
+  width: 50px;
+  height: 35px;
+  background: linear-gradient(180deg, 
+              red, 
+              orange, 
+              yellow, 
+              green, 
+              blue, 
+              indigo, 
+              violet);
+  border-radius: 10px 10px 0 0; /* Rounded top edges */
+  border: 2px solid #000; /* Black border for definition */
+}
+
+.cup-handle {
+  position: absolute;
+  top: 5px; /* Adjust based on the cup's top position */
+  right: -15px; /* Adjust to place the handle on the right */
+  width: 15px;
+  height: 30px;
+  background: linear-gradient(180deg, 
+              red, 
+              orange, 
+              yellow, 
+              green, 
+              blue, 
+              indigo, 
+              violet);
+  border-radius: 0 50% 50% 0; /* Rounded right edges */
+  border: 2px solid #000; /* Black border for definition */
+}
+
