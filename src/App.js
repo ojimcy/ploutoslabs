@@ -22,6 +22,8 @@ import Game from './pages/dashboard/game/Game';
 import GameDetails from './pages/dashboard/game/GameDetails';
 import GroupScreen from './pages/dashboard/game/GroupScreen';
 import JoinPage from './pages/dashboard/game/Join';
+import GameLayout from './components/layout/GameLayout';
+import RainGameCanvas from './pages/RainGameCanvas';
 
 const App = () => {
   useEffect(() => {
@@ -76,6 +78,12 @@ const App = () => {
           }
         />
         
+            <GameLayout>
+              <Routes>
+                <Route path="/super-catch" element={<RainGameCanvas />} />
+              </Routes>
+            </GameLayout>
+
         <Route
           path="/auth/*"
           element={
