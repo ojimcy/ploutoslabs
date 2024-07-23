@@ -54,6 +54,7 @@
     "build": "react-scripts build",
     "deploy": "aws s3 sync build/ s3://wallet.ploutoslabs.io",
     "deploy:dev": "aws s3 sync build/ s3://dev.ploutoslabs.io",
+    "deploy:prod": "aws s3 sync build/ s3://wallet.ploutoslabs.io",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
