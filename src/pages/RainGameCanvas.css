@@ -12,12 +12,17 @@ canvas {
   border: 2px solid #000;
 }
 
+
 .section-wrapper {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
   /* background: url('../assets/game/atmosphere.png') repeat-x;
   animation: moveBackground 60s linear infinite; */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+/Edge */
+  user-select: none;         /* Standard */
 }
 
 @keyframes moveBackground {

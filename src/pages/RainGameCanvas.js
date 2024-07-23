@@ -224,6 +224,9 @@ const RainGameCanvas = () => {
         this.movingLeft = false;
         this.movingRight = false;
         this.speed = 5;
+
+        this.leftLap = -0.32 * this.size;
+        this.rightLap = 0.82 * this.size;
       }
 
       draw(ctx) {
@@ -231,6 +234,19 @@ const RainGameCanvas = () => {
       }
 
       update(ctx) {
+        if (this.movingLeft) {
+          this.x -= this.speed;
+          if (this.x < this.leftLap) this.x = this.leftLap;
+        }
+        if (this.movingRight) {
+          this.x += this.speed;
+          if (this.x + this.rightLap > ctx.canvas.width)
+            this.x = ctx.canvas.width - this.rightLap;
+        }
+        this.draw(ctx);
+      }
+
+      update1(ctx) {
         if (this.movingLeft) {
           this.x -= this.speed;
           if (this.x < 0) this.x = 0;
@@ -249,7 +265,7 @@ const RainGameCanvas = () => {
       }
 
       collected(x, y) {
-        if (y <= this.y + 60 || y > this.y + 70) return false;
+        if (y <= this.y + 90 || y > this.y + 100) return false;
 
         return (
           x >= this.x + 0.32 * this.size &&
