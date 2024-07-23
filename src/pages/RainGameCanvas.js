@@ -4,6 +4,8 @@ import bgImage from '../assets/game/atmosphere.png';
 import rainLogo from '../assets/game/coin.png';
 import bumbImageScr from '../assets/game/bumb.png';
 import supermanSrc from '../assets/game/superman.png';
+import nextBtnSrc from '../assets/game/next-button.png';
+import backBtnSrc from '../assets/game/back-button.png';
 
 import {
   Button,
@@ -107,6 +109,12 @@ const RainGameCanvas = () => {
     const backgroundImage = new Image();
     backgroundImage.src = bgImage;
 
+    const nextBtnImage = new Image();
+    nextBtnImage.src = nextBtnSrc;
+
+    const backBtnImage = new Image();
+    backBtnImage.src = backBtnSrc;
+
     class StarDrop {
       constructor(x, y, size, speed) {
         this.x = x;
@@ -188,11 +196,10 @@ const RainGameCanvas = () => {
         const elapsedTime = (Date.now() - startTimeRef.current) / 1000; // time in seconds
         const speedFactor = Math.min(elapsedTime / 120, 1); // gradually increase to 1 over 120 seconds
         this.speed = this.baseSpeed * (0.25 + 0.75 * speedFactor); // 25% to 100% over 2 minutes
-    
+
         this.y += this.speed;
         if (superman.collected(this.x + this.size / 2, this.y + this.size)) {
           this.reset(ctx);
-          console.log('game over');
           score = 0;
           updateScore();
           showFloatingText(-score, this.x, this.y, '55, 0, 205');
@@ -214,36 +221,36 @@ const RainGameCanvas = () => {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.speed = 5; // Speed of movement
         this.movingLeft = false;
         this.movingRight = false;
+        this.speed = 5;
       }
-    
+
       draw(ctx) {
         ctx.drawImage(supermanImage, this.x, this.y, this.size, this.size);
       }
-    
+
       update(ctx) {
-        // Move left
-        if (this.movingLeft && this.x > -(0.32 * this.size)) {
+        if (this.movingLeft) {
           this.x -= this.speed;
+          if (this.x < 0) this.x = 0;
         }
-        // Move right
-        if (this.movingRight && this.x + 0.82 * this.size < ctx.canvas.width) {
+        if (this.movingRight) {
           this.x += this.speed;
+          if (this.x + this.size > ctx.canvas.width)
+            this.x = ctx.canvas.width - this.size;
         }
-    
         this.draw(ctx);
       }
-    
+
       reset(ctx) {
         this.y = -this.size;
         this.x = Math.random() * ctx.canvas.width;
       }
-    
+
       collected(x, y) {
         if (y <= this.y + 60 || y > this.y + 70) return false;
-    
+
         return (
           x >= this.x + 0.32 * this.size &&
           x <= this.x + 0.4 * this.size + this.size / 2
@@ -257,26 +264,72 @@ const RainGameCanvas = () => {
       250
     );
 
-    const handleKeyDown = (event) => {
-      if (event.key === 'ArrowLeft') {
+    let buttons = {};
+
+    const handleMouseDown = (event) => {
+      const { offsetX, offsetY } = event;
+      console.log(offsetX, offsetY);
+      console.log(buttons);
+      if (
+        offsetX >= buttons.leftButton.x &&
+        offsetX <= buttons.leftButton.x + buttons.leftButton.width &&
+        offsetY >= buttons.leftButton.y &&
+        offsetY <= buttons.leftButton.y + buttons.leftButton.height
+      ) {
         superman.movingLeft = true;
       }
-      if (event.key === 'ArrowRight') {
+      if (
+        offsetX >= buttons.rightButton.x &&
+        offsetX <= buttons.rightButton.x + buttons.rightButton.width &&
+        offsetY >= buttons.rightButton.y &&
+        offsetY <= buttons.rightButton.y + buttons.rightButton.height
+      ) {
         superman.movingRight = true;
       }
     };
-  
-    const handleKeyUp = (event) => {
-      if (event.key === 'ArrowLeft') {
-        superman.movingLeft = false;
+
+    const handleMouseUp = () => {
+      superman.movingLeft = false;
+      superman.movingRight = false;
+    };
+
+    const handleTouchStart = (event) => {
+      const touch = event.touches[0];
+      const { clientX, clientY } = touch;
+      const { left, top } = canvas.getBoundingClientRect();
+      const offsetX = clientX - left;
+      const offsetY = clientY - top;
+
+      if (
+        offsetX >= buttons.leftButton.x &&
+        offsetX <= buttons.leftButton.x + buttons.leftButton.width &&
+        offsetY >= buttons.leftButton.y &&
+        offsetY <= buttons.leftButton.y + buttons.leftButton.height
+      ) {
+        superman.movingLeft = true;
       }
-      if (event.key === 'ArrowRight') {
-        superman.movingRight = false;
+      if (
+        offsetX >= buttons.rightButton.x &&
+        offsetX <= buttons.rightButton.x + buttons.rightButton.width &&
+        offsetY >= buttons.rightButton.y &&
+        offsetY <= buttons.rightButton.y + buttons.rightButton.height
+      ) {
+        superman.movingRight = true;
       }
     };
-  
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+
+    const handleTouchEnd = () => {
+      superman.movingLeft = false;
+      superman.movingRight = false;
+    };
+
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('mouseleave', handleMouseUp);
+
+    canvas.addEventListener('touchstart', handleTouchStart);
+    canvas.addEventListener('touchend', handleTouchEnd);
+    canvas.addEventListener('touchcancel', handleTouchEnd);
 
     class FloatingText {
       constructor(text, x, y, color = 'white') {
@@ -348,6 +401,42 @@ const RainGameCanvas = () => {
       ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
     }
 
+    function drawControlButtons(ctx, canvas, backBtnImage, nextBtnImage) {
+      const buttonSize = 70;
+      const y = canvas.height - buttonSize - 10;
+
+      const leftButton = {
+        x: 30,
+        y: y,
+        width: buttonSize,
+        height: buttonSize,
+      };
+
+      const rightButton = {
+        x: canvas.width - buttonSize - 30,
+        y: y,
+        width: buttonSize,
+        height: buttonSize,
+      };
+
+      ctx.drawImage(
+        backBtnImage,
+        leftButton.x,
+        leftButton.y,
+        buttonSize,
+        buttonSize
+      );
+      ctx.drawImage(
+        nextBtnImage,
+        rightButton.x,
+        rightButton.y,
+        buttonSize,
+        buttonSize
+      );
+
+      return { leftButton, rightButton };
+    }
+
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawBackground();
@@ -364,6 +453,8 @@ const RainGameCanvas = () => {
       });
 
       superman.update(ctx);
+
+      buttons = drawControlButtons(ctx, canvas, backBtnImage, nextBtnImage);
 
       requestAnimationFrame(animate);
     }
@@ -401,8 +492,13 @@ const RainGameCanvas = () => {
     };
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      canvas.removeEventListener('mousedown', handleMouseDown);
+      canvas.removeEventListener('mouseup', handleMouseUp);
+      canvas.removeEventListener('mouseleave', handleMouseUp);
+
+      canvas.removeEventListener('touchstart', handleTouchStart);
+      canvas.removeEventListener('touchend', handleTouchEnd);
+      canvas.removeEventListener('touchcancel', handleTouchEnd);
     };
   }, []);
 
