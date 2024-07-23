@@ -195,7 +195,7 @@ const RainGameCanvas = () => {
       update(ctx) {
         const elapsedTime = (Date.now() - startTimeRef.current) / 1000; // time in seconds
         const speedFactor = Math.min(elapsedTime / 120, 1); // gradually increase to 1 over 120 seconds
-        this.speed = this.baseSpeed * (0.25 + 0.75 * speedFactor); // 25% to 100% over 2 minutes
+        this.speed = this.baseSpeed * (0.1 + 0.90 * speedFactor); // 25% to 100% over 2 minutes
 
         this.y += this.speed;
         if (superman.collected(this.x + this.size / 2, this.y + this.size)) {
@@ -396,7 +396,7 @@ const RainGameCanvas = () => {
       const size = Math.random() * 60 + 25;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height - canvas.height;
-      const speed = Math.random() * 1 + 6; // Reduced speed
+      const speed = Math.random() * 1 + 9;
       return new BumbDrop(x, y, size, speed);
     }
 
