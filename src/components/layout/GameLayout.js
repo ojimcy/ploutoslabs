@@ -16,8 +16,8 @@ const GameLayout = ({ children }) => {
     webapp,
     setUser,
     loadingPageIsVissible,
-    hideLoadingPage,
-    showLoadingPage,
+    // hideLoadingPage,
+    // showLoadingPage,
   } = useContext(WebappContext);
   const telegramUser = useTelegramUser();
 
@@ -27,7 +27,7 @@ const GameLayout = ({ children }) => {
       return;
     }
     // if (currentUser) return;
-    showLoadingPage();
+    // showLoadingPage();
 
     const fn = async () => {
       if (webapp.expand) webapp.expand();
@@ -50,7 +50,7 @@ const GameLayout = ({ children }) => {
         console.log('new user', user);
       }
       setUser(user);
-      hideLoadingPage();
+      // hideLoadingPage();
     };
 
     fn();
