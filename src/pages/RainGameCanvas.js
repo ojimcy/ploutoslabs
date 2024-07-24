@@ -550,9 +550,9 @@ const RainGameCanvas = () => {
           {confetti}
           <p>You earned</p>
           <p className="earned-points">
-            +<span ref={claimModalScoreRef}>0</span> RAIN
+            +<span ref={claimModalScoreRef}>0</span> PLTL
           </p>
-          <p>Keep playing to gather more RAIN!</p>
+          <p>Keep playing to gather more PLTL!</p>
         </ModalBody>
         <ModalFooter className="d-flex justify-content-center">
           <Button color="primary" onClick={collect}>
