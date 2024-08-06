@@ -1,0 +1,62 @@
+.transaction-pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.transaction-pin h2 {
+  margin-bottom: 10px;
+}
+
+.transaction-pin p {
+  margin-bottom: 20px;
+}
+
+.pin-display {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.pin-digit {
+  width: 27px;
+  height: 20px;
+  margin: 0 5px;
+  border-bottom: 2px solid #ffffff;
+  font-size: 18px;
+  text-align: center;
+}
+
+.forgot-pin {
+  margin-bottom: 20px;
+}
+
+.forgot-pin a {
+  margin-bottom: 20px;
+  color: #d9d9d9;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  text-align: center;
+}
+
+.pin-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  column-gap: 40px;
+  margin-top: 15px;
+}
+
+.pin-button {
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background-color: #fff;
+  cursor: pointer;
+}
