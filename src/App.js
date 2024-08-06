@@ -27,6 +27,7 @@ import GroupScreen from './pages/dashboard/game/GroupScreen';
 import JoinPage from './pages/dashboard/game/Join';
 import GameLayout from './components/layout/GameLayout';
 import RainGameCanvas from './pages/RainGameCanvas';
+import CreateWallet from './pages/dashboard/wallet/CreateWallet';
 
 const App = () => {
   useEffect(() => {
