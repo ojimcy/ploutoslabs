@@ -24,6 +24,7 @@ import GroupScreen from './pages/dashboard/game/GroupScreen';
 import JoinPage from './pages/dashboard/game/Join';
 import GameLayout from './components/layout/GameLayout';
 import RainGameCanvas from './pages/RainGameCanvas';
+import CreateWallet from './pages/dashboard/wallet/CreateWallet';
 
 const App = () => {
   useEffect(() => {
@@ -57,6 +58,7 @@ const App = () => {
                   path="wallet-credentials"
                   element={<WalletCredentials />}
                 />
+                <Route path="create" element={<CreateWallet />} />
                 <Route path="import-wallet" element={<ImportWallet />} />
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="referrals" element={<Referrals />} />

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  // ADD_USERS_WALLET,
   BOOST,
   BOOSTERS,
   CLAIM,
@@ -8,13 +9,13 @@ import {
   GET_TOKEN_BALANCES,
   GET_TRANSACTION_DETAILS,
   GET_WALLET_HISTORY,
-  GET_WALLETS,
   INIT_TRANSACTION,
   SYNC_ACCOUNT,
   TASK,
   TASKS,
   USER_BY_ID,
 } from './endpoints';
+import { getWalletsFromDb } from './db';
 
 export const getUserByTelegramID = async (id) => {
   try {
@@ -82,15 +83,13 @@ export const initTransaction = async (transactionData) => {
   return result.data;
 };
 
-
 export const getTransactionDetails = async (txid) => {
   const result = await axios.get(GET_TRANSACTION_DETAILS(txid));
   return result.data;
 };
 
-export const getWallets = async (userID) => {
-  const result = await axios.get(GET_WALLETS(userID));
-  return result.data;
+export const getWallets = async () => {
+  return getWalletsFromDb()
 };
 
 export const getWalletHIstory = async (wallet) => {
@@ -103,6 +102,10 @@ export const getTokenBalances = async (wallet) => {
   return result.data;
 };
 
-export const collectGame = async () => {
-  
-}
+export const collectGame = async () => {};
+
+export const addUsersWallet = async (userid, address) => {
+  console.log(userid, address)
+  // const result = await axios.post(ADD_USERS_WALLET(userid), { address });
+  // return result.data;
+};
