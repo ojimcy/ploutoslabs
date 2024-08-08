@@ -1,5 +1,7 @@
-export const ROOT = 'https://localhost:3001';
-// export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
+// export const ROOT = 'https://localhost:3001';
+
+export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
+
 export const USER_BY_ID = (id) => `${ROOT}/user/${id}`;
 export const SYNC_ACCOUNT = () => `${ROOT}/sync-profile`;
 export const CLAIM = (telegramId) =>

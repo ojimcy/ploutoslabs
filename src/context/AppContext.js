@@ -17,11 +17,9 @@ export const AppProvider = ({ children }) => {
     if (!telegramUser) return;
     const fn = async () => {
       const user = await getUserByTelegramID(telegramUser.id);
-      if (user.smartWalletAddress) {
-        const wals = await getWallets(user.id);
-        if (!wals || wals.length === 0) return;
-        setSelectedWallet(wals[0]);
-      }
+      const wals = await getWallets(user.id);
+      if (!wals || wals.length === 0) return;
+      setSelectedWallet(wals[0]);
     };
 
     fn();

@@ -113,10 +113,10 @@ const Portfolio = () => {
                       <div className="crypto-quantity">
                         {token.symbol === 'PLTL'
                           ? `${token.balance_formatted} M`
-                          : token.balance}
+                          : token.balance_formatted}
                       </div>
                       <div className="crypto-value">
-                        ${(token.balance * token.usd_price).toFixed(2)}
+                        ${(token.balance_formatted * token.usd_price).toFixed(2)}
                       </div>
                     </div>
                   </div>

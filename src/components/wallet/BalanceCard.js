@@ -36,8 +36,9 @@ function BalanceCard() {
   };
 
   const calculateNetWorth = (tokens) => {
+    console.log('tokens', tokens)
     return tokens.reduce((acc, token) => {
-      return acc + token.balance * token.usd_price;
+      return acc + token.balance_formatted * token.usd_price;
     }, 0);
   };
 
@@ -79,7 +80,7 @@ function BalanceCard() {
           <FaDollarSign className="icon" />
           <div className="label">Buy & Sell</div>
         </div>
-        <div className="wallet-action" onClick={handleComingSoonClicked}>
+        <div className="wallet-action" onClick={() => {location.href = 'https://p2pb2b.com/token-sale/PLTL-736/'}}>
           <FaPlay className="icon" />
           <div className="label">Launchpad</div>
         </div>
