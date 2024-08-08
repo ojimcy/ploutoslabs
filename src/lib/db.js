@@ -11,3 +11,13 @@ export const addWallet = async (wallet) => {
   wallets.push(wallet)
   localStorage.setItem(WALLETS_KEY, JSON.stringify(wallets))
 }
+
+export const getWalletByID = (id) => {
+  const wallets = getWalletsFromDb()
+  for(let i = 0; i < wallets.length; i++) {
+    if (wallets[i].id == id) {
+      return wallets[i]
+    }
+  }
+  return null
+}

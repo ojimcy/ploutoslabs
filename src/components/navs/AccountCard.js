@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   FaArrowRight,
-  FaClipboard,
   FaPlusSquare,
   FaSignOutAlt,
   FaUser,
@@ -9,7 +8,7 @@ import {
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import '../airdrop/airdrop.css';
 
-import { useWebApp, useTelegramUser } from '../../hooks/telegram';
+import { useTelegramUser } from '../../hooks/telegram';
 import { Separator } from '../common/Seperator';
 
 import './account.css';
@@ -18,7 +17,6 @@ import { getUserByTelegramID } from '../../lib/server';
 
 function AccountCard() {
   const [currentUser, setCurrentUser] = useState({});
-  const webApp = useWebApp();
   const telegramUser = useTelegramUser();
 
   useEffect(() => {
@@ -32,14 +30,9 @@ function AccountCard() {
     fn();
   }, [telegramUser]);
 
-  const createSmartWallet = () => {
-    webApp.openLink(`https://keys.ploutoslabs.io?uid=${telegramUser.id}`);
-  };
-
   return (
     <div>
       <Container>
-        {currentUser?.smartWalletAddress ? (
           <Link
             to="/dashboard/accounts"
             style={{ textDecoration: 'none', color: '#ffffff' }}
@@ -67,32 +60,6 @@ function AccountCard() {
               </Col>
             </Row>
           </Link>
-        ) : (
-          <Link
-            onClick={createSmartWallet}
-            style={{ textDecoration: 'none', color: '#ffffff' }}
-          >
-            <Row className="mt-4 account-card">
-              <Col xs="12" className="referral-card">
-                <div className="referral-card-content mt-2">
-                  <div className="referral-icon">
-                    <div className="ref-icon">
-                      <FaUser />
-                    </div>
-                    <div className="referral-info">
-                      <div className="ref-title">Create Smart Wallet</div>
-                    </div>
-                  </div>
-                  <div className="right">
-                    <div className="right-arrow">
-                      <FaArrowRight />
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Link>
-        )}
 
         <Row className="add-account-card">
           <Card>
@@ -117,7 +84,7 @@ function AccountCard() {
                 </Link>
                 <Separator />
               </div>
-              <div>
+              {/* <div>
                 <Link to="/dashboard/wallet-credentials" className="links">
                   <div className="referral-card-content my-4">
                     <div className="referral-icon">
@@ -136,7 +103,7 @@ function AccountCard() {
                   </div>
                 </Link>
                 <Separator />
-              </div>
+              </div> */}
             </CardBody>
           </Card>
         </Row>

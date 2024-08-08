@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  ADD_USERS_WALLET,
   // ADD_USERS_WALLET,
   BOOST,
   BOOSTERS,
@@ -106,6 +107,6 @@ export const collectGame = async () => {};
 
 export const addUsersWallet = async (userid, address) => {
   console.log(userid, address)
-  // const result = await axios.post(ADD_USERS_WALLET(userid), { address });
-  // return result.data;
+  const result = await axios.post(ADD_USERS_WALLET(userid), { address });
+  return result.data;
 };
