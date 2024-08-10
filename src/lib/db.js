@@ -21,3 +21,13 @@ export const getWalletByID = (id) => {
   }
   return null
 }
+
+export const getWalletByAddress = (id) => {
+  const wallets = getWalletsFromDb()
+  for(let i = 0; i < wallets.length; i++) {
+    if (wallets[i].address == id) {
+      return wallets[i]
+    }
+  }
+  return null
+}
