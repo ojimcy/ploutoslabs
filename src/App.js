@@ -18,6 +18,9 @@ import Airdrop from './pages/dashboard/airdrop/Airdrop';
 import Tasks from './pages/dashboard/airdrop/tasks';
 import Referrals from './pages/dashboard/airdrop/Referrals';
 import Boosts from './pages/dashboard/airdrop/Boosts';
+import Game from './pages/dashboard/game/Game';
+import WaitingScreen from './pages/dashboard/game/WaitingScreen';
+import GroupScreen from './pages/dashboard/game/GroupScreen';
 
 const App = () => {
   useEffect(() => {
@@ -47,7 +50,10 @@ const App = () => {
                 <Route path="send" element={<Send />} />
                 <Route path="receive" element={<Receive />} />
                 <Route path="accounts" element={<ViewWallets />} />
-                <Route path="wallet-credentials" element={<WalletCredentials />} />
+                <Route
+                  path="wallet-credentials"
+                  element={<WalletCredentials />}
+                />
                 <Route path="import-wallet" element={<ImportWallet />} />
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="referrals" element={<Referrals />} />
@@ -57,6 +63,17 @@ const App = () => {
           }
         />
 
+        <Route
+          path="/game/*"
+          element={
+            <Routes>
+              <Route index element={<Game />} />
+              <Route path="waiting" element={<WaitingScreen />} />
+              <Route path="group" element={<GroupScreen />} />
+            </Routes>
+          }
+        />
+        
         <Route
           path="/auth/*"
           element={

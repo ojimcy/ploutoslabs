@@ -13,6 +13,7 @@ import {
 import './wallet.css';
 import TokenListModal from '../common/modal/TokenListModal';
 import ReceiveTokenListModal from '../common/modal/RecieveTokenListModal';
+import { Link } from 'react-router-dom';
 
 function BalanceCard({ netWorth, tokens }) {
   const [sendModal, setSendModal] = useState(false);
@@ -58,13 +59,23 @@ function BalanceCard({ netWorth, tokens }) {
           <FaPlay className="icon" />
           <div className="label">Launchpad</div>
         </div>
-        <div className="wallet-action" onClick={handleComingSoonClicked}>
-          <FaGamepad className="icon" />
-          <div className="label">Games</div>
+        <div className="wallet-action">
+          <Link className='wallet-link' to="/game">
+            <FaGamepad className="icon" />
+            <div className="label">Games</div>
+          </Link>
         </div>
       </div>
-      <TokenListModal isOpen={sendModal} toggle={toggleSendModal} tokens={tokens} />
-      <ReceiveTokenListModal isOpen={receiveModal} toggle={toggleReceiveModal} tokens={tokens} />
+      <TokenListModal
+        isOpen={sendModal}
+        toggle={toggleSendModal}
+        tokens={tokens}
+      />
+      <ReceiveTokenListModal
+        isOpen={receiveModal}
+        toggle={toggleReceiveModal}
+        tokens={tokens}
+      />
     </Container>
   );
 }

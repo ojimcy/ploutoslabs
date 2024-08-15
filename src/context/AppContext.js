@@ -5,14 +5,27 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [selectedToken, setSelectedToken] = useState(null);
-  const [selectedWallet, setSelectedWallet] = useState(null)
+  const [selectedWallet, setSelectedWallet] = useState(null);
+  const [difficulty, setDifficulty] = useState('easy');
+  const [mode, setMode] = useState('solo');
 
   const selectToken = (token) => {
     setSelectedToken(token);
   };
 
   return (
-    <AppContext.Provider value={{ selectedToken, selectToken, selectedWallet, setSelectedWallet }}>
+    <AppContext.Provider
+      value={{
+        selectedToken,
+        selectToken,
+        selectedWallet,
+        setSelectedWallet,
+        difficulty,
+        setDifficulty,
+        mode,
+        setMode,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
