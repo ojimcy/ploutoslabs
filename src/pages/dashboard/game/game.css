@@ -62,11 +62,10 @@
 }
 
 .play-button {
-  width: 225px;
-  height: 65px;
+  padding: 10px 15px;
+  width: 45%;
   border-radius: 20px;
   background: linear-gradient(180deg, #2555ff 0%, #163399 100%);
-  font-size: 32px;
   font-weight: 500;
   line-height: 36.64px;
   color: #ffffff;
@@ -98,12 +97,6 @@
   border-radius: 50%;
 }
 
-.countdown-timer {
-  margin-top: 15px;
-  font-size: 1.2em;
-  color: #ff0000;
-}
-
 .awaiting-opponent {
   opacity: 0.5;
 }
@@ -119,7 +112,7 @@
 .group-content {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 70px; 
+  padding-bottom: 70px;
 }
 
 .group-header {
@@ -153,6 +146,7 @@
   font-weight: 600;
   line-height: 23.2px;
 }
+
 .group-page .info-btn {
   background: none !important;
   border-radius: 25px;
@@ -230,7 +224,11 @@
   justify-content: space-between;
   padding: 10px;
   border-radius: 15px;
-  background: linear-gradient(180deg, rgba(0, 25, 255, 0.24) 0%, rgba(0, 15, 153, 0.24) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 25, 255, 0.24) 0%,
+    rgba(0, 15, 153, 0.24) 100%
+  );
   border-bottom: 1px solid #ccc;
 }
 
@@ -269,12 +267,7 @@
   align-items: center;
 }
 
-
 .play-btn {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   width: 100%;
   background-color: #007bff;
   color: white;
@@ -282,4 +275,5 @@
   padding: 15px;
   border-radius: 15px;
   font-size: 18px;
+  padding: 10px !important;
 }

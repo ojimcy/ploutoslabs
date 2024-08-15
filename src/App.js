@@ -22,8 +22,9 @@ import GameLayout from './components/layout/GameLayout';
 import RainGameCanvas from './pages/RainGameCanvas';
 import CreateWallet from './pages/dashboard/wallet/CreateWallet';
 import Game from './pages/dashboard/game/Game';
-import WaitingScreen from './pages/dashboard/game/WaitingScreen';
+import GameDetails from './pages/dashboard/game/GameDetails';
 import GroupScreen from './pages/dashboard/game/GroupScreen';
+import JoinPage from './pages/dashboard/game/Join';
 
 const App = () => {
   useEffect(() => {
@@ -73,16 +74,14 @@ const App = () => {
             <GameLayout>
               <Routes>
                 <Route path="/super-catch" element={<RainGameCanvas />} />
+                <Route index element={<Game />} />
+                <Route path="waiting" element={<GameDetails />} />
+                <Route path="group" element={<GroupScreen />} />
+                <Route path="join" element={<JoinPage />} />
               </Routes>
             </GameLayout>
           }
         />
-
-        <Routes>
-          <Route index element={<Game />} />
-          <Route path="waiting" element={<WaitingScreen />} />
-          <Route path="group" element={<GroupScreen />} />
-        </Routes>
 
         <Route
           path="/auth/*"
