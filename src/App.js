@@ -21,6 +21,9 @@ import Boosts from './pages/dashboard/airdrop/Boosts';
 import GameLayout from './components/layout/GameLayout';
 import RainGameCanvas from './pages/RainGameCanvas';
 import CreateWallet from './pages/dashboard/wallet/CreateWallet';
+import Game from './pages/dashboard/game/Game';
+import WaitingScreen from './pages/dashboard/game/WaitingScreen';
+import GroupScreen from './pages/dashboard/game/GroupScreen';
 
 const App = () => {
   useEffect(() => {
@@ -74,6 +77,12 @@ const App = () => {
             </GameLayout>
           }
         />
+
+        <Routes>
+          <Route index element={<Game />} />
+          <Route path="waiting" element={<WaitingScreen />} />
+          <Route path="group" element={<GroupScreen />} />
+        </Routes>
 
         <Route
           path="/auth/*"

@@ -26,6 +26,10 @@
   position: relative;
 }
 
+.wallet-action .wallet-link {
+  text-decoration: none !important;
+}
+
 .wallet-action .icon {
   font-size: 2em;
   color: #007bff;
@@ -33,7 +37,7 @@
 
 .wallet-action .label {
   margin-top: 10px;
-  font-size: 1em;
+  font-size: 0.85em;
   color: #ffffff;
 }
 

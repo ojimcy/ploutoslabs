@@ -22,6 +22,8 @@ export const AppProvider = ({ children }) => {
 
     fn();
   }, [telegramUser]);
+  const [difficulty, setDifficulty] = useState('easy');
+  const [mode, setMode] = useState('solo');
 
   const selectToken = (token) => {
     setSelectedToken(token);
@@ -29,7 +31,16 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ selectedToken, selectToken, selectedWallet, setSelectedWallet }}
+      value={{
+        selectedToken,
+        selectToken,
+        selectedWallet,
+        setSelectedWallet,
+        difficulty,
+        setDifficulty,
+        mode,
+        setMode,
+      }}
     >
       {children}
     </AppContext.Provider>
