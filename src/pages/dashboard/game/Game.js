@@ -49,12 +49,14 @@ function Game() {
             <div className="character-image">
               <img src={superman} alt={superman} />
             </div>
-
             <h2 className="character-name">Superman</h2>
           </div>
-          <div className="play-action d-flex justify-content-center align-items-center">
+          <div className="play-action d-flex justify-content-between align-items-center">
             <Link onClick={togleModal} className="play-button mt-4">
-              Play
+              Create Game
+            </Link>
+            <Link to='/game/join' className="play-button mt-4">
+              Join Game
             </Link>
           </div>
         </Row>

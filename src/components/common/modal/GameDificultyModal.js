@@ -23,10 +23,12 @@ function GameDificultyModal({ isOpen, toggle }) {
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="main-modal" fade={false}>
-      <ModalHeader toggle={toggle}>Game Difficulty</ModalHeader>
+      <ModalHeader toggle={toggle}>Create Game</ModalHeader>
       <ModalBody>
         <div className="game-difficulty">
           <Row className="mb-3">
+            <h6 className="mt-5">Game Difficulty</h6>
+            <p className="text-muted">Click to select game difficulty</p>
             <Col>
               <Button
                 className={`game-btn ${
@@ -62,8 +64,9 @@ function GameDificultyModal({ isOpen, toggle }) {
             </Col>
           </Row>
 
-          <h2 className="mt-5">Game Mode</h2>
           <Row>
+            <h6 className="mt-5">Game Mode</h6>
+            <p className="text-muted">Click to select game mode</p>
             <Col>
               <Button
                 className={`game-btn ${mode === 'solo' ? 'selected' : ''}`}
@@ -92,20 +95,10 @@ function GameDificultyModal({ isOpen, toggle }) {
               </Button>
             </Col>
           </Row>
+          <Row className="play-action mt-4 d-flex">
+            <Button className="play-btn">Continue</Button>
+          </Row>
         </div>
-
-        <Button
-          className="play-btn"
-          block
-          onClick={() => {
-            console.log(
-              `Playing with ${difficulty} difficulty in ${mode} mode.`
-            );
-            toggle();
-          }}
-        >
-          Continue
-        </Button>
       </ModalBody>
 
       <CompetitionTypeModal isOpen={typeModal} toggle={handleOneClicked} />

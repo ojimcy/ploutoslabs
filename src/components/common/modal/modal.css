@@ -1,7 +1,7 @@
 .main-modal .modal-content {
-  overflow: hidden;
+  overflow: auto;
   animation: slideUp 0.3s ease-out;
-  height: 65vh;
+  height: 85vh;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -52,6 +52,10 @@
   font-weight: 800;
   border-radius: 15px;
   font-size: 22px;
+}
+
+.game-difficulty .text-muted {
+  color: #ddc9c9 !important;
 }
 
 @keyframes slideUp {

@@ -64,10 +64,10 @@ function GroupScreen() {
             </li>
           ))}
         </ul>
+        <div className="group-action mt-5">
+          <Button className="button play-btn">Play</Button>
+        </div>
       </Container>
-      <Button className="play-btn" block>
-        Play
-      </Button>
     </div>
   );
 }
