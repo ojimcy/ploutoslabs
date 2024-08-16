@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button, Input, Form, FormGroup, Label } from 'reactstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Input,
+  Form,
+  FormGroup,
+  Label,
+} from 'reactstrap';
 import './join.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
@@ -32,14 +41,14 @@ function JoinPage() {
 
         {/* One-to-One Game Section */}
         <div className="join-section">
-          <h3>One-to-One Game</h3>
+          <h3>One-to-One</h3>
           <Form onSubmit={handleJoinOneToOne}>
             <FormGroup>
-              <Label for="sudoUsername">Sudo Username</Label>
+              <Label for="sudoUsername"> Username</Label>
               <Input
                 type="text"
                 id="sudoUsername"
-                placeholder="Enter or create sudo username"
+                placeholder="Enter username"
                 value={sudoUsername}
                 onChange={(e) => setSudoUsername(e.target.value)}
               />
@@ -55,14 +64,14 @@ function JoinPage() {
               />
             </FormGroup>
             <Button className="join-btn" color="primary" block>
-              Join One-to-One Game
+              Join
             </Button>
           </Form>
         </div>
 
         {/* Group Game Section */}
         <div className="join-section mt-5">
-          <h3>Group Games</h3>
+          <h3>Available Groups</h3>
           <Row>
             {availableGroups.map((group) => (
               <Col key={group.id} xs={12} sm={6} md={4} className="group-card">
