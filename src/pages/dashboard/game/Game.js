@@ -87,7 +87,7 @@ function Game() {
 
       {/* Game Difficulty Modal */}
       <GameDificultyModal isOpen={modal} toggle={toggleModal} />
-      <GameDepositModal isOpen={modal} toggle={toggleDepositModal} />
+      <GameDepositModal isOpen={depositModal} toggle={toggleDepositModal} />
     </div>
   );
 }

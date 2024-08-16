@@ -87,12 +87,6 @@ const App = () => {
           }
         />
 
-        <GameLayout>
-          <Routes>
-            <Route path="/super-catch" element={<RainGameCanvas />} />
-          </Routes>
-        </GameLayout>
-
         <Route
           path="/auth/*"
           element={
