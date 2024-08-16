@@ -25,8 +25,6 @@ export const AppProvider = ({ children }) => {
   const [difficulty, setDifficulty] = useState('easy');
   const [mode, setMode] = useState('solo');
 
-  const telegramUser = useTelegramUser();
-
   useEffect(() => {
     if (!telegramUser) return;
     const fn = async () => {
