@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import React, { useState } from 'react';
+import {
+  Container,
+  Row,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { FaCaretDown, FaQuestion, FaWallet } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import superman from '../../../assets/images/superman.png';
 import GameDificultyModal from '../../../components/common/modal/GameDificultyModal';
 import './game.css';
+import GameDepositModal from '../../../components/common/modal/GameDepositModal';
 
 function Game() {
   const [modal, setModal] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [depositModal, setDepositModal] = useState(false);
-  const [depositAddress, setDepositAddress] = useState('');
 
   const userBalance = 1000; // Example user balance
 
@@ -27,24 +34,6 @@ function Game() {
     setDepositModal(!depositModal);
   };
 
-  useEffect(() => {
-    if (depositModal) {
-      // Fetch the deposit address when the modal is opened
-      fetchDepositAddress();
-    }
-  }, [depositModal]);
-
-  const fetchDepositAddress = async () => {
-    // Replace with actual API call to fetch deposit address
-    const address = '0x1234567890abcdef1234567890abcdef12345678';
-    setDepositAddress(address);
-  };
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(depositAddress);
-    alert('Deposit address copied to clipboard!');
-  };
-
   return (
     <div className="game-page">
       <TelegramBackButton />
@@ -53,7 +42,7 @@ function Game() {
           <div className="main-title">
             <h1>Super Catch</h1>
           </div>
-          
+
           <div className="wallet-dropdown">
             <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
               <DropdownToggle className="wallet-dropdown-toggle">
@@ -62,8 +51,12 @@ function Game() {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem header>Balance: ${userBalance}</DropdownItem>
-                <DropdownItem onClick={toggleDepositModal}>Deposit</DropdownItem>
-                <DropdownItem tag={Link} to="/withdraw">Withdraw</DropdownItem>
+                <DropdownItem onClick={toggleDepositModal}>
+                  Deposit
+                </DropdownItem>
+                <DropdownItem tag={Link} to="/withdraw">
+                  Withdraw
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -85,7 +78,7 @@ function Game() {
             <Link onClick={toggleModal} className="play-button mt-4">
               Create Game
             </Link>
-            <Link to='/game/join' className="play-button mt-4">
+            <Link to="/game/join" className="play-button mt-4">
               Join Game
             </Link>
           </div>
@@ -94,21 +87,7 @@ function Game() {
 
       {/* Game Difficulty Modal */}
       <GameDificultyModal isOpen={modal} toggle={toggleModal} />
-
-      {/* Deposit Modal */}
-      <Modal isOpen={depositModal} toggle={toggleDepositModal}>
-        <ModalHeader toggle={toggleDepositModal}>Deposit Address</ModalHeader>
-        <ModalBody>
-          <p>Your deposit address is:</p>
-          <div className="deposit-address">
-            <code>{depositAddress}</code>
-          </div>
-          <Button color="primary" onClick={copyToClipboard}>Copy Address</Button>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={toggleDepositModal}>Close</Button>
-        </ModalFooter>
-      </Modal>
+      <GameDepositModal isOpen={modal} toggle={toggleDepositModal} />
     </div>
   );
 }
