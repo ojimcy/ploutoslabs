@@ -25,9 +25,6 @@ import Game from './pages/dashboard/game/Game';
 import GameDetails from './pages/dashboard/game/GameDetails';
 import GroupScreen from './pages/dashboard/game/GroupScreen';
 import JoinPage from './pages/dashboard/game/Join';
-import GameLayout from './components/layout/GameLayout';
-import RainGameCanvas from './pages/RainGameCanvas';
-import CreateWallet from './pages/dashboard/wallet/CreateWallet';
 
 const App = () => {
   useEffect(() => {
@@ -76,6 +73,10 @@ const App = () => {
           element={
             <GameLayout>
               <Routes>
+                <Route index element={<Game />} />
+                <Route path="waiting" element={<GameDetails />} />
+                <Route path="group" element={<GroupScreen />} />
+                <Route path="join" element={<JoinPage />} />
                 <Route path="/super-catch" element={<RainGameCanvas />} />
                 <Route index element={<Game />} />
                 <Route path="waiting" element={<GameDetails />} />
