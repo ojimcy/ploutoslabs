@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import data from '../../../hooks/demo_data';
+import data from '../../hooks/demo_data';
 
-import pltl from '../../../assets/images/logo.png';
+import pltl from '../../assets/images/logo.png';
 
-import './game-detail.css';
+import './game-details.css';
 
 function GameDetails() {
   const [timeLeft, setTimeLeft] = useState(120);

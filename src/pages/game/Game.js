@@ -11,16 +11,18 @@ import { FaCaretDown, FaQuestion, FaWallet } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import TelegramBackButton from '../../components/common/TelegramBackButton';
-import GameDificultyModal from '../../components/common/modal/GameDificultyModal'
-import GameDepositModal from '../../components/common/modal/GameDepositModal'
+import GameDificultyModal from '../../components/common/modal/GameDificultyModal';
+import GameDepositModal from '../../components/common/modal/GameDepositModal';
 
 import superman from '../../assets/images/superman.png';
 import './game.css';
+import WithdrawModal from '../../components/common/modal/WithdrawalModal';
 
 function Game() {
   const [modal, setModal] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [depositModal, setDepositModal] = useState(false);
+  const [withdrawalModal, setWithdrawalModal] = useState(false);
 
   const userBalance = 1000; // Example user balance
 
@@ -35,6 +37,12 @@ function Game() {
   const toggleDepositModal = () => {
     setDepositModal(!depositModal);
   };
+
+  const toggleWithdrawalModal = () => {
+    setWithdrawalModal(!withdrawalModal);
+  };
+
+  const handleWithdrawal = async () => {};
 
   return (
     <div className="game-page">
@@ -56,7 +64,7 @@ function Game() {
                 <DropdownItem onClick={toggleDepositModal}>
                   Deposit
                 </DropdownItem>
-                <DropdownItem tag={Link} to="/withdraw">
+                <DropdownItem onClick={toggleWithdrawalModal}>
                   Withdraw
                 </DropdownItem>
               </DropdownMenu>
@@ -90,6 +98,11 @@ function Game() {
       {/* Game Difficulty Modal */}
       <GameDificultyModal isOpen={modal} toggle={toggleModal} />
       <GameDepositModal isOpen={depositModal} toggle={toggleDepositModal} />
+      <WithdrawModal
+        isOpen={withdrawalModal}
+        toggle={toggleWithdrawalModal}
+        onSubmit={handleWithdrawal}
+      />
     </div>
   );
 }

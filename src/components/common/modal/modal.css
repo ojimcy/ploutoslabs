@@ -58,6 +58,35 @@
   color: #ddc9c9 !important;
 }
 
+.main-modal .form-group {
+  margin-bottom: 1rem;
+}
+
+.main-modal .form-control {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.main-modal .form-control::placeholder {
+  color: white;
+  opacity: 0.6;
+}
+
+.main-modal .modal-btn-success {
+  background-color: #00d509;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
+.main-modal .modal-btn-success:hover {
+  background-color: #0056b3; 
+}
+
 @keyframes slideUp {
   from {
     transform: translateY(100%);

@@ -25,6 +25,7 @@ import Game from './pages/game/Game';
 import GroupPage from './pages/game/GroupPage';
 import JoinPage from './pages/game/JoinGame';
 import GameSummaryPage from './pages/game/GameSummaryPage';
+import GameDetails from './pages/game/GameDetails';
 
 const App = () => {
   useEffect(() => {
@@ -78,6 +79,7 @@ const App = () => {
                 <Route path="/group" element={<GroupPage />} />
                 <Route path="/join" element={<JoinPage />} />
                 <Route path="/summary" element={<GameSummaryPage />} />
+                <Route path="waiting" element={<GameDetails />} />
               </Routes>
             </GameLayout>
           }

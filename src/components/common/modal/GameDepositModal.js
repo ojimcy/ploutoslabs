@@ -20,7 +20,6 @@ function GameDepositModal({ isOpen, toggle }) {
     navigator.clipboard.writeText(depositAddress);
     alert('Deposit address copied to clipboard!');
   };
-
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="main-modal" fade={false}>
       <ModalHeader toggle={toggle}>Create Game</ModalHeader>

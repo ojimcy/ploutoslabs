@@ -146,6 +146,7 @@ export const submitScore = async () => {
   const result = await axios.post(SUBMIT_SCORE());
   return result.data;
 };
+
 export const getDepositAddress = async () => {
   const result = await axios.get(GAME_DEPOSIT_ADDRESS());
   return result.data;
