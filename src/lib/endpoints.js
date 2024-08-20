@@ -24,3 +24,11 @@ export const GET_TOKEN_BALANCES = (userID) =>
   `${ROOT}/users/${userID}/token-balances`;
 export const ADD_USERS_WALLET = (userID) =>
   `${ROOT}/user/${userID}/add-users-wallet`;
+
+export const CREATE_GROUP = () => `${ROOT}/create-group`;
+export const JOIN_GROUP = () => `${ROOT}/join-group`;
+export const GET_GROUPS = () => `${ROOT}/get-groups`;
+export const CREATE_GAME = () => `${ROOT}/create-game`;
+export const JOIN_GAME = () => `${ROOT}/join-game`;
+export const SUBMIT_SCORE = () => `${ROOT}/submit-score`;
+export const GAME_DEPOSIT_ADDRESS = () => `${ROOT}/game-deposit-address`;

@@ -7,10 +7,17 @@ import {
   CLAIM,
   CLAIM_REF_BONUS,
   COMPLET_TASK,
+  CREATE_GAME,
+  CREATE_GROUP,
+  GAME_DEPOSIT_ADDRESS,
+  GET_GROUPS,
   GET_TOKEN_BALANCES,
   GET_TRANSACTION_DETAILS,
   GET_WALLET_HISTORY,
   INIT_TRANSACTION,
+  JOIN_GAME,
+  JOIN_GROUP,
+  SUBMIT_SCORE,
   SYNC_ACCOUNT,
   TASK,
   TASKS,
@@ -90,7 +97,7 @@ export const getTransactionDetails = async (txid) => {
 };
 
 export const getWallets = async () => {
-  return getWalletsFromDb()
+  return getWalletsFromDb();
 };
 
 export const getWalletHIstory = async (wallet) => {
@@ -106,7 +113,40 @@ export const getTokenBalances = async (wallet) => {
 export const collectGame = async () => {};
 
 export const addUsersWallet = async (userid, address) => {
-  console.log(userid, address)
   const result = await axios.post(ADD_USERS_WALLET(userid), { address });
+  return result.data;
+};
+
+export const createGroup = async (payload) => {
+  const result = await axios.post(CREATE_GROUP(payload));
+  return result.data;
+};
+
+export const joinGroup = async () => {
+  const result = await axios.post(JOIN_GROUP());
+  return result.data;
+};
+
+export const getGroups = async () => {
+  const result = await axios.get(GET_GROUPS());
+  return result.data;
+};
+
+export const createGame = async (payload) => {
+  const result = await axios.post(CREATE_GAME(payload));
+  return result.data;
+};
+
+export const joinGame = async () => {
+  const result = await axios.post(JOIN_GAME());
+  return result.data;
+};
+
+export const submitScore = async () => {
+  const result = await axios.post(SUBMIT_SCORE());
+  return result.data;
+};
+export const getDepositAddress = async () => {
+  const result = await axios.get(GAME_DEPOSIT_ADDRESS());
   return result.data;
 };

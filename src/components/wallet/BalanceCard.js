@@ -15,6 +15,7 @@ import TokenListModal from '../common/modal/TokenListModal';
 import ReceiveTokenListModal from '../common/modal/RecieveTokenListModal';
 import { AppContext } from '../../context/AppContext';
 import { getTokenBalances } from '../../lib/server';
+import { Link } from 'react-router-dom';
 
 function BalanceCard() {
   const [sendModal, setSendModal] = useState(false);
@@ -35,7 +36,7 @@ function BalanceCard() {
   };
 
   const calculateNetWorth = (tokens) => {
-    console.log('tokens', tokens)
+    console.log('tokens', tokens);
     return tokens.reduce((acc, token) => {
       return acc + token.balance_formatted * token.usd_price;
     }, 0);
@@ -53,7 +54,7 @@ function BalanceCard() {
 
     tokenBalances();
   }, [selectedWallet]);
-  
+
   return (
     <Container className="balance-card">
       <Row className="justify-content-center align-items-center text-center">
@@ -79,13 +80,20 @@ function BalanceCard() {
           <FaDollarSign className="icon" />
           <div className="label">Buy & Sell</div>
         </div>
-        <div className="wallet-action" onClick={() => {location.href = 'https://p2pb2b.com/token-sale/PLTL-736/'}}>
+        <div
+          className="wallet-action"
+          onClick={() => {
+            location.href = 'https://p2pb2b.com/token-sale/PLTL-736/';
+          }}
+        >
           <FaPlay className="icon" />
           <div className="label">Launchpad</div>
         </div>
-        <div className="wallet-action" onClick={handleComingSoonClicked}>
-          <FaGamepad className="icon" />
-          <div className="label">Games</div>
+        <div className="wallet-action">
+          <Link className="wallet-link" to="/game">
+            <FaGamepad className="icon" />
+            <div className="label">Games</div>
+          </Link>
         </div>
       </div>
       <TokenListModal

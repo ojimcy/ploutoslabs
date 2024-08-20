@@ -8,6 +8,8 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [selectedToken, setSelectedToken] = useState(null);
   const [selectedWallet, setSelectedWallet] = useState(null);
+  const [difficulty, setDifficulty] = useState('easy');
+  const [mode, setMode] = useState('solo');
 
   const telegramUser = useTelegramUser();
 
@@ -29,7 +31,16 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ selectedToken, selectToken, selectedWallet, setSelectedWallet }}
+      value={{
+        selectedToken,
+        selectToken,
+        selectedWallet,
+        setSelectedWallet,
+        difficulty,
+        setDifficulty,
+        mode,
+        setMode,
+      }}
     >
       {children}
     </AppContext.Provider>

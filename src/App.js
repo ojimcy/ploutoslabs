@@ -21,6 +21,10 @@ import Boosts from './pages/dashboard/airdrop/Boosts';
 import GameLayout from './components/layout/GameLayout';
 import RainGameCanvas from './pages/RainGameCanvas';
 import CreateWallet from './pages/dashboard/wallet/CreateWallet';
+import Game from './pages/game/Game';
+import GroupPage from './pages/game/GroupPage';
+import JoinPage from './pages/game/JoinGame';
+import GameSummaryPage from './pages/game/GameSummaryPage';
 
 const App = () => {
   useEffect(() => {
@@ -69,7 +73,11 @@ const App = () => {
           element={
             <GameLayout>
               <Routes>
+                <Route index element={<Game />} />
                 <Route path="/super-catch" element={<RainGameCanvas />} />
+                <Route path="/group" element={<GroupPage />} />
+                <Route path="/join" element={<JoinPage />} />
+                <Route path="/summary" element={<GameSummaryPage />} />
               </Routes>
             </GameLayout>
           }

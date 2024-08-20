@@ -1,0 +1,149 @@
+.victory-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.victory-content {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 25, 255, 0.24) 0%,
+    rgba(0, 15, 153, 0.24) 100%
+  );
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  color: white;
+}
+
+.result-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffeb3b;
+  margin-bottom: 20px;
+}
+
+.result-title.victory {
+  color: #4caf50;
+}
+
+.result-title.loss {
+  color: #f44336;
+}
+
+.reward-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.reward-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.reward-amount {
+  font-size: 1.8rem;
+  color: #ffeb3b;
+}
+
+.game-details {
+  margin-top: 20px;
+}
+
+.player-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player-info {
+  text-align: center;
+}
+
+.player-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.player-username {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.player-level {
+  font-size: 1rem;
+  color: #bbb;
+}
+
+.vs {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.stats-section {
+  margin-top: 20px;
+  background: #252525;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #bbb;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.opponent-value {
+  color: #ff5252;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.action-buttons button  {
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 15px;
+  font-size: 18px;
+  padding: 10px !important;
+  width: 45%;
+  font-weight: 700;
+}
+
+
+.action-buttons .exit-btn {
+  background-color: #ff5252;
+  color: white;
+}
+
+.action-buttons .new-game-btn {
+  background-color: #4caf50 !important;
+  color: white;
+}
