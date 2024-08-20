@@ -5,6 +5,7 @@ import data from '../../hooks/demo_data';
 import pltl from '../../assets/images/logo.png';
 
 import './game-details.css';
+import { Button } from 'reactstrap';
 
 function GameDetails() {
   const [timeLeft, setTimeLeft] = useState(120);
@@ -74,6 +75,11 @@ function GameDetails() {
         <div className="amount">
           <img src={pltl} alt="logo" /> +50,000
         </div>
+      </div>
+
+      {/* Play button */}
+      <div className='buttons-actions'>
+        <Button className='play-btn'>Play</Button>
       </div>
     </div>
   );
