@@ -17,14 +17,14 @@ import GameDepositModal from '../../components/common/modal/GameDepositModal';
 import superman from '../../assets/images/superman.png';
 import './game.css';
 import WithdrawModal from '../../components/common/modal/WithdrawalModal';
+import { useCurrentUser } from '../../hooks/telegram';
 
 function Game() {
+  const currentUser = useCurrentUser();
   const [difficultyModal, setDifficultyModal] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [depositModal, setDepositModal] = useState(false);
   const [withdrawalModal, setWithdrawalModal] = useState(false);
-
-  const userBalance = 1000; // Example user balance
 
   const toggleDifficultyModal = () => {
     setDifficultyModal(!difficultyModal);
@@ -60,7 +60,9 @@ function Game() {
                 <FaCaretDown />
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem header>Balance: ${userBalance}</DropdownItem>
+                <DropdownItem header>
+                  Balance: ${currentUser.gameWalletBalance}
+                </DropdownItem>
                 <DropdownItem onClick={toggleDepositModal}>
                   Deposit
                 </DropdownItem>
@@ -96,7 +98,10 @@ function Game() {
       </Container>
 
       {/* Game Difficulty Modal */}
-      <GameDificultyModal isOpen={difficultyModal} toggle={toggleDifficultyModal} />
+      <GameDificultyModal
+        isOpen={difficultyModal}
+        toggle={toggleDifficultyModal}
+      />
       <GameDepositModal isOpen={depositModal} toggle={toggleDepositModal} />
       <WithdrawModal
         isOpen={withdrawalModal}

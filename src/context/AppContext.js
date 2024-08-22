@@ -10,6 +10,7 @@ export const AppProvider = ({ children }) => {
   const [selectedWallet, setSelectedWallet] = useState(null);
   const [difficulty, setDifficulty] = useState('easy');
   const [mode, setMode] = useState('solo');
+  const [gameCode, setGameCode] = useState('');
 
   const telegramUser = useTelegramUser();
 
@@ -40,6 +41,8 @@ export const AppProvider = ({ children }) => {
         setDifficulty,
         mode,
         setMode,
+        gameCode,
+        setGameCode,
       }}
     >
       {children}

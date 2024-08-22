@@ -32,3 +32,5 @@ export const CREATE_GAME = () => `${ROOT}/create-game`;
 export const JOIN_GAME = () => `${ROOT}/join-game`;
 export const SUBMIT_SCORE = () => `${ROOT}/submit-score`;
 export const GAME_DEPOSIT_ADDRESS = () => `${ROOT}/game-deposit-address`;
+
+export const GET_GAME = (code) => `${ROOT}/game/${code}`;

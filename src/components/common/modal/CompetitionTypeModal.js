@@ -10,24 +10,23 @@ import {
   FormGroup,
 } from 'reactstrap';
 import './modal.css';
-import { FaShare } from 'react-icons/fa';
-import { useCurrentUser, useWebApp } from '../../../hooks/telegram';
+import { useCurrentUser } from '../../../hooks/telegram';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { createGame } from '../../../lib/server';
 import { AppContext } from '../../../context/AppContext';
 
 function CompetitionTypeModal({ isOpen, toggle }) {
-  const webapp = useWebApp();
   const currentUser = useCurrentUser();
 
   const navigate = useNavigate();
-  const [code, setCode] = useState('');
   const [entryFee, setEntryFee] = useState(2);
   const [showStartTimeInput, setShowStartTimeInput] = useState(false);
-  const { mode, setMode, difficulty } = useContext(AppContext);
-  const now = new Date()
-  const [startTime, setStartTime] = useState(`${now.getHours()}:${now.getMinutes()}`);
+  const { mode, setMode, difficulty, setGameCode } = useContext(AppContext);
+  const now = new Date();
+  const [startTime, setStartTime] = useState(
+    `${now.getHours()}:${now.getMinutes()}`
+  );
   const [nickname, setNickname] = useState(currentUser.gameNickname || '');
 
   const handleCreateGame = async () => {
@@ -36,41 +35,16 @@ function CompetitionTypeModal({ isOpen, toggle }) {
         gameNickname: nickname,
         type: mode,
         difficulty,
-        entryFee,
+        entryFee: parseFloat(entryFee),
         startTime,
       });
-      setCode(res.code);
-      console.log(res)
-      if (mode == 'one-vs-one') {
-        // navigate('/game/waiting');
-      }
+      setGameCode(res.game.code);
+      console.log(res);
+      navigate('/game/waiting');
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.error)
+      toast.error(error.response.data.error);
     }
-  };
-
-  const copyCodeToClipboard = () => {
-    if (code) {
-      navigator.clipboard.writeText(code);
-      toast.success('Code copied to clipboard!', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-      });
-    }
-    navigate('/game/waiting');
-  };
-
-  const share = () => {
-    if (code) {
-      const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
-        code && code
-      )}&text=${encodeURIComponent('Let’s play a one-on-one battle! 🎮')}`;
-      webapp.openTelegramLink(telegramUrl);
-    }
-    navigate('/game/waiting');
   };
 
   return (
@@ -120,7 +94,7 @@ function CompetitionTypeModal({ isOpen, toggle }) {
             </FormGroup>
 
             <FormGroup>
-              <Label>Nickname :</Label>
+              <Label>Nickname:</Label>
               <Input
                 type="text"
                 value={nickname}
@@ -147,26 +121,6 @@ function CompetitionTypeModal({ isOpen, toggle }) {
               Continue
             </Button>
           </div>
-
-          {code && (
-            <div className="text-center my-5">
-              <h6>Your Game Code: {code}</h6>
-              <div className="code-action">
-                <Button className="share-btn" onClick={share}>
-                  <FaShare /> Share Code
-                </Button>
-                <Button className="copy-btn" onClick={copyCodeToClipboard}>
-                  Copy Code
-                </Button>
-              </div>
-              <Button
-                className="random-btn mt-4 w-100"
-                onClick={() => navigate('/game/waiting')}
-              >
-                Continue
-              </Button>
-            </div>
-          )}
         </div>
       </ModalBody>
     </Modal>

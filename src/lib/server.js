@@ -10,6 +10,7 @@ import {
   CREATE_GAME,
   CREATE_GROUP,
   GAME_DEPOSIT_ADDRESS,
+  GET_GAME,
   GET_GROUPS,
   GET_TOKEN_BALANCES,
   GET_TRANSACTION_DETAILS,
@@ -137,8 +138,8 @@ export const createGame = async (payload) => {
   return result.data;
 };
 
-export const joinGame = async () => {
-  const result = await axios.post(JOIN_GAME());
+export const joinGame = async (payload) => {
+  const result = await axios.post(JOIN_GAME(), payload);
   return result.data;
 };
 
@@ -149,5 +150,10 @@ export const submitScore = async () => {
 
 export const getDepositAddress = async () => {
   const result = await axios.get(GAME_DEPOSIT_ADDRESS());
+  return result.data;
+};
+
+export const getGame = async (code) => {
+  const result = await axios.get(GET_GAME(code));
   return result.data;
 };

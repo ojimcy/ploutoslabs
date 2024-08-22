@@ -126,7 +126,7 @@
   margin-top: 30px;
 }
 
-.action-buttons button  {
+.action-buttons .sumary-btn {
   color: white;
   border: none;
   padding: 15px 20px;
@@ -135,8 +135,8 @@
   padding: 10px !important;
   width: 45%;
   font-weight: 700;
+  text-decoration: none;
 }
-
 
 .action-buttons .exit-btn {
   background-color: #ff5252;
