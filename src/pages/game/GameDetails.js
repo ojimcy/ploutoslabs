@@ -15,47 +15,65 @@ import { getGame } from '../../lib/server';
 function GameDetails() {
   const webapp = useWebApp();
   const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(0);
   const [opponentJoined, setOpponentJoined] = useState(false);
   const { gameCode } = useContext(AppContext);
 
   const [game, setGame] = useState({});
 
   const onTimeout = () => {
-    // notify user the oppenoe did not join
-    // navigate back to game page
+    // Notify user that the opponent did not join
+    // Navigate back to game page
+    toast.error('Opponent did not join in time!', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+    });
+    navigate('/game');
   };
 
   useEffect(() => {
-    try {
-      const fetchGame = async () => {
+    const fetchGame = async () => {
+      try {
         const res = await getGame(gameCode);
         setGame(res.game);
-        setOpponentJoined(!!game.player2Nickname);
-      };
+        setOpponentJoined(!!res.game.player2Nickname);
 
-      fetchGame();
-    } catch (error) {
-      console.error('Error in getting game', error);
-    }
-  }, []);
+        const startDate = new Date(res.game.startDate).getTime();
+        const now = new Date().getTime();
+        const timeDifference = Math.max((startDate - now) / 1000, 0);
+        setTimeLeft(Math.floor(timeDifference));
+      } catch (error) {
+        console.error('Error in getting game', error);
+      }
+    };
 
-  useEffect(() => {
-    // Countdown timer
-    if (timeLeft > 0 && !opponentJoined) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    } else if (timeLeft === 0 && !opponentJoined) {
-      onTimeout();
-    }
-  }, [timeLeft, opponentJoined, onTimeout]);
+    fetchGame();
+  }, [gameCode]);
 
   useEffect(() => {
-    // Simulate opponent joining
-    const checkOpponentJoin = setTimeout(() => {}, 10000);
+    const calculateTimeLeft = () => {
+      const startDate = new Date(game.startDate).getTime();
+      const now = new Date().getTime();
+      const timeDifference = Math.max((startDate - now) / 1000, 0);
+      return Math.floor(timeDifference);
+    };
 
-    return () => clearTimeout(checkOpponentJoin);
-  }, []);
+    const updateTimer = () => {
+      const timeLeft = calculateTimeLeft();
+      setTimeLeft(timeLeft);
+
+      if (timeLeft > 0) {
+        const timerId = setTimeout(updateTimer, 1000);
+        return () => clearTimeout(timerId);
+      } else if (timeLeft === 0) {
+        onTimeout();
+      }
+    };
+
+    updateTimer();
+  }, [game.startDate]);
 
   const copyCodeToClipboard = () => {
     if (gameCode) {
@@ -85,16 +103,18 @@ function GameDetails() {
       <div className="detail-card d-flex justify-content-between align-items-center">
         <div className="user d-flex align-items-center">
           <div className="user-avatar">
-            <span>{game.player1Nickname.charAt(0)}</span>
+            <span>{game.player1Nickname?.charAt(0)}</span>
           </div>
 
           <span>{game.player1Nickname}</span>
         </div>
-        <div className="countdown-timer">{timeLeft} S</div>
+        <div className="countdown-timer">
+          {timeLeft > 0 ? `${timeLeft} S` : 'Time’s up!'}
+        </div>
         <div className="oponent d-flex align-items-center">
           <div className="user-avatar">
             {opponentJoined ? (
-              <span>{game.player2Nickname.charAt(0)}</span>
+              <span>{game.player2Nickname?.charAt(0)}</span>
             ) : (
               'W'
             )}
