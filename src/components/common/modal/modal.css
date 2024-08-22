@@ -45,6 +45,10 @@
   background: linear-gradient(90deg, #00d509 0%, #006f04 100%);
 }
 
+.main-modal .comptetition-type .selected {
+  background: linear-gradient(90deg, #00d509 0%, #006f04 100%);
+}
+
 .main-modal .play-btn {
   margin-top: 30px;
   background: linear-gradient(180deg, #00d509 0%, #006f04 100%);

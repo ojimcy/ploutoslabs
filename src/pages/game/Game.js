@@ -19,15 +19,15 @@ import './game.css';
 import WithdrawModal from '../../components/common/modal/WithdrawalModal';
 
 function Game() {
-  const [modal, setModal] = useState(false);
+  const [difficultyModal, setDifficultyModal] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [depositModal, setDepositModal] = useState(false);
   const [withdrawalModal, setWithdrawalModal] = useState(false);
 
   const userBalance = 1000; // Example user balance
 
-  const toggleModal = () => {
-    setModal(!modal);
+  const toggleDifficultyModal = () => {
+    setDifficultyModal(!difficultyModal);
   };
 
   const toggleDropdown = () => {
@@ -85,7 +85,7 @@ function Game() {
             <h2 className="character-name">Superman</h2>
           </div>
           <div className="play-action d-flex justify-content-between align-items-center">
-            <Link onClick={toggleModal} className="play-button mt-4">
+            <Link onClick={toggleDifficultyModal} className="play-button mt-4">
               Create Game
             </Link>
             <Link to="/game/join" className="play-button mt-4">
@@ -96,7 +96,7 @@ function Game() {
       </Container>
 
       {/* Game Difficulty Modal */}
-      <GameDificultyModal isOpen={modal} toggle={toggleModal} />
+      <GameDificultyModal isOpen={difficultyModal} toggle={toggleDifficultyModal} />
       <GameDepositModal isOpen={depositModal} toggle={toggleDepositModal} />
       <WithdrawModal
         isOpen={withdrawalModal}

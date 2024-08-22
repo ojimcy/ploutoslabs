@@ -15,7 +15,6 @@ import TokenListModal from '../common/modal/TokenListModal';
 import ReceiveTokenListModal from '../common/modal/RecieveTokenListModal';
 import { AppContext } from '../../context/AppContext';
 import { getTokenBalances } from '../../lib/server';
-import { Link } from 'react-router-dom';
 
 function BalanceCard() {
   const [sendModal, setSendModal] = useState(false);
@@ -89,11 +88,14 @@ function BalanceCard() {
           <FaPlay className="icon" />
           <div className="label">Launchpad</div>
         </div>
-        <div className="wallet-action">
-          <Link className="wallet-link" to="/game">
-            <FaGamepad className="icon" />
-            <div className="label">Games</div>
-          </Link>
+        <div
+          className="wallet-action"
+          onClick={() => {
+            location.href = '/game';
+          }}
+        >
+          <FaGamepad className="icon" />
+          <div className="label">Games</div>
         </div>
       </div>
       <TokenListModal

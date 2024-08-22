@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axiosService';
 import {
   ADD_USERS_WALLET,
   // ADD_USERS_WALLET,
@@ -133,7 +133,7 @@ export const getGroups = async () => {
 };
 
 export const createGame = async (payload) => {
-  const result = await axios.post(CREATE_GAME(payload));
+  const result = await axios.post(CREATE_GAME(), payload);
   return result.data;
 };
 

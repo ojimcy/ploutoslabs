@@ -4,22 +4,22 @@ import { Modal, ModalHeader, ModalBody, Row, Col, Button } from 'reactstrap';
 import './modal.css';
 import { AppContext } from '../../../context/AppContext';
 import CompetitionTypeModal from './CompetitionTypeModal';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 function GameDificultyModal({ isOpen, toggle }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { difficulty, setDifficulty, mode, setMode } = useContext(AppContext);
   const [typeModal, setTypeModal] = useState(false);
 
   const handleOneClicked = () => {
-    setMode('oneonone');
+    setMode('one-vs-one');
     setTypeModal(!typeModal);
   };
 
-  const handleGroupClicked = () => {
-    setMode('group');
-    navigate('/game/group');
-  };
+  // const handleGroupClicked = () => {
+  //   setMode('group');
+  //   navigate('/game/group');
+  // };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="main-modal" fade={false}>
@@ -78,14 +78,14 @@ function GameDificultyModal({ isOpen, toggle }) {
             </Col>
             <Col>
               <Button
-                className={`game-btn ${mode === 'oneonone' ? 'selected' : ''}`}
+                className={`game-btn ${mode === 'one-vs-one' ? 'selected' : ''}`}
                 onClick={handleOneClicked}
                 block
               >
                 One on One
               </Button>
             </Col>
-            <Col>
+            {/* <Col>
               <Button
                 className={`game-btn ${mode === 'group' ? 'selected' : ''}`}
                 onClick={handleGroupClicked}
@@ -93,7 +93,7 @@ function GameDificultyModal({ isOpen, toggle }) {
               >
                 Group
               </Button>
-            </Col>
+            </Col> */}
           </Row>
           <Row className="play-action mt-4 d-flex">
             <Button className="play-btn">Continue</Button>
