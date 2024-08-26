@@ -11,6 +11,7 @@ import { useWebApp } from '../../hooks/telegram';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getGame } from '../../lib/server';
+import TelegramBackButton from '../../components/common/TelegramBackButton';
 
 function GameDetails() {
   const webapp = useWebApp();
@@ -100,6 +101,7 @@ function GameDetails() {
 
   return (
     <div className="detail-page">
+      <TelegramBackButton />
       <div className="detail-card d-flex justify-content-between align-items-center">
         <div className="user d-flex align-items-center">
           <div className="user-avatar">

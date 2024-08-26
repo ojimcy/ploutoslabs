@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Row,
@@ -26,6 +26,11 @@ function Game() {
   const [depositModal, setDepositModal] = useState(false);
   const [withdrawalModal, setWithdrawalModal] = useState(false);
 
+  useEffect(() => {
+    console.log('currentUser', currentUser);
+    
+  }, [currentUser])
+
   const toggleDifficultyModal = () => {
     setDifficultyModal(!difficultyModal);
   };
@@ -47,7 +52,7 @@ function Game() {
   return (
     <div className="game-page">
       <TelegramBackButton />
-      <Container className="game-page">
+      {currentUser && <Container className="game-page">
         <div className="game-header">
           <div className="main-title">
             <h1>Super Catch</h1>
@@ -95,7 +100,7 @@ function Game() {
             </Link>
           </div>
         </Row>
-      </Container>
+      </Container>}
 
       {/* Game Difficulty Modal */}
       <GameDificultyModal
