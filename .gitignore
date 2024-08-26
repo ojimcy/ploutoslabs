@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/super-catch/node_modules
 /smart-wallet-bridge/node_modules
 /smart-wallet-bridge/build
 /.pnp
@@ -13,6 +14,7 @@
 
 # production
 /build
+/public/super-catch
 
 # misc
 .DS_Store

@@ -22,7 +22,13 @@ function GameDetails() {
 
   const [game, setGame] = useState({});
 
-  const onTimeout = () => {
+  const onTimeout = async () => {
+    const res = await getGame(gameCode);
+    setGame(res.game);
+    if (res.game.player2Nickname) {
+      openGameConsole()
+      return
+    }
     // Notify user that the opponent did not join
     // Navigate back to game page
     toast.error('Opponent did not join in time!', {
@@ -89,6 +95,11 @@ function GameDetails() {
     navigate('/game/waiting');
   };
 
+  const openGameConsole = () => {
+    console.log(`/super-cash?code=${gameCode}`)
+    location.href = `/super-catch?code=${gameCode}`;
+  };
+
   const share = () => {
     if (gameCode) {
       const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
@@ -151,7 +162,9 @@ function GameDetails() {
 
       {/* Play button */}
       <div className="buttons-actions">
-        <Button className="play-btn">Play</Button>
+        <Button className="play-btn" onClick={openGameConsole}>
+          Play
+        </Button>
       </div>
     </div>
   );
