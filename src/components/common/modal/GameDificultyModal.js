@@ -5,12 +5,10 @@ import './modal.css';
 import { AppContext } from '../../../context/AppContext';
 import CompetitionTypeModal from './CompetitionTypeModal';
 import { createGame } from '../../../lib/server';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 // import { useNavigate } from 'react-router-dom';
 
 function GameDificultyModal({ isOpen, toggle }) {
-  const navigate = useNavigate();
   const { difficulty, setDifficulty, mode, setMode } = useContext(AppContext);
   const [typeModal, setTypeModal] = useState(false);
 
@@ -26,10 +24,10 @@ function GameDificultyModal({ isOpen, toggle }) {
           type: mode,
           difficulty,
         });
-        navigate(`/game-console?code=${res.game.code}`);
+        location.href = `/super-catch?code=${res.game.code}`;
       } catch (error) {
         console.log(error);
-        toast.error(error.response.data.error);
+        toast.error(error.response?.data?.error || 'Error in creating game. Please try again');
       }
     }
   };
