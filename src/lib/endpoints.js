@@ -1,6 +1,6 @@
-export const ROOT = 'https://localhost:3001';
+// export const ROOT = 'https://localhost:3001';
 
-// export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
+export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
 
 export const USER_BY_ID = (id) => `${ROOT}/user/${id}`;
 export const SYNC_ACCOUNT = () => `${ROOT}/sync-profile`;
@@ -34,4 +34,4 @@ export const SUBMIT_SCORE = () => `${ROOT}/submit-score`;
 export const GAME_DEPOSIT_ADDRESS = () => `${ROOT}/game-deposit-address`;
 
 export const GET_GAME = (code) => `${ROOT}/game/${code}`;
-export const GET_ACTIVE_GAMES = (userID) => `${ROOT}/game/${userID}`;
+export const GET_ACTIVE_GAMES = () => `${ROOT}/active-game`;

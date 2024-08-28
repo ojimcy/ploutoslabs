@@ -30,21 +30,17 @@ function Game() {
   const [activeGames, setActiveGames] = useState([]);
 
   useEffect(() => {
-    console.log('currentUser', currentUser);
-
     const fetchActiveGames = async () => {
       try {
-        const games = await getActiveGames(currentUser.id);
+        const games = await getActiveGames();
         setActiveGames(games);
       } catch (error) {
         console.error('Error fetching active games', error);
       }
     };
 
-    if (currentUser) {
-      fetchActiveGames();
-    }
-  }, [currentUser]);
+    fetchActiveGames();
+  }, []);
 
   const toggleDifficultyModal = () => {
     setDifficultyModal(!difficultyModal);
