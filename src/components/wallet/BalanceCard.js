@@ -10,11 +10,12 @@ import {
   FaPlay,
   FaQrcode,
 } from 'react-icons/fa';
-import './wallet.css';
 import TokenListModal from '../common/modal/TokenListModal';
 import ReceiveTokenListModal from '../common/modal/RecieveTokenListModal';
 import { AppContext } from '../../context/AppContext';
 import { getTokenBalances } from '../../lib/server';
+
+import './wallet.css';
 
 function BalanceCard() {
   const [sendModal, setSendModal] = useState(false);
