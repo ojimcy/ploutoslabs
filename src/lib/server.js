@@ -10,6 +10,7 @@ import {
   CREATE_GAME,
   CREATE_GROUP,
   GAME_DEPOSIT_ADDRESS,
+  GET_ACTIVE_GAMES,
   GET_GAME,
   GET_GROUPS,
   GET_TOKEN_BALANCES,
@@ -155,5 +156,10 @@ export const getDepositAddress = async () => {
 
 export const getGame = async (code) => {
   const result = await axios.get(GET_GAME(code));
+  return result.data;
+};
+
+export const getActiveGames = async (code) => {
+  const result = await axios.get(GET_ACTIVE_GAMES(code));
   return result.data;
 };
