@@ -34,4 +34,4 @@ export const SUBMIT_SCORE = () => `${ROOT}/submit-score`;
 export const GAME_DEPOSIT_ADDRESS = () => `${ROOT}/game-deposit-address`;
 
 export const GET_GAME = (code) => `${ROOT}/game/${code}`;
-export const GET_ACTIVE_GAMES = () => `${ROOT}/active-game`;
+export const GET_ACTIVE_GAMES = () => `${ROOT}/active-games`;
