@@ -11,6 +11,7 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
+    "events": "^3.3.0",
     "phaser": "^3.80.1"
   },
   "devDependencies": {

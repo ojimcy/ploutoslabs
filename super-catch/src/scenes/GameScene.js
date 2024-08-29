@@ -16,9 +16,23 @@ let gameTime = 0;
 let baseSpeed = 200;
 let backgroundMusic;
 
+const socket = new WebSocket("ws://127.0.0.1/ws");
+
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super({ key: 'GameScene' });
+
+    socket.onopen = () => {
+      socket.send({message: "welcome"})
+    }
+
+    socket.onmessage = (e) => {
+      console.log(e.data)
+    };
+
+    window.addEventListener('beforeunload', () => {
+      socket.close()
+  });
   }
 
   init(data) {
