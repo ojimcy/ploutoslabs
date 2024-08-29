@@ -144,7 +144,7 @@ function Game() {
                       {game.opponentNickname || 'Waiting for opponent...'}
                     </p>
                   </div>
-                  <div className="game-actions">
+                  <div className="game-actions d-flex">
                     <Button
                       className="play-btn"
                       onClick={() => handlePlay(game.code)}

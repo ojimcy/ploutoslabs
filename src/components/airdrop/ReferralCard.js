@@ -1,40 +1,41 @@
 import React from 'react';
-import { FaArrowRight, FaUsers } from 'react-icons/fa';
-import { Col, Container, Row } from 'reactstrap';
+import { FaGift, FaUsers } from 'react-icons/fa';
+import { Col, Row } from 'reactstrap';
 import './airdrop.css';
 
-import logo from '../../assets/images/logo.png';
 import { useCurrentUser } from '../../hooks/telegram';
+import { Link } from 'react-router-dom';
 
 function ReferralCard() {
   const currentUser = useCurrentUser();
   return (
-    <div>
-      <Container>
-        <Row className="mt-4">
-          <Col xs="12" className="referral-card">
-            <div className="referral-card-content mt-2">
-              <div className="referral-icon">
-                <div className="ref-icon">
-                  <img src={logo} alt="" width={45} height={45} />
-                </div>
-                <div className="referral-info">
-                  <div className="ref-title">Referrals</div>
-                  <div className="ref-count">
-                    <FaUsers style={{ marginRight: '5px' }} />{' '}
-                    {currentUser ? currentUser.referralCount : '0'}
-                  </div>
-                </div>
+    <div className="task-reward-container mt-4">
+      <Row className="justify-content-center">
+        <Col xs="6" className="task-reward-card mr-1">
+          <Link className='task-link' to="/dashboard/referrals">
+            <div className="task-reward-card-content">
+              <div className="icon-title-wrapper">
+                <FaUsers className="task-icon" />
+                <div className="task-title">Referrals</div>
               </div>
-              <div className="right">
-                <div className="right-arrow">
-                  <FaArrowRight />
-                </div>
+              <div className="notification-badge">
+                {currentUser ? currentUser.referralCount : 0}
               </div>
             </div>
-          </Col>
-        </Row>
-      </Container>
+          </Link>
+        </Col>
+        <Col xs="6" className="task-reward-card">
+          <Link className='task-link' to="/dashboard/rewards">
+            <div className="task-reward-card-content">
+              <div className="icon-title-wrapper">
+                <FaGift className="rewards-icon" />
+                <div className="reward-title">Rewards</div>
+              </div>
+              <div className="notification-dot"></div>
+            </div>
+          </Link>
+        </Col>
+      </Row>
     </div>
   );
 }

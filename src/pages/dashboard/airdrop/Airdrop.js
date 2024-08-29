@@ -4,6 +4,9 @@ import ReferralCard from '../../../components/airdrop/ReferralCard';
 import StorageCard from '../../../components/airdrop/StorageCard';
 import { computeTokensToCliam, useCurrentUser } from '../../../hooks/telegram';
 import AirdropFooter from '../../../components/airdrop/AirdropFooter';
+import TelegramBackButton from '../../../components/common/TelegramBackButton';
+
+import './airdrop-main.css'
 
 function Airdrop() {
   const currentUser = useCurrentUser();
@@ -33,23 +36,25 @@ function Airdrop() {
   return (
     <div className="airdrop-page">
       <Container>
+        <TelegramBackButton />
         <div className="airdrop-main">
           <ReferralCard />
+          <div className="storage-section">
+            <StorageCard />
 
-          <StorageCard />
-
-          <div className="airdrop-balance d-flex flex-column justify-content-center align-items-center mt-5">
-            <div className="to-claim">
-              <h5>Amount to Claim:</h5>
-              <span>{currentAmount?.toFixed(6)}</span>
-            </div>
-            <div className="balance">
-              <p>
-                Balance:{' '}
-                <strong>
-                  {currentUser ? currentUser.balance?.toFixed(6) : '0'} PLTL
-                </strong>
-              </p>
+            <div className="airdrop-balance d-flex flex-column justify-content-center align-items-center mt-5">
+              <div className="to-claim">
+                <h5>Amount to Claim:</h5>
+                <span>{currentAmount?.toFixed(6)}</span>
+              </div>
+              <div className="balance">
+                <p>
+                  Balance:{' '}
+                  <strong>
+                    {currentUser ? currentUser.balance?.toFixed(6) : '0'} PLTL
+                  </strong>
+                </p>
+              </div>
             </div>
           </div>
         </div>

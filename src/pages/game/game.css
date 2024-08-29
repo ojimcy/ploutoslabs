@@ -277,3 +277,7 @@
   font-size: 18px;
   padding: 10px !important;
 }
+
+.active-game-card .game-actions button{
+  width: 45% !important;
+}
