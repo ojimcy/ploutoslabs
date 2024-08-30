@@ -9,6 +9,7 @@ import {
   COMPLET_TASK,
   CREATE_GAME,
   CREATE_GROUP,
+  DAILYREWARD,
   GAME_DEPOSIT_ADDRESS,
   GET_ACTIVE_GAMES,
   GET_GAME,
@@ -161,5 +162,10 @@ export const getGame = async (code) => {
 
 export const getActiveGames = async (code) => {
   const result = await axios.get(GET_ACTIVE_GAMES(code));
+  return result.data;
+};
+
+export const claimDailyReward = async (telegramId) => {
+  const result = await axios.post(DAILYREWARD(telegramId));
   return result.data;
 };

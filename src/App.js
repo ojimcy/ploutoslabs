@@ -25,6 +25,7 @@ import GroupPage from './pages/game/GroupPage';
 import JoinPage from './pages/game/JoinGame';
 import GameSummaryPage from './pages/game/GameSummaryPage';
 import GameDetails from './pages/game/GameDetails';
+import DailyReward from './components/airdrop/DailyReward';
 
 const App = () => {
   useEffect(() => {
@@ -63,6 +64,7 @@ const App = () => {
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="referrals" element={<Referrals />} />
                 <Route path="boosts" element={<Boosts />} />
+                <Route path="rewards" element={<DailyReward />} />
               </Routes>
             </Layout>
           }
