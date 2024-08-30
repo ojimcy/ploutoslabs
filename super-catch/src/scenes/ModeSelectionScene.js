@@ -32,19 +32,35 @@ export default class ModeSelectionScene extends Phaser.Scene {
     // Display the game difficulty modal
     document.getElementById('game-welcome-modal').style.display = 'block';
 
-  
     //?code=sewr32
-    const search = new URLSearchParams(window.location.search)
-    const code = search.get('code')
-    console.log('code', code)
-    const game = await getGame(code)
-    gameDifficulty = game.difficulty;
-    gameMode = game.mode
-    baseSpeed = this.getSpeedByDifficulty(gameDifficulty)
+    const search = new URLSearchParams(window.location.search);
+    const code = search.get('code');
+    const userID = search.get('id')
+    console.log('code', code);
 
+    try {
+      const game = await getGame(code);
+      gameDifficulty = game.difficulty;
+      gameMode = game.mode;
+      baseSpeed = this.getSpeedByDifficulty(gameDifficulty);
+    } catch (err) {
+      console.log(err);
+    }
+
+    const root = 'wss://mining-api-123lfk.ploutoslabs.io'
+    // const root = 'ws://91.108.113.167'
+    // const root = 'ws://127.0.0.1:3001'
+    this.socket = new WebSocket(`${root}/ws?gameId=${code}&id=${userID}`);
+    this.socket.onopen = () => {
+      console.log('connected');
+    };
+
+    this.socket.onmessage = (e) => {
+      console.log('Get message from server: ' + e.data);
+    };
 
     // Initialize competition modal
-   //  createCompetitionModal(this);
+    //  createCompetitionModal(this);
 
     document.getElementById('play-button').addEventListener('click', () => {
       this.startGame();
@@ -66,6 +82,6 @@ export default class ModeSelectionScene extends Phaser.Scene {
 
   startGame() {
     document.getElementById('game-welcome-modal').style.display = 'none';
-    this.scene.start('GameScene', { gameDifficulty, baseSpeed, gameMode });
+    this.scene.start('GameScene', { gameDifficulty, baseSpeed, gameMode, socket: this.socket });
   }
 }
