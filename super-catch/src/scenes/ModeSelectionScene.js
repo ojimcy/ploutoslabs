@@ -1,18 +1,22 @@
-import Phaser from 'phaser';
+import { Scene } from 'phaser';
 import { getGame } from '../lib/server';
+import { wsMessageTypes } from '../lib/wsMessageTypes';
+import { initWebsocket, onMessage } from '../lib/ws';
 
 let gameDifficulty = 'easy';
 let baseSpeed = 200;
 let gameMode = 'solo';
+let userId;
+let gameId;
 
-export default class ModeSelectionScene extends Phaser.Scene {
+export default class ModeSelectionScene extends Scene {
   constructor() {
     super({ key: 'ModeSelectionScene' });
   }
 
   preload() {
     this.load.image('wallet', 'assets/wallet.png');
-    this.load.image('atmosphere', 'assets/atmosphere.png');
+    this.load.image('atmosphere', 'assets/atmosphere.jpg');
   }
 
   async create() {
@@ -34,12 +38,13 @@ export default class ModeSelectionScene extends Phaser.Scene {
 
     //?code=sewr32
     const search = new URLSearchParams(window.location.search);
-    const code = search.get('code');
-    const userID = search.get('id')
-    console.log('code', code);
+    gameId = search.get('code');
+    userId = parseInt(search.get('userId'));
+
+    console.log({gameId, userId})
 
     try {
-      const game = await getGame(code);
+      const game = await getGame(gameId);
       gameDifficulty = game.difficulty;
       gameMode = game.mode;
       baseSpeed = this.getSpeedByDifficulty(gameDifficulty);
@@ -47,24 +52,23 @@ export default class ModeSelectionScene extends Phaser.Scene {
       console.log(err);
     }
 
-    const root = 'wss://mining-api-123lfk.ploutoslabs.io'
-    // const root = 'ws://91.108.113.167'
-    // const root = 'ws://127.0.0.1:3001'
-    this.socket = new WebSocket(`${root}/ws?gameId=${code}&id=${userID}`);
-    this.socket.onopen = () => {
-      console.log('connected');
-    };
+    initWebsocket(gameId, userId);
 
-    this.socket.onmessage = (e) => {
-      console.log('Get message from server: ' + e.data);
-    };
+    onMessage(wsMessageTypes.MessageTypeJoin, (data) => {
+      this.showNotification(data.content);
+    });
 
-    // Initialize competition modal
-    //  createCompetitionModal(this);
+    onMessage(wsMessageTypes.MessageTypeStartGame, (data) => {
+      this.startGame(data);
+    });
 
     document.getElementById('play-button').addEventListener('click', () => {
       this.startGame();
     });
+  }
+
+  showNotification(message) {
+    alert(message);
   }
 
   getSpeedByDifficulty(difficulty) {
@@ -80,8 +84,17 @@ export default class ModeSelectionScene extends Phaser.Scene {
     }
   }
 
-  startGame() {
+  startGame(msg) {
+    //msg = {playerIds: [4,8], playerNames: ['tony', 'ojay']}
     document.getElementById('game-welcome-modal').style.display = 'none';
-    this.scene.start('GameScene', { gameDifficulty, baseSpeed, gameMode, socket: this.socket });
+    this.scene.start('GameScene', {
+      gameDifficulty,
+      baseSpeed,
+      gameMode,
+      socket: this.socket,
+      msg,
+      userId,
+      gameId,
+    });
   }
 }

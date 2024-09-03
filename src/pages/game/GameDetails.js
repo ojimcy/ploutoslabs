@@ -7,7 +7,7 @@ import pltl from '../../assets/images/logo.png';
 import './game-details.css';
 import { Button } from 'reactstrap';
 import { AppContext } from '../../context/AppContext';
-import { useWebApp } from '../../hooks/telegram';
+import { useCurrentUser, useWebApp } from '../../hooks/telegram';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getGame } from '../../lib/server';
@@ -16,6 +16,7 @@ import TelegramBackButton from '../../components/common/TelegramBackButton';
 function GameDetails() {
   const webapp = useWebApp();
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
   const [timeLeft, setTimeLeft] = useState(0);
   const [opponentJoined, setOpponentJoined] = useState(false);
   const { gameCode } = useContext(AppContext);
@@ -96,8 +97,7 @@ function GameDetails() {
   };
 
   const openGameConsole = () => {
-    console.log(`/super-cash?code=${gameCode}`)
-    location.href = `/super-catch?code=${gameCode}`;
+    location.href = `/super-catch?code=${gameCode}&userId=${currentUser.id}`;
   };
 
   const share = () => {

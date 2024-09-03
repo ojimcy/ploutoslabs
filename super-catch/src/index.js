@@ -1,17 +1,17 @@
-import Phaser from 'phaser';
+import { AUTO, Game, Scale } from 'phaser';
 import './styles.css';  // Import styles.css
 // import ModeSelectionScene from './scenes/ModeSelectionScene';
 import GameScene from './scenes/GameScene';
 import ModeSelectionScene from './scenes/ModeSelectionScene';
 
 const config = {
-  type: Phaser.AUTO,
+  type: AUTO,
   width: 360,
   height: 640,
   scene: [ModeSelectionScene, GameScene],
   scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH
+    mode: Scale.FIT,
+    autoCenter: Scale.CENTER_BOTH
   },
   physics: {
     default: 'arcade',
@@ -22,6 +22,6 @@ const config = {
   }
 };
 
-const game = new Phaser.Game(config);
+const game = new Game(config);
 console.log(game);
 

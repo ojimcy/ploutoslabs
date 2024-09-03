@@ -68,7 +68,7 @@ function Game() {
   };
 
   const handlePlay = (gameCode) => {
-    window.location.href = `/super-catch?code=${gameCode}`;
+    window.location.href = `/super-catch?code=${gameCode}&userId=${currentUser.id}`;
   };
 
   return (

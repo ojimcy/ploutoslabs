@@ -1,11 +1,14 @@
-import Phaser from 'phaser';
+import { Scene } from 'phaser';
+import { wsMessageTypes } from '../lib/wsMessageTypes';
+import { onMessage, wsSend } from '../lib/ws';
 
 let score = 0;
 let lifeline = 10;
 let walletBalance = 1000;
-let ethAddress = "0xc87a86671E0590C2CC7e729FDb96d61550C122F5";
-let scoreText;
-let lifelineText;
+let ethAddress = '0xc87a86671E0590C2CC7e729FDb96d61550C122F5';
+let playersScores = {};
+let scoreText = {};
+let lifelineText = {};
 let walletButton;
 let superman;
 let basketHitbox;
@@ -16,35 +19,51 @@ let gameTime = 0;
 let baseSpeed = 200;
 let backgroundMusic;
 
-const socket = new WebSocket("ws://127.0.0.1/ws");
-
-export default class GameScene extends Phaser.Scene {
+export default class GameScene extends Scene {
   constructor() {
     super({ key: 'GameScene' });
-
-    socket.onopen = () => {
-      socket.send({message: "welcome"})
-    }
-
-    socket.onmessage = (e) => {
-      console.log(e.data)
-    };
-
     window.addEventListener('beforeunload', () => {
-      socket.close()
-  });
+      // this.socket.close();
+    });
   }
 
   init(data) {
     baseSpeed = data.baseSpeed;
-    console.log(data)
-    data.socket.onmessage = (data) => {
-      console.log(data)
-    }
+    this.socket = data.socket;
+    this.initMsg = data.msg;
+    this.userId = data.userId;
+    this.gameId = data.gameId;
+
+    onMessage(wsMessageTypes.MessageTypeUpdateScore, (data) => {
+      if (scoreText[data.sender]) {
+        playersScores[data.sender] = data.score;
+        scoreText[data.sender].setText('Score: ' + data.score);
+      } else {
+        console.log(scoreText, data);
+      }
+    });
+
+    onMessage(wsMessageTypes.MessageTypeUpdateLifeline, (data) => {
+      if (lifelineText[data.sender]) {
+        lifelineText[data.sender].setText('Lifeline: ' + data.lifeline);
+      } else {
+        console.log('lifeline', lifeline, data);
+      }
+    });
+
+    onMessage(wsMessageTypes.MessageTypeGameEnded, (data) => {
+      const game = data.game;
+      if (game.winner === this.userId) {
+        alert('Congratulations! You won')
+      } else {
+        alert('You lost try again.')
+      }
+      this.showFinalScore();
+    })
   }
 
   preload() {
-    this.load.image('atmosphere', 'assets/atmosphere.png');
+    this.load.image('atmosphere', 'assets/atmosphere.jpg');
     this.load.image('coin', 'assets/coin.png');
     this.load.image('bumb', 'assets/bumb.png');
     this.load.image('star', 'assets/star.png');
@@ -56,7 +75,9 @@ export default class GameScene extends Phaser.Scene {
   create() {
     this.add.image(211, 320, 'atmosphere');
 
-    superman = this.physics.add.image(180, 550, 'superman').setCollideWorldBounds(true);
+    superman = this.physics.add
+      .image(180, 550, 'superman')
+      .setCollideWorldBounds(true);
     superman.setDisplaySize(superman.width * (150 / superman.height), 150);
 
     superman.setInteractive();
@@ -66,14 +87,41 @@ export default class GameScene extends Phaser.Scene {
       gameObject.x = dragX;
     });
 
-    basketHitbox = this.physics.add.image(superman.x, superman.y - 35, null).setOrigin(0.63, 0.5);
+    basketHitbox = this.physics.add
+      .image(superman.x, superman.y - 35, null)
+      .setOrigin(0.63, 0.5);
     basketHitbox.setDisplaySize(superman.displayWidth * 0.9, 20);
     basketHitbox.body.allowGravity = false;
     basketHitbox.setVisible(false);
 
-    var textStyle = { fontSize: '16px', fill: '#00ff00', fontFamily: '"Press Start 2P"' };
-    scoreText = this.add.text(16, 16, 'Score: 0', textStyle);
-    lifelineText = this.add.text(160, 16, 'Lifeline: 10', textStyle);
+    var textStyle = {
+      fontSize: '16px',
+      fill: '#00ff00',
+      fontFamily: '"Press Start 2P"',
+    };
+    // index score and lifeline by play id
+    let y = 16;
+    console.log('this.initMsg', this.initMsg);
+    for (let i = 0; i < this.initMsg.playerIds.length; i++) {
+      this.add.text(16, y, this.initMsg.playerNames[i], {
+        ...textStyle,
+        fontSize: '10px',
+      });
+      y += 16;
+      scoreText[this.initMsg.playerIds[i]] = this.add.text(
+        16,
+        y,
+        'Score: 0',
+        textStyle
+      );
+      lifelineText[this.initMsg.playerIds[i]] = this.add.text(
+        160,
+        y,
+        'Lifeline: 10',
+        textStyle
+      );
+      y += 16;
+    }
 
     walletButton = this.add.image(330, 20, 'wallet').setInteractive();
     walletButton.setDisplaySize(30, 30);
@@ -90,20 +138,20 @@ export default class GameScene extends Phaser.Scene {
       delay: 1000,
       callback: this.increaseDifficulty,
       callbackScope: this,
-      loop: true
+      loop: true,
     });
 
     this.time.addEvent({
       delay: 200,
       callback: this.spawnObject,
       callbackScope: this,
-      loop: true
+      loop: true,
     });
 
     var gameOverModalHtml = `
       <div id="game-over-modal" class="modal">
         <h2>Game Over</h2>
-        <p id="final-score"></p>
+        <div id="final-score"></div>
         <button id="play-again-button">Play Again</button>
       </div>
     `;
@@ -164,11 +212,14 @@ export default class GameScene extends Phaser.Scene {
 
     var copyAddressButton = document.getElementById('copy-address-button');
     copyAddressButton.addEventListener('click', () => {
-      navigator.clipboard.writeText(ethAddress).then(() => {
-        alert('Address copied to clipboard');
-      }).catch(err => {
-        console.error('Could not copy text: ', err);
-      });
+      navigator.clipboard
+        .writeText(ethAddress)
+        .then(() => {
+          alert('Address copied to clipboard');
+        })
+        .catch((err) => {
+          console.error('Could not copy text: ', err);
+        });
     });
 
     var withdrawButton = document.getElementById('withdraw-button');
@@ -176,7 +227,9 @@ export default class GameScene extends Phaser.Scene {
       document.getElementById('withdrawal-modal').style.display = 'block';
     });
 
-    var cancelWithdrawalButton = document.getElementById('cancel-withdrawal-button');
+    var cancelWithdrawalButton = document.getElementById(
+      'cancel-withdrawal-button'
+    );
     cancelWithdrawalButton.addEventListener('click', () => {
       document.getElementById('withdrawal-modal').style.display = 'none';
     });
@@ -184,11 +237,14 @@ export default class GameScene extends Phaser.Scene {
     var withdrawalForm = document.getElementById('withdrawal-form');
     withdrawalForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      var walletAddress = document.getElementById('withdraw-wallet-address').value;
+      var walletAddress = document.getElementById(
+        'withdraw-wallet-address'
+      ).value;
       var amount = parseFloat(document.getElementById('withdraw-amount').value);
       if (walletAddress && amount > 0 && walletBalance >= amount) {
         walletBalance -= amount;
-        document.getElementById('wallet-balance').innerText = 'Balance: $' + walletBalance;
+        document.getElementById('wallet-balance').innerText =
+          'Balance: $' + walletBalance;
         alert(`Sent $${amount} to ${walletAddress}`);
         document.getElementById('withdrawal-modal').style.display = 'none';
       } else {
@@ -198,8 +254,9 @@ export default class GameScene extends Phaser.Scene {
 
     var playAgainButton = document.getElementById('play-again-button');
     playAgainButton.addEventListener('click', () => {
-      document.getElementById('game-over-modal').style.display = 'none';
-      this.restartGame();
+      // document.getElementById('game-over-modal').style.display = 'none';
+      // this.restartGame();
+      location.href = '/game'
     });
 
     modal = document.getElementById('game-over-modal');
@@ -249,13 +306,25 @@ export default class GameScene extends Phaser.Scene {
     object.setDisplaySize(50, object.height * (50 / object.width));
     object.setVelocityY(baseSpeed + gameTime * 5);
 
-    this.physics.add.overlap(basketHitbox, object, this.catchObject, null, this);
+    this.physics.add.overlap(
+      basketHitbox,
+      object,
+      this.catchObject,
+      null,
+      this
+    );
   }
 
-  catchObject(basketHitbox, object) {
+  catchObject(_, object) {
     if (object.isBomb) {
       lifeline -= 1;
-      lifelineText.setText('Lifeline: ' + lifeline);
+      // lifelineText[this.userId].setText('Lifeline: ' + lifeline);
+      wsSend({
+        type: wsMessageTypes.MessageTypeUpdateLifeline,
+        lifeline,
+        gameId: this.gameId,
+        sender: this.userId,
+      });
       if (lifeline === 0) {
         gameOver = true;
         this.physics.pause();
@@ -265,7 +334,13 @@ export default class GameScene extends Phaser.Scene {
       }
     } else {
       score += object.scoreValue;
-      scoreText.setText('Score: ' + score);
+      // scoreText[this.userId].setText('Score: ' + score);
+      wsSend({
+        type: wsMessageTypes.MessageTypeUpdateScore,
+        score,
+        gameId: this.gameId,
+        sender: this.userId,
+      });
     }
 
     object.destroy();
@@ -273,7 +348,23 @@ export default class GameScene extends Phaser.Scene {
 
   showGameOverModal() {
     var finalScoreText = document.getElementById('final-score');
-    finalScoreText.innerText = 'Your final score is: ' + score;
+    let innerText = 'Your final score is: ' + score;
+    finalScoreText.innerHTML = innerText;
+
+    modal.style.display = 'block';
+  }
+
+  showFinalScore() {
+    var finalScoreText = document.getElementById('final-score');
+    let innerText = 'Your final score is: ' + score;
+    for (let i = 0; i < this.initMsg.playerIds.length; i++) {
+      innerText += `<br/>${this.initMsg.playerNames[i]}: ${
+        playersScores[this.initMsg.playerIds[i]]
+      }`;
+    }
+
+    finalScoreText.innerHTML = innerText;
+
     modal.style.display = 'block';
   }
 
@@ -283,8 +374,8 @@ export default class GameScene extends Phaser.Scene {
     gameOver = false;
     gameTime = 0;
 
-    scoreText.setText('Score: 0');
-    lifelineText.setText('Lifeline: 10');
+    scoreText[this.userId].setText('Score: 0');
+    lifelineText[this.userId].setText('Lifeline: 10');
     superman.clearTint();
 
     this.time.removeAllEvents();
@@ -292,14 +383,14 @@ export default class GameScene extends Phaser.Scene {
       delay: 1000,
       callback: this.increaseDifficulty,
       callbackScope: this,
-      loop: true
+      loop: true,
     });
 
     this.time.addEvent({
       delay: 200,
       callback: this.spawnObject,
       callbackScope: this,
-      loop: true
+      loop: true,
     });
 
     backgroundMusic.play();
