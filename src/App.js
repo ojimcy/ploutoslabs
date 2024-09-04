@@ -26,6 +26,7 @@ import JoinPage from './pages/game/JoinGame';
 import GameSummaryPage from './pages/game/GameSummaryPage';
 import GameDetails from './pages/game/GameDetails';
 import DailyReward from './components/airdrop/DailyReward';
+import OnrampPage from './pages/dashboard/wallet/OnrampPage';
 
 const App = () => {
   useEffect(() => {
@@ -55,6 +56,7 @@ const App = () => {
                 <Route path="send" element={<Send />} />
                 <Route path="receive" element={<Receive />} />
                 <Route path="accounts" element={<ViewWallets />} />
+                <Route path="onramp" element={<OnrampPage />} />
                 <Route
                   path="wallet-credentials"
                   element={<WalletCredentials />}

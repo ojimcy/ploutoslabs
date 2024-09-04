@@ -77,10 +77,30 @@ function BalanceCard() {
           <FaQrcode className="icon" />
           <div className="label">Swap</div>
         </div>
-        <div className="wallet-action" onClick={handleComingSoonClicked}>
-          <FaDollarSign className="icon" />
-          <div className="label">Buy & Sell</div>
+        <div
+          className="wallet-action"
+          onClick={() => {
+            // 1247696
+            location.href = 'https://onramp.money/app/?appId=2&redirectUrl=https://t.me/ploutos_labs_dev_bot/app';
+          }}
+        >
+            <FaDollarSign className="icon" />
+            <div className="label">Buy & Sell</div>
         </div>
+
+        {/* <div
+          className="wallet-action"
+          onClick={() => {
+            // 1247696
+            // location.href = 'https://onramp.money/app/?appId=2&redirectUrl=https://t.me/ploutos_labs_dev_bot/app';
+          }}
+        >
+          <Link to="/dashboard/onramp">
+            <FaDollarSign className="icon" />
+            <div className="label">Buy & Sell</div>
+          </Link>
+        </div> */}
+
         <div
           className="wallet-action"
           onClick={() => {
