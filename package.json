@@ -56,6 +56,7 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "deploy:prod": "aws s3 sync build/ s3://wallet.ploutoslabs.io",
+    "deploy:prod:game": "aws s3 sync build/super-catch s3://wallet.ploutoslabs.io/super-catch",
     "deploy:dev": "aws s3 sync build s3://dev.ploutoslabs.io"
   },
   "eslintConfig": {

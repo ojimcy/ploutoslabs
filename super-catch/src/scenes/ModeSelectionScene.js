@@ -38,6 +38,7 @@ export default class ModeSelectionScene extends Scene {
 
     //?code=sewr32
     const search = new URLSearchParams(window.location.search);
+    console.log(search)
     gameId = search.get('code');
     userId = parseInt(search.get('userId'));
 
