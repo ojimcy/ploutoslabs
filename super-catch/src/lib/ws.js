@@ -13,6 +13,7 @@ export const initWebsocket = (gameCode, userId) => {
 
   socket.onmessage = (e) => {
     const msg = JSON.parse(e.data)
+    console.log('server msg', msg)
     messageTopic.dispatch(msg.type.toString(), msg)
   }
 

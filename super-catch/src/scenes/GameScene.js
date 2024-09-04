@@ -103,6 +103,7 @@ export default class GameScene extends Scene {
     let y = 16;
     console.log('this.initMsg', this.initMsg);
     for (let i = 0; i < this.initMsg.playerIds.length; i++) {
+      if(this.initMsg.playerIds[i] == 0) continue;
       this.add.text(16, y, this.initMsg.playerNames[i], {
         ...textStyle,
         fontSize: '10px',

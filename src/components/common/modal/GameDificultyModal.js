@@ -7,6 +7,7 @@ import CompetitionTypeModal from './CompetitionTypeModal';
 import { createGame } from '../../../lib/server';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../hooks/telegram';
+import { openSuperCatchGameConsole } from '../../../lib/utils';
 // import { useNavigate } from 'react-router-dom';
 
 function GameDificultyModal({ isOpen, toggle }) {
@@ -26,7 +27,8 @@ function GameDificultyModal({ isOpen, toggle }) {
           type: mode,
           difficulty,
         });
-        location.href = `/super-catch?code=${res.game.code}&userId=${currenUser.id}`;
+        console.log(res)
+        openSuperCatchGameConsole(res.game.code, currenUser.id)
       } catch (error) {
         console.log(error);
         toast.error(error.response?.data?.error || 'Error in creating game. Please try again');

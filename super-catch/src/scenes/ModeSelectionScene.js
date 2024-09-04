@@ -22,11 +22,12 @@ export default class ModeSelectionScene extends Scene {
   async create() {
     this.add.image(211, 320, 'atmosphere');
 
+
+    // <button id="play-button">Play</button>
     const gameDifficultyModalHtml = `
       <div id="game-welcome-modal" class="modal">
         <h4>Let's Play</h4>
-        
-        <button id="play-button">Play</button>
+        <p>Waiting for the other player(s) to join</p>
       </div>
     `;
     const gameDifficultyModalContainer = document.createElement('div');
@@ -37,12 +38,15 @@ export default class ModeSelectionScene extends Scene {
     document.getElementById('game-welcome-modal').style.display = 'block';
 
     //?code=sewr32
-    const search = new URLSearchParams(window.location.search);
-    console.log(search)
-    gameId = search.get('code');
-    userId = parseInt(search.get('userId'));
+    gameId = localStorage.getItem('CURRENT_GAME_ID');
+    userId = parseInt(localStorage.getItem('CURRENT_USER_ID'));
 
     console.log({gameId, userId})
+
+    if(!gameId || !userId) {
+      alert('Cannot get game information. Please try agaain')
+      history.back();
+    }
 
     try {
       const game = await getGame(gameId);
@@ -63,13 +67,13 @@ export default class ModeSelectionScene extends Scene {
       this.startGame(data);
     });
 
-    document.getElementById('play-button').addEventListener('click', () => {
-      this.startGame();
-    });
+    // document.getElementById('play-button').addEventListener('click', () => {
+    //   this.startGame();
+    // });
   }
 
   showNotification(message) {
-    alert(message);
+    console.log(message);
   }
 
   getSpeedByDifficulty(difficulty) {

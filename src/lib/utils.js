@@ -78,3 +78,11 @@ export const encryptAndSaveWallet = async (wallet, password, userId) => {
   // register the wallet address for the user
   await addUsersWallet(userId, wallet.address);
 };
+
+export const openSuperCatchGameConsole = (gameId, userId) => {
+  localStorage.setItem('CURRENT_GAME_ID', gameId)
+  localStorage.setItem('CURRENT_USER_ID', userId)
+
+  const url = `/catch-game-0?code=${gameId}&userId=${userId}`;
+  window.location.href = url;
+}

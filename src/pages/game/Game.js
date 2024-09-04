@@ -20,6 +20,7 @@ import './game.css';
 import WithdrawModal from '../../components/common/modal/WithdrawalModal';
 import { useCurrentUser } from '../../hooks/telegram';
 import { getActiveGames } from '../../lib/server';
+import { openSuperCatchGameConsole } from '../../lib/utils';
 
 function Game() {
   const currentUser = useCurrentUser();
@@ -68,9 +69,7 @@ function Game() {
   };
 
   const handlePlay = (gameCode) => {
-    const url = `/super-catch?code=${gameCode}&userId=${currentUser.id}`;
-    alert(url)
-    window.location.href = url;
+    openSuperCatchGameConsole(gameCode, currentUser.id);
   };
 
   return (

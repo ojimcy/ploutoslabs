@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getGame } from '../../lib/server';
 import TelegramBackButton from '../../components/common/TelegramBackButton';
+import { openSuperCatchGameConsole } from '../../lib/utils';
 
 function GameDetails() {
   const webapp = useWebApp();
@@ -97,7 +98,7 @@ function GameDetails() {
   };
 
   const openGameConsole = () => {
-    location.href = `/super-catch?code=${gameCode}&userId=${currentUser.id}`;
+    openSuperCatchGameConsole(gameCode, currentUser.id)
   };
 
   const share = () => {

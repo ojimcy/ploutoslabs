@@ -16,7 +16,7 @@ module.exports = (env, argv) => {
     },
     output: {
       filename: 'bundle.js',
-      path: path.resolve(__dirname, '../public/super-catch'),
+      path: path.resolve(__dirname, '../public/catch-game-0'),
       clean: true, // Clean the output directory before each build
     },
     module: {

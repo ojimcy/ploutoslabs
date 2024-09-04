@@ -15,6 +15,7 @@
 # production
 /build
 /public/super-catch
+/public/catch-game
 
 # misc
 .DS_Store
