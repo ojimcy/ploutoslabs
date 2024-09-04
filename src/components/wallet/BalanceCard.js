@@ -81,7 +81,7 @@ function BalanceCard() {
           className="wallet-action"
           onClick={() => {
             // 1247696
-            location.href = 'https://onramp.money/app/?appId=2&redirectUrl=https://t.me/ploutos_labs_dev_bot/app';
+            location.href = 'https://onramp.money/app/?appId=1247696&redirectUrl=https://t.me/ploutos_labs_dev_bot/app';
           }}
         >
             <FaDollarSign className="icon" />
