@@ -1,4 +1,4 @@
-import { Scene } from 'phaser';
+import { Math, Scene } from 'phaser';
 import { wsMessageTypes } from '../lib/wsMessageTypes';
 import { onMessage, wsSend } from '../lib/ws';
 
@@ -53,11 +53,12 @@ export default class GameScene extends Scene {
 
     onMessage(wsMessageTypes.MessageTypeGameEnded, (data) => {
       const game = data.game;
-      if (game.winner === this.userId) {
-        alert('Congratulations! You won')
-      } else {
-        alert('You lost try again.')
-      }
+      console.log(game)
+      // if (game.winner === this.userId) {
+      //   alert('Congratulations! You won')
+      // } else {
+      //   alert('You lost try again.')
+      // }
       this.showFinalScore();
     })
   }
@@ -287,8 +288,8 @@ export default class GameScene extends Scene {
       return;
     }
 
-    var x = Phaser.Math.Between(50, 310);
-    var objectType = Phaser.Math.Between(0, 100);
+    var x = Math.Between(50, 310);
+    var objectType = Math.Between(0, 100);
     var object;
 
     if (objectType < 60) {

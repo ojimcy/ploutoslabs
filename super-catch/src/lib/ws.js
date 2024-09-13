@@ -6,7 +6,7 @@ let messageTopic = eventBus.getTopic('wsMessage');
 
 export const initWebsocket = (gameCode, userId) => {
   const root = 'wss://mining-api-123lfk.ploutoslabs.io';
-  // const root = 'ws://91.108.113.167'
+  // const root = 'wss://glowing-jennet-crucial.ngrok-free.app'
   // const root = 'ws://127.0.0.1:3001';
   console.log(`${root}/ws?gameId=${gameCode}&id=${userId}`)
   socket = new WebSocket(`${root}/ws?gameId=${gameCode}&id=${userId}`);

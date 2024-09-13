@@ -16,6 +16,7 @@
 /build
 /public/super-catch
 /public/catch-game
+/public/catch-game-0
 
 # misc
 .DS_Store

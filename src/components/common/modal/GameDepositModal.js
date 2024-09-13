@@ -25,7 +25,7 @@ function GameDepositModal({ isOpen, toggle }) {
       <ModalHeader toggle={toggle}>Create Game</ModalHeader>
       <ModalBody>
         <div className="game-deposit">
-          <p>Send USDT (base network) to te following address:</p>
+          <p>Send USDC (base network) to the following address:</p>
           <div className="deposit-address">
             <code>{depositAddress}</code>
           </div>

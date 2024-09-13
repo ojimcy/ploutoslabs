@@ -47,6 +47,11 @@ function GameDetails() {
       try {
         const res = await getGame(gameCode);
         setGame(res.game);
+        // if it is a random user game, open console
+        if (res.game.type == 'one-vs-one') {
+          openGameConsole()
+          return
+        }
         setOpponentJoined(!!res.game.player2Nickname);
 
         const startDate = new Date(res.game.startDate).getTime();
