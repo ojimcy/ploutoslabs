@@ -27,6 +27,7 @@ import GameSummaryPage from './pages/game/GameSummaryPage';
 import GameDetails from './pages/game/GameDetails';
 import DailyReward from './components/airdrop/DailyReward';
 import OnrampPage from './pages/dashboard/wallet/OnrampPage';
+import TokenPresale from './pages/dashboard/Presale';
 
 const App = () => {
   useEffect(() => {
@@ -67,6 +68,7 @@ const App = () => {
                 <Route path="referrals" element={<Referrals />} />
                 <Route path="boosts" element={<Boosts />} />
                 <Route path="rewards" element={<DailyReward />} />
+                <Route path="presale" element={<TokenPresale />} />
               </Routes>
             </Layout>
           }

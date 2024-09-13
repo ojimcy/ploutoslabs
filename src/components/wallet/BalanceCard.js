@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row } from 'reactstrap';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import {
   FaArrowDown,
   FaArrowUp,
@@ -16,9 +16,10 @@ import { AppContext } from '../../context/AppContext';
 import { getTokenBalances } from '../../lib/server';
 
 import './wallet.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function BalanceCard() {
+  const navigate = useNavigate()
   const [sendModal, setSendModal] = useState(false);
   const [receiveModal, setReceiveModal] = useState(false);
   const { selectedWallet } = useContext(AppContext);
@@ -28,16 +29,15 @@ function BalanceCard() {
   const toggleSendModal = () => setSendModal(!sendModal);
   const toggleReceiveModal = () => setReceiveModal(!receiveModal);
 
-  const handleComingSoonClicked = () => {
-    if (toast) {
-      toast.info('This feature will be available soon');
-    } else {
-      console.error('Toast is not defined');
-    }
-  };
+  // const handleComingSoonClicked = () => {
+  //   if (toast) {
+  //     toast.info('This feature will be available soon');
+  //   } else {
+  //     console.error('Toast is not defined');
+  //   }
+  // };
 
   const calculateNetWorth = (tokens) => {
-    console.log('tokens', tokens);
     return tokens.reduce((acc, token) => {
       return acc + token.balance_formatted * token.usd_price;
     }, 0);
@@ -73,7 +73,9 @@ function BalanceCard() {
           <FaArrowDown className="icon" />
           <div className="label">Receive</div>
         </div>
-        <div className="wallet-action" onClick={handleComingSoonClicked}>
+        <div className="wallet-action" onClick={()=>{
+          navigate('/dashboard/presale')
+        }}>
           <FaQrcode className="icon" />
           <div className="label">Swap</div>
         </div>

@@ -79,3 +79,28 @@
   border-bottom-right-radius: 5px;
 }
 
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  margin-right: 4px;
+}
+
+.referral-balance {
+  color: #34ad38;
+}
+
+.share-btn,
+.copy-btn {
+  width: 45% !important;
+}
+
+.referral-link-container .copy-btn {
+  border-color: #ffd600 !important;
+}

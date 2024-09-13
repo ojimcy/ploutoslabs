@@ -1,0 +1,109 @@
+.preasle-page {
+  padding: 35px auto;
+}
+
+.wallet-area {
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 2px 25px 35.8px -10px rgba(16, 130, 255, 0.7) inset;
+  background: rgba(16, 130, 255, 0.25);
+}
+
+.timer-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.timer {
+  font-size: 2em;
+}
+
+.timer-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+  margin-top: 5px;
+  color: #aaa;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.eth-input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.received-row {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.wallet-btn-row,
+.buy-now-row {
+  text-align: center;
+}
+
+.presale-card .connect-wallet {
+  width: 80%;
+  border-radius: 30px;
+  background: transparent;
+  border: 2px solid #ffffff;
+}
+
+.presale-card .connect-wallet:hover {
+  background: transparent !important;
+}
+
+.presale-form input {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: transparent;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  box-shadow: none;
+  padding-right: 50px;
+}
+
+.presale-form input:focus {
+  border-color: #c0c0c0;
+  color: #ffffff;
+  background: transparent;
+  outline: none;
+}
+
+.presale-form label {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.presale-form input::placeholder {
+  color: #ffffff !important;
+  opacity: 0.6;
+}
+
+.presale-form .max-value {
+  float: right;
+  font-size: 12px;
+  color: #777;
+  cursor: pointer;
+}
+
+.input-token-symbol {
+  position: relative;
+  top: -36px;
+  left: 85%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  pointer-events: none;
+}
