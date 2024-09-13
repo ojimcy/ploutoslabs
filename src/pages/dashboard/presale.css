@@ -107,3 +107,7 @@
   font-size: 14px;
   pointer-events: none;
 }
+
+.referral-card {
+  padding: 10px;
+}

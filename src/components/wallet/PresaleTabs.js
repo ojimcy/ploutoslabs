@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import {
   Row,
@@ -9,6 +9,7 @@ import {
   TabPane,
   Button,
   Col,
+  Spinner,
 } from 'reactstrap';
 import classnames from 'classnames';
 import './portfolio.css';
@@ -27,10 +28,27 @@ const referrals = [
   },
 ];
 
+const history = [
+  {
+    id: 1,
+    date: '2024-09-10T14:48:00.000Z',
+    ethAmount: '0.5',
+    pltAmount: '500',
+  },
+  {
+    id: 2,
+    date: '2024-09-12T10:30:00.000Z',
+    ethAmount: '1',
+    pltAmount: '1000',
+  },
+];
+
 const PresaleTabs = () => {
   const webapp = useWebApp();
   const currentUser = useCurrentUser();
   const [activeTab, setActiveTab] = useState('1');
+  const [purchaseHistory, setPurchaseHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const referralLink = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser?.telegramId}`;
 
@@ -57,6 +75,7 @@ const PresaleTabs = () => {
 
     document.body.removeChild(textArea);
   }
+
   async function copyTextToClipboard(text) {
     if (!navigator.clipboard) {
       fallbackCopyTextToClipboard(text);
@@ -97,6 +116,27 @@ const PresaleTabs = () => {
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+
+  useEffect(() => {
+    async function fetchPurchaseHistory() {
+      try {
+        setLoading(true);
+        setPurchaseHistory(history);
+      } catch (error) {
+        console.error('Failed to fetch history', error);
+        toast.error('Failed to fetch history', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPurchaseHistory();
+  }, []);
 
   return (
     <div className="portfolio">
@@ -142,12 +182,17 @@ const PresaleTabs = () => {
                       : ''}
                   </div>
                   <div className="d-flex justify-content-between my-3">
-                    <Button className="share-btn" onClick={handleShare}>
+                    <Button
+                      className="share-btn"
+                      onClick={handleShare}
+                      aria-label="Share referal link"
+                    >
                       <FaTelegramPlane /> Share Link
                     </Button>
                     <Button
                       onClick={copyReferralLink}
-                      className="share-btn copy-button"
+                      className="share-btn copy-button "
+                      aria-label="Copy referral link"
                     >
                       <FaCopy /> Copy Link
                     </Button>
@@ -187,7 +232,29 @@ const PresaleTabs = () => {
           <Row className="justify-content-center align-items-center text-center">
             <div className="mt-4">
               <h4>Presale History</h4>
-              <p>No record found</p>
+              {purchaseHistory.length === 0 ? (
+                <p>No record found</p>
+              ) : (
+                <div className="purchase-history-list">
+                  {loading ? (
+                    <Spinner />
+                  ) : (
+                    purchaseHistory.map((purchase) => (
+                      <div key={purchase.id} className="purchase-history-item">
+                        <div className="history-date">
+                          Date: {new Date(purchase.date).toLocaleDateString()}
+                        </div>
+                        <div className="history-eth">
+                          ETH: {purchase.ethAmount}
+                        </div>
+                        <div className="history-plt">
+                          PLT: {purchase.pltAmount}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           </Row>
         </TabPane>

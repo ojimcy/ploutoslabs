@@ -104,3 +104,21 @@
 .referral-link-container .copy-btn {
   border-color: #ffd600 !important;
 }
+
+.purchase-history-list {
+  padding: 20px;
+}
+
+.purchase-history-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 15px;
+  text-align: left;
+}
+
+.history-date,
+.history-eth,
+.history-plt {
+  margin-bottom: 8px;
+}

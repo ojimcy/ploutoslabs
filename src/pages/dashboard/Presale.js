@@ -89,7 +89,7 @@ function TokenPresale() {
 
   const handleSelectWallet = (wallet) => {
     setSelectedWallet(wallet);
-    setDropdownOpen(false); // Close dropdown after selection
+    setDropdownOpen(false); 
   };
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);

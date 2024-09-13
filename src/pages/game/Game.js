@@ -7,8 +7,15 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  Col,
 } from 'reactstrap';
-import { FaCaretDown, FaQuestion, FaWallet, FaShare } from 'react-icons/fa';
+import {
+  FaCaretDown,
+  FaQuestion,
+  FaWallet,
+  FaShare,
+  FaEthereum,
+} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import TelegramBackButton from '../../components/common/TelegramBackButton';
@@ -21,6 +28,16 @@ import WithdrawModal from '../../components/common/modal/WithdrawalModal';
 import { useCurrentUser } from '../../hooks/telegram';
 import { getActiveGames } from '../../lib/server';
 import { openSuperCatchGameConsole } from '../../lib/utils';
+
+const referrals = [
+  {
+    id: 1,
+    first_name: 'Emmanuel',
+    last_name: 'Ojima-ojo',
+    username: 'emmyojay',
+    reward: 20,
+  },
+];
 
 function Game() {
   const currentUser = useCurrentUser();
@@ -163,6 +180,33 @@ function Game() {
               ))
             )}
           </div>
+
+          <Row>
+            <Col>
+              <span className="mt-4">
+                Total Earnings:{' '}
+                <span style={{ fontWeight: 'bold' }}>
+                  <FaEthereum />
+                  0.058
+                </span>
+              </span>
+              {referrals.map((r) => (
+                <React.Fragment key={r.id}>
+                  <div className="referral-card d-flex justify-content-between align-items-center">
+                    <div className="d-flex align-items-center">
+                      <div className="avatar-circle">
+                        <span>{`${r.first_name[0]}${r.last_name[0]}`}</span>
+                      </div>
+                      <span className="referral-username ml-2">
+                        {r.username}
+                      </span>
+                    </div>
+                    <span className="referral-balance">+{r.reward}</span>
+                  </div>
+                </React.Fragment>
+              ))}
+            </Col>
+          </Row>
         </Container>
       )}
 
