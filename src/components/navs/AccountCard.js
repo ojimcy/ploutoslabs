@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
+  FaArrowDown,
   FaArrowRight,
   FaPlusSquare,
   FaSignOutAlt,
   FaUser,
+  FaWallet,
 } from 'react-icons/fa';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import '../airdrop/airdrop.css';
@@ -84,26 +86,26 @@ function AccountCard() {
                 </Link>
                 <Separator />
               </div>
-              {/* <div>
-                <Link to="/dashboard/wallet-credentials" className="links">
+              <div>
+                <Link to="#" className="links">
                   <div className="referral-card-content my-4">
                     <div className="referral-icon">
                       <div className="ref-icon">
-                        <FaClipboard />
+                        <FaWallet />
                       </div>
                       <div className="referral-info">
-                        <div className="ref-title">Seed phrase</div>
+                        <div className="ref-title">Withdrawal Address</div>
                       </div>
                     </div>
                     <div className="right">
                       <div className="right-arrow">
-                        <FaArrowRight />
+                        <FaArrowDown />
                       </div>
                     </div>
                   </div>
                 </Link>
                 <Separator />
-              </div> */}
+              </div>
             </CardBody>
           </Card>
         </Row>
