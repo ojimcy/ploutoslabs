@@ -8,6 +8,7 @@ import { addWallet } from './db';
 import { addUsersWallet } from './server';
 
 export const formatAddress = (address) => {
+  if(!address) return ''
   return `${address.slice(0, 6)}...${address.slice(-6)}`;
 };
 
@@ -48,7 +49,7 @@ export const decryptPrivateKey = (encryptedPrivateKey, password, iv, tag) => {
  * @param {import('viem').Account} wallet
  * @param {string} password
  */
-export const encryptAndSaveWallet = async (wallet, password, userId) => {
+export const encryptAndSaveWallet = async (wallet, password, userId, label) => {
   const privateKeyUint8Array = wallet.getHdKey().privateKey;
   // Convert Uint8Array to hex string
   const privateKeyHex = Array.from(privateKeyUint8Array)
@@ -72,17 +73,23 @@ export const encryptAndSaveWallet = async (wallet, password, userId) => {
     tag: tag.toString('hex'),
     address: wallet.address,
     networth: 'EVM',
+    label,
   };
 
   addWallet(walletData);
   // register the wallet address for the user
-  await addUsersWallet(userId, wallet.address);
+  await addUsersWallet(userId, wallet.address, label);
 };
 
 export const openSuperCatchGameConsole = (gameId, userId) => {
-  localStorage.setItem('CURRENT_GAME_ID', gameId)
-  localStorage.setItem('CURRENT_USER_ID', userId)
+  localStorage.setItem('CURRENT_GAME_ID', gameId);
+  localStorage.setItem('CURRENT_USER_ID', userId);
 
   const url = `/catch-game-0?code=${gameId}&userId=${userId}`;
   window.location.href = url;
-}
+};
+
+export const displayWallet = (wallet) => {
+  if (!wallet.lable) return formatAddress(wallet.address);
+  return `${formatAddress(wallet.address)} (${wallet.lable})`;
+};

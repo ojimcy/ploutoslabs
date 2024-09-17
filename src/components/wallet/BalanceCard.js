@@ -17,6 +17,7 @@ import { getTokenBalances } from '../../lib/server';
 
 import './wallet.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function BalanceCard() {
   const navigate = useNavigate()
@@ -29,13 +30,13 @@ function BalanceCard() {
   const toggleSendModal = () => setSendModal(!sendModal);
   const toggleReceiveModal = () => setReceiveModal(!receiveModal);
 
-  // const handleComingSoonClicked = () => {
-  //   if (toast) {
-  //     toast.info('This feature will be available soon');
-  //   } else {
-  //     console.error('Toast is not defined');
-  //   }
-  // };
+  const handleComingSoonClicked = () => {
+    if (toast) {
+      toast.info('This feature will be available soon');
+    } else {
+      console.error('Toast is not defined');
+    }
+  };
 
   const calculateNetWorth = (tokens) => {
     return tokens.reduce((acc, token) => {
@@ -74,7 +75,7 @@ function BalanceCard() {
           <div className="label">Receive</div>
         </div>
         <div className="wallet-action" onClick={()=>{
-          navigate('/dashboard/presale')
+          handleComingSoonClicked()
         }}>
           <FaQrcode className="icon" />
           <div className="label">Swap</div>
@@ -101,12 +102,13 @@ function BalanceCard() {
             <FaDollarSign className="icon" />
             <div className="label">Buy & Sell</div>
           </Link>
+          
         </div> */}
 
         <div
           className="wallet-action"
-          onClick={() => {
-            location.href = 'https://p2pb2b.com/token-sale/PLTL-736/';
+          onClick={()=>{
+            navigate('/dashboard/presale')
           }}
         >
           <FaPlay className="icon" />

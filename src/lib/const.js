@@ -1,0 +1,3 @@
+export const NODE_URL = 'https://site1.moralis-nodes.com/base/7c74003aee444699a46ee88fef4a796f';
+export const PRESALE_CONTRACT_ADDRESS = '0xdD251016C726963f4a3ee67230a64747A0c325fb';
+export const DEFAULT_REF_ADDRESS = '0xc87a86671E0590C2CC7e729FDb96d61550C122F5';

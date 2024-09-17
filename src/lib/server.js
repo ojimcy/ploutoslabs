@@ -16,6 +16,7 @@ import {
   GET_GROUPS,
   GET_TOKEN_BALANCES,
   GET_TRANSACTION_DETAILS,
+  GET_UPLINE_WALLET,
   GET_WALLET_HISTORY,
   INIT_TRANSACTION,
   JOIN_GAME,
@@ -115,8 +116,8 @@ export const getTokenBalances = async (wallet) => {
 
 export const collectGame = async () => {};
 
-export const addUsersWallet = async (userid, address) => {
-  const result = await axios.post(ADD_USERS_WALLET(userid), { address });
+export const addUsersWallet = async (userid, address, tag) => {
+  const result = await axios.post(ADD_USERS_WALLET(userid), { address, tag });
   return result.data;
 };
 
@@ -169,3 +170,8 @@ export const claimDailyReward = async (telegramId) => {
   const result = await axios.post(DAILYREWARD(telegramId));
   return result.data;
 };
+
+export const getUplineWallets = async (userId) => {
+  const result = await axios.get(GET_UPLINE_WALLET(userId));
+  return result.data;
+}

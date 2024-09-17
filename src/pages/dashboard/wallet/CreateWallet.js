@@ -19,6 +19,7 @@ import { encryptAndSaveWallet } from '../../../lib/utils';
 const CreateWallet = () => {
   const currentUser = useCurrentUser();
   const [step, setStep] = useState(1);
+  const [lable, setLable] = useState('');
   const [password, setPassword] = useState('');
   const [mnemonic, setMnemonic] = useState('');
   const [confirmMnemonic, setConfirmMnemonic] = useState('');
@@ -43,7 +44,7 @@ const CreateWallet = () => {
       // Create wallet from seed using viem
       const wallet = mnemonicToAccount(mnemonic);
 
-      await encryptAndSaveWallet(wallet, password, currentUser.id);
+      await encryptAndSaveWallet(wallet, password, currentUser.id, lable);
 
       // Proceed to the next step
       setStep(5);
@@ -74,6 +75,7 @@ const CreateWallet = () => {
             if (pin !== password) {
               alert('Invalid confirm password');
               setStep(1);
+              return;
             }
             handleGenerateMnemonic();
           }}
@@ -86,12 +88,21 @@ const CreateWallet = () => {
             Please write down your recovery phrase and keep it in a safe place.
           </Alert>
           <p>{mnemonic}</p>
-          <Button onClick={() => setStep(3)}>Next</Button>
+          <Button onClick={() => setStep(4)}>Next</Button>
         </div>
       )}
 
       {step === 4 && (
         <Form>
+          <FormGroup>
+            <Label for="tag">Tag</Label>
+            <Input
+              type="text"
+              id="tag"
+              value={lable}
+              onChange={(e) => setLable(e.target.value)}
+            />
+          </FormGroup>
           <FormGroup>
             <Label for="confirmMnemonic">Confirm Recovery Phrase</Label>
             <Input
