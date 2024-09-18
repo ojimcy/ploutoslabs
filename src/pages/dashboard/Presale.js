@@ -36,6 +36,7 @@ import {
   getContract,
   http,
   parseEther,
+  parseGwei,
 } from 'viem';
 import { base } from 'viem/chains';
 import {
@@ -217,7 +218,7 @@ function TokenPresale() {
       const amount = parseEther(ethereumAmount.toString());
       console.log(ethereumAmount, amount);
 
-      await walletClient.writeContract({
+      const tx = await walletClient.writeContract({
         address: PRESALE_CONTRACT_ADDRESS,
         abi: presaleAbi,
         functionName: 'buyPresale',
@@ -226,7 +227,10 @@ function TokenPresale() {
           uplineWallets.upline2 || DEFAULT_REF_ADDRESS,
         ],
         value: amount,
+        gasPrice: parseGwei('0.009803727'),
       });
+
+      console.log(tx);
 
       setEthereumAmount(0);
       setPloutosAmount(0);

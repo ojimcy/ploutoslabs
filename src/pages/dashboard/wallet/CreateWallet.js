@@ -15,6 +15,7 @@ import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { useCurrentUser } from '../../../hooks/telegram';
 import TransactionPin from '../../../components/auth/TransactionPin';
 import { encryptAndSaveWallet } from '../../../lib/utils';
+import ConfirmationPage from './confirmation';
 
 const CreateWallet = () => {
   const currentUser = useCurrentUser();
@@ -47,7 +48,7 @@ const CreateWallet = () => {
       await encryptAndSaveWallet(wallet, password, currentUser.id, lable);
 
       // Proceed to the next step
-      setStep(5);
+      setStep(6);
     } catch (err) {
       console.error('Error creating wallet:', err);
       setError('Failed to create wallet.');
@@ -93,6 +94,10 @@ const CreateWallet = () => {
       )}
 
       {step === 4 && (
+        <ConfirmationPage onContinue={() => setStep(5)}/>
+      )}
+
+      {step === 5 && (
         <Form>
           <FormGroup>
             <Label for="tag">Tag</Label>
@@ -117,7 +122,7 @@ const CreateWallet = () => {
         </Form>
       )}
 
-      {step === 5 && (
+      {step === 6 && (
         <Alert color="success">
           Wallet created successfully! Your private key is securely stored.
         </Alert>

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import PropTypes from 'prop-types';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './confirmation.css';
 
 import sec from '../../../assets/images/crypto-security.png';
 
-const ConfirmationPage = () => {
+const ConfirmationPage = ({onContinue}) => {
   const [checks, setChecks] = useState({
     check1: false,
     check2: false,
@@ -80,6 +81,7 @@ const ConfirmationPage = () => {
         <Button
           color="primary"
           block
+          onClick={onContinue}
           disabled={!allChecked}
           className="continue-button mt-3"
         >
@@ -88,6 +90,10 @@ const ConfirmationPage = () => {
       </div>
     </div>
   );
+};
+
+ConfirmationPage.propTypes = {
+  onContinue: PropTypes.func.isRequired,
 };
 
 export default ConfirmationPage;
