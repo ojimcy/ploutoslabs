@@ -205,13 +205,13 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
                     purchaseHistory.map((purchase) => (
                       <div key={purchase.id} className="purchase-history-item">
                         <div className="history-date">
-                          Date: {new Date(parseInt(purchase.date) || 2).toLocaleDateString()}
+                          Date: {new Date(parseInt(purchase.date || 2) * 1000).toLocaleDateString()}
                         </div>
                         <div className="history-eth">
                           ETH: {formatEther(purchase.ethSpent)}
                         </div>
                         <div className="history-plt">
-                          PLTL: {formatEther(purchase.tokenAmount, 9)}
+                          PLTL: {formatEther(purchase.tokenAmount, 7)}
                         </div>
                       </div>
                     ))

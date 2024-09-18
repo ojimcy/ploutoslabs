@@ -134,7 +134,7 @@ function TokenPresale() {
       ]);
       setHistories(result);
 
-      const refResult = await contract.read.getReferralEarnings([
+      const refResult = await contract.read.getReferralHistory([
         selectedWallet.address,
       ]);
       setReferrals(refResult);
