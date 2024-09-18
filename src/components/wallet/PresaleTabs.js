@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 import {
   Row,
@@ -12,45 +12,29 @@ import {
   Spinner,
 } from 'reactstrap';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import './portfolio.css';
 import { Separator } from '../common/Seperator';
 import { useCurrentUser, useWebApp } from '../../hooks/telegram';
 import { toast } from 'react-toastify';
 import { FaCopy, FaEthereum, FaTelegramPlane } from 'react-icons/fa';
+import { formatEther } from 'viem';
+import { formatAddress } from '../../lib/utils';
 
-const referrals = [
-  {
-    id: 1,
-    first_name: 'Emmanuel',
-    last_name: 'Ojima-ojo',
-    username: 'emmyojay',
-    reward: 20,
-  },
-];
-
-const history = [
-  {
-    id: 1,
-    date: '2024-09-10T14:48:00.000Z',
-    ethAmount: '0.5',
-    pltAmount: '500',
-  },
-  {
-    id: 2,
-    date: '2024-09-12T10:30:00.000Z',
-    ethAmount: '1',
-    pltAmount: '1000',
-  },
-];
-
-const PresaleTabs = () => {
+const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
   const webapp = useWebApp();
   const currentUser = useCurrentUser();
   const [activeTab, setActiveTab] = useState('1');
-  const [purchaseHistory, setPurchaseHistory] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const referralLink = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser?.telegramId}`;
+
+  const totalRefEarningn = () => {
+    let total = 0;
+    for(let i = 0; i < referrals.length; i++) {
+      total += parseFloat(formatEther(referrals[i].referralAmount))
+    }
+    return total
+  }
 
   function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement('textarea');
@@ -116,27 +100,6 @@ const PresaleTabs = () => {
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-
-  useEffect(() => {
-    async function fetchPurchaseHistory() {
-      try {
-        setLoading(true);
-        setPurchaseHistory(history);
-      } catch (error) {
-        console.error('Failed to fetch history', error);
-        toast.error('Failed to fetch history', {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-        });
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchPurchaseHistory();
-  }, []);
 
   return (
     <div className="portfolio">
@@ -205,21 +168,21 @@ const PresaleTabs = () => {
                     Total Earnings:{' '}
                     <span style={{ fontWeight: 'bold' }}>
                       <FaEthereum />
-                      0.058
+                      {totalRefEarningn()}
                     </span>
                   </span>
                   {referrals.map((r) => (
-                    <React.Fragment key={r.id}>
+                    <React.Fragment key={r.date}>
                       <div className="referral-card d-flex justify-content-between align-items-center">
                         <div className="d-flex align-items-center">
                           <div className="avatar-circle">
-                            <span>{`${r.first_name[0]}${r.last_name[0]}`}</span>
+                            <span>{formatAddress(r.buyer)}</span>
                           </div>
-                          <span className="referral-username ml-2">
+                          {/* <span className="referral-username ml-2">
                             {r.username}
-                          </span>
+                          </span> */}
                         </div>
-                        <span className="referral-balance">+{r.reward}</span>
+                        <span className="referral-balance">+{formatEther(r.referralAmount)}</span>
                       </div>
                     </React.Fragment>
                   ))}
@@ -242,13 +205,13 @@ const PresaleTabs = () => {
                     purchaseHistory.map((purchase) => (
                       <div key={purchase.id} className="purchase-history-item">
                         <div className="history-date">
-                          Date: {new Date(purchase.date).toLocaleDateString()}
+                          Date: {new Date(parseInt(purchase.date) || 2).toLocaleDateString()}
                         </div>
                         <div className="history-eth">
-                          ETH: {purchase.ethAmount}
+                          ETH: {formatEther(purchase.ethSpent)}
                         </div>
                         <div className="history-plt">
-                          PLT: {purchase.pltAmount}
+                          PLTL: {formatEther(purchase.tokenAmount, 9)}
                         </div>
                       </div>
                     ))
@@ -263,6 +226,10 @@ const PresaleTabs = () => {
   );
 };
 
-PresaleTabs.propTypes = {};
+PresaleTabs.propTypes = {
+  purchaseHistory: PropTypes.array,
+  referrals: PropTypes.array,
+  loading: PropTypes.bool
+};
 
 export default PresaleTabs;

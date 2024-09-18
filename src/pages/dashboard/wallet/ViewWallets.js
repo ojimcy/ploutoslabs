@@ -25,7 +25,7 @@ const ViewWallets = () => {
       const wals = await getWallets(user.id);
       console.log('wals', wals);
       if (!wals || wals.length == 0) return;
-      setSelectedWallet(wals[0]);
+      setSelectedWallet(selectedWallet || wals[0]);
       setWallets(wals);
     };
 
@@ -60,7 +60,7 @@ const ViewWallets = () => {
                       <div className="wallet-balance">
                         {formatAddress(wallet.address)}
                       </div>
-                      <div className="wallet-balance">{wallet.networth}</div>
+                      <div className="wallet-balance">{wallet.label}</div>
                     </div>
 
                     {selectedWallet && selectedWallet.id === wallet.id && (

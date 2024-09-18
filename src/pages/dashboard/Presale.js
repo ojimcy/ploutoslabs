@@ -30,7 +30,13 @@ import { decryptPrivateKey, formatAddress } from '../../lib/utils';
 import { Link } from 'react-router-dom';
 import TransactionPin from '../../components/auth/TransactionPin';
 import { privateKeyToAccount } from 'viem/accounts';
-import { createPublicClient, createWalletClient, http, parseEther } from 'viem';
+import {
+  createPublicClient,
+  createWalletClient,
+  getContract,
+  http,
+  parseEther,
+} from 'viem';
 import { base } from 'viem/chains';
 import {
   DEFAULT_REF_ADDRESS,
@@ -46,7 +52,8 @@ function TokenPresale() {
   const [showPinPad, setShowPinPad] = useState(false);
   const telegramUser = useTelegramUser();
   const currentUser = useCurrentUser();
-  // const [histories, setHistories] = useState([]);
+  const [histories, setHistories] = useState([]);
+  const [referrals, setReferrals] = useState([]);
 
   const [ethBalance, setEthBalance] = useState(0);
   const [ethereumAmount, setEthereumAmount] = useState(0);
@@ -62,8 +69,7 @@ function TokenPresale() {
 
   const currentPrice = 138000;
 
-  const presaleEndTime = new Date('2024-09-30T23:59:59Z').getTime();
-  const walletAddress = selectedWallet?.address;
+  const presaleEndTime = new Date('2024-11-16T23:59:59Z').getTime();
 
   useEffect(() => {
     setEthBalance(1.234);
@@ -95,34 +101,48 @@ function TokenPresale() {
     const fn = async () => {
       const user = await getUserByTelegramID(telegramUser.id);
       const wals = await getWallets(user.id);
-      console.log('wals', wals);
       if (!wals || wals.length === 0) return;
-      setSelectedWallet(wals[0]);
+      setSelectedWallet(selectedWallet || wals[0]);
       setWallets(wals);
     };
 
     fn();
   }, [telegramUser]);
 
-  const refreshHistory = async () => {
-    const publicClient = createPublicClient({
-      chain: base,
-      transport: http(NODE_URL),
-    });
+  useEffect(() => {
+    refreshHistory();
+  }, [selectedWallet]);
 
-    publicClient.watchContractEvent({
-      address: PRESALE_CONTRACT_ADDRESS,
-      abi: presaleAbi,
-      eventName: 'Purchase',
-      args: {
-        buyer: selectedWallet?.address,
-        directReferrer: selectedWallet?.address,
-        secondReferrer: selectedWallet?.address,
-      },
-      onLogs: logs => {
-        console.log(logs)
-      }
-    });
+  const refreshHistory = async () => {
+    setIsLoading(true);
+    try {
+      const publicClient = createPublicClient({
+        chain: base,
+        transport: http(NODE_URL),
+      });
+
+      const contract = getContract({
+        address: PRESALE_CONTRACT_ADDRESS,
+        abi: presaleAbi,
+        // 1a. Insert a single client
+        client: publicClient,
+        // 1b. Or public and/or wallet clients
+      });
+
+      const result = await contract.read.getPurchaseHistory([
+        selectedWallet.address,
+      ]);
+      setHistories(result);
+
+      const refResult = await contract.read.getReferralEarnings([
+        selectedWallet.address,
+      ]);
+      setReferrals(refResult);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoading(false);
   };
 
   const handleSelectWallet = (wallet) => {
@@ -193,6 +213,10 @@ function TokenPresale() {
 
       const uplineWallets = await getUplineWallets(currentUser.id);
 
+      console.log('ethereumAmount', ethereumAmount);
+      const amount = parseEther(ethereumAmount.toString());
+      console.log(ethereumAmount, amount);
+
       await walletClient.writeContract({
         address: PRESALE_CONTRACT_ADDRESS,
         abi: presaleAbi,
@@ -201,13 +225,17 @@ function TokenPresale() {
           uplineWallets.upline1 || DEFAULT_REF_ADDRESS,
           uplineWallets.upline2 || DEFAULT_REF_ADDRESS,
         ],
-        value: parseEther(ethereumAmount),
+        value: amount,
       });
+
+      setEthereumAmount(0);
+      setPloutosAmount(0);
 
       await refreshHistory();
 
       alert('Transaction submitted');
     } catch (err) {
+      alert(err.shortMessage || 'Something went wrong. Please try again later');
       console.log(err);
     } finally {
       setIsLoading(false);
@@ -230,7 +258,7 @@ function TokenPresale() {
                   <DropdownToggle caret className="connect-wallet">
                     <FaEthereum />
                     {selectedWallet
-                      ? formatAddress(walletAddress)
+                      ? formatAddress(selectedWallet.address)
                       : 'Select Wallet'}
                   </DropdownToggle>
                   <DropdownMenu>
@@ -244,9 +272,6 @@ function TokenPresale() {
                             <div className="wallet-title">{wallet.label}</div>
                             <div className="wallet-balance">
                               {formatAddress(wallet.address)}
-                            </div>
-                            <div className="wallet-balance">
-                              {wallet.networth}
                             </div>
                           </div>
                           {selectedWallet &&
@@ -363,7 +388,7 @@ function TokenPresale() {
             </Row>
           </div>
 
-          <PresaleTabs />
+          <PresaleTabs purchaseHistory={histories} loading={isLoading} referrals={referrals} />
         </Container>
       )}
 

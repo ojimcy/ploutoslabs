@@ -204,6 +204,97 @@ export const presaleAbi = [
         type: 'address',
       },
     ],
+    name: 'getPurchaseHistory',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'date',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'ethSpent',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'tokenAmount',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct PltlPresale.PurchaseHistory[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'referrer',
+        type: 'address',
+      },
+    ],
+    name: 'getReferralEarnings',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'referrer',
+        type: 'address',
+      },
+    ],
+    name: 'getReferralHistory',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'address',
+            name: 'buyer',
+            type: 'address',
+          },
+          {
+            internalType: 'uint256',
+            name: 'referralAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'date',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct PltlPresale.ReferralHistory[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'buyer',
+        type: 'address',
+      },
+    ],
     name: 'markAsDistributed',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -242,6 +333,40 @@ export const presaleAbi = [
         name: '',
         type: 'address',
       },
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'purchaseHistory',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'date',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'ethSpent',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'tokenAmount',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
     ],
     name: 'purchases',
     outputs: [
@@ -261,6 +386,59 @@ export const presaleAbi = [
       {
         internalType: 'uint256',
         name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'referralEarnings',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'referralHistory',
+    outputs: [
+      {
+        internalType: 'address',
+        name: 'buyer',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'referralAmount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'date',
         type: 'uint256',
       },
     ],

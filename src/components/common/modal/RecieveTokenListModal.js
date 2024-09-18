@@ -87,7 +87,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
                     <div className="token-address">
                       {currentUser &&
                         formatAddress(
-                          token.address || currentUser.smartWalletAddress
+                          selectedWallet?.address
                         )}
                     </div>
                   </div>

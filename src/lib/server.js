@@ -116,8 +116,8 @@ export const getTokenBalances = async (wallet) => {
 
 export const collectGame = async () => {};
 
-export const addUsersWallet = async (userid, address, tag) => {
-  const result = await axios.post(ADD_USERS_WALLET(userid), { address, tag });
+export const addUsersWallet = async (userid, address, label) => {
+  const result = await axios.post(ADD_USERS_WALLET(userid), { address, label });
   return result.data;
 };
 
