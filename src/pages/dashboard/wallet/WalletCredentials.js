@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Button, Col, Container, Row } from 'reactstrap';
 import { FaEye, FaEyeSlash, FaCopy } from 'react-icons/fa';
 import './wallets.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
@@ -7,8 +7,20 @@ import TelegramBackButton from '../../../components/common/TelegramBackButton';
 const wallet = {
   privateKey:
     '0xABC1234567890DEFABC1234567890DEFABC1234567890DEFABC1234567890DEF',
-  seedPhrase:
-    'word1 word2 word3 word4 word5 word6 word7 word8 word9 word10 word11 word12',
+  seedPhrase: [
+    'problem',
+    'robust',
+    'nasty',
+    'matter',
+    'unlock',
+    'remind',
+    'glass',
+    'escape',
+    'shift',
+    'eyebrow',
+    'deal',
+    'neutral',
+  ],
 };
 
 const WalletCredentials = () => {
@@ -28,72 +40,88 @@ const WalletCredentials = () => {
     alert('Copied to clipboard');
   };
 
+  // Masked text for private key and seed phrase
+  const maskText = (text) => '*'.repeat(text.length);
+
   return (
     <Container className="mt-4">
-      <TelegramBackButton/>
+      <TelegramBackButton />
       <Row>
         <Col md={{ size: 6, offset: 3 }}>
-          <Card>
-            <CardBody>
-              <h2>Wallet Credentials</h2>
-              <div className="credentials-section">
-                <div className="cred-top d-flex justify-content-between align-items-center">
-                  <h5>Private Key</h5>
-                  <div className="cred-actions">
-                    <Button
-                      onClick={togglePrivateKeyVisibility}
-                      className="credentials-btn"
-                    >
-                      {showPrivateKey ? <FaEyeSlash /> : <FaEye />}
-                    </Button>
-                    <Button
-                      onClick={() => copyToClipboard(wallet.privateKey)}
-                      className="credentials-btn"
-                    >
-                      <FaCopy />
-                    </Button>
-                  </div>
-                </div>
-                <div className="credentials-content mt-3">
-                  <textarea
-                    type={showPrivateKey ? 'text' : 'password'}
-                    value={wallet.privateKey}
-                    readOnly
-                    className="credentials-input"
-                    rows="3"
-                  />
+          <div className="credentials-card">
+            <h2>Wallet Credentials</h2>
+
+            {/* Private Key Section */}
+            <div className="credentials-section">
+              <div className="cred-top d-flex justify-content-between align-items-center">
+                <h5>Private Key</h5>
+                <div className="cred-actions">
+                  <Button
+                    onClick={togglePrivateKeyVisibility}
+                    className="credentials-btn"
+                  >
+                    {showPrivateKey ? <FaEyeSlash /> : <FaEye />}
+                  </Button>
+                  <Button
+                    onClick={() => copyToClipboard(wallet.privateKey)}
+                    className="credentials-btn"
+                  >
+                    <FaCopy />
+                  </Button>
                 </div>
               </div>
-              <div className="credentials-section mt-3">
-                <div className="cred-top d-flex justify-content-between align-items-center">
-                  <h5>Seed Phrase</h5>
-                  <div className="cred-actions">
-                    <Button
-                      onClick={toggleSeedPhraseVisibility}
-                      className="credentials-btn"
-                    >
-                      {showSeedPhrase ? <FaEyeSlash /> : <FaEye />}
-                    </Button>
-                    <Button
-                      onClick={() => copyToClipboard(wallet.seedPhrase)}
-                      className="credentials-btn"
-                    >
-                      <FaCopy />
-                    </Button>
-                  </div>
-                </div>
-                <div className="credentials-content mt-3">
-                  <textarea
-                    type={showSeedPhrase ? 'text' : 'password'}
-                    value={wallet.seedPhrase}
-                    readOnly
-                    className="credentials-input"
-                    rows="3"
-                  />
-                </div>
+              <div className="credentials-content mt-3">
+                <textarea
+                  value={
+                    showPrivateKey
+                      ? wallet.privateKey
+                      : maskText(wallet.privateKey)
+                  }
+                  readOnly
+                  className="credentials-input"
+                  rows="3"
+                />
               </div>
-            </CardBody>
-          </Card>
+            </div>
+
+            {/* Seed Phrase Section */}
+            <div className="cred-actions d-flex justify-content-between align-items-center mt-3">
+              <h5>Seed Phrase</h5>
+              <div className="cred-actions">
+                <Button
+                  onClick={toggleSeedPhraseVisibility}
+                  className="credentials-btn"
+                >
+                  {showSeedPhrase ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+                <Button
+                  onClick={() => copyToClipboard(wallet.seedPhrase.join(' '))}
+                  className="credentials-btn"
+                >
+                  <FaCopy />
+                </Button>
+              </div>
+            </div>
+            <div className="seed-phrase-card mt-3">
+              {/* Display Seed Phrase */}
+              <Row className="seed-phrase-rows">
+                <Col>
+                  {wallet.seedPhrase.slice(0, 6).map((word, index) => (
+                    <p key={index} className="seed-word">
+                      {index + 1}. {showSeedPhrase ? word : '****'}
+                    </p>
+                  ))}
+                </Col>
+                <Col>
+                  {wallet.seedPhrase.slice(6).map((word, index) => (
+                    <p key={index} className="seed-word">
+                      {index + 7}. {showSeedPhrase ? word : '****'}
+                    </p>
+                  ))}
+                </Col>
+              </Row>
+            </div>
+          </div>
         </Col>
       </Row>
     </Container>

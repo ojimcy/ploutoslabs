@@ -28,6 +28,7 @@ import GameDetails from './pages/game/GameDetails';
 import DailyReward from './components/airdrop/DailyReward';
 import OnrampPage from './pages/dashboard/wallet/OnrampPage';
 import TokenPresale from './pages/dashboard/Presale';
+import ConfirmationPage from './pages/dashboard/wallet/confirmation';
 
 const App = () => {
   useEffect(() => {
@@ -63,6 +64,7 @@ const App = () => {
                   element={<WalletCredentials />}
                 />
                 <Route path="create" element={<CreateWallet />} />
+                <Route path="confirm" element={<ConfirmationPage />} />
                 <Route path="import-wallet" element={<ImportWallet />} />
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="referrals" element={<Referrals />} />

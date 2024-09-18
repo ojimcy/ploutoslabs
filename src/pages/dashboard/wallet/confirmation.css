@@ -1,0 +1,73 @@
+.confirmation-page {
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-card {
+  background-color: #1f1f1f;
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.confirmation-image {
+  width: 100px;
+  margin-bottom: 20px;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+.confirmation-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.confirmation-subtext {
+  font-size: 14px;
+  color: #bbbbbb;
+  margin-bottom: 20px;
+}
+
+.confirmation-checkbox-group {
+  margin-bottom: 15px !important;
+  display: flex;
+  background-color: #282828;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.confirmation-checkbox-label {
+  color: #ffffff;
+}
+
+.confirmation-checkbox-label input[type='checkbox'] {
+  margin-right: 10px;
+  accent-color: #4caf50; /* Custom checkbox color */
+}
+
+.checkbox-text {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.continue-button {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 0;
+  font-size: 16px;
+}
+
+.check1,
+.check2,
+.check3 {
+  margin-left: -5px !important;
+}
+
+.form-check-input,
+.form-check-input:checked {
+  background-color: transparent !important;
+}

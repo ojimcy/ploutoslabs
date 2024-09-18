@@ -58,12 +58,14 @@
   margin-right: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  background: transparent;
+  color: #ffff;
+  border-radius: 10px;
 }
 
 .credentials-btn {
   margin-left: 0.5rem;
 }
-
 
 .error-text {
   color: red;
@@ -80,4 +82,60 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: none;
+}
+
+.credentials-section {
+  margin-bottom: 20px;
+}
+
+.seed-phrase-card {
+  background-color: #2a2a2a;
+  padding: 15px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.seed-phrase-rows {
+  margin-top: 15px;
+}
+
+.seed-word {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #b5b5b5;
+}
+
+.credentials-input {
+  width: 100%;
+  background-color: #2a2a2a;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  resize: none;
+}
+
+.credentials-btn {
+  background-color: #333;
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+.credentials-btn:hover {
+  background-color: #444;
+}
+
+.cred-top h5 {
+  font-size: 18px;
+  margin-bottom: 0;
+}
+
+.cred-actions button {
+  margin-left: 5px;
+}
+
+.ml-2 {
+  margin-left: 8px;
 }
