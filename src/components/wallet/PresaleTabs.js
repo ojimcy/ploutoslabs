@@ -26,8 +26,6 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
   const currentUser = useCurrentUser();
   const [activeTab, setActiveTab] = useState('1');
 
-  const referralLink = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser?.telegramId}`;
-
   const totalRefEarningn = () => {
     let total = 0;
     for(let i = 0; i < referrals.length; i++) {
@@ -70,6 +68,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
 
   const copyReferralLink = async () => {
     try {
+      const referralLink = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser?.telegramId}`;
       await copyTextToClipboard(referralLink);
       toast.success('Referral link copied!', {
         position: 'top-right',
@@ -88,6 +87,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
   };
 
   const handleShare = () => {
+    const referralLink = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser?.telegramId}`;
     const inviteMessage = `🚀 Join the Ploutos Labs Presale and secure your place in the future of decentralized finance! 💰 \n\nTap here to get started: ${referralLink}`;
 
     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
