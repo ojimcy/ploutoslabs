@@ -18,7 +18,7 @@ import { Separator } from '../common/Seperator';
 import { useCurrentUser, useWebApp } from '../../hooks/telegram';
 import { toast } from 'react-toastify';
 import { FaCopy, FaEthereum, FaTelegramPlane } from 'react-icons/fa';
-import { formatEther } from 'viem';
+import { formatEther, formatUnits } from 'viem';
 import { formatAddress } from '../../lib/utils';
 
 const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
@@ -131,8 +131,8 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
             <div className="mt-4">
               <h4>Referrals</h4>
               <p>
-                Share your referral link and earn 10% of every purchase your
-                referral makes. Use the buttons below to share or copy your
+                Share your referral link and earn 7% of every purchase your
+                referral makes plus 3% of thei downlines purchase. Use the buttons below to share or copy your
                 referral link.
               </p>
               <Separator />
@@ -211,7 +211,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
                           ETH: {formatEther(purchase.ethSpent)}
                         </div>
                         <div className="history-plt">
-                          PLTL: {formatEther(purchase.tokenAmount, 7)}
+                          PLTL: {formatUnits(purchase.tokenAmount, 9)}
                         </div>
                       </div>
                     ))

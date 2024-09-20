@@ -31,10 +31,13 @@ import { Link } from 'react-router-dom';
 import TransactionPin from '../../components/auth/TransactionPin';
 import { privateKeyToAccount } from 'viem/accounts';
 import {
+  checksumAddress,
   createPublicClient,
   createWalletClient,
+  formatEther,
   getContract,
   http,
+  isAddress,
   parseEther,
   parseGwei,
 } from 'viem';
@@ -73,7 +76,6 @@ function TokenPresale() {
   const presaleEndTime = new Date('2024-11-16T23:59:59Z').getTime();
 
   useEffect(() => {
-    setEthBalance(1.234);
     // Countdown timer setup
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -103,8 +105,9 @@ function TokenPresale() {
       const user = await getUserByTelegramID(telegramUser.id);
       const wals = await getWallets(user.id);
       if (!wals || wals.length === 0) return;
-      setSelectedWallet(selectedWallet || wals[0]);
       setWallets(wals);
+      const wal = selectedWallet || wals[0];
+      setSelectedWallet(wal);
     };
 
     fn();
@@ -115,12 +118,17 @@ function TokenPresale() {
   }, [selectedWallet]);
 
   const refreshHistory = async () => {
+    if(!selectedWallet) return
     setIsLoading(true);
+
     try {
       const publicClient = createPublicClient({
         chain: base,
         transport: http(NODE_URL),
       });
+
+      const bal = await publicClient.getBalance({ address: selectedWallet.address });
+      setEthBalance(parseFloat(formatEther(bal)).toFixed(4));
 
       const contract = getContract({
         address: PRESALE_CONTRACT_ADDRESS,
@@ -154,8 +162,9 @@ function TokenPresale() {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleMaxClick = () => {
-    setEthereumAmount(ethBalance);
-    calculateReceived(ethBalance);
+    const max = parseFloat(ethBalance) - 0.000004
+    setEthereumAmount(max);
+    calculateReceived(max);
   };
 
   const calculateReceived = (eth) => {
@@ -167,14 +176,13 @@ function TokenPresale() {
   };
 
   const handleEthereumAmountChanged = (e) => {
-    const value = parseFloat(e.target.value) || 0;
-    setEthereumAmount(value);
-    calculateReceived(value);
+    setEthereumAmount(e.target.value);
+    calculateReceived(parseFloat(e.target.value) || 0);
   };
 
   const handlePloutosAmountChanged = (e) => {
     const value = parseFloat(e.target.value) || 0;
-    setPloutosAmount(value);
+    setPloutosAmount(e.target.value);
     calculateSpent(value);
   };
 
@@ -210,27 +218,28 @@ function TokenPresale() {
         chain: base,
         transport: http(NODE_URL),
       });
-      console.log(walletClient);
 
       const uplineWallets = await getUplineWallets(currentUser.id);
 
-      console.log('ethereumAmount', ethereumAmount);
       const amount = parseEther(ethereumAmount.toString());
-      console.log(ethereumAmount, amount);
+
+      const upline1 = isAddress(uplineWallets.upline1, { strict: false })
+        ? checksumAddress(uplineWallets.upline1)
+        : DEFAULT_REF_ADDRESS;
+      const upline2 = isAddress(uplineWallets.upline2, { strict: false })
+        ? checksumAddress(uplineWallets.upline2)
+        : DEFAULT_REF_ADDRESS;
 
       const tx = await walletClient.writeContract({
         address: PRESALE_CONTRACT_ADDRESS,
         abi: presaleAbi,
         functionName: 'buyPresale',
-        args: [
-          uplineWallets.upline1 || DEFAULT_REF_ADDRESS,
-          uplineWallets.upline2 || DEFAULT_REF_ADDRESS,
-        ],
+        args: [upline1, upline2],
         value: amount,
-        gasPrice: parseGwei('0.009803727'),
+        // gasPrice: parseGwei('0.009803727'), 
       });
 
-      console.log(tx);
+      console.log(tx)
 
       setEthereumAmount(0);
       setPloutosAmount(0);
@@ -350,7 +359,7 @@ function TokenPresale() {
                       Max: {ethBalance}
                     </span>
                     <Input
-                      type="number"
+                      type="text"
                       name="ethereumAmount"
                       id="ethereumAmount"
                       placeholder="0.01"
@@ -392,7 +401,11 @@ function TokenPresale() {
             </Row>
           </div>
 
-          <PresaleTabs purchaseHistory={histories} loading={isLoading} referrals={referrals} />
+          <PresaleTabs
+            purchaseHistory={histories}
+            loading={isLoading}
+            referrals={referrals}
+          />
         </Container>
       )}
 

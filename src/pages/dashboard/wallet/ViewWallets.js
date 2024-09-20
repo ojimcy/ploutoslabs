@@ -8,6 +8,7 @@ import { getUserByTelegramID, getWallets } from '../../../lib/server';
 import { formatAddress } from '../../../lib/utils';
 import { AppContext } from '../../../context/AppContext';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
+import { syncWallet } from '../../../lib/db';
 
 const ViewWallets = () => {
   const [wallets, setWallets] = useState([]);
@@ -27,6 +28,9 @@ const ViewWallets = () => {
       if (!wals || wals.length == 0) return;
       setSelectedWallet(selectedWallet || wals[0]);
       setWallets(wals);
+
+      await syncWallet();
+      
     };
 
     fn();
