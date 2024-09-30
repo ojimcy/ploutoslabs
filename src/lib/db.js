@@ -40,7 +40,9 @@ export const syncWallet = async (userId) => {
 
   const wallets = getWalletsFromDb();
 
+  console.log('syncing wllets...')
   for(let i = 0; i < wallets.length; i++) {
-    addUsersWallet(userId, wallets[i].address, wallets[i].label);
+    const r = await addUsersWallet(userId, wallets[i].address, wallets[i].label);
+    console.log('current', r)
   }
 };

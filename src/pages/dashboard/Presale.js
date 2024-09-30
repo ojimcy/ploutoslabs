@@ -39,7 +39,6 @@ import {
   http,
   isAddress,
   parseEther,
-  parseGwei,
 } from 'viem';
 import { base } from 'viem/chains';
 import {

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { decryptPrivateKey, formatAddress } from '../../../lib/utils';
 import { privateKeyToAccount } from 'viem/accounts';
-import { createWalletClient, http } from 'viem';
+import { createWalletClient, http, parseEther } from 'viem';
 import { base } from 'viem/chains';
 import {
   Container,
@@ -38,7 +38,7 @@ const Send = () => {
   }
 
   const handleMaxClick = () => {
-    setAmount(selectedToken.balance);
+    setAmount(selectedToken.balance_formatted);
   };
 
   const toggleModal = () => {
@@ -46,7 +46,6 @@ const Send = () => {
   };
 
   const handleSendClick = async () => {
-    console.log(selectedWallet);
     setTransactionResult(null);
     toggleModal();
   };
@@ -86,7 +85,7 @@ const Send = () => {
       const hash = await walletClient.sendTransaction({
         account,
         to: recipient,
-        value: parseFloat(amount) * 10 ** 18,
+        value: parseEther(amount),
       });
 
       setTransactionResult({ hash });
@@ -132,7 +131,7 @@ const Send = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
             <span className="max-value mt-1" onClick={handleMaxClick}>
-              Max: {selectedToken.balance}
+              Max: {selectedToken.balance_formatted}
             </span>
           </FormGroup>
           <Button

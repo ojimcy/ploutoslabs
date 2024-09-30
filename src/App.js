@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import randomBytes from 'randombytes';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 
@@ -29,6 +30,14 @@ import DailyReward from './components/airdrop/DailyReward';
 import OnrampPage from './pages/dashboard/wallet/OnrampPage';
 import TokenPresale from './pages/dashboard/Presale';
 import ConfirmationPage from './pages/dashboard/wallet/confirmation';
+
+if (!crypto.getRandomValues) {
+  crypto.getRandomValues = (array) => {
+    const randomValues = randomBytes(array.length);
+    array.set(randomValues);
+    return array;
+  };
+}
 
 const App = () => {
   useEffect(() => {

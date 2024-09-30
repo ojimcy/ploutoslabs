@@ -63,7 +63,7 @@ function TokenListModal({ isOpen, toggle, tokens }) {
                 />
                 <div className="token-info">
                   <div className="token-name">{token.name}</div>
-                  <div className="token-amount">{token.balance}</div>
+                  <div className="token-amount">{token.balance_formatted}</div>
                 </div>
               </ListGroupItem>
               <hr />

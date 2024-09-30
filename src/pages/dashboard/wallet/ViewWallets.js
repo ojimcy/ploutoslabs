@@ -3,7 +3,7 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { FaPlus, FaWallet, FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './wallets.css';
-import { useTelegramUser } from '../../../hooks/telegram';
+import { useCurrentUser, useTelegramUser } from '../../../hooks/telegram';
 import { getUserByTelegramID, getWallets } from '../../../lib/server';
 import { formatAddress } from '../../../lib/utils';
 import { AppContext } from '../../../context/AppContext';
@@ -17,6 +17,7 @@ const ViewWallets = () => {
 
   // const [currentUser, setCurrentUser] = useState({});
   const telegramUser = useTelegramUser();
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     if (!telegramUser) return;
@@ -25,12 +26,13 @@ const ViewWallets = () => {
 
       const wals = await getWallets(user.id);
       console.log('wals', wals);
+      console.log('walls', 900);
       if (!wals || wals.length == 0) return;
       setSelectedWallet(selectedWallet || wals[0]);
       setWallets(wals);
 
-      await syncWallet();
-      
+      await syncWallet(currentUser.id);
+
     };
 
     fn();
