@@ -87,7 +87,7 @@ function DailyReward() {
           <p className="mt-4">
             Earn game coins by logging into the game daily without missing a day
           </p>
-          <span className="text-muted">
+          <span className="tips">
             Tip: Your streak will reset if you skip a day
           </span>
         </div>

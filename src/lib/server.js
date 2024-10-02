@@ -13,6 +13,7 @@ import {
   GAME_DEPOSIT_ADDRESS,
   GET_ACTIVE_GAMES,
   GET_GAME,
+  GET_GAME_LEADERBOARD,
   GET_GROUPS,
   GET_TOKEN_BALANCES,
   GET_TRANSACTION_DETAILS,
@@ -174,4 +175,9 @@ export const claimDailyReward = async (telegramId) => {
 export const getUplineWallets = async (userId) => {
   const result = await axios.get(GET_UPLINE_WALLET(userId));
   return result.data;
-}
+};
+
+export const getGameLeaderboard = async () => {
+  const result = await axios.get(GET_GAME_LEADERBOARD);
+  return result.data;
+};

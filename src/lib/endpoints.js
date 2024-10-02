@@ -40,3 +40,5 @@ export const GET_GAME = (code) => `${ROOT}/game/${code}`;
 export const GET_ACTIVE_GAMES = () => `${ROOT}/active-games`;
 
 export const GET_UPLINE_WALLET = (userID) => `${ROOT}/get-upline-wallets/${userID}`;
+
+export const GET_GAME_LEADERBOARD = () => `${ROOT}/game-leader-board`;

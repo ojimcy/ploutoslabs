@@ -30,6 +30,7 @@ import DailyReward from './components/airdrop/DailyReward';
 import OnrampPage from './pages/dashboard/wallet/OnrampPage';
 import TokenPresale from './pages/dashboard/Presale';
 import ConfirmationPage from './pages/dashboard/wallet/confirmation';
+import GameLeaderBoard from './components/airdrop/GameLeaderboard';
 
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
@@ -80,6 +81,7 @@ const App = () => {
                 <Route path="boosts" element={<Boosts />} />
                 <Route path="rewards" element={<DailyReward />} />
                 <Route path="presale" element={<TokenPresale />} />
+                <Route path="game-leaderboard" element={<GameLeaderBoard />} />
               </Routes>
             </Layout>
           }

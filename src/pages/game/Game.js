@@ -29,16 +29,6 @@ import { useCurrentUser } from '../../hooks/telegram';
 import { getActiveGames } from '../../lib/server';
 import { openSuperCatchGameConsole } from '../../lib/utils';
 
-const referrals = [
-  {
-    id: 1,
-    first_name: 'Emmanuel',
-    last_name: 'Ojima-ojo',
-    username: 'emmyojay',
-    reward: 20,
-  },
-];
-
 function Game() {
   const currentUser = useCurrentUser();
   const [difficultyModal, setDifficultyModal] = useState(false);
@@ -115,6 +105,9 @@ function Game() {
                   <DropdownItem onClick={toggleWithdrawalModal}>
                     Withdraw
                   </DropdownItem>
+                  <DropdownItem>
+                    <Link to="/dashboard/game-leaderboard">Leaderboard</Link>
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -187,10 +180,10 @@ function Game() {
                 Total Earnings:{' '}
                 <span style={{ fontWeight: 'bold' }}>
                   <FaEthereum />
-                  0.058
+                  {currentUser?.gameWalletBalance}
                 </span>
               </span>
-              {referrals.map((r) => (
+              {/* {referrals.map((r) => (
                 <React.Fragment key={r.id}>
                   <div className="referral-card d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center">
@@ -204,7 +197,7 @@ function Game() {
                     <span className="referral-balance">+{r.reward}</span>
                   </div>
                 </React.Fragment>
-              ))}
+              ))} */}
             </Col>
           </Row>
         </Container>
