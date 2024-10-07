@@ -286,3 +286,7 @@
   text-decoration: none;
   color: #333 !important;
 }
+
+.wallet-dropdown-toggle {
+  background-color: transparent !important;
+}

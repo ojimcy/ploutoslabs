@@ -29,6 +29,8 @@ import { useCurrentUser } from '../../hooks/telegram';
 import { getActiveGames } from '../../lib/server';
 import { openSuperCatchGameConsole } from '../../lib/utils';
 
+import pltlLogo from '../../assets/images/logo.png';
+
 function Game() {
   const currentUser = useCurrentUser();
   const [difficultyModal, setDifficultyModal] = useState(false);
@@ -85,9 +87,9 @@ function Game() {
       {currentUser && (
         <Container className="game-page">
           <div className="game-header">
-            <div className="main-title">
-              <h1>Super Catch</h1>
-            </div>
+            <Link to="/" className="main-title">
+              <img src={pltlLogo} alt="logo" />
+            </Link>
 
             <div className="wallet-dropdown">
               <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
@@ -155,7 +157,7 @@ function Game() {
                       {game.opponentNickname || 'Waiting for opponent...'}
                     </p>
                   </div>
-                  <div className="game-actions d-flex">
+                  <div className="game-actions d-flex justify-content-between align-items-center mb-3">
                     <Button
                       className="play-btn"
                       onClick={() => handlePlay(game.code)}

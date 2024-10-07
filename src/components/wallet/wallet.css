@@ -33,7 +33,8 @@
 
 .wallet-action .label {
   margin-top: 10px;
-  font-size: 1em;
+  font-size: 14px;
+  font-weight: 600;
   color: #ffffff;
 }
 

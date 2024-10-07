@@ -8,31 +8,69 @@ import { createGame } from '../../../lib/server';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { openSuperCatchGameConsole } from '../../../lib/utils';
+import PaymentModal from './PaymentModal';
 // import { useNavigate } from 'react-router-dom';
 
 function GameDificultyModal({ isOpen, toggle }) {
   const { difficulty, setDifficulty, mode, setMode } = useContext(AppContext);
-  const [typeModal, setTypeModal] = useState(false);
   const currenUser = useCurrentUser();
+  const [typeModal, setTypeModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const lastSoloGameTime = currenUser.lastSoloGameTime;
 
   const handleOneClicked = () => {
     setMode('one-vs-one');
     setTypeModal(!typeModal);
   };
 
+  const isToday = (date) => {
+    const today = new Date();
+    const gameDate = new Date(date);
+
+    return (
+      today.getFullYear() === gameDate.getFullYear() &&
+      today.getMonth() === gameDate.getMonth() &&
+      today.getDate() === gameDate.getDate()
+    );
+  };
+  console.log('today is again', currenUser?.lastSoloGameTime);
+
   const handleContinue = async () => {
     if (mode === 'solo') {
-      try {
-        const res = await createGame({
-          type: mode,
-          difficulty,
-        });
-        console.log(res)
-        openSuperCatchGameConsole(res.game.code, currenUser.id)
-      } catch (error) {
-        console.log(error);
-        toast.error(error.response?.data?.error || 'Error in creating game. Please try again');
+      if (isToday(lastSoloGameTime)) {
+        setShowPaymentModal(true);
+      } else {
+        try {
+          const res = await createGame({
+            type: mode,
+            difficulty,
+          });
+          openSuperCatchGameConsole(res.game.code, currenUser.id);
+        } catch (error) {
+          console.log(error);
+          toast.error(
+            error.response?.data?.error ||
+              'Error in creating game. Please try again'
+          );
+        }
       }
+    }
+  };
+
+  const handlePaymentConfirm = async () => {
+    setShowPaymentModal(false);
+    try {
+      const res = await createGame({
+        type: mode,
+        difficulty,
+      });
+      openSuperCatchGameConsole(res.game.code, currenUser.id);
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error.response?.data?.error ||
+          'Error in creating game. Please try again'
+      );
     }
   };
 
@@ -124,8 +162,12 @@ function GameDificultyModal({ isOpen, toggle }) {
           </Row>
         </div>
       </ModalBody>
-
       <CompetitionTypeModal isOpen={typeModal} toggle={handleOneClicked} />
+      <PaymentModal
+        isOpen={showPaymentModal}
+        toggle={() => setShowPaymentModal(false)}
+        onConfirm={handlePaymentConfirm}
+      />
     </Modal>
   );
 }
