@@ -95,7 +95,7 @@ function Tasks() {
                     <span className="task-title">{task.name}</span>
                     <span className="task-reward">
                       <img src={logo} alt="" width={20} height={20} />{' '}
-                      {task.reward} PLTL
+                      {task.reward} GPLTL
                     </span>
                   </div>
                 </div>

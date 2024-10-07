@@ -11,6 +11,7 @@ import {
   CREATE_GROUP,
   DAILYREWARD,
   GAME_DEPOSIT_ADDRESS,
+  GAME_WITHDRAWAL_ENPOINT,
   GET_ACTIVE_GAMES,
   GET_GAME,
   GET_GAME_LEADERBOARD,
@@ -178,6 +179,11 @@ export const getUplineWallets = async (userId) => {
 };
 
 export const getGameLeaderboard = async () => {
-  const result = await axios.get(GET_GAME_LEADERBOARD);
+  const result = await axios.get(GET_GAME_LEADERBOARD());
   return result.data;
 };
+
+export const submitGameWithdrawal = async (req) => {
+  const result = await axios.post(GAME_WITHDRAWAL_ENPOINT(), req)
+  return result.data;
+}

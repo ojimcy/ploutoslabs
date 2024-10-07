@@ -79,13 +79,13 @@ export default class ModeSelectionScene extends Scene {
   getSpeedByDifficulty(difficulty) {
     switch (difficulty) {
       case 'easy':
-        return 200;
+        return 1;
       case 'medium':
-        return 300;
+        return 120;
       case 'hard':
-        return 400;
+        return 240;
       default:
-        return 200;
+        return 1;
     }
   }
 

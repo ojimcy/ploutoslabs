@@ -26,8 +26,9 @@ import superman from '../../assets/images/superman.png';
 import './game.css';
 import WithdrawModal from '../../components/common/modal/WithdrawalModal';
 import { useCurrentUser } from '../../hooks/telegram';
-import { getActiveGames } from '../../lib/server';
+import { getActiveGames, submitGameWithdrawal } from '../../lib/server';
 import { openSuperCatchGameConsole } from '../../lib/utils';
+import { toast } from 'react-toastify';
 
 import pltlLogo from '../../assets/images/logo.png';
 
@@ -68,7 +69,15 @@ function Game() {
     setWithdrawalModal(!withdrawalModal);
   };
 
-  const handleWithdrawal = async () => {};
+  const handleWithdrawal = async (amount, address) => {
+    try {
+      await submitGameWithdrawal({amount: parseFloat(amount), destinationAddress: address })
+      toast.success('Request submitted')
+    } catch(err) {
+      console.log(err)
+      toast.error('Error in placing request')
+    }
+  };
 
   const handleShare = (gameCode) => {
     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
@@ -109,6 +118,9 @@ function Game() {
                   </DropdownItem>
                   <DropdownItem>
                     <Link to="/dashboard/game-leaderboard">Leaderboard</Link>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <Link to="/">Home</Link>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

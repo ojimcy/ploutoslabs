@@ -22,7 +22,7 @@ const GameLeaderboard = () => {
         console.log('leaderboard', res);
 
         setLeaderboard(res);
-        setTopEarners(res.Leader);
+        setTopEarners(res.leaders);
         setUserPosition(res.myPosition);
         setUserEarnings(res.myEarning);
       } catch (error) {
@@ -53,12 +53,12 @@ const GameLeaderboard = () => {
           <h5>Game Referral Leaderboard</h5>
           <div className="stats mt-2">
             <p>
-              <strong>Total Referral Earnings:</strong> $
-              {userEarnings.toFixed(2)}
+              <strong>My Referral Earnings:</strong> $
+              {userEarnings.toFixed(3)}
             </p>
             <p>
               <strong>Total Referral Pot Balance:</strong> $
-              {leaderboard?.Pot?.toFixed(2)}
+              {leaderboard?.pot?.toFixed(3)}
             </p>
           </div>
         </div>
@@ -77,7 +77,7 @@ const GameLeaderboard = () => {
                 <span>
                   {index + 1}. {earner.username}
                 </span>
-                <span>${earner.earnings.toFixed(2)}</span>
+                <span>${earner.earning.toFixed(3)}</span>
               </li>
             ))}
           </ul>
@@ -97,7 +97,7 @@ const GameLeaderboard = () => {
             <h4>Your Position</h4>
             <p>
               Current position <strong>#{userPosition}</strong>, earnings $
-              {userEarnings.toFixed(2)}.
+              {userEarnings.toFixed(3)}.
             </p>
           </div>
         )}

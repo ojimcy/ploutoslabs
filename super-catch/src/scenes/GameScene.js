@@ -29,6 +29,7 @@ export default class GameScene extends Scene {
 
   init(data) {
     baseSpeed = data.baseSpeed;
+    gameTime = data.baseSpeed;
     this.socket = data.socket;
     this.initMsg = data.msg;
     this.userId = data.userId;
@@ -126,7 +127,7 @@ export default class GameScene extends Scene {
     }
 
     walletButton = this.add.image(330, 20, 'wallet').setInteractive();
-    walletButton.setDisplaySize(30, 30);
+    walletButton.setDisplaySize(-30, -30);
 
     walletButton.on('pointerdown', () => {
       this.scene.pause();

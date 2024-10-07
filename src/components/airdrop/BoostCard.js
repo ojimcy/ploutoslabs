@@ -44,7 +44,7 @@ function BoostCard({ id, image, title, description, value }) {
                 width={40}
                 height={40}
               />
-              {value} PLTL <FaArrowUp style={{ margin: '0 0.5rem' }} />
+              {value} GPLTL <FaArrowUp style={{ margin: '0 0.5rem' }} />
             </div>
           </Col>
         </Row>

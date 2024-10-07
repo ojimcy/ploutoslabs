@@ -32,7 +32,7 @@ function Boosts() {
           <Row>
             <Col>
               <div className="balance-value mt-3">
-                {currentUser ? currentUser.balance?.toFixed(6) : '0'} PLTL
+                {currentUser ? currentUser.balance?.toFixed(6) : '0'} GPLTL
               </div>
             </Col>
           </Row>
@@ -53,7 +53,7 @@ function Boosts() {
                 id={b.id}
                 image={rainCrypt}
                 title={b.name}
-                description={`${b.miningRate} PLTL per ${b.miningFrequency} hours`}
+                description={`${b.miningRate} GPLTL per ${b.miningFrequency} hours`}
                 value={b.price}
               />
             ))}

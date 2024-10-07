@@ -14,7 +14,7 @@ function ClaimCard() {
         </Col>
         <Col xs={8} className="mt-3">
           {/* TODO: go to airdrop if its not users' first claim  */}
-          <h5 className="claim-title">Start mining free PLTL</h5>
+          <h5 className="claim-title">Start mining free GPLTL</h5>
           <Link className="claim-btn" to="/dashboard/airdrop">
             Claim
           </Link>

@@ -51,7 +51,7 @@ function Airdrop() {
                 <p>
                   Balance:{' '}
                   <strong>
-                    {currentUser ? currentUser.balance?.toFixed(6) : '0'} PLTL
+                    {currentUser ? currentUser.balance?.toFixed(6) : '0'} GPLTL
                   </strong>
                 </p>
               </div>

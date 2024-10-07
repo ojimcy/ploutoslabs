@@ -27,7 +27,7 @@ function WithdrawModal({ isOpen, toggle, onSubmit }) {
 
     // Clear the error and call the onSubmit function with the form data
     setError('');
-    onSubmit({ amount, address });
+    onSubmit(amount, address);
     toggle();
   };
 
