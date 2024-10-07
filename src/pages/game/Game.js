@@ -119,9 +119,6 @@ function Game() {
                   <DropdownItem>
                     <Link to="/dashboard/game-leaderboard">Leaderboard</Link>
                   </DropdownItem>
-                  <DropdownItem>
-                    <Link to="/">Home</Link>
-                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>

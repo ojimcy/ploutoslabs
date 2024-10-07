@@ -16,7 +16,6 @@ function GameDificultyModal({ isOpen, toggle }) {
   const currenUser = useCurrentUser();
   const [typeModal, setTypeModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const lastSoloGameTime = currenUser.lastSoloGameTime;
 
   const handleOneClicked = () => {
     setMode('one-vs-one');
@@ -33,11 +32,10 @@ function GameDificultyModal({ isOpen, toggle }) {
       today.getDate() === gameDate.getDate()
     );
   };
-  console.log('today is again', currenUser?.lastSoloGameTime);
 
   const handleContinue = async () => {
     if (mode === 'solo') {
-      if (isToday(lastSoloGameTime)) {
+      if (isToday(currenUser?.lastFreeGameTime)) {
         setShowPaymentModal(true);
       } else {
         try {
