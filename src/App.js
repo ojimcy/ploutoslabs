@@ -21,7 +21,7 @@ import Referrals from './pages/dashboard/airdrop/Referrals';
 import Boosts from './pages/dashboard/airdrop/Boosts';
 import GameLayout from './components/layout/GameLayout';
 import CreateWallet from './pages/dashboard/wallet/CreateWallet';
-import Game from './pages/game/Game';
+import SuperCatchGame from './pages/game/SuperCatchGame';
 import GroupPage from './pages/game/GroupPage';
 import JoinPage from './pages/game/JoinGame';
 import GameSummaryPage from './pages/game/GameSummaryPage';
@@ -31,6 +31,8 @@ import OnrampPage from './pages/dashboard/wallet/OnrampPage';
 import TokenPresale from './pages/dashboard/Presale';
 import ConfirmationPage from './pages/dashboard/wallet/confirmation';
 import GameLeaderBoard from './components/airdrop/GameLeaderboard';
+import Games from './pages/game/Games';
+import ComingSoon from './pages/ComingSoon';
 
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
@@ -91,13 +93,15 @@ const App = () => {
           path="/game/*"
           element={
             <GameLayout>
-              <Routes>
-                <Route index element={<Game />} />
+              <Routes>                
+                <Route index element={<Games />} />
+                <Route path="/coming-soon" element={<ComingSoon />} />
+                <Route path="/super-catch" element={<SuperCatchGame />} />
                 {/* <Route path="/super-catch" element={<RainGameCanvas />} /> */}
-                <Route path="/group" element={<GroupPage />} />
-                <Route path="/join" element={<JoinPage />} />
-                <Route path="/summary" element={<GameSummaryPage />} />
-                <Route path="waiting" element={<GameDetails />} />
+                <Route path="/super-catch/group" element={<GroupPage />} />
+                <Route path="/super-catch/join" element={<JoinPage />} />
+                <Route path="/super-catch/summary" element={<GameSummaryPage />} />
+                <Route path="/super-catch/waiting" element={<GameDetails />} />
               </Routes>
             </GameLayout>
           }

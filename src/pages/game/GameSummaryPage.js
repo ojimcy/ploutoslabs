@@ -89,7 +89,7 @@ function GameSummaryPage() {
           <Link to="/" className="sumary-btn exit-btn">
             EXIT
           </Link>
-          <Link to="/game" className="sumary-btn new-game-btn">
+          <Link to="/game/super-catch" className="sumary-btn new-game-btn">
             NEW GAME
           </Link>
         </div>

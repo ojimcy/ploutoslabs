@@ -40,7 +40,7 @@ function CompetitionTypeModal({ isOpen, toggle }) {
       });
       setGameCode(res.game.code);
       console.log(res);
-      navigate('/game/waiting');
+      navigate('/game/super-catch/waiting');
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error);

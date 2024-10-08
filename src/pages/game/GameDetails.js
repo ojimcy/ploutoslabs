@@ -39,7 +39,7 @@ function GameDetails() {
       hideProgressBar: false,
       closeOnClick: true,
     });
-    navigate('/game');
+    navigate('/game/super-catch');
   };
 
   useEffect(() => {
@@ -99,7 +99,7 @@ function GameDetails() {
         closeOnClick: true,
       });
     }
-    navigate('/game/waiting');
+    navigate('/game/super-catch/waiting');
   };
 
   const openGameConsole = () => {
@@ -113,7 +113,7 @@ function GameDetails() {
       )}&text=${encodeURIComponent('Let’s play a one-on-one battle! 🎮')}`;
       webapp.openTelegramLink(telegramUrl);
     }
-    navigate('/game/waiting');
+    navigate('/game/super-catch/waiting');
   };
 
   return (

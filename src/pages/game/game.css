@@ -278,7 +278,7 @@
   padding: 10px !important;
 }
 
-.active-game-card .game-actions button{
+.active-game-card .game-actions button {
   width: 45% !important;
 }
 
@@ -289,4 +289,55 @@
 
 .wallet-dropdown-toggle {
   background-color: transparent !important;
+}
+
+.games-card {
+  background-image: linear-gradient(to left, rgb(71, 56, 111), transparent 75%);
+  background-color: rgb(50 55 56 / 1);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.game-details {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.game-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.game-description {
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 20px;
+  position: relative;
+  bottom: 0;
+}
+
+.game-image-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-image {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.games-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.games-card-link:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease-in-out;
 }

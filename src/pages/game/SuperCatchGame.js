@@ -2,17 +2,11 @@ import React, { useEffect, useState } from 'react';
 import {
   Container,
   Row,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Button,
   Col,
 } from 'reactstrap';
 import {
-  FaCaretDown,
   FaQuestion,
-  FaWallet,
   FaShare,
   FaEthereum,
 } from 'react-icons/fa';
@@ -20,24 +14,17 @@ import { Link } from 'react-router-dom';
 
 import TelegramBackButton from '../../components/common/TelegramBackButton';
 import GameDificultyModal from '../../components/common/modal/GameDificultyModal';
-import GameDepositModal from '../../components/common/modal/GameDepositModal';
 
 import superman from '../../assets/images/superman.png';
 import './game.css';
-import WithdrawModal from '../../components/common/modal/WithdrawalModal';
 import { useCurrentUser } from '../../hooks/telegram';
-import { getActiveGames, submitGameWithdrawal } from '../../lib/server';
+import { getActiveGames } from '../../lib/server';
 import { openSuperCatchGameConsole } from '../../lib/utils';
-import { toast } from 'react-toastify';
 
-import pltlLogo from '../../assets/images/logo.png';
 
-function Game() {
+function SuperCatchGame() {
   const currentUser = useCurrentUser();
   const [difficultyModal, setDifficultyModal] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [depositModal, setDepositModal] = useState(false);
-  const [withdrawalModal, setWithdrawalModal] = useState(false);
   const [activeGames, setActiveGames] = useState([]);
 
   useEffect(() => {
@@ -57,28 +44,6 @@ function Game() {
     setDifficultyModal(!difficultyModal);
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const toggleDepositModal = () => {
-    setDepositModal(!depositModal);
-  };
-
-  const toggleWithdrawalModal = () => {
-    setWithdrawalModal(!withdrawalModal);
-  };
-
-  const handleWithdrawal = async (amount, address) => {
-    try {
-      await submitGameWithdrawal({amount: parseFloat(amount), destinationAddress: address })
-      toast.success('Request submitted')
-    } catch(err) {
-      console.log(err)
-      toast.error('Error in placing request')
-    }
-  };
-
   const handleShare = (gameCode) => {
     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
       gameCode
@@ -95,35 +60,6 @@ function Game() {
       <TelegramBackButton />
       {currentUser && (
         <Container className="game-page">
-          <div className="game-header">
-            <Link to="/" className="main-title">
-              <img src={pltlLogo} alt="logo" />
-            </Link>
-
-            <div className="wallet-dropdown">
-              <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-                <DropdownToggle className="wallet-dropdown-toggle">
-                  <FaWallet className="wallet-icon" />
-                  <FaCaretDown />
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem header>
-                    Balance: ${currentUser.gameWalletBalance}
-                  </DropdownItem>
-                  <DropdownItem onClick={toggleDepositModal}>
-                    Deposit
-                  </DropdownItem>
-                  <DropdownItem onClick={toggleWithdrawalModal}>
-                    Withdraw
-                  </DropdownItem>
-                  <DropdownItem>
-                    <Link to="/dashboard/game-leaderboard">Leaderboard</Link>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          </div>
-
           {/* Game Card Section */}
           <Row className="mt-5 d-flex justify-content-center align-items-center">
             <div className="game-card">
@@ -143,7 +79,7 @@ function Game() {
               >
                 Create Game
               </Link>
-              <Link to="/game/join" className="play-button mt-4">
+              <Link to="/game/super-catch/join" className="play-button mt-4">
                 Join Game
               </Link>
             </div>
@@ -219,14 +155,8 @@ function Game() {
         isOpen={difficultyModal}
         toggle={toggleDifficultyModal}
       />
-      <GameDepositModal isOpen={depositModal} toggle={toggleDepositModal} />
-      <WithdrawModal
-        isOpen={withdrawalModal}
-        toggle={toggleWithdrawalModal}
-        onSubmit={handleWithdrawal}
-      />
     </div>
   );
 }
 
-export default Game;
+export default SuperCatchGame;

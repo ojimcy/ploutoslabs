@@ -74,7 +74,7 @@ function GameDificultyModal({ isOpen, toggle }) {
 
   // const handleGroupClicked = () => {
   //   setMode('group');
-  //   navigate('/game/group');
+  //   navigate('/game/super-catch/group');
   // };
 
   return (

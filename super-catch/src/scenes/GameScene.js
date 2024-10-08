@@ -259,7 +259,7 @@ export default class GameScene extends Scene {
     playAgainButton.addEventListener('click', () => {
       // document.getElementById('game-over-modal').style.display = 'none';
       // this.restartGame();
-      location.href = '/game'
+      location.href = '/game/super-catch'
     });
 
     modal = document.getElementById('game-over-modal');

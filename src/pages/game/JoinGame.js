@@ -27,7 +27,7 @@ function JoinPage() {
         gameNickname: nickname,
         code: gameCode,
       });
-      navigate('/game/waiting');
+      navigate('/game/super-catch/waiting');
     } catch (error) {
       console.error('Error while joining game: ', error);
       toast.error(error.response.data.error || 'Error while joining game');
