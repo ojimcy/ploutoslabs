@@ -102,7 +102,7 @@ function CompetitionTypeModal({ isOpen, toggle }) {
                 placeholder="Enter a nickname"
               />
             </FormGroup>
-            {showStartTimeInput && (
+            {showStartTimeInput && false && (
               <FormGroup>
                 <Label>Start Time:</Label>
                 <Input

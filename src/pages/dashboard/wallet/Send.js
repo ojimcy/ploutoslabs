@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { decryptPrivateKey, formatAddress } from '../../../lib/utils';
 import { privateKeyToAccount } from 'viem/accounts';
-import { createWalletClient, http, parseEther } from 'viem';
+import { createWalletClient, encodeFunctionData, erc20Abi, http, parseEther, parseUnits } from 'viem';
 import { base } from 'viem/chains';
 import {
   Container,
@@ -50,7 +50,7 @@ const Send = () => {
     toggleModal();
   };
 
-  const validatePin = async (pin) => {
+  const sendTransaction = async (pin) => {
     if (!selectedToken) return;
 
     setShowPinPad(false);
@@ -59,7 +59,8 @@ const Send = () => {
 
     let decryptedPrivateKey;
     try {
-      decryptedPrivateKey = decryptPrivateKey(
+      console.log('selectedWallet', selectedWallet)
+      decryptedPrivateKey = await decryptPrivateKey(
         selectedWallet.privateKey,
         pin,
         selectedWallet.iv,
@@ -67,13 +68,15 @@ const Send = () => {
       );
     } catch (error) {
       console.log(error);
-      alert('Invalid passord');
+      alert('Invalid password');
       return;
     }
 
     try {
-      const account = privateKeyToAccount(`0x${decryptedPrivateKey}`);
-      console.log(account.address);
+      if (!decryptedPrivateKey.startsWith('0x')) {
+        decryptedPrivateKey = `0x${decryptedPrivateKey}`;
+      }
+      const account = privateKeyToAccount(decryptedPrivateKey);
 
       const walletClient = createWalletClient({
         chain: base,
@@ -82,18 +85,88 @@ const Send = () => {
         ),
       });
 
-      const hash = await walletClient.sendTransaction({
-        account,
-        to: recipient,
-        value: parseEther(amount),
-      });
+      let transactionRequest;
+
+      const weth = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+      if (selectedToken.token_address.toLowerCase() != weth.toLowerCase()) {
+        // Handle ERC-20 token transaction
+        const transferData = encodeFunctionData({
+          abi: erc20Abi,
+          functionName: 'transfer',
+          args: [recipient, parseUnits(amount, selectedToken.decimals)],
+        });
+
+        transactionRequest = {
+          account,
+          to: selectedToken.token_address, 
+          data: transferData, // Encoded transfer function data
+        };
+      } else {
+        // Handle ETH transaction
+        transactionRequest = {
+          account,
+          to: recipient,
+          value: parseEther(amount), // ETH amount
+          // gasPrice: parseGwei('0.009803727'),
+        };
+      }
+
+      const hash = await walletClient.sendTransaction(transactionRequest);
 
       setTransactionResult({ hash });
     } catch (err) {
       console.log(err);
+      alert('went wrong')
       setTransactionError('Error. Please try again later');
     }
   };
+
+  // const sendTransaction = async (pin) => {
+  //   if (!selectedToken) return;
+
+  //   setShowPinPad(false);
+  //   setLoading(true);
+  //   toggleModal();
+
+  //   let decryptedPrivateKey;
+  //   try {
+  //     decryptedPrivateKey = decryptPrivateKey(
+  //       selectedWallet.privateKey,
+  //       pin,
+  //       selectedWallet.iv,
+  //       selectedWallet.tag
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //     alert('Invalid passord');
+  //     return;
+  //   }
+
+  //   try {
+  //     if (!decryptedPrivateKey.startsWith('0x')) {
+  //       decryptedPrivateKey = `0x${decryptedPrivateKey}`
+  //     }
+  //     const account = privateKeyToAccount(decryptPrivateKey);
+
+  //     const walletClient = createWalletClient({
+  //       chain: base,
+  //       transport: http(
+  //         'https://site1.moralis-nodes.com/base/7c74003aee444699a46ee88fef4a796f'
+  //       ),
+  //     });
+
+  //     const hash = await walletClient.sendTransaction({
+  //       account,
+  //       to: recipient,
+  //       value: parseEther(amount),
+  //     });
+
+  //     setTransactionResult({ hash });
+  //   } catch (err) {
+  //     console.log(err);
+  //     setTransactionError('Error. Please try again later');
+  //   }
+  // };
 
   return (
     <Container className="send-container">
@@ -148,7 +221,7 @@ const Send = () => {
       {showPinPad && (
         <TransactionPin
           title={'Enter your 6 digit pin'}
-          onSubmit={validatePin}
+          onSubmit={sendTransaction}
         />
       )}
 
@@ -172,7 +245,11 @@ const Send = () => {
               <div className="success-message">
                 <p>Transaction submitted successfully!</p>
                 <p>
-                  <a target='_blank' rel='noreferrer' href={`https://basescan.org/tx/${transactionResult.hash}`}>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={`https://basescan.org/tx/${transactionResult.hash}`}
+                  >
                     Track Transaction
                   </a>
                 </p>

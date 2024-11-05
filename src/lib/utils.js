@@ -8,7 +8,7 @@ import { addWallet } from './db';
 import { addUsersWallet } from './server';
 
 export const formatAddress = (address) => {
-  if(!address) return ''
+  if (!address) return '';
   return `${address.slice(0, 6)}...${address.slice(-6)}`;
 };
 
@@ -46,15 +46,27 @@ export const decryptPrivateKey = (encryptedPrivateKey, password, iv, tag) => {
 /**
  * Encrypt and save the account with the password
  *
- * @param {import('viem').Account} wallet
+ * @param {import('viem').Account | import('viem').PrivateKeyAccount | import('viem').HDAccount} wallet
  * @param {string} password
  */
-export const encryptAndSaveWallet = async (wallet, password, userId, label) => {
-  const privateKeyUint8Array = wallet.getHdKey().privateKey;
-  // Convert Uint8Array to hex string
-  const privateKeyHex = Array.from(privateKeyUint8Array)
-    .map((byte) => byte.toString(16).padStart(2, '0'))
-    .join('');
+export const encryptAndSaveWallet = async (
+  wallet,
+  password,
+  userId,
+  label,
+  privateKeyHex
+) => {
+  if (wallet.getHdKey) {
+    const privateKeyUint8Array = wallet.getHdKey().privateKey;
+    // Convert Uint8Array to hex string
+    privateKeyHex = `0x${Array.from(privateKeyUint8Array)
+      .map((byte) => byte.toString(16).padStart(2, '0'))
+      .join('')}`;
+  }
+
+  if(privateKeyHex == '') {
+    throw new Error('PK cannot be empty')
+  }
 
   // Encrypt the private key
   const key = createHash('sha256').update(password).digest();
@@ -65,6 +77,12 @@ export const encryptAndSaveWallet = async (wallet, password, userId, label) => {
     cipher.final(),
   ]);
   const tag = cipher.getAuthTag();
+
+  if (encryptedPrivateKey == '') {
+    throw new Error('encryptedPrivateKey is not supposed to be empty')
+  }
+
+  console.log('encryptedPrivateKey', encryptedPrivateKey)
 
   const walletData = {
     iv: iv.toString('hex'),

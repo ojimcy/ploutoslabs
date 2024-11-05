@@ -46,7 +46,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
     try {
       let decryptedPrivateKey;
       try {
-        decryptedPrivateKey = decryptPrivateKey(
+        decryptedPrivateKey = await decryptPrivateKey(
           selectedWallet.privateKey,
           pin,
           selectedWallet.iv,

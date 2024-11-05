@@ -9,6 +9,7 @@ import {
   FormGroup,
   Label,
   Input,
+  Alert,
 } from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './wallets.css';
@@ -24,6 +25,7 @@ const ImportWallet = () => {
   const [error, setError] = useState('');
   const [step, setStep] = useState(1);
   const [password, setPassword] = useState('');
+  const [label, setLable] = useState('');
 
   const currentUser = useCurrentUser();
 
@@ -52,7 +54,8 @@ const ImportWallet = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
     if (!validateInput(inputValue)) {
       alert('Invalid input');
       return;
@@ -69,7 +72,13 @@ const ImportWallet = () => {
       return;
     }
 
-    encryptAndSaveWallet(account, password, currentUser.id)
+    console.log('inputValue', inputValue)
+    encryptAndSaveWallet(account, password, currentUser.id, label, inputValue);
+    setStep(3)
+    } catch (error) {
+      setError('Error in importing wallet')
+      console.log(error)
+    }
   };
 
   return (
@@ -84,13 +93,22 @@ const ImportWallet = () => {
               title={'Enter a 6 digit pin'}
               onSubmit={(pin) => {
                 setPassword(pin);
-                setStep(2)
+                setStep(2);
               }}
             />
           )}
 
           {step == 2 && (
             <Form onSubmit={handleSubmit}>
+              <FormGroup>
+                <Label>Label</Label>
+                <Input
+                  name="lable"
+                  id="lable"
+                  value={label}
+                  onChange={(e) => setLable(e.target.value)}
+                />
+              </FormGroup>
               <FormGroup>
                 <Label for="walletInput">
                   Enter Seed Phrase or Private Key
@@ -111,6 +129,12 @@ const ImportWallet = () => {
                 Import Wallet
               </Button>
             </Form>
+          )}
+
+          {step === 3 && (
+            <Alert color="success">
+              Wallet imported successfully! Your private key is securely stored.
+            </Alert>
           )}
         </Col>
       </Row>
