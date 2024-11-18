@@ -67,7 +67,7 @@ const ImportWallet = () => {
         : privateKeyToAccount(inputValue);
 
     const existingWallet = getWalletByAddress(account.address);
-    if (existingWallet) {
+    if (existingWallet && existingWallet.privateKey) {
       setError('The imported wallet exists');
       return;
     }

@@ -68,6 +68,8 @@ export const encryptAndSaveWallet = async (
     throw new Error('PK cannot be empty')
   }
 
+  privateKeyHex = privateKeyHex.startsWith('0x') ? privateKeyHex.slice(2) : privateKeyHex;
+
   // Encrypt the private key
   const key = createHash('sha256').update(password).digest();
   const iv = randomBytes(16);
@@ -81,8 +83,6 @@ export const encryptAndSaveWallet = async (
   if (encryptedPrivateKey == '') {
     throw new Error('encryptedPrivateKey is not supposed to be empty')
   }
-
-  console.log('encryptedPrivateKey', encryptedPrivateKey)
 
   const walletData = {
     iv: iv.toString('hex'),
