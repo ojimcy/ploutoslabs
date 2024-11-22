@@ -1,6 +1,6 @@
-// export const ROOT = 'https://localhost:3001';
+export const ROOT = 'https://localhost:3001';
 
-export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
+// export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
 // export const ROOT = 'https://glowing-jennet-crucial.ngrok-free.app'
 
 export const USER_BY_ID = (id) => `${ROOT}/user/${id}`;
@@ -43,3 +43,5 @@ export const GET_ACTIVE_GAMES = () => `${ROOT}/active-games`;
 export const GET_UPLINE_WALLET = (userID) => `${ROOT}/get-upline-wallets/${userID}`;
 
 export const GET_GAME_LEADERBOARD = () => `${ROOT}/game-leader-board`;
+export const GET_REF_LEADERBOARD = () => `${ROOT}/ref-leaderboard`;
+export const ADD_TASK = () => `${ROOT}/create-task`;

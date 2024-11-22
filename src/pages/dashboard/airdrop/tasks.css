@@ -1,5 +1,6 @@
 .task-page {
   padding-top: 45px;
+  padding-bottom: 45px;
 }
 
 .task-page .title h3 {
@@ -42,4 +43,9 @@
   );
   border-radius: 18px;
   padding: 20px 24px;
+}
+
+.add-task-liank {
+  text-align: center;
+  margin-top: 15px;
 }

@@ -15,6 +15,7 @@ import {
   GET_ACTIVE_GAMES,
   GET_GAME,
   GET_GAME_LEADERBOARD,
+  GET_REF_LEADERBOARD,
   GET_GROUPS,
   GET_TOKEN_BALANCES,
   GET_TRANSACTION_DETAILS,
@@ -28,6 +29,7 @@ import {
   TASK,
   TASKS,
   USER_BY_ID,
+  ADD_TASK,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -184,6 +186,16 @@ export const getGameLeaderboard = async () => {
 };
 
 export const submitGameWithdrawal = async (req) => {
-  const result = await axios.post(GAME_WITHDRAWAL_ENPOINT(), req)
+  const result = await axios.post(GAME_WITHDRAWAL_ENPOINT(), req);
   return result.data;
-}
+};
+
+export const getRefLeaderboard = async () => {
+  const result = await axios.get(GET_REF_LEADERBOARD());
+  return result.data;
+};
+
+export const addTasks = async (taskData) => {
+  const result = await axios.post(ADD_TASK(), taskData);
+  return result.data;
+};

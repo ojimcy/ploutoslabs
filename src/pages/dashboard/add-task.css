@@ -1,0 +1,22 @@
+.add-task-page {
+    padding-top: 45px;
+  }
+  
+  .add-task-page h3 {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 29px;
+  }
+  
+  .add-task-page p {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 27px;
+    text-align: center;
+  }
+  
+  button[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  

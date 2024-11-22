@@ -17,10 +17,8 @@ import { getTokenBalances } from '../../lib/server';
 
 import './wallet.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-
 function BalanceCard() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [sendModal, setSendModal] = useState(false);
   const [receiveModal, setReceiveModal] = useState(false);
   const { selectedWallet } = useContext(AppContext);
@@ -30,13 +28,13 @@ function BalanceCard() {
   const toggleSendModal = () => setSendModal(!sendModal);
   const toggleReceiveModal = () => setReceiveModal(!receiveModal);
 
-  const handleComingSoonClicked = () => {
-    if (toast) {
-      toast.info('This feature will be available soon');
-    } else {
-      console.error('Toast is not defined');
-    }
-  };
+  // const handleComingSoonClicked = () => {
+  //   if (toast) {
+  //     toast.info('This feature will be available soon');
+  //   } else {
+  //     console.error('Toast is not defined');
+  //   }
+  // };
 
   const calculateNetWorth = (tokens) => {
     return tokens.reduce((acc, token) => {
@@ -74,21 +72,26 @@ function BalanceCard() {
           <FaArrowDown className="icon" />
           <div className="label">Receive</div>
         </div>
-        <div className="wallet-action" onClick={()=>{
-          handleComingSoonClicked()
-        }}>
+        <div
+          className="wallet-action"
+          onClick={() => {
+            location.href = 'https://onramp.money/main/swap/?appId=1247696';
+          }}
+        >
           <FaQrcode className="icon" />
           <div className="label">Swap</div>
         </div>
+
         <div
           className="wallet-action"
           onClick={() => {
             // 1247696
-            location.href = 'https://onramp.money/app/?appId=1247696&redirectUrl=https://t.me/ploutos_labs_dev_bot/app';
+            location.href =
+              'https://onramp.money/app/?appId=1247696&redirectUrl=https://t.me/ploutos_labs_dev_bot/app';
           }}
         >
-            <FaDollarSign className="icon" />
-            <div className="label">Buy & Sell</div>
+          <FaDollarSign className="icon" />
+          <div className="label">Buy & Sell</div>
         </div>
 
         {/* <div
@@ -107,8 +110,8 @@ function BalanceCard() {
 
         <div
           className="wallet-action"
-          onClick={()=>{
-            navigate('/dashboard/presale')
+          onClick={() => {
+            navigate('/dashboard/presale');
           }}
         >
           <FaPlay className="icon" />

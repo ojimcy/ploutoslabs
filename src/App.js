@@ -28,9 +28,11 @@ import GameSummaryPage from './pages/game/GameSummaryPage';
 import GameDetails from './pages/game/GameDetails';
 import DailyReward from './components/airdrop/DailyReward';
 import OnrampPage from './pages/dashboard/wallet/OnrampPage';
-import TokenPresale from './pages/dashboard/Presale';
+import TokenPresale from './pages/dashboard/AddTask';
+import AddTask from './pages/dashboard/AddTask';
 import ConfirmationPage from './pages/dashboard/wallet/confirmation';
 import GameLeaderBoard from './components/airdrop/GameLeaderboard';
+import ReferralContests from './components/airdrop/ReferralContests';
 import Games from './pages/game/Games';
 import ComingSoon from './pages/ComingSoon';
 
@@ -84,6 +86,8 @@ const App = () => {
                 <Route path="rewards" element={<DailyReward />} />
                 <Route path="presale" element={<TokenPresale />} />
                 <Route path="game-leaderboard" element={<GameLeaderBoard />} />
+                <Route path="ref-leaderboard" element={<ReferralContests />} />
+                <Route path="create-task" element={<AddTask />} />
               </Routes>
             </Layout>
           }

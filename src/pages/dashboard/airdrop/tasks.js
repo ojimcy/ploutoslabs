@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Container, Row, Spinner } from 'reactstrap';
 import {
   FaCheck,
   FaGreaterThan,
@@ -10,9 +10,18 @@ import {
   FaTwitter,
   FaYoutube,
 } from 'react-icons/fa';
-import { useCurrentUser, useTelegramUser, useWebApp } from '../../../hooks/telegram';
-import { completeTask, getTasks, getUserByTelegramID } from '../../../lib/server';
+import {
+  useCurrentUser,
+  useTelegramUser,
+  useWebApp,
+} from '../../../hooks/telegram';
+import {
+  completeTask,
+  getTasks,
+  getUserByTelegramID,
+} from '../../../lib/server';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 import logo from '../../../assets/images/logo.png';
 
@@ -20,44 +29,48 @@ import './tasks.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 function Tasks() {
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState([]);
+  const [loadingTaskId, setLoadingTaskId] = useState(null);
   const webApp = useWebApp();
   const currentUser = useCurrentUser();
-  const telegramUser = useTelegramUser()
+  const telegramUser = useTelegramUser();
+
+  const fetchTask = async () => {
+    const user = await getUserByTelegramID(telegramUser.id);
+    const tks = await getTasks(user.id);
+    setTasks(tks);
+  };
 
   useEffect(() => {
-    if(!telegramUser) return;
-    const fn = async () => {
-      const user = await getUserByTelegramID(telegramUser.id)
-      const tks = await getTasks(user.id)
-      console.log('tks', tks)
-      setTasks(tks)
-    }
+    if (!telegramUser) return;
+    fetchTask();
+  }, [telegramUser]);
 
-    fn()
-  }, [telegramUser])
+  const handleTaskClick = (task) => {
+    console.log(task);
 
-  const handleTaskClick = async (task) => {
-    console.log(task)
+    // Open task link
     if (task.link.indexOf('t.me') >= 0) {
       webApp.openTelegramLink(task?.link);
     } else {
       webApp.openLink(task.link);
     }
 
-    try {
-      const result = await completeTask(currentUser.id, task?.id, 'no proof');
-      toast({
-        title: 'Done',
-        description: result.message,
-      });
-    } catch (error) {
-      toast({
-        duration: 5000,
-        title: 'Error',
-        description: error?.response?.data?.error,
-      });
-    }
+    // Set loading state for the specific task
+    setLoadingTaskId(task.id);
+
+    setTimeout(async () => {
+      try {
+        const result = await completeTask(currentUser.id, task?.id, 'no proof');
+        toast.success(result.message);
+        fetchTask(); // Refresh tasks after completion
+      } catch (error) {
+        toast.error(error?.response?.data?.error || 'An error occurred');
+      } finally {
+        // Clear loading state after API call
+        setLoadingTaskId(null);
+      }
+    }, 3000);
   };
 
   const taskIcons = {
@@ -71,7 +84,7 @@ function Tasks() {
 
   return (
     <div className="task-page">
-      <TelegramBackButton/>
+      <TelegramBackButton />
       <Container>
         <Row>
           <div className="title">
@@ -100,12 +113,27 @@ function Tasks() {
                   </div>
                 </div>
                 <div className="task-status">
-                  {task.completed ? <FaCheck /> : <FaGreaterThan />}
+                  {loadingTaskId === task.id ? (
+                    <Spinner color="primary" />
+                  ) : task.completed ? (
+                    <FaCheck />
+                  ) : (
+                    <FaGreaterThan />
+                  )}
                 </div>
               </div>
             </Col>
           ))}
         </Row>
+
+        {currentUser.username === 'emmyojay' ||
+        currentUser.username === 'Ossypechos' ? (
+          <Link className="mt-5 add-task-liank" to="/dashboard/create-task">
+            Add Task
+          </Link>
+        ) : (
+          ''
+        )}
       </Container>
     </div>
   );
