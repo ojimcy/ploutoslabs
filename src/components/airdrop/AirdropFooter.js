@@ -12,7 +12,7 @@ function AirdropFooter() {
           to="/dashboard/tasks"
           className="d-flex flex-column align-items-center"
         >
-          <FiList size={24} className="icon" />
+          <FiList size={20} className="icon" />
           <span className="mt-2">Tasks</span>
         </Link>
       </Col>
@@ -21,7 +21,7 @@ function AirdropFooter() {
           to="/dashboard/boosts"
           className="d-flex flex-column align-items-center"
         >
-          <FiActivity size={24} className="icon" />
+          <FiActivity size={20} className="icon" />
           <span className="mt-2">Boost</span>
         </Link>
       </Col>
@@ -30,7 +30,7 @@ function AirdropFooter() {
           to="/dashboard/referrals"
           className="d-flex flex-column align-items-center"
         >
-          <FiUsers size={24} className="icon" />
+          <FiUsers size={20} className="icon" />
           <span className="mt-2">Referrals</span>
         </Link>
       </Col>
@@ -39,7 +39,7 @@ function AirdropFooter() {
           to="/dashboard/ref-leaderboard"
           className="d-flex flex-column align-items-center"
         >
-          <FiAward size={24} className="icon" />
+          <FiAward size={20} className="icon" />
           <span className="mt-2">Leaderboard</span>
         </Link>
       </Col>

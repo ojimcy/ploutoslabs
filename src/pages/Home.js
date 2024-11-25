@@ -16,7 +16,7 @@ function Home() {
       const user = await getUserByTelegramID(telegramUser?.id);
       if (user && user.id) {
         setUser(user);
-        navigate('/dashboard');
+        navigate('/dashboard/airdrop');
       } else {
         navigate('/auth');
       }

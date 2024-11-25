@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Container } from 'reactstrap';
-import ReferralCard from '../../../components/airdrop/ReferralCard';
-import StorageCard from '../../../components/airdrop/StorageCard';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Container } from 'reactstrap';
+// import ReferralCard from '../../../components/airdrop/ReferralCard';
+// import StorageCard from '../../../components/airdrop/StorageCard';
 import { computeTokensToCliam, useCurrentUser } from '../../../hooks/telegram';
-import AirdropFooter from '../../../components/airdrop/AirdropFooter';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
-import './airdrop-main.css'
+import airdropLogo from '../../../assets/images/airdrop-logo.png';
+
+import './airdrop-main.css';
+import { FaFire, FaGem, FaWallet } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { claimToken, getUserByTelegramID } from '../../../lib/server';
+import { WebappContext } from '../../../context/telegram';
+
+import rocket from '../../../assets/images/rocket.png'
 
 function Airdrop() {
   const currentUser = useCurrentUser();
+  const { setUser } = useContext(WebappContext);
 
   // Fill time in minutes and fill rate in RAIN per hour
   const fillTime = 1;
@@ -32,34 +39,79 @@ function Airdrop() {
     return () => clearInterval(interval);
   }, [currentUser]);
 
+  const claim = async () => {
+    await claimToken(currentUser.telegramId);
+    const user = await getUserByTelegramID(currentUser.telegramId);
+    setUser(user);
+  };
+
   console.log(maxReceivableAmount);
   return (
     <div className="airdrop-page">
       <Container>
-        <TelegramBackButton />
         <div className="airdrop-main">
-          <ReferralCard />
+          {/* <ReferralCard /> */}
           <div className="storage-section">
-            <StorageCard />
+            {/* <StorageCard /> */}
 
-            <div className="airdrop-balance d-flex flex-column justify-content-center align-items-center mt-5">
-              <div className="to-claim">
-                <h5>Amount to Claim:</h5>
-                <span>{currentAmount?.toFixed(6)}</span>
+            <div className="d-flex flex-column align-items-center mb-5">
+              <div className="avatar bg-black rounded-circle mb-3 d-flex justify-content-center align-items-center">
+                <img width={50} height={50} src={airdropLogo} alt="Logo" />
               </div>
-              <div className="balance">
-                <p>
-                  Balance:{' '}
-                  <strong>
-                    {currentUser ? currentUser.balance?.toFixed(6) : '0'} GPLTL
-                  </strong>
-                </p>
+              <h1 className="fs-3 text-light mb-3">{currentUser?.username}</h1>
+
+              {/* Balance */}
+              <div className="text-center my-3">
+                <div className="d-flex align-items-center justify-content-center gap-2 text-secondary">
+                  <FaWallet className="icon-sm" />
+                  <span>Balance</span>
+                </div>
+                <div className="fs-1 fw-bold text-light">
+                  {currentUser ? currentUser.balance?.toFixed(2) : '0'} GPLTL
+                </div>
               </div>
+            </div>
+
+            {/* Mining Stats */}
+            <div className="mining-card border border-secondary rounded p-3  d-flex justify-content-between align-items-center">
+              <FaGem className="icon-md text-secondary" />
+              <div className="d-flex align-items-center gap-2">
+                <span className="fs-5 text-warning fw-semibold">
+                  {' '}
+                  <span>{currentAmount?.toFixed(6)} GPLTL</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="boost-area">
+              <div className="energy d-flex flex-row align-items-center">
+                <FaFire className="lightning-icon" size={25} />
+                <span>
+                  {currentUser && (
+                    <small className="minig-rate">
+                      {currentUser.miningRate} PLTL /{' '}
+                      {currentUser.miningFrequency} hour
+                    </small>
+                  )}
+                </span>
+              </div>
+
+              <div className="booster d-flex flex-row align-items-center">
+                <Link className="" to="/boost">
+                  <img width={25} height={25} src={rocket} alt="rocket" />
+                  <span style={{ color: '#ffffff' }}>Boost</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Claim Button */}
+            <div className="claim-section d-flex justify-content-center align-items-center mt-5">
+              <Button onClick={claim} className="btn-claim">
+                Claim
+              </Button>
             </div>
           </div>
         </div>
-
-        <AirdropFooter />
       </Container>
     </div>
   );

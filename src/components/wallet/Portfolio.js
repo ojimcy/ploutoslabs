@@ -86,44 +86,56 @@ const Portfolio = () => {
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
           <Row className="mt-4">
-            {tokens.map((token) => (
-              <>
-                <Col
-                  key={token.address}
-                  xs="12"
-                  className="crypto-card"
-                  onClick={() => handleTokenClick(token)}
-                >
-                  <div className="crypto-card-content mt-2">
-                    <div className="crypto-icon">
-                      <img
-                        src={token.logo === '' ? pltlLogo : token.logo}
-                        alt={token.symbol}
-                        width={45}
-                        height={45}
-                      />
-                      <div className="crypto-info">
-                        <div className="crypto-symbol">{token.symbol}</div>
-                        <div className="crypto-price">
-                          {token.usd_price.toFixed(2)}
+            {!tokens ? (
+              <Row className="justify-content-center align-items-center text-center">
+                <div className="mt-4">
+                  <h4>Assets</h4>
+                  <p>No records found!!!</p>
+                </div>
+              </Row>
+            ) : (
+              tokens.map((token) => (
+                <>
+                  <Col
+                    key={token.address}
+                    xs="12"
+                    className="crypto-card"
+                    onClick={() => handleTokenClick(token)}
+                  >
+                    <div className="crypto-card-content mt-2">
+                      <div className="crypto-icon">
+                        <img
+                          src={token.logo === '' ? pltlLogo : token.logo}
+                          alt={token.symbol}
+                          width={45}
+                          height={45}
+                        />
+                        <div className="crypto-info">
+                          <div className="crypto-symbol">{token.symbol}</div>
+                          <div className="crypto-price">
+                            {token.usd_price.toFixed(2)}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="crypto-amount">
+                        <div className="crypto-quantity">
+                          {token.symbol === 'PLTL'
+                            ? `${token.balance_formatted} M`
+                            : token.balance_formatted}
+                        </div>
+                        <div className="crypto-value">
+                          $
+                          {(token.balance_formatted * token.usd_price).toFixed(
+                            2
+                          )}
                         </div>
                       </div>
                     </div>
-                    <div className="crypto-amount">
-                      <div className="crypto-quantity">
-                        {token.symbol === 'PLTL'
-                          ? `${token.balance_formatted} M`
-                          : token.balance_formatted}
-                      </div>
-                      <div className="crypto-value">
-                        ${(token.balance_formatted * token.usd_price).toFixed(2)}
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-                <Separator />
-              </>
-            ))}
+                  </Col>
+                  <Separator />
+                </>
+              ))
+            )}
           </Row>
         </TabPane>
         <TabPane tabId="2">

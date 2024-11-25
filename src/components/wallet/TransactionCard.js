@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { Separator } from '../common/Seperator';
 import { formatAddress } from '../../lib/utils';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
@@ -32,9 +32,12 @@ const TransactionCard = () => {
   return (
     <>
       {transactions.length === 0 ? (
-        <div className="not-found">
-          <p>No record found!!!</p>
-        </div>
+        <Row className="justify-content-center align-items-center text-center">
+          <div className="mt-4">
+            <h4>Transactions</h4>
+            <p>No records found!!!</p>
+          </div>
+        </Row>
       ) : (
         transactions.map((trx, index) => (
           <React.Fragment key={index}>
