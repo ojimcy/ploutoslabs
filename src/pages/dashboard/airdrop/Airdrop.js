@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Container } from 'reactstrap';
-// import ReferralCard from '../../../components/airdrop/ReferralCard';
-// import StorageCard from '../../../components/airdrop/StorageCard';
-import { computeTokensToCliam, useCurrentUser } from '../../../hooks/telegram';
+import {
+  computeTokensToCliam,
+  useCurrentUser,
+  useTelegramUser,
+} from '../../../hooks/telegram';
 
 import airdropLogo from '../../../assets/images/airdrop-logo.png';
 
@@ -12,16 +14,18 @@ import { Link } from 'react-router-dom';
 import { claimToken, getUserByTelegramID } from '../../../lib/server';
 import { WebappContext } from '../../../context/telegram';
 
-import rocket from '../../../assets/images/rocket.png'
+import rocket from '../../../assets/images/rocket.png';
+import TelegramModal from '../../../components/modal/TelegramModal';
 
 function Airdrop() {
   const currentUser = useCurrentUser();
+  const telegramUser = useTelegramUser();
   const { setUser } = useContext(WebappContext);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => setModalOpen(!isModalOpen);
 
   // Fill time in minutes and fill rate in RAIN per hour
-  const fillTime = 1;
-  const fillRate = 1250;
-  const maxReceivableAmount = (fillTime / 60) * fillRate;
 
   const [currentAmount, setCurrentAmount] = useState(0);
 
@@ -45,15 +49,20 @@ function Airdrop() {
     setUser(user);
   };
 
-  console.log(maxReceivableAmount);
+  const fetchUserData = useCallback(async () => {
+    try {
+      const user = await getUserByTelegramID(telegramUser.id);
+      setUser(user);
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+    }
+  }, [telegramUser]);
+
   return (
     <div className="airdrop-page">
       <Container>
         <div className="airdrop-main">
-          {/* <ReferralCard /> */}
           <div className="storage-section">
-            {/* <StorageCard /> */}
-
             <div className="d-flex flex-column align-items-center mb-5">
               <div className="avatar bg-black rounded-circle mb-3 d-flex justify-content-center align-items-center">
                 <img width={50} height={50} src={airdropLogo} alt="Logo" />
@@ -97,7 +106,7 @@ function Airdrop() {
               </div>
 
               <div className="booster d-flex flex-row align-items-center">
-                <Link className="" to="/boost">
+                <Link className="" to="/dashboard/boosts">
                   <img width={25} height={25} src={rocket} alt="rocket" />
                   <span style={{ color: '#ffffff' }}>Boost</span>
                 </Link>
@@ -106,12 +115,24 @@ function Airdrop() {
 
             {/* Claim Button */}
             <div className="claim-section d-flex justify-content-center align-items-center mt-5">
-              <Button onClick={claim} className="btn-claim">
-                Claim
-              </Button>
+              {!currentUser?.IsUserInChannel ? (
+                <Button onClick={toggleModal} className="btn-claim">
+                  claim
+                </Button>
+              ) : (
+                <Button onClick={claim} className="btn-claim">
+                  Claim
+                </Button>
+              )}
             </div>
           </div>
         </div>
+
+        <TelegramModal
+          isOpen={isModalOpen}
+          toggle={toggleModal}
+          fetchUserData={fetchUserData}
+        />
       </Container>
     </div>
   );

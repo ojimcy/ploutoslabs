@@ -1,24 +1,24 @@
 .task-page {
   padding-top: 45px;
-  padding-bottom: 45px;
+  padding-bottom: 100px;
 }
 
 .task-page .title h3 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 29px;
   text-align: center;
 }
 
 .task-page .sub-title p {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 27.74px;
   text-align: center;
 }
 
 .task-card .task-info .task-icon {
-  font-size: 35px;
+  font-size: 30px;
 }
 
 .task-info .info {
@@ -31,7 +31,7 @@
 
 .task-info .info .task-reward {
   color: #aaa;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .task-card {
@@ -42,7 +42,7 @@
     #03014c 100%
   );
   border-radius: 18px;
-  padding: 20px 24px;
+  padding: 10px 14px;
 }
 
 .add-task-liank {

@@ -4,7 +4,7 @@
   align-items: center;
   text-align: center;
   /* padding-bottom: 75px; */
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 .storage-section {
@@ -31,24 +31,6 @@
   width: 1.25rem;
   height: 1.25rem;
 }
-
-/* Header */
-.gas-btn {
-  background: linear-gradient(to bottom right, #5a0707, #660707);
-  color: #fff;
-  border-radius: 1rem;
-  font-size: 0.9rem;
-}
-.badge-dot {
-  position: absolute;
-  top: -0.3rem;
-  right: -0.3rem;
-  width: 0.4rem;
-  height: 0.4rem;
-  background: #ffffff;
-  border-radius: 50%;
-}
-
 /* Avatar */
 .avatar {
   width: 5rem;
@@ -101,4 +83,44 @@
 .boost-area .lightning-icon {
   color: #e8a14a;
   margin-right: 5px;
+}
+
+.game-pad {
+  position: absolute;
+  top: 35px; 
+  right: 20px; 
+  z-index: 10;
+  transition: transform 0.3s ease; 
+}
+
+.game-pad:hover {
+  transform: scale(1.1); /* Slight scale on hover for interaction feedback */
+}
+
+.bubble-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px; /* Adjust to fit around the image */
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  animation: bubble 2s infinite;
+}
+
+@keyframes bubble {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }

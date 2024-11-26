@@ -5,12 +5,10 @@ import { WebappContext } from '../../context/telegram';
 import { getUserByTelegramID } from '../../lib/server';
 import { useTelegramUser } from '../../hooks/telegram';
 
-const Layout = ({ children }) => {
+import Footer from './footer/Footer';
 
-  const {
-    webapp,
-    setUser,
-  } = useContext(WebappContext);
+const Layout = ({ children }) => {
+  const { webapp, setUser } = useContext(WebappContext);
 
   // const webapp = useContext(WebappContext);
 
@@ -22,7 +20,7 @@ const Layout = ({ children }) => {
     }
     const fn = async () => {
       let user = await getUserByTelegramID(telegramUser.id);
-      
+
       setUser(user);
     };
 
@@ -37,11 +35,12 @@ const Layout = ({ children }) => {
 
     fn();
   }, [webapp]);
-  
+
   return (
     <div className="page-content">
       <MainNavigation />
       <main className="content">{children}</main>
+      <Footer />
     </div>
   );
 };

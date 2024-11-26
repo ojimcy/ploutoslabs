@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row, Spinner } from 'reactstrap';
 import {
+  FaCalendar,
   FaCheck,
   FaGreaterThan,
   FaMedium,
@@ -31,6 +32,7 @@ import TelegramBackButton from '../../../components/common/TelegramBackButton';
 function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [loadingTaskId, setLoadingTaskId] = useState(null);
+  const [checkedIn, setCheckedIn] = useState(false);
   const webApp = useWebApp();
   const currentUser = useCurrentUser();
   const telegramUser = useTelegramUser();
@@ -46,9 +48,16 @@ function Tasks() {
     fetchTask();
   }, [telegramUser]);
 
-  const handleTaskClick = (task) => {
-    console.log(task);
+  useEffect(() => {
+    if (currentUser) {
+      const lastCheckInAt = new Date(currentUser.lastCheckinDate);
+      const today = new Date();
+      const isSameDay = lastCheckInAt.toDateString() === today.toDateString();
+      setCheckedIn(isSameDay);
+    }
+  }, [currentUser]);
 
+  const handleTaskClick = (task) => {
     // Open task link
     if (task.link.indexOf('t.me') >= 0) {
       webApp.openTelegramLink(task?.link);
@@ -96,11 +105,43 @@ function Tasks() {
         </Row>
 
         <Row>
+          <h3 className="mt-3" style={{ fontSize: '16px' }}>
+            Daily Tasks
+          </h3>
+          <Col xs={12}>
+            <Link
+              to="/dashboard/rewards"
+              className="task-card d-flex justify-content-between align-items-center mt-3"
+              style={{ textDecoration: 'none' }}
+            >
+              <div className="task-info d-flex align-items-center">
+                <div className="task-icon">
+                  <FaCalendar />
+                </div>
+                <div className="info d-flex flex-column">
+                  <span className="task-title">Daily Checkin</span>
+                  <span className="task-reward">
+                    <img src={logo} alt="" width={20} height={20} /> 947.65
+                    GPLTL
+                  </span>
+                </div>
+              </div>
+              <div className="task-status">
+                {checkedIn ? <FaCheck /> : <FaGreaterThan />}
+              </div>
+            </Link>
+          </Col>
+        </Row>
+
+        <Row>
+          <h3 className="mt-3" style={{ fontSize: '16px' }}>
+            One-Time Tasks
+          </h3>
           {tasks.map((task) => (
             <Col xs={12} key={task.id}>
               <div
                 onClick={() => handleTaskClick(task)}
-                className="task-card d-flex justify-content-between align-items-center mt-4"
+                className="task-card d-flex justify-content-between align-items-center mt-3"
               >
                 <div className="task-info d-flex align-items-center">
                   <div className="task-icon">{taskIcons[task.type]}</div>

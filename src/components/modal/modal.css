@@ -1,0 +1,79 @@
+.retweet-modal {
+  max-width: 400px;
+  border: none;
+  border-radius: 10px;
+}
+
+.retweet-modal-body {
+  background-color: #7158e2;
+  color: white;
+  padding: 40px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  color: black !important;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: white !important;
+}
+
+.logo-container {
+  margin-bottom: 24px;
+}
+
+.logo-image {
+  filter: invert(100%);
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.modal-description {
+  font-size: 16px;
+  opacity: 0.8;
+  margin-bottom: 32px;
+}
+
+.reward-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.reward-icon {
+  border: 2px solid #ffd700; /* Yellow border */
+  border-radius: 50%;
+}
+
+.reward-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.start-btn {
+  background: linear-gradient(180deg, #ffd600 0%, #d49708 100%);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 16px 0;
+  border: none;
+}
+
+.start-btn:hover {
+  background-color: #ffc400;
+}

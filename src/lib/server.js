@@ -30,6 +30,7 @@ import {
   TASKS,
   USER_BY_ID,
   ADD_TASK,
+  USER_IN_CHANNEL,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -197,5 +198,10 @@ export const getRefLeaderboard = async () => {
 
 export const addTasks = async (taskData) => {
   const result = await axios.post(ADD_TASK(), taskData);
+  return result.data;
+};
+
+export const userInChannel = async (telegramID) => {
+  const result = await axios.post(USER_IN_CHANNEL(telegramID));
   return result.data;
 };

@@ -13,16 +13,16 @@ import { Container, Spinner } from 'reactstrap';
 import TelegramBackButton from '../common/TelegramBackButton';
 
 const dailyRewards = [
-  { day: 1, amount: '0.0005' },
-  { day: 2, amount: '0.001' },
-  { day: 3, amount: '0.025' },
-  { day: 4, amount: '0.005' },
-  { day: 5, amount: '0.15' },
-  { day: 6, amount: '0.25' },
-  { day: 7, amount: '0.5' },
-  { day: 8, amount: '1' },
-  { day: 9, amount: '2.5' },
-  { day: 10, amount: '5' },
+  { day: 1, amount: '0.05' },
+  { day: 2, amount: '0.1' },
+  { day: 3, amount: '2.5' },
+  { day: 4, amount: '5' },
+  { day: 5, amount: '15' },
+  { day: 6, amount: '25' },
+  { day: 7, amount: '50' },
+  { day: 8, amount: '100' },
+  { day: 9, amount: '250' },
+  { day: 10, amount: '500' },
 ];
 
 function DailyReward() {

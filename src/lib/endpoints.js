@@ -44,4 +44,4 @@ export const GET_UPLINE_WALLET = (userID) => `${ROOT}/get-upline-wallets/${userI
 
 export const GET_GAME_LEADERBOARD = () => `${ROOT}/game-leader-board`;
 export const GET_REF_LEADERBOARD = () => `${ROOT}/ref-leaderboard`;
-export const ADD_TASK = () => `${ROOT}/create-task`;
+export const ADD_TASK = () => `${ROOT}/create-task`;export const USER_IN_CHANNEL = (telegramID) => `${ROOT}/user-in-channel?telegramID=${telegramID}`;
