@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Container,
   Row,
   Col,
   Nav,
@@ -11,9 +10,9 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import './contest.css';
-import TelegramBackButton from '../../components/common/TelegramBackButton';
 import { getRefLeaderboard } from '../../lib/server';
 import ContestList from './ContestList';
+import TelegramBackButton from '../common/TelegramBackButton';
 
 const ReferralContests = () => {
   const [activeTab, setActiveTab] = useState('daily');
@@ -39,7 +38,7 @@ const ReferralContests = () => {
   }, []);
 
   return (
-    <Container className="contest-page">
+    <div className="contest-page">
       <TelegramBackButton />
       <Row>
         <Col xs={12}>
@@ -80,7 +79,7 @@ const ReferralContests = () => {
           </TabContent>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

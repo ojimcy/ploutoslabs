@@ -1,3 +1,7 @@
+.referral-page {
+  padding-bottom: 100px;
+}
+
 .referrals-container {
   display: flex;
   flex-direction: column;
@@ -47,7 +51,7 @@
 
 .copy-link-button,
 .claim-bonus-button {
-  background-color: #29DBDF;
+  background-color: #29dbdf;
   padding: 20px;
   color: white;
 }

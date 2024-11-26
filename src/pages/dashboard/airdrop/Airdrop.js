@@ -17,6 +17,8 @@ import { WebappContext } from '../../../context/telegram';
 import rocket from '../../../assets/images/rocket.png';
 import TelegramModal from '../../../components/modal/TelegramModal';
 
+import gamePad from '../../../assets/images/pad.png';
+
 function Airdrop() {
   const currentUser = useCurrentUser();
   const telegramUser = useTelegramUser();
@@ -62,6 +64,11 @@ function Airdrop() {
     <div className="airdrop-page">
       <Container>
         <div className="airdrop-main">
+          <Link className="game-pad" to="/game">
+            <div className="bubble-effect"></div>
+            <img width={50} src={gamePad} alt="game" />
+          </Link>
+
           <div className="storage-section">
             <div className="d-flex flex-column align-items-center mb-5">
               <div className="avatar bg-black rounded-circle mb-3 d-flex justify-content-center align-items-center">
