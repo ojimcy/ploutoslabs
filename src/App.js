@@ -28,7 +28,6 @@ import GameSummaryPage from './pages/game/GameSummaryPage';
 import GameDetails from './pages/game/GameDetails';
 import DailyReward from './components/airdrop/DailyReward';
 import OnrampPage from './pages/dashboard/wallet/OnrampPage';
-import TokenPresale from './pages/dashboard/AddTask';
 import AddTask from './pages/dashboard/AddTask';
 import ConfirmationPage from './pages/dashboard/wallet/confirmation';
 import GameLeaderBoard from './components/airdrop/GameLeaderboard';
@@ -36,6 +35,7 @@ import ReferralContests from './components/airdrop/ReferralContests';
 import Games from './pages/game/Games';
 import ComingSoon from './pages/ComingSoon';
 import AirdropLayout from './components/layout/DashboardLayout';
+import TokenPresale from './pages/dashboard/Presale';
 
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
@@ -95,7 +95,7 @@ const App = () => {
                 <Route path="referrals" element={<Referrals />} />
                 <Route path="boosts" element={<Boosts />} />
                 <Route path="rewards" element={<DailyReward />} />
-                <Route path="presale" element={<TokenPresale />} />
+                <Route path="presales" element={<TokenPresale />} />
                 <Route path="game-leaderboard" element={<GameLeaderBoard />} />
                 <Route path="ref-leaderboard" element={<ReferralContests />} />
                 <Route path="create-task" element={<AddTask />} />

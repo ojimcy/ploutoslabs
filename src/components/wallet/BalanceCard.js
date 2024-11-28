@@ -111,7 +111,7 @@ function BalanceCard() {
         <div
           className="wallet-action"
           onClick={() => {
-            navigate('/dashboard/presale');
+            navigate('/dashboard/presales');
           }}
         >
           <FaPlay className="icon" />
