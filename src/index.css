@@ -115,6 +115,10 @@ section {
   overflow-x: hidden;
 }
 
+.content {
+  padding-bottom: 75px;
+}
+
 .title {
   font-family: Montserrat;
   font-size: 26px;

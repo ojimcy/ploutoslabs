@@ -35,13 +35,17 @@ export const CREATE_GAME = () => `${ROOT}/create-game`;
 export const JOIN_GAME = () => `${ROOT}/join-game`;
 export const SUBMIT_SCORE = () => `${ROOT}/submit-score`;
 export const GAME_DEPOSIT_ADDRESS = () => `${ROOT}/game-deposit-address`;
-export const GAME_WITHDRAWAL_ENPOINT = () => `${ROOT}/submit-game-withdrawal`
+export const GAME_WITHDRAWAL_ENPOINT = () => `${ROOT}/submit-game-withdrawal`;
 
 export const GET_GAME = (code) => `${ROOT}/game/${code}`;
 export const GET_ACTIVE_GAMES = () => `${ROOT}/active-games`;
 
-export const GET_UPLINE_WALLET = (userID) => `${ROOT}/get-upline-wallets/${userID}`;
+export const GET_UPLINE_WALLET = (userID) =>
+  `${ROOT}/get-upline-wallets/${userID}`;
 
 export const GET_GAME_LEADERBOARD = () => `${ROOT}/game-leader-board`;
-export const GET_REF_LEADERBOARD = () => `${ROOT}/ref-leaderboard`;
-export const ADD_TASK = () => `${ROOT}/create-task`;export const USER_IN_CHANNEL = (telegramID) => `${ROOT}/user-in-channel?telegramID=${telegramID}`;
+export const GET_REF_LEADERBOARD = (type) =>
+  `${ROOT}/ref-leaderboard?type=${type}`;
+export const ADD_TASK = () => `${ROOT}/create-task`;
+export const USER_IN_CHANNEL = (telegramID) =>
+  `${ROOT}/user-in-channel?telegramID=${telegramID}`;

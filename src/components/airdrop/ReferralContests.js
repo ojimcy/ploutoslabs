@@ -25,9 +25,11 @@ const ReferralContests = () => {
 
   const fetchLeaderboardData = async () => {
     try {
-      const leaderboard = await getRefLeaderboard();
-      setDailyData(leaderboard.daily || []);
-      setWeeklyData(leaderboard.weekly || []);
+      const leaderboard = await getRefLeaderboard('daily');
+      setDailyData(leaderboard.leaderboard || []);
+
+      const weeklyData = await getRefLeaderboard('weekly');
+      setWeeklyData(weeklyData.leaderboard || []);
     } catch (error) {
       console.error('Error fetching leaderboard data:', error);
     }
@@ -67,6 +69,7 @@ const ReferralContests = () => {
                 title="Daily Referral Contest"
                 subtitle="First 5 to refer 20 people in a day win $10"
                 data={dailyData}
+                contestType="daily"
               />
             </TabPane>
             <TabPane tabId="weekly">
@@ -74,6 +77,7 @@ const ReferralContests = () => {
                 title="Weekly Referral Contest"
                 subtitle="First 5 to refer 100 people in a week win $100"
                 data={weeklyData}
+                contestType="weekly"
               />
             </TabPane>
           </TabContent>

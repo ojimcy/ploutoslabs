@@ -62,5 +62,5 @@ export const computeTokensToCliam = (currentUser) => {
   if (lastClaimAt > milliSocondPerHour) {
     lastClaimAt = milliSocondPerHour;
   }
-  return currentUser.miningRate * (lastClaimAt / milliSocondPerHour);
+  return 10 * currentUser.miningRate * (lastClaimAt / milliSocondPerHour);
 };

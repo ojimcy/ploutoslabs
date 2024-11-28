@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-function ContestList({ title, subtitle, data }) {
+function ContestList({ title, subtitle, data, contestType }) {
   return (
     <div>
       <h5 className="contest-title">{title}</h5>
@@ -25,7 +25,11 @@ function ContestList({ title, subtitle, data }) {
                   {user.username || 'Unknown'}
                 </span>
                 <span className="contest-count">
-                  Referrals: {user.referrals}
+                  Referrals: (
+                  {contestType === 'daily'
+                    ? user.qualifiedDailyReferralCount
+                    : user.QualifiedWeeklyReferralCount}
+                  )
                 </span>
               </div>
             </div>

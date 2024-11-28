@@ -191,8 +191,8 @@ export const submitGameWithdrawal = async (req) => {
   return result.data;
 };
 
-export const getRefLeaderboard = async () => {
-  const result = await axios.get(GET_REF_LEADERBOARD());
+export const getRefLeaderboard = async (type) => {
+  const result = await axios.get(GET_REF_LEADERBOARD(type));
   return result.data;
 };
 
