@@ -167,13 +167,10 @@ function Tasks() {
           ))}
         </Row>
 
-        {currentUser.username === 'emmyojay' ||
-        currentUser.username === 'Ossypechos' ? (
+        {currentUser.username === 'Ossypechos' && (
           <Link className="mt-5 add-task-liank" to="/dashboard/create-task">
             Add Task
           </Link>
-        ) : (
-          ''
         )}
       </Container>
     </div>
