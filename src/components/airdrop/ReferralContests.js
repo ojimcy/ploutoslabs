@@ -75,7 +75,7 @@ const ReferralContests = () => {
             <TabPane tabId="weekly">
               <ContestList
                 title="Weekly Referral Contest"
-                subtitle="First 5 to refer 100 people in a week win $100"
+                subtitle="First 5 to refer 700 people in a week win $100"
                 data={weeklyData}
                 contestType="weekly"
               />
