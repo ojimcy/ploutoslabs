@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Col, Container, Row, Spinner } from 'reactstrap';
 import {
   FaCalendar,
@@ -23,39 +23,49 @@ import {
 } from '../../../lib/server';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-
 import logo from '../../../assets/images/logo.png';
-
 import './tasks.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
+import { useCheckInStatus } from '../../../lib/checkInStatus';
+import { WebappContext } from '../../../context/telegram';
 
 function Tasks() {
+  const { setUser, user } = useContext(WebappContext);
   const [tasks, setTasks] = useState([]);
   const [loadingTaskId, setLoadingTaskId] = useState(null);
-  const [checkedIn, setCheckedIn] = useState(false);
   const webApp = useWebApp();
   const currentUser = useCurrentUser();
   const telegramUser = useTelegramUser();
+  const { checkedIn, countdown } = useCheckInStatus(user);
+
+  const fetchUserData = async () => {
+    try {
+      const user = await getUserByTelegramID(telegramUser.id);
+      setUser(user);
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (telegramUser) {
+      fetchUserData();
+    }
+  }, [telegramUser]);
 
   const fetchTask = async () => {
-    const user = await getUserByTelegramID(telegramUser.id);
-    const tks = await getTasks(user.id);
-    setTasks(tks);
+    try {
+      const tks = await getTasks(user.id);
+      setTasks(tks);
+    } catch (error) {
+      toast.error('Failed to fetch tasks.');
+    }
   };
 
   useEffect(() => {
     if (!telegramUser) return;
     fetchTask();
   }, [telegramUser]);
-
-  useEffect(() => {
-    if (currentUser) {
-      const lastCheckInAt = new Date(currentUser.lastCheckinDate);
-      const today = new Date();
-      const isSameDay = lastCheckInAt.toDateString() === today.toDateString();
-      setCheckedIn(isSameDay);
-    }
-  }, [currentUser]);
 
   const handleTaskClick = (task) => {
     // Open task link
@@ -65,18 +75,16 @@ function Tasks() {
       webApp.openLink(task.link);
     }
 
-    // Set loading state for the specific task
     setLoadingTaskId(task.id);
 
     setTimeout(async () => {
       try {
         const result = await completeTask(currentUser.id, task?.id, 'no proof');
         toast.success(result.message);
-        fetchTask(); // Refresh tasks after completion
+        fetchTask();
       } catch (error) {
         toast.error(error?.response?.data?.error || 'An error occurred');
       } finally {
-        // Clear loading state after API call
         setLoadingTaskId(null);
       }
     }, 3000);
@@ -121,8 +129,7 @@ function Tasks() {
                 <div className="info d-flex flex-column">
                   <span className="task-title">Daily Checkin</span>
                   <span className="task-reward">
-                    <img src={logo} alt="" width={20} height={20} /> 947.65
-                    GPLTL
+                    {checkedIn ? `Claim in ${countdown}` : 'Claim now'}
                   </span>
                 </div>
               </div>
@@ -167,14 +174,12 @@ function Tasks() {
           ))}
         </Row>
 
-        {currentUser.username === 'Ossypechos' ||
-          (currentUser.username === 'emmyojay' ? (
-            <Link className="mt-5 add-task-liank" to="/dashboard/create-task">
-              Add Task
-            </Link>
-          ) : (
-            ''
-          ))}
+        {(currentUser?.username === 'Ossypechos' ||
+          currentUser?.username === 'emmyojay') && (
+          <Link className="mt-5 add-task-link" to="/dashboard/create-task">
+            Add Task
+          </Link>
+        )}
       </Container>
     </div>
   );

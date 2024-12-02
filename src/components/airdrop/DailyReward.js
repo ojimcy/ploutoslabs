@@ -21,8 +21,8 @@ const dailyRewards = [
   { day: 6, amount: '25' },
   { day: 7, amount: '50' },
   { day: 8, amount: '100' },
-  { day: 9, amount: '250' },
-  { day: 10, amount: '500' },
+  { day: 9, amount: '150' },
+  { day: 10, amount: '200' },
 ];
 
 function DailyReward() {
