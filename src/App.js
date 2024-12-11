@@ -36,6 +36,10 @@ import Games from './pages/game/Games';
 import ComingSoon from './pages/ComingSoon';
 import AirdropLayout from './components/layout/DashboardLayout';
 import TokenPresale from './pages/dashboard/Presale';
+import UtilitiesPage from './pages/dashboard/utilities';
+import Airtime from './pages/dashboard/utilities/AirtimePage';
+import DataPage from './pages/dashboard/utilities/DataPage';
+import ElectricityBillPage from './pages/dashboard/utilities/ElectricityBillPage';
 
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
@@ -99,6 +103,10 @@ const App = () => {
                 <Route path="game-leaderboard" element={<GameLeaderBoard />} />
                 <Route path="ref-leaderboard" element={<ReferralContests />} />
                 <Route path="create-task" element={<AddTask />} />
+                <Route path="utitlities" element={<UtilitiesPage />} />
+                <Route path="airtime" element={<Airtime />} />
+                <Route path="data" element={<DataPage />} />
+                <Route path="electricity" element={<ElectricityBillPage />} />
               </Routes>
             </Layout>
           }

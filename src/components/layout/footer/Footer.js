@@ -3,18 +3,17 @@ import { Col, Container, Row } from 'reactstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { FaTasks, FaUsers, FaGem, FaHome, FaTools } from 'react-icons/fa';
 import './Footer.css';
-import { toast } from 'react-toastify';
 
 function AirdropFooter() {
   const location = useLocation();
 
-  const handleComingSoonClicked = () => {
-    if (toast) {
-      toast.info('This feature will be available soon');
-    } else {
-      console.error('Toast is not defined');
-    }
-  };
+  // const handleComingSoonClicked = () => {
+  //   if (toast) {
+  //     toast.info('This feature will be available soon');
+  //   } else {
+  //     console.error('Toast is not defined');
+  //   }
+  // };
 
   return (
     <footer className="footer">
@@ -61,8 +60,7 @@ function AirdropFooter() {
                   </li>
                   <li>
                     <Link
-                      to="#"
-                      onClick={handleComingSoonClicked}
+                      to="/dashboard/utitlities"
                       className={`d-flex flex-column align-items-center ${
                         location.pathname === '/game' ? 'active' : ''
                       }`}

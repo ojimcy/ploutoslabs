@@ -1,0 +1,98 @@
+.utilities-page,
+.airtime-page,
+.electricity-bill-page {
+  padding: 30px 0;
+}
+
+.utility-card {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: left;
+  padding: 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 2px 25px 35.8px -10px rgba(6, 68, 134, 0.7) inset;
+  background: rgba(12, 105, 204, 0.25);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.utility-card:hover {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  /* transform: translateY(-5px); */
+}
+
+.utility-icon {
+  font-size: 36px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.utility-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.utility-description {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* airtime */
+
+.airtime-page .form-group label {
+  font-weight: 600;
+  color: #555;
+}
+
+.airtime-page .form-control,
+.data-page .form-control,
+.electricity-bill-page .form-control {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 0.75rem;
+  box-shadow: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.airtime-page .form-control:focus,
+.data-page .form-control:focus,
+.electricity-bill-page .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.airtime-page .form-control::placeholder,
+.data-page .form-control::placeholder,
+.electricity-bill-page .form-control::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.airtime-page .btn,
+.data-page .btn,
+.electricity-bill-page .btn {
+  font-size: 1.1rem;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.airtime-page .btn-primary,
+.data-page .btn-primary,
+.electricity-bill-page .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.airtime-page .btn-primary:hover,
+.data-page .btn-primary:hover,
+.electricity-bill-page .btn-primary:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 10px rgba(0, 91, 179, 0.3);
+}
