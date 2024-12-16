@@ -39,6 +39,10 @@ import {
   VERIFY_SMART_CARD_NUMBER,
   BUY_POWER,
   GET_POWER_TOKEN,
+  GET_TV_PROVIDERS,
+  GET_TV_BOUQUETS,
+  VERIFY_TV_SMART_CARD,
+  PAY_TV_SUBSCRIPTION,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -263,5 +267,25 @@ export const buyPower = async (payload) => {
 export const getPowerToken = async (txId) => {
   const result = await axios.get(GET_POWER_TOKEN(txId));
 
+  return result.data;
+};
+
+export const getTvProviders = async () => {
+  const result = await axios.get(GET_TV_PROVIDERS());
+  return result.data;
+};
+
+export const getTvBouquets = async (providerId) => {
+  const result = await axios.get(GET_TV_BOUQUETS(providerId));
+  return result.data;
+};
+
+export const verifyTvSmartCard = async (serviceId, cardNumber) => {
+  const result = await axios.get(VERIFY_TV_SMART_CARD(serviceId, cardNumber));
+  return result.data;
+};
+
+export const payTvSubscription = async (payload) => {
+  const result = await axios.post(PAY_TV_SUBSCRIPTION(), payload);
   return result.data;
 };

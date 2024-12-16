@@ -8,6 +8,7 @@ import {
   Label,
   Input,
   Button,
+  Spinner,
 } from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './utilities.css';
@@ -19,6 +20,8 @@ const DataPage = () => {
   const [dataBundles, setDataBundles] = useState([]);
   const [selectedBundle, setSelectedBundle] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const networkProviders = [
     { name: 'MTN', id: 'mtn-data' },
@@ -30,8 +33,27 @@ const DataPage = () => {
   const onNetworkProviderChanged = async (newProvider) => {
     setNetworkProvider(newProvider);
     setDataBundles([]);
-    const variations = await getServiceVariations(newProvider);
-    setDataBundles(variations);
+    setLoading(true);
+    try {
+      const variations = await getServiceVariations(newProvider);
+      setDataBundles(variations);
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to fetch data bundles.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+
+    if (!/^\d{11}$/.test(value)) {
+      setPhoneError('Please enter a valid 11-digit phone number.');
+    } else {
+      setPhoneError('');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -59,7 +81,6 @@ const DataPage = () => {
       setNetworkProvider('');
       setPhoneNumber('');
       setSelectedBundle('');
-      
     } catch (error) {
       console.log(error);
       let msg = error?.response?.data?.error;
@@ -76,6 +97,7 @@ const DataPage = () => {
           <p className="text-center">
             Choose a network provider, bundle, and recipient phone number
           </p>
+          {phoneError && <small className="text-danger">{phoneError}</small>}
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Label for="networkProvider">Network Provider</Label>
@@ -118,16 +140,24 @@ const DataPage = () => {
             <FormGroup>
               <Label for="phoneNumber">Receiver&apos;s Phone Number</Label>
               <Input
-                type="text"
+                type="tel"
                 id="phoneNumber"
+                pattern="[0-9]*"
                 placeholder="Enter phone number"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="form-control"
+                onChange={handlePhoneNumberChange}
+                disabled={loading}
               />
             </FormGroup>
-            <Button type="submit" color="primary" block>
-              Buy Data
+            <Button
+              type="submit"
+              color="primary"
+              block
+              disabled={
+                loading || !networkProvider || !selectedBundle || !phoneNumber
+              }
+            >
+              {loading ? <Spinner size="sm" /> : 'Buy Data'}
             </Button>
           </Form>
         </Col>

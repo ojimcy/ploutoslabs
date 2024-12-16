@@ -20,8 +20,20 @@ const Airtime = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
 
   const networkProviders = ['MTN', '9mobile', 'Glo', 'Airtel'];
+
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+
+    if (!/^\d{11}$/.test(value)) {
+      setPhoneError('Please enter a valid 11-digit phone number.');
+    } else {
+      setPhoneError('');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +63,7 @@ const Airtime = () => {
         phoneNumber,
         parseFloat(amount) * 100
       );
-      console.log(result)
+      console.log(result);
 
       toast.success(
         `Airtime of ₦${amount} successfully purchased for ${phoneNumber} on ${networkProvider}`
@@ -60,8 +72,8 @@ const Airtime = () => {
       setPhoneNumber('');
       setAmount('');
     } catch (error) {
-      console.log(error)
-      let msg = error?.response?.data?.error
+      console.log(error);
+      let msg = error?.response?.data?.error;
       toast.error(msg || 'An error occurred. Please try again later.');
     } finally {
       setLoading(false);
@@ -82,6 +94,8 @@ const Airtime = () => {
       </Row>
       <Row className="mt-4">
         <Col md={{ size: 6, offset: 3 }}>
+          {phoneError && <small className="text-danger">{phoneError}</small>}
+
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Label for="networkProvider">Network Provider</Label>
@@ -91,6 +105,7 @@ const Airtime = () => {
                 value={networkProvider}
                 onChange={(e) => setNetworkProvider(e.target.value)}
                 className="form-control"
+                disabled={loading}
               >
                 <option value="">Select a network</option>
                 {networkProviders.map((provider) => (
@@ -103,11 +118,13 @@ const Airtime = () => {
             <FormGroup>
               <Label for="phoneNumber">Phone Number</Label>
               <Input
-                type="text"
+                type="tel"
                 id="phoneNumber"
+                pattern="[0-9]*"
                 placeholder="Enter phone number"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                onChange={handlePhoneNumberChange}
+                disabled={loading}
               />
             </FormGroup>
             <FormGroup>
@@ -119,6 +136,7 @@ const Airtime = () => {
                 value={amount}
                 min={0}
                 onChange={(e) => setAmount(e.target.value)}
+                disabled={loading}
               />
             </FormGroup>
             <Button color="primary" block type="submit" disabled={loading}>

@@ -26,6 +26,7 @@ const ElectricityBillPage = () => {
   const [amount, setAmount] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [phoneNumber, setPhoneNumer] = useState('');
+  const [loadingMeter, setLoadingMeter] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -42,17 +43,34 @@ const ElectricityBillPage = () => {
     setMeterNumber(newMeterNumber);
     setCustomerName('');
     if (newMeterNumber.length == 13 && provider && meterType) {
-      const result = await verifyMeterNumber(
-        newMeterNumber,
-        provider,
-        meterType
-      );
-      setCustomerName(result.customerName);
+      setLoadingMeter(true);
+      try {
+        const result = await verifyMeterNumber(
+          newMeterNumber,
+          provider,
+          meterType
+        );
+        setCustomerName(result.customerName);
+      } catch (error) {
+        toast.error('Failed to verify meter number. Please try again.');
+      } finally {
+        setLoadingMeter(false);
+      }
     }
+  };
+
+  const isValidPhoneNumber = (phone) => {
+    const phoneRegex = /^(0|\+234)[7-9][0-1]\d{8}$/;
+    return phoneRegex.test(phone);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isValidPhoneNumber(phoneNumber)) {
+      toast.error('Please enter a valid phone number.');
+      return;
+    }
+
     const payload = {
       serviceId: provider,
       meterNumber,
@@ -132,7 +150,11 @@ const ElectricityBillPage = () => {
                 onChange={(e) => onMeterNumberChanged(e.target.value)}
                 className="form-control"
               />
-              <p>{customerName}</p>
+              {loadingMeter ? (
+                <p>Verifying meter number...</p>
+              ) : (
+                <p>{customerName}</p>
+              )}
             </FormGroup>
 
             <FormGroup>
@@ -162,7 +184,13 @@ const ElectricityBillPage = () => {
               type="submit"
               color="primary"
               block
-              disabled={customerName == ''}
+              disabled={
+                !provider ||
+                !meterNumber ||
+                !meterType ||
+                !amount ||
+                !customerName
+              }
             >
               Pay Bill
             </Button>

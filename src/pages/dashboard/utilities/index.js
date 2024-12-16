@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { FaMobileAlt, FaWifi, FaBolt, FaHistory } from 'react-icons/fa';
+import { FaMobileAlt, FaWifi, FaBolt, FaHistory, FaTv } from 'react-icons/fa';
 import './utilities.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
@@ -23,6 +23,12 @@ const utilities = [
     icon: <FaBolt />,
     link: '/dashboard/electricity',
     description: 'Settle your electricity bills with ease.',
+  },
+  {
+    name: 'TV Subscription',
+    icon: <FaTv />,
+    link: '/dashboard/tv-subscription',
+    description: 'Subscribe to your favorite TV services.',
   },
 ];
 
