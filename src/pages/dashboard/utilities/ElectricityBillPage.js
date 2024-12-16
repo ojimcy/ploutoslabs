@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Row,
@@ -11,37 +11,69 @@ import {
 } from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './utilities.css';
+import {
+  buyPower,
+  getElectricityProviders,
+  verifyMeterNumber,
+} from '../../../lib/server';
+import { toast } from 'react-toastify';
 
 const ElectricityBillPage = () => {
+  const [providers, setProviders] = useState([]);
   const [provider, setProvider] = useState('');
   const [meterNumber, setMeterNumber] = useState('');
   const [meterType, setMeterType] = useState('');
   const [amount, setAmount] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [phoneNumber, setPhoneNumer] = useState('');
 
-  const serviceProviders = [
-    'Ikeja Electricity',
-    'Eko Electricity',
-    'Abuja Electricity',
-    'Port Harcourt Electricity',
-    'Kano Electricity',
-    'Ibadan Electricity',
-    'Enugu Electricity',
-    'Jos Electricity',
-    'Benin Electricity',
-    'Aba Electricity',
-  ];
+  useEffect(() => {
+    const load = async () => {
+      const result = await getElectricityProviders();
+      setProviders(result);
+    };
+
+    load();
+  }, [setProviders]);
 
   const meterTypes = ['Prepaid', 'Postpaid'];
 
-  const handleSubmit = (e) => {
+  const onMeterNumberChanged = async (newMeterNumber) => {
+    setMeterNumber(newMeterNumber);
+    setCustomerName('');
+    if (newMeterNumber.length == 13 && provider && meterType) {
+      const result = await verifyMeterNumber(
+        newMeterNumber,
+        provider,
+        meterType
+      );
+      setCustomerName(result.customerName);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
-      provider,
+      serviceId: provider,
       meterNumber,
-      meterType,
-      amount,
+      serviceType: meterType,
+      amount: amount * 100,
     };
-    console.log('Electricity Bill Payment:', payload);
+
+    try {
+      await buyPower(payload);
+      toast.success(
+        `Power of ₦${payload.amount} successfully purchased for ${meterNumber}.`
+      );
+      setProvider('');
+      setCustomerName('');
+      setMeterNumber('');
+      setMeterType('');
+      setAmount('');
+    } catch (error) {
+      let msg = error?.response?.data?.error;
+      toast.error(msg || 'An error occurred. Please try again later.');
+    }
   };
 
   return (
@@ -64,24 +96,14 @@ const ElectricityBillPage = () => {
                 className="form-control"
               >
                 <option value="">Select a provider</option>
-                {serviceProviders.map((provider) => (
-                  <option key={provider} value={provider}>
-                    {provider}
+                {providers.map((provider) => (
+                  <option key={provider.id} value={provider.id}>
+                    {provider.name}
                   </option>
                 ))}
               </Input>
             </FormGroup>
-            <FormGroup>
-              <Label for="meterNumber">Meter Number</Label>
-              <Input
-                type="text"
-                id="meterNumber"
-                placeholder="Enter meter number"
-                value={meterNumber}
-                onChange={(e) => setMeterNumber(e.target.value)}
-                className="form-control"
-              />
-            </FormGroup>
+
             <FormGroup>
               <Label for="meterType">Meter Type</Label>
               <Input
@@ -99,6 +121,32 @@ const ElectricityBillPage = () => {
                 ))}
               </Input>
             </FormGroup>
+
+            <FormGroup>
+              <Label for="meterNumber">Meter Number</Label>
+              <Input
+                type="text"
+                id="meterNumber"
+                placeholder="Enter meter number"
+                value={meterNumber}
+                onChange={(e) => onMeterNumberChanged(e.target.value)}
+                className="form-control"
+              />
+              <p>{customerName}</p>
+            </FormGroup>
+
+            <FormGroup>
+              <Label for="meterNumber">Phone Number</Label>
+              <Input
+                type="text"
+                id="phoneNumber"
+                placeholder="Enter phone number for notification"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumer(e.target.value)}
+                className="form-control"
+              />
+            </FormGroup>
+
             <FormGroup>
               <Label for="amount">Amount (₦)</Label>
               <Input
@@ -110,7 +158,12 @@ const ElectricityBillPage = () => {
                 className="form-control"
               />
             </FormGroup>
-            <Button type="submit" color="primary" block>
+            <Button
+              type="submit"
+              color="primary"
+              block
+              disabled={customerName == ''}
+            >
               Pay Bill
             </Button>
           </Form>

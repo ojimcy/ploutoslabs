@@ -13,6 +13,7 @@ import {
 import { toast } from 'react-toastify';
 import './utilities.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
+import { buyAirtime } from '../../../lib/server';
 
 const Airtime = () => {
   const [networkProvider, setNetworkProvider] = useState('');
@@ -31,10 +32,10 @@ const Airtime = () => {
       return;
     }
 
-    if (!/^\d{11}$/.test(phoneNumber)) {
-      toast.error('Please enter a valid 11-digit phone number.');
-      return;
-    }
+    // if (!/^\d{11}$/.test(phoneNumber)) {
+    //   toast.error('Please enter a valid 11-digit phone number.');
+    //   return;
+    // }
 
     if (amount <= 0) {
       toast.error('Amount should be greater than 0.');
@@ -45,7 +46,13 @@ const Airtime = () => {
 
     // Simulating a purchase process
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Mock delay
+      const result = await buyAirtime(
+        networkProvider,
+        phoneNumber,
+        parseFloat(amount) * 100
+      );
+      console.log(result)
+
       toast.success(
         `Airtime of ₦${amount} successfully purchased for ${phoneNumber} on ${networkProvider}`
       );
@@ -53,7 +60,9 @@ const Airtime = () => {
       setPhoneNumber('');
       setAmount('');
     } catch (error) {
-      toast.error('An error occurred. Please try again later.');
+      console.log(error)
+      let msg = error?.response?.data?.error
+      toast.error(msg || 'An error occurred. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -83,7 +92,7 @@ const Airtime = () => {
                 onChange={(e) => setNetworkProvider(e.target.value)}
                 className="form-control"
               >
-                <option  value="">Select a network</option>
+                <option value="">Select a network</option>
                 {networkProviders.map((provider) => (
                   <option key={provider} value={provider}>
                     {provider}

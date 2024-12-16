@@ -1,6 +1,6 @@
-export const ROOT = 'https://localhost:3001';
+// export const ROOT = 'https://localhost:3001';
 
-// export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
+export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
 // export const ROOT = 'https://glowing-jennet-crucial.ngrok-free.app'
 
 export const USER_BY_ID = (id) => `${ROOT}/user/${id}`;
@@ -49,3 +49,16 @@ export const GET_REF_LEADERBOARD = (type) =>
 export const ADD_TASK = () => `${ROOT}/create-task`;
 export const USER_IN_CHANNEL = (telegramID) =>
   `${ROOT}/user-in-channel?telegramID=${telegramID}`;
+
+// utilities
+export const BUY_AIRTIME = () => `${ROOT}/utilities/buy-aitime`;
+export const BUY_DATA = () => `${ROOT}/utilities/buy-data`;
+export const GET_SERVICE_VARIATIONS = (serviceId) =>
+  `${ROOT}/utilities/service-variations/${serviceId}`;
+export const GET_ELECTRICITY_PROVIDERS = () =>
+  `${ROOT}/utilities/electricity-providers`;
+export const VERIFY_METER_NUMBER = (meterNumber, serviceId, serviceType) =>
+  `${ROOT}/utilities/verify-meter-number?meterNumber=${meterNumber}&serviceId=${serviceId}&serviceType=${serviceType}`;
+export const VERIFY_SMART_CARD_NUMBER = (serviceId, cardNumber) =>
+  `${ROOT}/utilities/verify-smart-card-number?serviceId=${serviceId}&cardNumber=${cardNumber}`;
+export const BUY_POWER = `${ROOT}/utilities/buy-power`

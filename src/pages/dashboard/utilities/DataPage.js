@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Row,
@@ -11,6 +11,8 @@ import {
 } from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './utilities.css';
+import { buyData, getServiceVariations } from '../../../lib/server';
+import { toast } from 'react-toastify';
 
 const DataPage = () => {
   const [networkProvider, setNetworkProvider] = useState('');
@@ -18,53 +20,51 @@ const DataPage = () => {
   const [selectedBundle, setSelectedBundle] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const networkProviders = ['MTN', '9mobile', 'Glo', 'Airtel'];
+  const networkProviders = [
+    { name: 'MTN', id: 'mtn-data' },
+    { name: '9mobile', id: 'etisalat-data' },
+    { name: 'Glo', id: 'glo-data' },
+    { name: 'Airtel', id: 'airtel-data' },
+  ];
 
-  // Dummy data bundles
-  const dummyBundles = {
-    MTN: [
-      { id: '1', name: '500MB', price: 100 },
-      { id: '2', name: '1GB', price: 200 },
-      { id: '3', name: '2GB', price: 500 },
-      { id: '4', name: '5GB', price: 1000 },
-    ],
-    '9mobile': [
-      { id: '1', name: '250MB', price: 100 },
-      { id: '2', name: '1.5GB', price: 300 },
-      { id: '3', name: '3GB', price: 700 },
-      { id: '4', name: '10GB', price: 2000 },
-    ],
-    Glo: [
-      { id: '1', name: '1GB', price: 200 },
-      { id: '2', name: '2GB', price: 500 },
-      { id: '3', name: '4.5GB', price: 1000 },
-      { id: '4', name: '10GB', price: 2500 },
-    ],
-    Airtel: [
-      { id: '1', name: '500MB', price: 100 },
-      { id: '2', name: '1GB', price: 200 },
-      { id: '3', name: '3GB', price: 700 },
-      { id: '4', name: '6GB', price: 1500 },
-    ],
+  const onNetworkProviderChanged = async (newProvider) => {
+    setNetworkProvider(newProvider);
+    setDataBundles([]);
+    const variations = await getServiceVariations(newProvider);
+    setDataBundles(variations);
   };
 
-  // Fetch data bundles from dummy data
-  useEffect(() => {
-    if (networkProvider) {
-      setDataBundles(dummyBundles[networkProvider] || []);
-    } else {
-      setDataBundles([]);
-    }
-  }, [networkProvider]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    let selectedBundleObj;
+    for (let i = 0; i < dataBundles.length; i++) {
+      if (selectedBundle == dataBundles[i].variation_code) {
+        selectedBundleObj = dataBundles[i];
+      }
+    }
+
     const payload = {
-      networkProvider,
-      selectedBundle,
+      network: networkProvider,
+      variationCode: selectedBundle,
       phoneNumber,
+      amountIdNaira: selectedBundleObj.variation_amount,
     };
-    console.log('Purchase Data:', payload);
+    try {
+      const result = await buyData(payload);
+      console.log(result);
+
+      toast.success(
+        `Data of ₦${selectedBundleObj.variation_amount} successfully purchased for ${phoneNumber} on ${networkProvider}`
+      );
+      setNetworkProvider('');
+      setPhoneNumber('');
+      setSelectedBundle('');
+      
+    } catch (error) {
+      console.log(error);
+      let msg = error?.response?.data?.error;
+      toast.error(msg || 'An error occurred. Please try again later.');
+    }
   };
 
   return (
@@ -83,13 +83,13 @@ const DataPage = () => {
                 type="select"
                 id="networkProvider"
                 value={networkProvider}
-                onChange={(e) => setNetworkProvider(e.target.value)}
+                onChange={(e) => onNetworkProviderChanged(e.target.value)}
                 className="form-control"
               >
                 <option value="">Select a network</option>
                 {networkProviders.map((provider) => (
-                  <option key={provider} value={provider}>
-                    {provider}
+                  <option key={provider.id} value={provider.id}>
+                    {provider.name}
                   </option>
                 ))}
               </Input>
@@ -106,8 +106,11 @@ const DataPage = () => {
               >
                 <option value="">Select a data bundle</option>
                 {dataBundles.map((bundle) => (
-                  <option key={bundle.id} value={bundle.id}>
-                    {bundle.name} - ₦{bundle.price}
+                  <option
+                    key={bundle.variation_code}
+                    value={bundle.variation_code}
+                  >
+                    {bundle.name} - ₦{bundle.variation_amount}
                   </option>
                 ))}
               </Input>

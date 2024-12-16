@@ -31,6 +31,13 @@ import {
   USER_BY_ID,
   ADD_TASK,
   USER_IN_CHANNEL,
+  BUY_AIRTIME,
+  GET_SERVICE_VARIATIONS,
+  BUY_DATA,
+  GET_ELECTRICITY_PROVIDERS,
+  VERIFY_METER_NUMBER,
+  VERIFY_SMART_CARD_NUMBER,
+  BUY_POWER,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -203,5 +210,51 @@ export const addTasks = async (taskData) => {
 
 export const userInChannel = async (telegramID) => {
   const result = await axios.post(USER_IN_CHANNEL(telegramID));
+  return result.data;
+};
+
+export const buyAirtime = async (network, phoneNumber, amount) => {
+  const result = await axios.post(BUY_AIRTIME(), {
+    network,
+    phoneNumber,
+    amountInNaira: amount,
+  });
+  return result.data;
+};
+
+export const getServiceVariations = async (serviceId) => {
+  const result = await axios.get(GET_SERVICE_VARIATIONS(serviceId));
+  return result.data;
+};
+
+export const buyData = async (payload) => {
+  const result = await axios.post(BUY_DATA(), payload);
+  return result.data;
+};
+
+export const getElectricityProviders = async () => {
+  const result = await axios.get(GET_ELECTRICITY_PROVIDERS());
+  return result.data;
+};
+
+export const verifyMeterNumber = async (
+  meterNumber,
+  serviceId,
+  serviceType
+) => {
+  const result = await axios.get(
+    VERIFY_METER_NUMBER(meterNumber, serviceId, serviceType)
+  );
+  return result.data;
+};
+
+export const verifySmartCardNumber = async (serviceId, cardNumber) => {
+  const result = axios.get(VERIFY_SMART_CARD_NUMBER(serviceId, cardNumber));
+  return result.data;
+};
+
+export const buyPower = async (payload) => {
+  const result = await axios.post(BUY_POWER(), payload);
+
   return result.data;
 };
