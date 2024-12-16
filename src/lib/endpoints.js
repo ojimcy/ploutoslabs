@@ -61,4 +61,6 @@ export const VERIFY_METER_NUMBER = (meterNumber, serviceId, serviceType) =>
   `${ROOT}/utilities/verify-meter-number?meterNumber=${meterNumber}&serviceId=${serviceId}&serviceType=${serviceType}`;
 export const VERIFY_SMART_CARD_NUMBER = (serviceId, cardNumber) =>
   `${ROOT}/utilities/verify-smart-card-number?serviceId=${serviceId}&cardNumber=${cardNumber}`;
-export const BUY_POWER = `${ROOT}/utilities/buy-power`
+export const BUY_POWER = `${ROOT}/utilities/buy-power`;
+export const GET_POWER_TOKEN = (txId) =>
+  `${ROOT}/utilities/get-power-token?txId=${txId}`;

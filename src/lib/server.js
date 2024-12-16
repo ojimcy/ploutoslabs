@@ -38,6 +38,7 @@ import {
   VERIFY_METER_NUMBER,
   VERIFY_SMART_CARD_NUMBER,
   BUY_POWER,
+  GET_POWER_TOKEN,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -255,6 +256,12 @@ export const verifySmartCardNumber = async (serviceId, cardNumber) => {
 
 export const buyPower = async (payload) => {
   const result = await axios.post(BUY_POWER(), payload);
+
+  return result.data;
+};
+
+export const getPowerToken = async (txId) => {
+  const result = await axios.get(GET_POWER_TOKEN(txId));
 
   return result.data;
 };
