@@ -1,0 +1,56 @@
+.transaction-page {
+  padding: 30px 0;
+}
+
+/* Table Container */
+.styled-table {
+  background-color: rgba(255, 255, 255, 0.9) !important; 
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.styled-table thead tr {
+  font-weight: bold;
+}
+
+.styled-table tbody tr {
+  transition: background-color 0.3s ease !important;
+}
+
+.styled-table tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.1); 
+}
+
+.styled-table td,
+.styled-table th {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.styled-table td.text-center {
+  color: #666;
+  font-style: italic;
+}
+
+.status-successful {
+  color: green !important;
+}
+
+.status-failed {
+  color: red !important;
+}
+
+.status-pending {
+  color: orange !important;
+}
+
+.form-inline {
+  flex-wrap: nowrap;
+  gap: 1rem;
+}
+
+.history-link {
+  margin-right: 10px;
+  font-size: 24px;
+}

@@ -40,6 +40,7 @@ import UtilitiesPage from './pages/dashboard/utilities';
 import Airtime from './pages/dashboard/utilities/AirtimePage';
 import DataPage from './pages/dashboard/utilities/DataPage';
 import ElectricityBillPage from './pages/dashboard/utilities/ElectricityBillPage';
+import TransactionPage from './pages/dashboard/utilities/TransactionPage';
 
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
@@ -107,6 +108,7 @@ const App = () => {
                 <Route path="airtime" element={<Airtime />} />
                 <Route path="data" element={<DataPage />} />
                 <Route path="electricity" element={<ElectricityBillPage />} />
+                <Route path="transactions" element={<TransactionPage />} />
               </Routes>
             </Layout>
           }

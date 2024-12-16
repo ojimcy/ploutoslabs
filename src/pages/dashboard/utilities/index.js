@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { FaMobileAlt, FaWifi, FaBolt } from 'react-icons/fa';
+import { FaMobileAlt, FaWifi, FaBolt, FaHistory } from 'react-icons/fa';
 import './utilities.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
@@ -31,6 +31,12 @@ function UtilitiesPage() {
     <div className="utilities-page">
       <TelegramBackButton />
       <Container>
+        <Link
+          to="/dashboard/transactions"
+          className="d-flex justify-content-end history-link"
+        >
+          <FaHistory />
+        </Link>
         <h3 className="text-center my-4">Utilities</h3>
         <p className="text-center">
           Explore our range of utility services for your convenience.
