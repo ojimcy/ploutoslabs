@@ -42,7 +42,7 @@ const TvSubscriptionPage = () => {
     };
 
     loadProviders();
-  }, []);
+  }, [setProviders]);
 
   const handleProviderChange = async (providerId) => {
     setProvider(providerId);
@@ -138,6 +138,23 @@ const TvSubscriptionPage = () => {
             </FormGroup>
 
             <FormGroup>
+              <Label for="smartCardNumber">Smart Card Number</Label>
+              <Input
+                type="text"
+                id="smartCardNumber"
+                placeholder="Enter your smart card number"
+                value={smartCardNumber}
+                onChange={(e) => handleSmartCardChange(e.target.value)}
+                className="form-control"
+              />
+              {loadingCustomer ? (
+                <p>Verifying smart card...</p>
+              ) : (
+                customerName && <p>Customer Name: {customerName}</p>
+              )}
+            </FormGroup>
+
+            <FormGroup>
               <Label for="bouquet">Bouquet</Label>
               <Input
                 type="select"
@@ -160,22 +177,6 @@ const TvSubscriptionPage = () => {
               </Input>
             </FormGroup>
 
-            <FormGroup>
-              <Label for="smartCardNumber">Smart Card Number</Label>
-              <Input
-                type="text"
-                id="smartCardNumber"
-                placeholder="Enter your smart card number"
-                value={smartCardNumber}
-                onChange={(e) => handleSmartCardChange(e.target.value)}
-                className="form-control"
-              />
-              {loadingCustomer ? (
-                <p>Verifying smart card...</p>
-              ) : (
-                customerName && <p>Customer Name: {customerName}</p>
-              )}
-            </FormGroup>
 
             <FormGroup>
               <Label for="phoneNumber">Phone Number</Label>
@@ -185,18 +186,6 @@ const TvSubscriptionPage = () => {
                 placeholder="Enter phone number for notification"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-                className="form-control"
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <Label for="amount">Amount (₦)</Label>
-              <Input
-                type="number"
-                id="amount"
-                placeholder="Enter amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
                 className="form-control"
               />
             </FormGroup>
