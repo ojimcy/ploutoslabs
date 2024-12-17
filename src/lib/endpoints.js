@@ -66,7 +66,8 @@ export const GET_POWER_TOKEN = (txId) =>
   `${ROOT}/utilities/get-power-token?txId=${txId}`;
 export const GET_TV_PROVIDERS = () => `${ROOT}/utilities/tv-providers`;
 export const GET_TV_BOUQUETS = (providerId) =>
-  `${ROOT}/utilities/tv-bouquets/${providerId}`;
+  `${ROOT}/utilities/service-variations/${providerId}`;
 export const VERIFY_TV_SMART_CARD = (serviceId, cardNumber) =>
   `${ROOT}/utilities/verify-smart-card-number?serviceId=${serviceId}&cardNumber=${cardNumber}`;
-export const PAY_TV_SUBSCRIPTION = () => `${ROOT}/utilities/pay-tv`;
+export const PAY_TV_SUBSCRIPTION = () => `${ROOT}/utilities/subscribe-tv`;
+export const SUBSCRIBE_TV = () => `$${ROOT}/utilities/subscribe-tv`;
