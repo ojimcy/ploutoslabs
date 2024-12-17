@@ -1,6 +1,6 @@
-// export const ROOT = 'https://localhost:3001';
+export const ROOT = 'https://localhost:3001';
 
-export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
+// export const ROOT = 'https://mining-api-123lfk.ploutoslabs.io';
 // export const ROOT = 'https://glowing-jennet-crucial.ngrok-free.app'
 
 export const USER_BY_ID = (id) => `${ROOT}/user/${id}`;
@@ -66,8 +66,7 @@ export const GET_POWER_TOKEN = (txId) =>
   `${ROOT}/utilities/get-power-token?txId=${txId}`;
 export const GET_TV_PROVIDERS = () => `${ROOT}/utilities/tv-providers`;
 export const GET_TV_BOUQUETS = (providerId) =>
-  `${ROOT}/utilities/service-variations/${providerId}`;
+  `${ROOT}/utilities/tv-bouquets/${providerId}`;
 export const VERIFY_TV_SMART_CARD = (serviceId, cardNumber) =>
   `${ROOT}/utilities/verify-smart-card-number?serviceId=${serviceId}&cardNumber=${cardNumber}`;
-export const PAY_TV_SUBSCRIPTION = () => `${ROOT}/utilities/subscribe-tv`;
-export const SUBSCRIBE_TV = () => `$${ROOT}/utilities/subscribe-tv`;
+export const PAY_TV_SUBSCRIPTION = () => `${ROOT}/utilities/pay-tv`;

@@ -8,14 +8,16 @@ import {
   Label,
   Input,
   Button,
-  Spinner,
+  // Spinner,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import './utilities.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { buyAirtime } from '../../../lib/server';
+import { useNavigate } from 'react-router-dom';
 
 const Airtime = () => {
+  const navigate = useNavigate();
   const [networkProvider, setNetworkProvider] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [amount, setAmount] = useState('');
@@ -139,8 +141,13 @@ const Airtime = () => {
                 disabled={loading}
               />
             </FormGroup>
-            <Button color="primary" block type="submit" disabled={loading}>
-              {loading ? <Spinner size="sm" /> : 'Buy Airtime'}
+            <Button
+              color="primary"
+              onClick={() =>
+                navigate('/dashboard/checkout', { state: { utilityType: 'Airtime' } })
+              }
+            >
+              Proceed to Checkout
             </Button>
           </Form>
         </Col>

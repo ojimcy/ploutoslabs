@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './transactions.css';
+import TransactionDetailsModal from '../../../components/modal/TransactionDetailsModal';
 
 const TransactionPage = () => {
   const [transactions] = useState([
@@ -20,24 +21,21 @@ const TransactionPage = () => {
       date: '2024-12-10',
       type: 'Data',
       status: 'Successful',
+      details: { plan: '1GB', provider: 'Provider A' },
     },
     {
       id: 2,
       date: '2024-12-11',
       type: 'Airtime',
       status: 'Failed',
+      details: { amount: '500 NGN', provider: 'Provider B' },
     },
     {
       id: 3,
       date: '2024-12-12',
       type: 'Electricity',
       status: 'Pending',
-    },
-    {
-      id: 4,
-      date: '2024-12-12',
-      type: 'Data',
-      status: 'Successful',
+      details: { token: '1234-5678-9101-1121', meter: '12345678' },
     },
   ]);
 
@@ -47,10 +45,8 @@ const TransactionPage = () => {
     type: '',
   });
 
-  const handleRetry = (transactionId) => {
-    console.log(`Retrying transaction with ID: ${transactionId}`);
-    // Handle retry logic here
-  };
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -65,6 +61,16 @@ const TransactionPage = () => {
       (!type || transaction.type === type)
     );
   });
+
+  const handleTransactionClick = (transaction) => {
+    setSelectedTransaction(transaction);
+    setIsModalOpen(true);
+  };
+
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    alert('Copied to clipboard!');
+  };
 
   return (
     <Container className="transaction-page">
@@ -153,15 +159,13 @@ const TransactionPage = () => {
                       {transaction.status}
                     </td>
                     <td>
-                      {transaction.status === 'Failed' && (
-                        <Button
-                          color="danger"
-                          size="sm"
-                          onClick={() => handleRetry(transaction.id)}
-                        >
-                          Retry
-                        </Button>
-                      )}
+                      <Button
+                        color="info"
+                        size="sm"
+                        onClick={() => handleTransactionClick(transaction)}
+                      >
+                        Details
+                      </Button>
                     </td>
                   </tr>
                 ))
@@ -176,6 +180,13 @@ const TransactionPage = () => {
           </Table>
         </Col>
       </Row>
+
+      <TransactionDetailsModal
+        isOpen={isModalOpen}
+        toggle={() => setIsModalOpen(false)}
+        transaction={selectedTransaction}
+        onCopy={handleCopy}
+      />
     </Container>
   );
 };

@@ -1,3 +1,27 @@
+.modal-content {
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
+  height: 65vh;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-radius: 15px 15px 0 0;
+  background-color: #001d86;
+  color: #ffffff;
+  /* margin-left: -8px; */
+  padding: 20px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+
 .retweet-modal {
   max-width: 400px;
   border: none;
@@ -76,4 +100,52 @@
 
 .start-btn:hover {
   background-color: #ffc400;
+}
+
+.transaction-details-modal .modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  text-align: center;
+}
+
+.transaction-details-modal .modal-header h5 {
+  font-weight: bold;
+  color: #343a40;
+}
+
+.transaction-details-modal .modal-body {
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #495057 !important;
+  line-height: 1.6;
+}
+
+.transaction-details-modal .transaction-details p {
+  margin-bottom: 10px;
+  color: #212529;
+}
+
+.transaction-details-modal .copyable-token {
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: monospace;
+  color: #007bff;
+  display: inline-block;
+}
+
+.transaction-details-modal .copy-icon {
+  margin-left: 5px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.transaction-details-modal .copy-icon:hover {
+  color: #0056b3;
+}
+
+.transaction-details-modal .modal-footer {
+  border-top: 1px solid #dee2e6;
+  padding-top: 15px;
+  text-align: right;
 }

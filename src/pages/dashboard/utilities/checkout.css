@@ -1,0 +1,132 @@
+.checkout-page {
+  padding: 30px 0;
+}
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+}
+
+.step-number {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+  color: #fff;
+}
+
+.step-number.completed {
+  background-color: #4caf50;
+}
+
+.step-number.active {
+  background-color: #000;
+}
+
+.step-number.inactive {
+  background-color: #e0e0e0;
+  color: #757575;
+}
+
+.step-title {
+  margin-left: 0.5rem;
+  font-size: 0.65rem;
+  line-height: 18px;
+}
+
+.step-divider {
+  flex-grow: 1;
+  height: 2px;
+  background-color: #e0e0e0;
+  margin: 0 1rem;
+}
+
+.step-divider.active {
+  background-color: #4caf50;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.payment-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.payment-option.selected {
+  border-color: #4caf50;
+}
+
+.payment-option svg {
+  margin-bottom: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.dropdown {
+  margin: 1rem 0;
+}
+
+.dropdown select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.wallet-address {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  word-break: break-all;
+}
+
+.button-next {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-next:hover {
+  background-color: #333;
+}
+
+.tv-subscription-page .form-control {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 0.75rem;
+  box-shadow: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.crypto-note {
+    font-size: 12px;
+    color: #e0e0e0;
+}

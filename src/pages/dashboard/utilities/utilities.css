@@ -1,6 +1,7 @@
 .utilities-page,
 .airtime-page,
-.electricity-bill-page {
+.electricity-bill-page,
+.tv-subscription-page {
   padding: 30px 0;
 }
 
@@ -49,7 +50,8 @@
 
 .airtime-page .form-control,
 .data-page .form-control,
-.electricity-bill-page .form-control {
+.electricity-bill-page .form-control,
+.tv-subscription-page .form-control {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
@@ -60,21 +62,24 @@
 
 .airtime-page .form-control:focus,
 .data-page .form-control:focus,
-.electricity-bill-page .form-control:focus {
+.electricity-bill-page .form-control:focus,
+.tv-subscription-page .form-control:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 .airtime-page .form-control::placeholder,
 .data-page .form-control::placeholder,
-.electricity-bill-page .form-control::placeholder {
+.electricity-bill-page .form-control::placeholder,
+.tv-subscription-page .form-control::placeholder {
   color: #aaa;
   font-style: italic;
 }
 
 .airtime-page .btn,
 .data-page .btn,
-.electricity-bill-page .btn {
+.electricity-bill-page .btn,
+.tv-subscription-page .btn {
   font-size: 1.1rem;
   border-radius: 8px;
   padding: 0.75rem;
@@ -84,7 +89,8 @@
 
 .airtime-page .btn-primary,
 .data-page .btn-primary,
-.electricity-bill-page .btn-primary {
+.electricity-bill-page .btn-primary,
+.tv-subscription-page .btn-primary {
   background-color: #007bff;
   border-color: #007bff;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -92,7 +98,8 @@
 
 .airtime-page .btn-primary:hover,
 .data-page .btn-primary:hover,
-.electricity-bill-page .btn-primary:hover {
+.electricity-bill-page .btn-primary:hover,
+.tv-subscription-page .btn-primary:hover {
   background-color: #0056b3;
   box-shadow: 0 4px 10px rgba(0, 91, 179, 0.3);
 }
