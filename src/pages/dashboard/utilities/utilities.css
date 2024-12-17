@@ -103,3 +103,22 @@
   background-color: #0056b3;
   box-shadow: 0 4px 10px rgba(0, 91, 179, 0.3);
 }
+
+.airtime-summary {
+  margin-bottom: 20px;
+}
+
+.airtime-summary h5 {
+  margin-top: 10px;
+}
+
+.wallet-balance-card {
+  background: linear-gradient(
+    270deg,
+    #001d87 57.5%,
+    #001d86 57.51%,
+    #03014c 100%
+  );
+  border-radius: 18px;
+  padding: 10px 14px;
+}

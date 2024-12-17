@@ -2,14 +2,10 @@
 import React, { useState } from 'react';
 import './checkout.css';
 import { Col, FormGroup, Input, Label, Row } from 'reactstrap';
-import { FaCopy } from 'react-icons/fa';
 
 function CryptoPayment({ onConfirm }) {
   const [network, setNetwork] = useState('');
   const [token, setToken] = useState('');
-  const walletAddress = '0x1234abcd5678efgh91011ijkl';
-  const cryptoToken = 'pltl';
-  const cryptoNetwork = 'Base';
 
   const handleConfirm = () => {
     if (network && token) {
@@ -52,7 +48,7 @@ function CryptoPayment({ onConfirm }) {
         </Col>
       </Row>
 
-      <Row>
+      {/* <Row>
         <Col
           md="12"
           className="d-flex justify-content-center align-items-center"
@@ -78,7 +74,7 @@ function CryptoPayment({ onConfirm }) {
             ''
           )}
         </Col>
-      </Row>
+      </Row> */}
 
       <button className="button-next" onClick={handleConfirm}>
         Confirm Payment

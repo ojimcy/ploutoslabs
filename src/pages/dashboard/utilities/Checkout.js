@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useContext, useState } from 'react';
 import './checkout.css';
-import { Container } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import CheckoutStepper from './CheckoutStepper';
 import PaymentMethodSelection from './PaymentMethodSelection';
-import CryptoPayment from './CryptoPayment';
+import { AppContext } from '../../../context/AppContext';
+import AirtimeSummary from './AirtimeSummary';
+import { buyAirtime } from '../../../lib/server';
+import { toast } from 'react-toastify';
+import { useCurrentUser } from '../../../hooks/telegram';
 
 function CheckoutPage() {
+  const { utilityTransaction } = useContext(AppContext);
+  const currentUser = useCurrentUser();
   const [currentStep, setCurrentStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
+  };
+
+  const handleBuyairtime = async () => {
+    try {
+      setLoading(true);
+      const result = await buyAirtime(
+        utilityTransaction.networkProvider,
+        utilityTransaction.phoneNumber,
+        parseFloat(utilityTransaction.amount)
+      );
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      let msg = error?.response?.data?.error;
+      toast.error(msg || 'An error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -26,11 +52,43 @@ function CheckoutPage() {
           />
         )}
         {currentStep === 2 && paymentMethod === 'crypto' && (
-          <CryptoPayment onConfirm={handleNext} />
+          <>
+            <AirtimeSummary
+              utilityTransaction={utilityTransaction}
+              walletBalance={currentUser?.gameWalletBalance}
+            />
+            <Button
+              color="primary"
+              block
+              className="button-next"
+              onClick={handleBuyairtime}
+              disabled={loading}
+            >
+              {loading ? 'Processing...' : 'Pay'}
+            </Button>
+          </>
         )}
-        {currentStep === 2 && paymentMethod === 'wallet' && (
-          <p>Your wallet will be charged directly.</p>
-        )}
+        {currentStep === 2 &&
+          paymentMethod === 'wallet' &&
+          (utilityTransaction.utilityType === 'airtime' ? (
+            <>
+              <AirtimeSummary
+                utilityTransaction={utilityTransaction}
+                walletBalance={currentUser?.gameWalletBalance}
+              />
+              <Button
+                color="primary"
+                block
+                className="button-next"
+                onClick={handleBuyairtime}
+                disabled={loading}
+              >
+                {loading ? 'Processing...' : 'Pay'}
+              </Button>
+            </>
+          ) : (
+            ''
+          ))}
         {currentStep === 3 && (
           <p>
             Thank you for confirming your payment. Transaction is being
@@ -38,9 +96,9 @@ function CheckoutPage() {
           </p>
         )}
         {currentStep === 1 && paymentMethod && (
-          <button className="button-next" onClick={handleNext}>
+          <Button className="button-next" onClick={handleNext}>
             Next
-          </button>
+          </Button>
         )}
       </div>
     </Container>

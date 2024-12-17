@@ -11,6 +11,7 @@ export const AppProvider = ({ children }) => {
   const [difficulty, setDifficulty] = useState('easy');
   const [mode, setMode] = useState('solo');
   const [gameCode, setGameCode] = useState('');
+  const [utilityTransaction, setUtilityTransaction] = useState(null);
 
   const telegramUser = useTelegramUser();
 
@@ -30,6 +31,10 @@ export const AppProvider = ({ children }) => {
     setSelectedToken(token);
   };
 
+  const updateUtilityTransaction = (data) => {
+    setUtilityTransaction(data);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -43,6 +48,8 @@ export const AppProvider = ({ children }) => {
         setMode,
         gameCode,
         setGameCode,
+        utilityTransaction,
+        updateUtilityTransaction,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Container,
   Row,
@@ -8,12 +8,11 @@ import {
   Label,
   Input,
   Button,
-  // Spinner,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import './utilities.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
-import { buyAirtime } from '../../../lib/server';
+import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 
 const Airtime = () => {
@@ -21,8 +20,8 @@ const Airtime = () => {
   const [networkProvider, setNetworkProvider] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [amount, setAmount] = useState('');
-  const [loading, setLoading] = useState(false);
   const [phoneError, setPhoneError] = useState('');
+  const { updateUtilityTransaction } = useContext(AppContext);
 
   const networkProviders = ['MTN', '9mobile', 'Glo', 'Airtel'];
 
@@ -37,7 +36,7 @@ const Airtime = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     // Input validation
@@ -46,40 +45,25 @@ const Airtime = () => {
       return;
     }
 
-    // if (!/^\d{11}$/.test(phoneNumber)) {
-    //   toast.error('Please enter a valid 11-digit phone number.');
-    //   return;
-    // }
-
     if (amount <= 0) {
       toast.error('Amount should be greater than 0.');
       return;
     }
 
-    setLoading(true);
+    // Save transaction data to context
+    updateUtilityTransaction({
+      networkProvider,
+      phoneNumber,
+      amount,
+      utilityType: 'airtime',
+    });
 
-    // Simulating a purchase process
-    try {
-      const result = await buyAirtime(
-        networkProvider,
-        phoneNumber,
-        parseFloat(amount) * 100
-      );
-      console.log(result);
+    navigate('/dashboard/checkout');
 
-      toast.success(
-        `Airtime of ₦${amount} successfully purchased for ${phoneNumber} on ${networkProvider}`
-      );
-      setNetworkProvider('');
-      setPhoneNumber('');
-      setAmount('');
-    } catch (error) {
-      console.log(error);
-      let msg = error?.response?.data?.error;
-      toast.error(msg || 'An error occurred. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
+    // Reset form fields
+    setNetworkProvider('');
+    setPhoneNumber('');
+    setAmount('');
   };
 
   return (
@@ -96,8 +80,6 @@ const Airtime = () => {
       </Row>
       <Row className="mt-4">
         <Col md={{ size: 6, offset: 3 }}>
-          {phoneError && <small className="text-danger">{phoneError}</small>}
-
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Label for="networkProvider">Network Provider</Label>
@@ -107,7 +89,6 @@ const Airtime = () => {
                 value={networkProvider}
                 onChange={(e) => setNetworkProvider(e.target.value)}
                 className="form-control"
-                disabled={loading}
               >
                 <option value="">Select a network</option>
                 {networkProviders.map((provider) => (
@@ -122,12 +103,13 @@ const Airtime = () => {
               <Input
                 type="tel"
                 id="phoneNumber"
-                pattern="[0-9]*"
                 placeholder="Enter phone number"
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
-                disabled={loading}
               />
+              {phoneError && (
+                <small className="text-danger">{phoneError}</small>
+              )}
             </FormGroup>
             <FormGroup>
               <Label for="amount">Amount (₦)</Label>
@@ -138,15 +120,9 @@ const Airtime = () => {
                 value={amount}
                 min={0}
                 onChange={(e) => setAmount(e.target.value)}
-                disabled={loading}
               />
             </FormGroup>
-            <Button
-              color="primary"
-              onClick={() =>
-                navigate('/dashboard/checkout', { state: { utilityType: 'Airtime' } })
-              }
-            >
+            <Button color="primary" block>
               Proceed to Checkout
             </Button>
           </Form>
