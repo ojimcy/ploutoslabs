@@ -70,3 +70,8 @@ export const GET_TV_BOUQUETS = (providerId) =>
 export const VERIFY_TV_SMART_CARD = (serviceId, cardNumber) =>
   `${ROOT}/utilities/verify-smart-card-number?serviceId=${serviceId}&cardNumber=${cardNumber}`;
 export const PAY_TV_SUBSCRIPTION = () => `${ROOT}/utilities/pay-tv`;
+
+export const GET_UTILITIES_TRANSACTION = (txid) =>
+  `${ROOT}/utilities/get-transaction/${txid}`;
+export const GET_UTILITIES_TRANSACTIONS = () =>
+  `${ROOT}/utilities/user-transactions`;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Container,
   Row,
@@ -12,13 +12,17 @@ import {
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './utilities.css';
 import {
-  buyPower,
   getElectricityProviders,
   verifyMeterNumber,
 } from '../../../lib/server';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../../../context/AppContext';
 
 const ElectricityBillPage = () => {
+  const navigate = useNavigate();
+  const { updateUtilityTransaction } = useContext(AppContext);
+
   const [providers, setProviders] = useState([]);
   const [provider, setProvider] = useState('');
   const [meterNumber, setMeterNumber] = useState('');
@@ -71,27 +75,19 @@ const ElectricityBillPage = () => {
       return;
     }
 
-    const payload = {
+    updateUtilityTransaction({
       serviceId: provider,
       meterNumber,
       serviceType: meterType,
       amount: amount * 100,
-    };
+    });
 
-    try {
-      await buyPower(payload);
-      toast.success(
-        `Power of ₦${payload.amount} successfully purchased for ${meterNumber}.`
-      );
-      setProvider('');
-      setCustomerName('');
-      setMeterNumber('');
-      setMeterType('');
-      setAmount('');
-    } catch (error) {
-      let msg = error?.response?.data?.error;
-      toast.error(msg || 'An error occurred. Please try again later.');
-    }
+    navigate('/dashboard/checkout');
+    setProvider('');
+    setMeterNumber('');
+    setAmount('');
+    setMeterType('');
+    setPhoneNumer('');
   };
 
   return (
@@ -176,6 +172,7 @@ const ElectricityBillPage = () => {
                 id="amount"
                 placeholder="Enter amount"
                 value={amount}
+                min={800}
                 onChange={(e) => setAmount(e.target.value)}
                 className="form-control"
               />

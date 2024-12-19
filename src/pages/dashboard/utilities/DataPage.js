@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Container,
   Row,
@@ -12,10 +12,14 @@ import {
 } from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './utilities.css';
-import { buyData, getServiceVariations } from '../../../lib/server';
+import { getServiceVariations } from '../../../lib/server';
 import { toast } from 'react-toastify';
+import { AppContext } from '../../../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 const DataPage = () => {
+  const { updateUtilityTransaction } = useContext(AppContext);
+  const navigate = useNavigate();
   const [networkProvider, setNetworkProvider] = useState('');
   const [dataBundles, setDataBundles] = useState([]);
   const [selectedBundle, setSelectedBundle] = useState('');
@@ -65,27 +69,21 @@ const DataPage = () => {
       }
     }
 
-    const payload = {
-      network: networkProvider,
+    // Save transaction data to context
+    updateUtilityTransaction({
+      networkProvider,
       variationCode: selectedBundle,
-      phoneNumber,
+      phoneNumber: phoneNumber.toString(),
       amountIdNaira: selectedBundleObj.variation_amount,
-    };
-    try {
-      const result = await buyData(payload);
-      console.log(result);
+      utilityType: 'data',
+    });
 
-      toast.success(
-        `Data of ₦${selectedBundleObj.variation_amount} successfully purchased for ${phoneNumber} on ${networkProvider}`
-      );
-      setNetworkProvider('');
-      setPhoneNumber('');
-      setSelectedBundle('');
-    } catch (error) {
-      console.log(error);
-      let msg = error?.response?.data?.error;
-      toast.error(msg || 'An error occurred. Please try again later.');
-    }
+    navigate('/dashboard/checkout');
+
+    // Reset form fields
+    setNetworkProvider('');
+    setPhoneNumber('');
+    setSelectedBundle('');
   };
 
   return (
@@ -97,7 +95,6 @@ const DataPage = () => {
           <p className="text-center">
             Choose a network provider, bundle, and recipient phone number
           </p>
-          {phoneError && <small className="text-danger">{phoneError}</small>}
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Label for="networkProvider">Network Provider</Label>
@@ -140,7 +137,7 @@ const DataPage = () => {
             <FormGroup>
               <Label for="phoneNumber">Receiver&apos;s Phone Number</Label>
               <Input
-                type="tel"
+                type="text"
                 id="phoneNumber"
                 pattern="[0-9]*"
                 placeholder="Enter phone number"
@@ -149,6 +146,7 @@ const DataPage = () => {
                 disabled={loading}
               />
             </FormGroup>
+            {phoneError && <small className="text-danger">{phoneError}</small>}
             <Button
               type="submit"
               color="primary"

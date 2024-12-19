@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Container,
   Row,
@@ -15,11 +15,15 @@ import {
   getTvProviders,
   getTvBouquets,
   verifyTvSmartCard,
-  payTvSubscription,
-} from '../../../lib/server'; 
+} from '../../../lib/server';
 import './utilities.css';
+import { AppContext } from '../../../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 const TvSubscriptionPage = () => {
+  const { updateUtilityTransaction } = useContext(AppContext);
+  const navigate = useNavigate();
+  
   const [providers, setProviders] = useState([]);
   const [bouquets, setBouquets] = useState([]);
   const [provider, setProvider] = useState('');
@@ -81,31 +85,23 @@ const TvSubscriptionPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
+
+    updateUtilityTransaction({
       providerId: provider,
       bouquetId: bouquet,
       smartCardNumber,
       amount: amount * 100,
-      phoneNumber,
-    };
+      phoneNumber: phoneNumber.toString(),
+    });
+    navigate('/dashboard/checkout');
 
-    try {
-      await payTvSubscription(payload);
-      toast.success(
-        `Subscription for ${customerName} on ${bouquet} successfully processed.`
-      );
-      // Reset form
-      setProvider('');
-      setBouquet('');
-      setSmartCardNumber('');
-      setCustomerName('');
-      setAmount('');
-      setPhoneNumber('');
-    } catch (error) {
-      const errorMessage =
-        error?.response?.data?.message || 'An error occurred.';
-      toast.error(errorMessage);
-    }
+    // Reset form
+    setProvider('');
+    setBouquet('');
+    setSmartCardNumber('');
+    setCustomerName('');
+    setAmount('');
+    setPhoneNumber('');
   };
 
   return (
@@ -176,7 +172,6 @@ const TvSubscriptionPage = () => {
                 )}
               </Input>
             </FormGroup>
-
 
             <FormGroup>
               <Label for="phoneNumber">Phone Number</Label>

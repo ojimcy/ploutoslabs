@@ -43,6 +43,8 @@ import {
   GET_TV_BOUQUETS,
   VERIFY_TV_SMART_CARD,
   PAY_TV_SUBSCRIPTION,
+  GET_UTILITIES_TRANSACTION,
+  GET_UTILITIES_TRANSACTIONS,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -287,5 +289,15 @@ export const verifyTvSmartCard = async (serviceId, cardNumber) => {
 
 export const payTvSubscription = async (payload) => {
   const result = await axios.post(PAY_TV_SUBSCRIPTION(), payload);
+  return result.data;
+};
+
+export const getUtilitiesTransactionDetails = async (txid) => {
+  const result = await axios.get(GET_UTILITIES_TRANSACTION(txid));
+  return result.data;
+};
+
+export const getUtilitiesTransactions = async () => {
+  const result = await axios.get(GET_UTILITIES_TRANSACTIONS());
   return result.data;
 };

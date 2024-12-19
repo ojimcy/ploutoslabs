@@ -1,75 +1,81 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import './checkout.css';
-import { FaBitcoin, FaWallet } from 'react-icons/fa';
-import { Col, FormGroup, Input, Label, Row } from 'reactstrap';
 
-function PaymentMethodSelection({ onSelect }) {
-  const [selected, setSelected] = useState(null);
-  const [network, setNetwork] = useState('');
-  const [token, setToken] = useState('');
+const PaymentMethodSelection = ({ onProceed }) => {
+  const [selectedMethod, setSelectedMethod] = useState(null);
+  const [selectedToken, setSelectedToken] = useState('');
+  const [selectedNetwork, setSelectedNetwork] = useState('');
 
-  const handleSelect = (method) => {
-    setSelected(method);
-    onSelect(method);
-  };
+  const handleMethodSelect = (method) => setSelectedMethod(method);
 
   return (
-    <div>
-      <div className="payment-grid">
+    <div className="payment-method-selection">
+      <h2>Select Payment Method</h2>
+      <div className="payment-options">
         <div
-          className={`payment-option ${
-            selected === 'wallet' ? 'selected' : ''
+          className={`payment-card ${
+            selectedMethod === 'wallet' ? 'selected' : ''
           }`}
-          onClick={() => handleSelect('wallet')}
+          onClick={() => handleMethodSelect('wallet')}
         >
-          <FaWallet />
-          Wallet
+          <div className="payment-icon">💳</div>
+          <div className="payment-title">Pay with Wallet</div>
         </div>
         <div
-          className={`payment-option ${
-            selected === 'crypto' ? 'selected' : ''
+          className={`payment-card ${
+            selectedMethod === 'crypto' ? 'selected' : ''
           }`}
-          onClick={() => handleSelect('crypto')}
+          onClick={() => handleMethodSelect('crypto')}
         >
-          <FaBitcoin />
-          Crypto
+          <div className="payment-icon">💰</div>
+          <div className="payment-title">Pay with Crypto</div>
         </div>
       </div>
-      {selected === 'crypto' && (
-        <Row className="mt-3">
-          <Col md="12">
-            <FormGroup>
-              <Label for="cryptoNetwork">Network Provider</Label>
-              <Input
-                type="select"
-                id="cryptoNetwork"
-                value={network}
-                onChange={(e) => setNetwork(e.target.value)}
-                className="form-control"
-              >
-                <option value="">Select a network</option>
-                <option value="base">Base</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="token">Network Provider</Label>
-              <Input
-                type="select"
-                id="token"
-                value={token}
-                onChange={(e) => setToken(e.target.value)}
-                className="form-control"
-              >
-                <option value="">Select Token</option>
-                <option value="base">Ploutos (PLTL)</option>
-              </Input>
-            </FormGroup>
-          </Col>
-        </Row>
+
+      {selectedMethod === 'crypto' && (
+        <div className="crypto-options">
+          <label>
+            Select Token:
+            <select
+              value={selectedToken}
+              onChange={(e) => setSelectedToken(e.target.value)}
+            >
+              <option value="">Choose a token</option>
+              <option value="pltl">Ploutos (PLTL)</option>
+            </select>
+          </label>
+          <label>
+            Select Network:
+            <select
+              value={selectedNetwork}
+              onChange={(e) => setSelectedNetwork(e.target.value)}
+            >
+              <option value="">Choose a network</option>
+              <option value="base">Base</option>
+            </select>
+          </label>
+        </div>
+      )}
+
+      {selectedMethod && (
+        <button
+          className="proceed-button"
+          onClick={() =>
+            onProceed(selectedMethod, selectedToken, selectedNetwork)
+          }
+          disabled={
+            selectedMethod === 'crypto' && (!selectedToken || !selectedNetwork)
+          }
+        >
+          Confirm and Continue
+        </button>
       )}
     </div>
   );
-}
+};
+PaymentMethodSelection.propTypes = {
+  onProceed: PropTypes.func.isRequired,
+};
 
 export default PaymentMethodSelection;

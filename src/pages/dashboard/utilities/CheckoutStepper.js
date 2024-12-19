@@ -1,38 +1,26 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import './checkout.css';
-import { FaCheck } from 'react-icons/fa';
 
-function CheckoutStepper({ currentStep }) {
-  const steps = ['Payment Method', 'Payment Details', 'Confirmation'];
-
+const Stepper = ({ currentStep, steps }) => {
   return (
     <div className="stepper">
-      {steps.map((title, index) => {
-        const stepNumber = index + 1;
-        const isActive = currentStep === stepNumber;
-        const isCompleted = currentStep > stepNumber;
-
-        return (
-          <div key={stepNumber} className="step">
-            <div
-              className={`step-number ${
-                isCompleted ? 'completed' : isActive ? 'active' : 'inactive'
-              }`}
-            >
-              {isCompleted ? <FaCheck /> : stepNumber}
-            </div>
-            <div className="step-title">{title}</div>
-            {stepNumber < steps.length && (
-              <div
-                className={`step-divider ${isCompleted ? 'active' : ''}`}
-              ></div>
-            )}
-          </div>
-        );
-      })}
+      {steps.map((step, index) => (
+        <div
+          key={index}
+          className={`step ${index <= currentStep ? 'active' : ''}`}
+        >
+          <div className="step-number">{index + 1}</div>
+          <div className="step-title">{step}</div>
+          {index < steps.length - 1 && <div className="step-divider"></div>}
+        </div>
+      ))}
     </div>
   );
-}
+};
+Stepper.propTypes = {
+  currentStep: PropTypes.number.isRequired,
+  steps: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
-export default CheckoutStepper;
+export default Stepper;

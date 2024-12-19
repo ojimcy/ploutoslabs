@@ -53,7 +53,7 @@ const Airtime = () => {
     // Save transaction data to context
     updateUtilityTransaction({
       networkProvider,
-      phoneNumber,
+      phoneNumber: `${phoneNumber}`,
       amount,
       utilityType: 'airtime',
     });
@@ -101,7 +101,7 @@ const Airtime = () => {
             <FormGroup>
               <Label for="phoneNumber">Phone Number</Label>
               <Input
-                type="tel"
+                type="text"
                 id="phoneNumber"
                 placeholder="Enter phone number"
                 value={phoneNumber}
@@ -118,7 +118,7 @@ const Airtime = () => {
                 id="amount"
                 placeholder="Enter amount"
                 value={amount}
-                min={0}
+                min={50}
                 onChange={(e) => setAmount(e.target.value)}
               />
             </FormGroup>

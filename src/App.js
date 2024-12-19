@@ -43,6 +43,7 @@ import ElectricityBillPage from './pages/dashboard/utilities/ElectricityBillPage
 import TransactionPage from './pages/dashboard/utilities/TransactionPage';
 import TvSubscriptionPage from './pages/dashboard/utilities/TvSubscriptionPage';
 import Checkout from './pages/dashboard/utilities/Checkout';
+import TransactionSummary from './pages/dashboard/utilities/TransactionSummary';
 
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
@@ -116,6 +117,7 @@ const App = () => {
                   element={<TvSubscriptionPage />}
                 />
                 <Route path="checkout" element={<Checkout />} />
+                <Route path="transaction-summary" element={<TransactionSummary />} />
               </Routes>
             </Layout>
           }

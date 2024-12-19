@@ -1,108 +1,118 @@
-/* eslint-disable react/prop-types */
-import React, { useContext, useState } from 'react';
+import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import './checkout.css';
-import { Button, Container } from 'reactstrap';
+import {
+  Container,
+  Row,
+  Col,
+  FormGroup,
+  Input,
+  Label,
+  Button,
+} from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
-import CheckoutStepper from './CheckoutStepper';
-import PaymentMethodSelection from './PaymentMethodSelection';
 import { AppContext } from '../../../context/AppContext';
-import AirtimeSummary from './AirtimeSummary';
-import { buyAirtime } from '../../../lib/server';
-import { toast } from 'react-toastify';
-import { useCurrentUser } from '../../../hooks/telegram';
+import { useNavigate } from 'react-router-dom';
 
-function CheckoutPage() {
-  const { utilityTransaction } = useContext(AppContext);
-  const currentUser = useCurrentUser();
-  const [currentStep, setCurrentStep] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState(null);
-  const [loading, setLoading] = useState(false);
+const Checkout = () => {
+  const navigate = useNavigate();
+  const { utilityTransaction, updateUtilityTransaction } =
+    useContext(AppContext);
+  const [selectedMethod, setSelectedMethod] = useState(null);
+  const [selectedToken, setSelectedToken] = useState('');
+  const [selectedNetwork, setSelectedNetwork] = useState('');
 
-  const handleNext = () => {
-    setCurrentStep(currentStep + 1);
-  };
+  const handleMethodSelect = (method) => setSelectedMethod(method);
 
-  const handleBuyairtime = async () => {
-    try {
-      setLoading(true);
-      const result = await buyAirtime(
-        utilityTransaction.networkProvider,
-        utilityTransaction.phoneNumber,
-        parseFloat(utilityTransaction.amount)
-      );
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-      let msg = error?.response?.data?.error;
-      toast.error(msg || 'An error occurred. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
+  const handleContinue = () => {
+    updateUtilityTransaction({
+      ...utilityTransaction,
+      token: selectedToken,
+      network: selectedNetwork,
+      method: selectedMethod,
+    });
+    navigate('/dashboard/transaction-summary');
   };
 
   return (
-    <Container className="checkout-page">
+    <Container>
       <TelegramBackButton />
-      <div className="p-8">
-        <h2 className="text-2xl font-bold mb-4">Checkout</h2>
-        <CheckoutStepper currentStep={currentStep} />
-        {currentStep === 1 && (
-          <PaymentMethodSelection
-            onSelect={(method) => setPaymentMethod(method)}
-          />
+      <div className="payment-method-selection">
+        <h2>Select Payment Method</h2>
+        <div className="payment-options">
+          <div
+            className={`payment-card ${
+              selectedMethod === 'wallet' ? 'selected' : ''
+            }`}
+            onClick={() => handleMethodSelect('wallet')}
+          >
+            <div className="payment-icon">💳</div>
+            <div className="payment-title">Pay with Wallet</div>
+          </div>
+          <div
+            className={`payment-card ${
+              selectedMethod === 'crypto' ? 'selected' : ''
+            }`}
+            onClick={() => handleMethodSelect('crypto')}
+          >
+            <div className="payment-icon">💰</div>
+            <div className="payment-title">Pay with Crypto</div>
+          </div>
+        </div>
+
+        {selectedMethod === 'crypto' && (
+          <div className="crypto-options">
+            <Row className="mt-3">
+              <Col md="12">
+                <FormGroup>
+                  <Label for="cryptoNetwork">Network Provider</Label>
+                  <Input
+                    type="select"
+                    id="cryptoNetwork"
+                    value={selectedNetwork}
+                    onChange={(e) => setSelectedNetwork(e.target.value)}
+                    className="form-control"
+                  >
+                    <option value="">Select a network</option>
+                    <option value="base">Base</option>
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="token">Network Provider</Label>
+                  <Input
+                    type="select"
+                    id="token"
+                    value={selectedToken}
+                    onChange={(e) => setSelectedToken(e.target.value)}
+                    className="form-control"
+                  >
+                    <option value="">Select Token</option>
+                    <option value="base">Ploutos (PLTL)</option>
+                  </Input>
+                </FormGroup>
+              </Col>
+            </Row>
+          </div>
         )}
-        {currentStep === 2 && paymentMethod === 'crypto' && (
-          <>
-            <AirtimeSummary
-              utilityTransaction={utilityTransaction}
-              walletBalance={currentUser?.gameWalletBalance}
-            />
-            <Button
-              color="primary"
-              block
-              className="button-next"
-              onClick={handleBuyairtime}
-              disabled={loading}
-            >
-              {loading ? 'Processing...' : 'Pay'}
-            </Button>
-          </>
-        )}
-        {currentStep === 2 &&
-          paymentMethod === 'wallet' &&
-          (utilityTransaction.utilityType === 'airtime' ? (
-            <>
-              <AirtimeSummary
-                utilityTransaction={utilityTransaction}
-                walletBalance={currentUser?.gameWalletBalance}
-              />
-              <Button
-                color="primary"
-                block
-                className="button-next"
-                onClick={handleBuyairtime}
-                disabled={loading}
-              >
-                {loading ? 'Processing...' : 'Pay'}
-              </Button>
-            </>
-          ) : (
-            ''
-          ))}
-        {currentStep === 3 && (
-          <p>
-            Thank you for confirming your payment. Transaction is being
-            processed!
-          </p>
-        )}
-        {currentStep === 1 && paymentMethod && (
-          <Button className="button-next" onClick={handleNext}>
-            Next
+
+        {selectedMethod && (
+          <Button
+            className="proceed-button"
+            onClick={handleContinue}
+            disabled={
+              selectedMethod === 'crypto' &&
+              (!selectedToken || !selectedNetwork)
+            }
+          >
+            Confirm and Continue
           </Button>
         )}
       </div>
     </Container>
   );
-}
+};
+Checkout.propTypes = {
+  onProceed: PropTypes.func.isRequired,
+};
 
-export default CheckoutPage;
+export default Checkout;
