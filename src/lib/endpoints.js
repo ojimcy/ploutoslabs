@@ -75,3 +75,6 @@ export const GET_UTILITIES_TRANSACTION = (txid) =>
   `${ROOT}/utilities/get-transaction/${txid}`;
 export const GET_UTILITIES_TRANSACTIONS = () =>
   `${ROOT}/utilities/user-transactions`;
+
+export const GET_UTILITY_TRANSACTION = () => `${ROOT}/utilities/get-transaction`
+export const GET_UTILITY_TRANSACTIONS = () => `${ROOT}/utilities/get-transactions`
