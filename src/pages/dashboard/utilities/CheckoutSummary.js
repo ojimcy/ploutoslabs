@@ -5,33 +5,48 @@ import PropTypes from 'prop-types';
 import { getUtilitiesTransactionDetails } from '../../../lib/server';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { TransactionTypes } from '../../../lib/utils';
+import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 const CheckoutConfirmation = ({ onDone }) => {
-  const [status, setStatus] = useState('waiting');
+  const [status, setStatus] = useState('');
   const [details, setDetails] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchTransactionDetails = async () => {
       try {
-        const location = useLocation();
         const query = new URLSearchParams(location.search);
         const txID = query.get('txID');
-
         const result = await getUtilitiesTransactionDetails(txID);
         setDetails(result);
-        setStatus('success');
+        setStatus(result.status);
       } catch (error) {
+        console.error('Failed to fetch transaction details:', error);
         toast.error('An error occurred. Please try again later.');
         setStatus('failed');
       }
     };
 
     fetchTransactionDetails();
-  }, []);
 
-  if (status === 'waiting') {
+    const interval = setInterval(() => {
+      if (!details) return;
+
+      if (details.paymentMethod !== 'crypto' || details.status !== 'pending') {
+        clearInterval(interval);
+        return;
+      }
+      fetchTransactionDetails();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [getUtilitiesTransactionDetails]);
+
+  if (status === 'pending') {
     return (
       <div className="checkout-confirmation">
+        <TelegramBackButton />
         <h2>Processing Transaction</h2>
         <div className="loader"></div>
         <p>Please wait while we process your transaction...</p>
@@ -39,39 +54,40 @@ const CheckoutConfirmation = ({ onDone }) => {
     );
   }
 
-  if (status === 'success') {
+  if (status === 'completed') {
     return (
       <div className="checkout-confirmation">
+        <TelegramBackButton />
         <h2>Transaction Successful</h2>
         <div className="transaction-details">
           <div className="details-item">
             <span>Transaction ID:</span>
-            <span>{details.txID}</span>
+            <span>{details.id}</span>
           </div>
           <div className="details-item">
             <span>Amount:</span>
-            <span>{details.amount}</span>
+            <span>{details.naira_amount}</span>
           </div>
           <div className="details-item">
             <span>Payment Method:</span>
-            <span>{details.method}</span>
+            <span>{details.paymentMethod}</span>
           </div>
 
           {/* Render utility-specific details */}
-          {details.type === 'airtime' && (
+          {details.type === TransactionTypes.BuyAirtime && (
             <>
               <div className="details-item">
                 <span>Phone Number:</span>
-                <span>{details.phoneNumber}</span>
+                <span>{details.phone_number}</span>
               </div>
               <div className="details-item">
                 <span>Network Provider:</span>
-                <span>{details.networkProvider}</span>
+                <span>{details.network}</span>
               </div>
             </>
           )}
 
-          {details.type === 'data' && (
+          {details.type === TransactionTypes.BuyData && (
             <>
               <div className="details-item">
                 <span>Phone Number:</span>
@@ -84,7 +100,7 @@ const CheckoutConfirmation = ({ onDone }) => {
             </>
           )}
 
-          {details.type === 'electricity' && (
+          {details.type === TransactionTypes.BuyPower && (
             <>
               <div className="details-item">
                 <span>Meter Number:</span>
@@ -97,7 +113,7 @@ const CheckoutConfirmation = ({ onDone }) => {
             </>
           )}
 
-          {details.type === 'tv_subscription' && (
+          {details.type === TransactionTypes.TvSubscription && (
             <>
               <div className="details-item">
                 <span>Smart Card Number:</span>
@@ -132,15 +148,20 @@ const CheckoutConfirmation = ({ onDone }) => {
     );
   }
 
-  return (
-    <div className="checkout-confirmation">
-      <h2>Transaction Failed</h2>
-      <p>Something went wrong. Please try again.</p>
-      <button className="done-button" onClick={onDone}>
-        Retry
-      </button>
-    </div>
-  );
+  if (status === 'failed') {
+    return (
+      <div className="checkout-confirmation">
+        <TelegramBackButton />
+        <h2>Transaction Failed</h2>
+        <p>Something went wrong. Please try again.</p>
+        <button className="done-button" onClick={onDone}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  return <p>loading...</p>;
 };
 
 CheckoutConfirmation.propTypes = {

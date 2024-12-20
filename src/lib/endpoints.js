@@ -61,18 +61,17 @@ export const VERIFY_METER_NUMBER = (meterNumber, serviceId, serviceType) =>
   `${ROOT}/utilities/verify-meter-number?meterNumber=${meterNumber}&serviceId=${serviceId}&serviceType=${serviceType}`;
 export const VERIFY_SMART_CARD_NUMBER = (serviceId, cardNumber) =>
   `${ROOT}/utilities/verify-smart-card-number?serviceId=${serviceId}&cardNumber=${cardNumber}`;
-export const BUY_POWER = `${ROOT}/utilities/buy-power`;
+export const BUY_POWER = () => `${ROOT}/utilities/buy-power`;
 export const GET_POWER_TOKEN = (txId) =>
   `${ROOT}/utilities/get-power-token?txId=${txId}`;
 export const GET_TV_PROVIDERS = () => `${ROOT}/utilities/tv-providers`;
-export const GET_TV_BOUQUETS = (providerId) =>
-  `${ROOT}/utilities/tv-bouquets/${providerId}`;
+export const GET_TV_BOUQUETS = (providerId) => GET_SERVICE_VARIATIONS(providerId);
 export const VERIFY_TV_SMART_CARD = (serviceId, cardNumber) =>
   `${ROOT}/utilities/verify-smart-card-number?serviceId=${serviceId}&cardNumber=${cardNumber}`;
-export const PAY_TV_SUBSCRIPTION = () => `${ROOT}/utilities/pay-tv`;
+export const PAY_TV_SUBSCRIPTION = () => `${ROOT}/utilities/subscribe-tv`;
 
 export const GET_UTILITIES_TRANSACTION = (txid) =>
-  `${ROOT}/utilities/get-transaction/${txid}`;
+  `${ROOT}/utilities/get-transaction?id=${txid}`;
 export const GET_UTILITIES_TRANSACTIONS = () =>
   `${ROOT}/utilities/user-transactions`;
 

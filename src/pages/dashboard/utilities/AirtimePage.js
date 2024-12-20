@@ -14,6 +14,7 @@ import './utilities.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import { NetworkProviders, TransactionTypes } from '../../../lib/utils';
 
 const Airtime = () => {
   const navigate = useNavigate();
@@ -22,8 +23,6 @@ const Airtime = () => {
   const [amount, setAmount] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const { updateUtilityTransaction } = useContext(AppContext);
-
-  const networkProviders = ['MTN', '9mobile', 'Glo', 'Airtel'];
 
   const handlePhoneNumberChange = (e) => {
     const value = e.target.value;
@@ -55,7 +54,7 @@ const Airtime = () => {
       networkProvider,
       phoneNumber: `${phoneNumber}`,
       amount,
-      utilityType: 'airtime',
+      type: TransactionTypes.BuyAirtime,
     });
 
     navigate('/dashboard/checkout');
@@ -91,9 +90,9 @@ const Airtime = () => {
                 className="form-control"
               >
                 <option value="">Select a network</option>
-                {networkProviders.map((provider) => (
-                  <option key={provider} value={provider}>
-                    {provider}
+                {NetworkProviders.map((provider) => (
+                  <option key={provider.id} value={provider.id}>
+                    {provider.name}
                   </option>
                 ))}
               </Input>

@@ -42,7 +42,7 @@ const PaymentMethodSelection = ({ onProceed }) => {
               onChange={(e) => setSelectedToken(e.target.value)}
             >
               <option value="">Choose a token</option>
-              <option value="pltl">Ploutos (PLTL)</option>
+              <option value="0x4200000000000000000000000000000000000006">Ether (ETH)</option>
             </select>
           </label>
           <label>

@@ -221,12 +221,8 @@ export const userInChannel = async (telegramID) => {
   return result.data;
 };
 
-export const buyAirtime = async (network, phoneNumber, amount) => {
-  const result = await axios.post(BUY_AIRTIME(), {
-    network,
-    phoneNumber,
-    amountInNaira: amount,
-  });
+export const buyAirtime = async (payload) => {
+  const result = await axios.post(BUY_AIRTIME(), payload);
   return result.data;
 };
 

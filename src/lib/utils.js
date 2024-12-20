@@ -111,3 +111,19 @@ export const displayWallet = (wallet) => {
   if (!wallet.lable) return formatAddress(wallet.address);
   return `${formatAddress(wallet.address)} (${wallet.lable})`;
 };
+
+export const TransactionTypes = {
+	FundTransfer:    1,
+	BuyPower:        2,
+	BuyAirtime:      3,
+	BuyData:         4,
+	TvSubscription:  5,
+	ElectricityBill: 6,
+}
+
+export  const NetworkProviders = [
+  { name: 'MTN', id: 'mtn' },
+  { name: '9mobile', id: 'etesalt' },
+  {name: 'Glo', id: 'glo'},
+  {name: 'Airtel', id: 'airtel'},
+];

@@ -18,6 +18,7 @@ import {
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../../context/AppContext';
+import { TransactionTypes } from '../../../lib/utils';
 
 const ElectricityBillPage = () => {
   const navigate = useNavigate();
@@ -79,7 +80,9 @@ const ElectricityBillPage = () => {
       serviceId: provider,
       meterNumber,
       serviceType: meterType,
-      amount: amount * 100,
+      amount: amount,
+      type: TransactionTypes.BuyPower,
+      phoneNumber,
     });
 
     navigate('/dashboard/checkout');

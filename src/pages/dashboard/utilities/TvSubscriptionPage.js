@@ -19,6 +19,7 @@ import {
 import './utilities.css';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import { TransactionTypes } from '../../../lib/utils';
 
 const TvSubscriptionPage = () => {
   const { updateUtilityTransaction } = useContext(AppContext);
@@ -30,7 +31,6 @@ const TvSubscriptionPage = () => {
   const [bouquet, setBouquet] = useState('');
   const [smartCardNumber, setSmartCardNumber] = useState('');
   const [customerName, setCustomerName] = useState('');
-  const [amount, setAmount] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loadingBouquets, setLoadingBouquets] = useState(false);
   const [loadingCustomer, setLoadingCustomer] = useState(false);
@@ -86,12 +86,16 @@ const TvSubscriptionPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const bouquetObj = bouquets.find((b) => b.variation_code === bouquet);
+
     updateUtilityTransaction({
-      providerId: provider,
-      bouquetId: bouquet,
+      serviceId: provider,
+      variationCode: bouquet,
       smartCardNumber,
-      amount: amount * 100,
+      amount: parseFloat(bouquetObj.variation_amount),// TODO: Check on the backend
+      amountInNaira: parseFloat(bouquetObj.variation_amount) * 100,
       phoneNumber: phoneNumber.toString(),
+      type: TransactionTypes.TvSubscription,
     });
     navigate('/dashboard/checkout');
 
@@ -100,7 +104,6 @@ const TvSubscriptionPage = () => {
     setBouquet('');
     setSmartCardNumber('');
     setCustomerName('');
-    setAmount('');
     setPhoneNumber('');
   };
 
@@ -165,8 +168,8 @@ const TvSubscriptionPage = () => {
                   <option disabled>Loading bouquets...</option>
                 ) : (
                   bouquets.map((bouquet) => (
-                    <option key={bouquet.id} value={bouquet.id}>
-                      {bouquet.name} - ₦{bouquet.price / 100}
+                    <option key={bouquet.variation_code} value={bouquet.variation_code}>
+                      {bouquet.name}
                     </option>
                   ))
                 )}
@@ -190,7 +193,7 @@ const TvSubscriptionPage = () => {
               color="primary"
               block
               disabled={
-                !provider || !bouquet || !smartCardNumber || !customerName
+                !provider || !bouquet || !smartCardNumber // || !customerName
               }
             >
               Pay Subscription

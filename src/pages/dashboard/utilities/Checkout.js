@@ -29,7 +29,7 @@ const Checkout = () => {
       ...utilityTransaction,
       token: selectedToken,
       network: selectedNetwork,
-      method: selectedMethod,
+      paymentMethod: selectedMethod,
     });
     navigate('/dashboard/transaction-summary');
   };
@@ -65,7 +65,7 @@ const Checkout = () => {
             <Row className="mt-3">
               <Col md="12">
                 <FormGroup>
-                  <Label for="cryptoNetwork">Network Provider</Label>
+                  <Label for="cryptoNetwork">Network</Label>
                   <Input
                     type="select"
                     id="cryptoNetwork"
@@ -78,7 +78,7 @@ const Checkout = () => {
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="token">Network Provider</Label>
+                  <Label for="token">Currency</Label>
                   <Input
                     type="select"
                     id="token"
@@ -87,7 +87,7 @@ const Checkout = () => {
                     className="form-control"
                   >
                     <option value="">Select Token</option>
-                    <option value="base">Ploutos (PLTL)</option>
+                    <option value="ETH">Ether (ETH)</option>
                   </Input>
                 </FormGroup>
               </Col>

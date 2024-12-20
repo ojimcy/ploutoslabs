@@ -16,6 +16,7 @@ import { getServiceVariations } from '../../../lib/server';
 import { toast } from 'react-toastify';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import { TransactionTypes } from '../../../lib/utils';
 
 const DataPage = () => {
   const { updateUtilityTransaction } = useContext(AppContext);
@@ -74,8 +75,9 @@ const DataPage = () => {
       networkProvider,
       variationCode: selectedBundle,
       phoneNumber: phoneNumber.toString(),
-      amountIdNaira: selectedBundleObj.variation_amount,
-      utilityType: 'data',
+      amount: selectedBundleObj.variation_amount,
+      amountInNaira: selectedBundleObj.variation_amount, // TODO: recheck amount on the backend
+      type: TransactionTypes.BuyData,
     });
 
     navigate('/dashboard/checkout');

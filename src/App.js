@@ -44,6 +44,7 @@ import TransactionPage from './pages/dashboard/utilities/TransactionPage';
 import TvSubscriptionPage from './pages/dashboard/utilities/TvSubscriptionPage';
 import Checkout from './pages/dashboard/utilities/Checkout';
 import TransactionSummary from './pages/dashboard/utilities/TransactionSummary';
+import CheckoutSummary from './pages/dashboard/utilities/CheckoutSummary';
 
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
@@ -118,6 +119,7 @@ const App = () => {
                 />
                 <Route path="checkout" element={<Checkout />} />
                 <Route path="transaction-summary" element={<TransactionSummary />} />
+                <Route path="transaction-details" element={<CheckoutSummary />} />
               </Routes>
             </Layout>
           }

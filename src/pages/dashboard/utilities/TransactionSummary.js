@@ -14,6 +14,7 @@ import { Button, Container } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { useNavigate } from 'react-router-dom';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
+import { TransactionTypes } from '../../../lib/utils';
 
 const TransactionSummary = () => {
   const currentUser = useCurrentUser();
@@ -29,63 +30,68 @@ const TransactionSummary = () => {
     try {
       setLoading(true);
       const {
-        utilityType,
+        type: utilityType,
         token,
         network,
         amount,
         phoneNumber,
         meterNumber,
         smartCardNumber,
-        dataPlan,
+        variationCode,
         networkProvider,
-        provider,
+        serviceId,
+        serviceType,
+        paymentMethod,
       } = utilityTransaction;
 
       let result;
 
       // Conditionally call the correct API method based on utility type
-      if (utilityType === 'airtime') {
-        result = await buyAirtime(
-          networkProvider,
+      if (utilityType === TransactionTypes.BuyAirtime) {
+        result = await buyAirtime({
+          network: networkProvider,
           phoneNumber,
-          parseFloat(amount),
-          network,
-          token
-        );
-      } else if (utilityType === 'data') {
-        result = await buyData(
+          amountInNaira: parseFloat(amount) * 100,
+          currencyNetwork: network,
+          currency: token,
+          paymentMethod,
+        });
+      } else if (utilityType === TransactionTypes.BuyData) {
+        result = await buyData({
           phoneNumber,
-          parseFloat(amount),
-          networkProvider,
-          dataPlan,
-          token
-        );
-      } else if (utilityType === 'electricity') {
-        result = await buyPower(
+          amountInNaira: parseFloat(amount) * 100,
+          network: networkProvider,
+          variationCode,
+          currency: token,
+          paymentMethod,
+        });
+      } else if (utilityType === TransactionTypes.BuyPower) {
+        result = await buyPower({
           meterNumber,
-          parseFloat(amount),
-          provider,
-          token
-        );
-      } else if (utilityType === 'tv_subscription') {
-        result = await payTvSubscription(
-          smartCardNumber,
-          parseFloat(amount),
-          provider,
-          token
-        );
+          amountInNaira: parseFloat(amount) * 100,
+          serviceId,
+          serviceType,
+          currency: token,
+          paymentMethod,
+          phoneNumber,
+        });
+      } else if (utilityType === TransactionTypes.TvSubscription) {
+        result = await payTvSubscription({
+          cardNumber: smartCardNumber,
+          amountInNaira: parseFloat(amount) * 100,
+          serviceId,
+          packageId: variationCode,
+          phoneNumber,
+          currency: token,
+          paymentMethod,
+        });
       }
 
-      if (utilityTransaction.method === 'crypto') {
-        setCryptoTransactionDetails({
-          walletAddress: result.walletAddress,
-          token: result.token,
-          network: result.network,
-          amount: result.amount,
-        });
+      if (utilityTransaction.paymentMethod === 'crypto') {
+        setCryptoTransactionDetails(result);
       } else {
         // Navigate to transaction details page after successful transaction
-        navigate(`/dashboard/transaction-details/${result.txID}`);
+        navigate(`/dashboard/transaction-details?txID=${result.id}`);
       }
     } catch (error) {
       console.log(error);
@@ -97,7 +103,9 @@ const TransactionSummary = () => {
   };
 
   const handleContinue = () => {
-    navigate(`/dashboard/transaction-details/${cryptoTransactionDetails.txID}`);
+    navigate(
+      `/dashboard/transaction-details?txID=${cryptoTransactionDetails.id}`
+    );
   };
 
   return (
@@ -109,7 +117,7 @@ const TransactionSummary = () => {
         <div className="summary-details">
           <div className="summary-item">
             <span>Utility Type</span>
-            <span>{utilityTransaction.utilityType}</span>
+            <span>{utilityTransaction.type}</span>
           </div>
 
           <div className="summary-item">
@@ -121,38 +129,43 @@ const TransactionSummary = () => {
             </span>
           </div>
 
-          {utilityTransaction.method === 'crypto' && (
-            <>
-              <div className="summary-item">
-                <span>Token:</span>
-                <span>{utilityTransaction.token}</span>
-              </div>
-              <div className="summary-item">
-                <span>Network:</span>
-                <span>{utilityTransaction.network}</span>
-              </div>
-            </>
-          )}
           <div className="summary-item">
             <span>Amount:</span>
             <span>₦{utilityTransaction.amount}</span>
           </div>
 
-          {/* Show details based on utility type */}
-          {utilityTransaction.utilityType === 'airtime' && (
+          {utilityTransaction.method === 'crypto' && (
             <>
               <div className="summary-item">
-                <span>Phone Number:</span>
-                <span>{utilityTransaction.phoneNumber}</span>
+                <span>Token:</span>
+                <span>{utilityTransaction.currency}</span>
               </div>
               <div className="summary-item">
-                <span>Network Provider:</span>
-                <span>{utilityTransaction.networkProvider}</span>
+                <span>Network:</span>
+                <span>{utilityTransaction.currency_network}</span>
+              </div>
+              <div className="summary-item">
+                <span>Token Amount:</span>
+                <span>{utilityTransaction.token_amount}</span>
               </div>
             </>
           )}
 
-          {utilityTransaction.utilityType === 'data' && (
+          {/* Show details based on utility type */}
+          {utilityTransaction.utilityType === TransactionTypes.BuyAirtime && (
+            <>
+              <div className="summary-item">
+                <span>Phone Number:</span>
+                <span>{utilityTransaction.phone_number}</span>
+              </div>
+              <div className="summary-item">
+                <span>Network Provider:</span>
+                <span>{utilityTransaction.network}</span>
+              </div>
+            </>
+          )}
+
+          {utilityTransaction.utilityType === TransactionTypes.BuyData && (
             <>
               <div className="summary-item">
                 <span>Phone Number:</span>
@@ -165,7 +178,8 @@ const TransactionSummary = () => {
             </>
           )}
 
-          {utilityTransaction.utilityType === 'electricity' && (
+          {utilityTransaction.utilityType ===
+            TransactionTypes.ElectricityBill && (
             <>
               <div className="summary-item">
                 <span>Meter Number:</span>
@@ -178,7 +192,8 @@ const TransactionSummary = () => {
             </>
           )}
 
-          {utilityTransaction.utilityType === 'tv_subscription' && (
+          {utilityTransaction.utilityType ===
+            TransactionTypes.TvSubscription && (
             <>
               <div className="summary-item">
                 <span>Smart Card Number:</span>
@@ -206,11 +221,11 @@ const TransactionSummary = () => {
         {cryptoTransactionDetails && (
           <div className="crypto-instructions">
             <p>
-              Send {cryptoTransactionDetails.amount}{' '}
-              {cryptoTransactionDetails.token} to the following address:
+              Send {cryptoTransactionDetails.token_amount}{' '}
+              {cryptoTransactionDetails.currency} to the following address:
             </p>
             <p>
-              <strong>{cryptoTransactionDetails.walletAddress}</strong>
+              <strong>{cryptoTransactionDetails.wallet_address}</strong>
             </p>
             <p>After sending, please click the button below to continue.</p>
 

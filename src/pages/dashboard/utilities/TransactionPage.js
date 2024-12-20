@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Row,
@@ -12,41 +12,28 @@ import {
 } from 'reactstrap';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './transactions.css';
-import TransactionDetailsModal from '../../../components/modal/TransactionDetailsModal';
+import { getUtilityTransactions } from '../../../lib/server';
+import { useNavigate } from 'react-router-dom';
 
 const TransactionPage = () => {
-  const [transactions] = useState([
-    {
-      id: 1,
-      date: '2024-12-10',
-      type: 'Data',
-      status: 'Successful',
-      details: { plan: '1GB', provider: 'Provider A' },
-    },
-    {
-      id: 2,
-      date: '2024-12-11',
-      type: 'Airtime',
-      status: 'Failed',
-      details: { amount: '500 NGN', provider: 'Provider B' },
-    },
-    {
-      id: 3,
-      date: '2024-12-12',
-      type: 'Electricity',
-      status: 'Pending',
-      details: { token: '1234-5678-9101-1121', meter: '12345678' },
-    },
-  ]);
+  const [transactions, setTransactions] = useState([])
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      // Fetch transactions from the server
+      const result = await getUtilityTransactions()
+      setTransactions(result);
+    }
+
+    fetchTransactions();
+  })
 
   const [filters, setFilters] = useState({
     date: '',
     status: '',
     type: '',
   });
-
-  const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -63,13 +50,7 @@ const TransactionPage = () => {
   });
 
   const handleTransactionClick = (transaction) => {
-    setSelectedTransaction(transaction);
-    setIsModalOpen(true);
-  };
-
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-    alert('Copied to clipboard!');
+    navigate(`/dashboard/transaction-details?txID=${transaction.id}`);
   };
 
   return (
@@ -108,9 +89,9 @@ const TransactionPage = () => {
                 onChange={handleFilterChange}
               >
                 <option value="">All</option>
-                <option value="Successful">Successful</option>
-                <option value="Failed">Failed</option>
-                <option value="Pending">Pending</option>
+                <option value="completed">Completed</option>
+                <option value="failed">Failed</option>
+                <option value="pending">Pending</option>
               </Input>
             </FormGroup>
             <FormGroup className="mr-2">
@@ -143,6 +124,7 @@ const TransactionPage = () => {
                 <th>Date</th>
                 <th>Type</th>
                 <th>Status</th>
+                <th>Amount</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -158,6 +140,8 @@ const TransactionPage = () => {
                     >
                       {transaction.status}
                     </td>
+                    <td>{transaction.amountInNaira}</td>
+                    
                     <td>
                       <Button
                         color="info"
@@ -181,12 +165,6 @@ const TransactionPage = () => {
         </Col>
       </Row>
 
-      <TransactionDetailsModal
-        isOpen={isModalOpen}
-        toggle={() => setIsModalOpen(false)}
-        transaction={selectedTransaction}
-        onCopy={handleCopy}
-      />
     </Container>
   );
 };
