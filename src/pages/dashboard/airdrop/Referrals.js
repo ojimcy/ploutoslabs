@@ -13,7 +13,6 @@ function Referrals() {
 
   const copyReferralLink = () => {
     const link = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser.telegramId}`;
-    console.log(link);
     navigator.clipboard.writeText(link);
   };
 
