@@ -62,11 +62,11 @@ const CheckoutConfirmation = ({ onDone }) => {
         <div className="transaction-details">
           <div className="details-item">
             <span>Transaction ID:</span>
-            <span>{details.id}</span>
+            <span>{details.id.substring(0, 10)}</span>
           </div>
           <div className="details-item">
             <span>Amount:</span>
-            <span>{details.naira_amount}</span>
+            <span>{parseFloat(details.naira_amount)/100}</span>
           </div>
           <div className="details-item">
             <span>Payment Method:</span>
