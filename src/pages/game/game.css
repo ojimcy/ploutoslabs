@@ -282,6 +282,11 @@
   width: 45% !important;
 }
 
+.wallet-dropdown {
+  display: flex;
+  align-self: flex-end;
+}
+
 .wallet-dropdown a {
   text-decoration: none;
   color: #333 !important;

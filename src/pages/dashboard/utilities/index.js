@@ -1,9 +1,26 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { FaMobileAlt, FaWifi, FaBolt, FaHistory, FaTv } from 'react-icons/fa';
+import React, { useState } from 'react';
+import {
+  Container,
+  Row,
+  Col,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  FaMobileAlt,
+  FaWifi,
+  FaBolt,
+  FaTv,
+  FaCaretDown,
+  FaBitcoin,
+} from 'react-icons/fa';
 import './utilities.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
+import { useCurrentUser, useWebApp } from '../../../hooks/telegram';
+import GameDepositModal from '../../../components/common/modal/GameDepositModal';
 
 const utilities = [
   {
@@ -30,19 +47,58 @@ const utilities = [
     link: '/dashboard/tv-subscription',
     description: 'Subscribe to your favorite TV services.',
   },
+  {
+    name: 'International Bill Payments',
+    icon: <FaBitcoin />,
+    link: 'https://widget.zypto.com/8d8kvdb7x9bgtwz65me1bk8tajn2ehuvm8oh333gvp2t9brpzhgtn337rdtz?collapse',
+    description: 'Pay your international bills with ease.',
+  },
 ];
 
 function UtilitiesPage() {
+  const webApp = useWebApp();
+  const currentUser = useCurrentUser();
+  const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [depositModal, setDepositModal] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const toggleDepositModal = () => {
+    setDepositModal(!depositModal);
+  };
+
+  const handleLinkClicked = (u) => {
+    if (u.link.startsWith('https://')) {
+      webApp.openLink(u.link, { try_instant_view: true });
+    } else {
+      navigate(u.link);
+    }
+  };
+
   return (
     <div className="utilities-page">
       <TelegramBackButton />
       <Container>
-        <Link
-          to="/dashboard/transactions"
-          className="d-flex justify-content-end history-link"
-        >
-          <FaHistory />
-        </Link>
+        <div className="wallet-dropdown d-flex justify-content-end">
+          <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} end>
+            <DropdownToggle header className="wallet-dropdown-toggle">
+              Wallet: ${currentUser?.gameWalletBalance}
+              <FaCaretDown />
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem header>
+                Balance: ${currentUser?.gameWalletBalance}
+              </DropdownItem>
+              <DropdownItem onClick={toggleDepositModal}>Deposit</DropdownItem>
+              <DropdownItem>
+                <Link to="/dashboard/transactions">Transactions</Link>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
         <h3 className="text-center my-4">Utilities</h3>
         <p className="text-center">
           Explore our range of utility services for your convenience.
@@ -50,15 +106,25 @@ function UtilitiesPage() {
         <Row>
           {utilities.map((utility, index) => (
             <Col xs={12} md={6} lg={4} className="mb-4" key={index}>
-              <Link to={utility.link} className="utility-card">
+              <div
+                onClick={() => handleLinkClicked(utility)}
+                className="utility-card"
+                role="button"
+                tabIndex={0}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') handleLinkClicked(utility);
+                }}
+              >
                 <div className="utility-icon">{utility.icon}</div>
                 <h5 className="utility-title">{utility.name}</h5>
                 <p className="utility-description">{utility.description}</p>
-              </Link>
+              </div>
             </Col>
           ))}
         </Row>
       </Container>
+
+      <GameDepositModal isOpen={depositModal} toggle={toggleDepositModal} />
     </div>
   );
 }

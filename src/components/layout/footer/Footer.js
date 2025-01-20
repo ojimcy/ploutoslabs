@@ -62,7 +62,7 @@ function AirdropFooter() {
                     <Link
                       to="/dashboard/utitlities"
                       className={`d-flex flex-column align-items-center ${
-                        location.pathname === '/game' ? 'active' : ''
+                        location.pathname === '/dashboard/utitlities' ? 'active' : ''
                       }`}
                     >
                       <FaTools size={28} />
