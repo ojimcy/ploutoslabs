@@ -111,9 +111,6 @@ function UtilitiesPage() {
                 className="utility-card"
                 role="button"
                 tabIndex={0}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') handleLinkClicked(utility);
-                }}
               >
                 <div className="utility-icon">{utility.icon}</div>
                 <h5 className="utility-title">{utility.name}</h5>
