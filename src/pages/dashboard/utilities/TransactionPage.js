@@ -15,18 +15,18 @@ import { getUtilityTransactions } from '../../../lib/server';
 import { useNavigate } from 'react-router-dom';
 
 const TransactionPage = () => {
-  const [transactions, setTransactions] = useState([])
+  const [transactions, setTransactions] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTransactions = async () => {
       // Fetch transactions from the server
-      const result = await getUtilityTransactions()
+      const result = await getUtilityTransactions();
       setTransactions(result);
-    }
+    };
 
     fetchTransactions();
-  })
+  });
 
   const [filters, setFilters] = useState({
     date: '',
@@ -115,7 +115,7 @@ const TransactionPage = () => {
 
       <Row>
         <Col md={12}>
-          <Table className="styled-table" striped>
+          <Table className="styled-table" striped responsive>
             <thead>
               <tr>
                 <th>#</th>
@@ -139,7 +139,7 @@ const TransactionPage = () => {
                       {transaction.status}
                     </td>
                     <td>{transaction.amountInNaira}</td>
-                    
+
                     <td>
                       <Button
                         color="info"
@@ -162,7 +162,6 @@ const TransactionPage = () => {
           </Table>
         </Col>
       </Row>
-
     </Container>
   );
 };

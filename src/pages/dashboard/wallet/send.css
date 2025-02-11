@@ -49,7 +49,7 @@
 }
 
 .send-container .send-form .form-control::placeholder {
-  color: #aaa;
+  color: #696565 !important;
 }
 
 .confirm-send-modal .modal-header {

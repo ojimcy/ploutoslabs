@@ -34,7 +34,7 @@ function Referrals() {
           {/* Contest Section */}
           <Row className="referral-contest-section">
             <Col>
-              <div className="contest-info">
+              <div className="contest-info flex-column">
                 <span role="img" aria-label="celebration">
                   🎉
                 </span>{' '}

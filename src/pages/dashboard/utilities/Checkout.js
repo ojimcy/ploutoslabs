@@ -35,7 +35,7 @@ const Checkout = () => {
 
   return (
     <Container>
-      <div className="payment-method-selection">
+      <div className="payment-method-selection d-flex flex-column">
         <h2>Select Payment Method</h2>
         <div className="payment-options">
           <div

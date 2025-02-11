@@ -14,6 +14,7 @@ import { Button, Container } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { useNavigate } from 'react-router-dom';
 import { TransactionTypes } from '../../../lib/utils';
+import { FaCopy } from 'react-icons/fa';
 
 const TransactionSummary = () => {
   const currentUser = useCurrentUser();
@@ -109,7 +110,6 @@ const TransactionSummary = () => {
 
   return (
     <Container>
-
       <div className="transaction-summary">
         <h2>Transaction Summary</h2>
         <div className="summary-details">
@@ -222,10 +222,19 @@ const TransactionSummary = () => {
               Send {cryptoTransactionDetails.token_amount}{' '}
               {cryptoTransactionDetails.currency} to the following address:
             </p>
-            <p>
+            <div className="wallet-address">
               <strong>{cryptoTransactionDetails.wallet_address}</strong>
-            </p>
-            <p>After sending, please click the button below to continue.</p>
+              <FaCopy
+                className="copy-icon"
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    cryptoTransactionDetails.wallet_address
+                  );
+                  toast.success('Copied to clipboard');
+                }}
+              />
+            </div>
+            <p>After sending, please click the button below to continue. </p>
 
             <div className="note">
               ⚠️ Ensure you send the correct token on the selected network to
