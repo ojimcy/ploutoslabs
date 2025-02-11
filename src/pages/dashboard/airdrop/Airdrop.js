@@ -1,9 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Button, Container } from 'reactstrap';
+import { Button, Container, Spinner } from 'reactstrap';
 import {
-  computeTokensToCliam,
+  computeTokensToClaim,
   useCurrentUser,
-  useTelegramUser,
 } from '../../../hooks/telegram';
 
 import airdropLogo from '../../../assets/images/airdrop-logo.png';
@@ -21,13 +20,11 @@ import gamePad from '../../../assets/images/pad.png';
 
 function Airdrop() {
   const currentUser = useCurrentUser();
-  const telegramUser = useTelegramUser();
   const { setUser } = useContext(WebappContext);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleModal = () => setModalOpen(!isModalOpen);
-
-  // Fill time in minutes and fill rate in RAIN per hour
 
   const [currentAmount, setCurrentAmount] = useState(0);
 
@@ -35,7 +32,7 @@ function Airdrop() {
     if (!currentUser) return;
 
     const updateAmount = () => {
-      const amt = computeTokensToCliam(currentUser);
+      const amt = computeTokensToClaim(currentUser);
       setCurrentAmount(amt);
     };
 
@@ -46,19 +43,26 @@ function Airdrop() {
   }, [currentUser]);
 
   const claim = async () => {
-    await claimToken(currentUser.telegramId);
-    const user = await getUserByTelegramID(currentUser.telegramId);
-    setUser(user);
+    setLoading(true);
+    try {
+      await claimToken(currentUser.telegramId);
+      const user = await getUserByTelegramID(currentUser.telegramId);
+      setUser(user);
+    } catch (error) {
+      console.error('Error claiming tokens:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchUserData = useCallback(async () => {
     try {
-      const user = await getUserByTelegramID(telegramUser.id);
+      const user = await getUserByTelegramID(currentUser.telegramId);
       setUser(user);
     } catch (error) {
       console.error('Failed to fetch user data:', error);
     }
-  }, [telegramUser]);
+  }, [currentUser]);
 
   return (
     <div className="airdrop-page">
@@ -82,7 +86,7 @@ function Airdrop() {
                   <FaWallet className="icon-sm" />
                   <span>Balance</span>
                 </div>
-                <div className="fs-1 fw-bold text-light">
+                <div className="fs-1 fw-bold text-light mt-1">
                   {currentUser ? currentUser.balance?.toFixed(2) : '0'} GPLTL
                 </div>
               </div>
@@ -99,7 +103,7 @@ function Airdrop() {
               </div>
             </div>
 
-            <div className="boost-area">
+            <div className="boost-area mt-2">
               <div className="energy d-flex flex-row align-items-center">
                 <FaFire className="lightning-icon" size={25} />
                 <span>
@@ -128,7 +132,7 @@ function Airdrop() {
                 </Button>
               ) : (
                 <Button onClick={claim} className="btn-claim">
-                  Claim
+                  {loading ? <Spinner size="sm" /> : 'Claim'}
                 </Button>
               )}
             </div>

@@ -65,7 +65,8 @@ export const BUY_POWER = () => `${ROOT}/utilities/buy-power`;
 export const GET_POWER_TOKEN = (txId) =>
   `${ROOT}/utilities/get-power-token?txId=${txId}`;
 export const GET_TV_PROVIDERS = () => `${ROOT}/utilities/tv-providers`;
-export const GET_TV_BOUQUETS = (providerId) => GET_SERVICE_VARIATIONS(providerId);
+export const GET_TV_BOUQUETS = (providerId) =>
+  GET_SERVICE_VARIATIONS(providerId);
 export const VERIFY_TV_SMART_CARD = (serviceId, cardNumber) =>
   `${ROOT}/utilities/verify-smart-card-number?serviceId=${serviceId}&cardNumber=${cardNumber}`;
 export const PAY_TV_SUBSCRIPTION = () => `${ROOT}/utilities/subscribe-tv`;
@@ -75,5 +76,9 @@ export const GET_UTILITIES_TRANSACTION = (txid) =>
 export const GET_UTILITIES_TRANSACTIONS = () =>
   `${ROOT}/utilities/user-transactions`;
 
-export const GET_UTILITY_TRANSACTION = () => `${ROOT}/utilities/get-transaction`
-export const GET_UTILITY_TRANSACTIONS = () => `${ROOT}/utilities/get-transactions`
+export const GET_UTILITY_TRANSACTION = () =>
+  `${ROOT}/utilities/get-transaction`;
+export const GET_UTILITY_TRANSACTIONS = () =>
+  `${ROOT}/utilities/get-transactions`;
+
+export const LOGIN_WITH_TELEGRAM = () => `${ROOT}/auth/telegram`;

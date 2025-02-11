@@ -2,38 +2,27 @@ import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { WebappContext } from '../../context/telegram';
 import { getUserByTelegramID } from '../../lib/server';
-import { useTelegramUser } from '../../hooks/telegram';
 import Footer from './footer/Footer';
 import AirdropNav from './header/AirdropNav';
 
 const AirdropLayout = ({ children }) => {
-  const { webapp, setUser } = useContext(WebappContext);
+  const { setUser } = useContext(WebappContext);
 
   // const webapp = useContext(WebappContext);
-
-  const telegramUser = useTelegramUser();
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {
-    if (!telegramUser) {
+    if (!telegramId) {
       return;
     }
     const fn = async () => {
-      let user = await getUserByTelegramID(telegramUser.id);
+      let user = await getUserByTelegramID(telegramId);
 
       setUser(user);
     };
 
     fn();
-  }, [telegramUser]);
-
-  useEffect(() => {
-    if (!webapp) return;
-    const fn = async () => {
-      if (webapp.expand) webapp.expand();
-    };
-
-    fn();
-  }, [webapp]);
+  }, [telegramId]);
 
   return (
     <div className="page-content">

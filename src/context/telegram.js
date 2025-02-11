@@ -6,6 +6,7 @@ export const WebappContext = createContext(undefined);
 export const WebappProvider = ({ children }) => {
   const [webapp, setWebapp] = useState(null);
   const [user, setUser] = useState(null);
+  const [checkedIn, setCheckedIn] = useState(false);
 
   const refreshUser = async () => {
     if (webapp) {
@@ -24,7 +25,7 @@ export const WebappProvider = ({ children }) => {
   }, [window.Telegram.WebApp]);
 
   return (
-    <WebappContext.Provider value={{ webapp, user, setUser, refreshUser }}>
+    <WebappContext.Provider value={{ webapp, user, setUser, refreshUser, checkedIn, setCheckedIn }}>
       {children}
     </WebappContext.Provider>
   );

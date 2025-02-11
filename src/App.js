@@ -8,7 +8,7 @@ import 'wowjs/css/libs/animate.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Dashboard from './pages/dashboard/Dashboard';
-import Register from './pages/auth';
+import Register from './pages/auth/';
 import Layout from './components/layout/Layout';
 import Send from './pages/dashboard/wallet/Send';
 import Receive from './pages/dashboard/wallet/Receive';
@@ -45,7 +45,6 @@ import TvSubscriptionPage from './pages/dashboard/utilities/TvSubscriptionPage';
 import Checkout from './pages/dashboard/utilities/Checkout';
 import TransactionSummary from './pages/dashboard/utilities/TransactionSummary';
 import CheckoutSummary from './pages/dashboard/utilities/CheckoutSummary';
-
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
     const randomValues = randomBytes(array.length);
@@ -118,8 +117,14 @@ const App = () => {
                   element={<TvSubscriptionPage />}
                 />
                 <Route path="checkout" element={<Checkout />} />
-                <Route path="transaction-summary" element={<TransactionSummary />} />
-                <Route path="transaction-details" element={<CheckoutSummary />} />
+                <Route
+                  path="transaction-summary"
+                  element={<TransactionSummary />}
+                />
+                <Route
+                  path="transaction-details"
+                  element={<CheckoutSummary />}
+                />
               </Routes>
             </Layout>
           }

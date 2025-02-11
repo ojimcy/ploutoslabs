@@ -1,69 +1,70 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Row, Col, Progress, Container } from 'reactstrap';
-import { claimToken } from '../../lib/server';
-import { computeTokensToCliam, useCurrentUser } from '../../hooks/telegram';
+import { claimToken, getUserByTelegramID } from '../../lib/server';
+import { computeTokensToClaim, useCurrentUser } from '../../hooks/telegram';
 import { WebappContext } from '../../context/telegram';
-import { getUserByTelegramID } from '../../lib/server';
-import rain from '../../assets/images/water1.png';
-
+import { FaWater } from 'react-icons/fa';
 import './airdrop.css';
 
 function StorageCard() {
   const currentUser = useCurrentUser();
   const { setUser } = useContext(WebappContext);
-
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!currentUser) return;
     const interval = setInterval(() => {
       if (progress < 100) {
-        const amt = computeTokensToCliam(currentUser);
+        const amt = computeTokensToClaim(currentUser);
         setProgress((amt / currentUser.miningRate) * 100);
       }
-    }, 1000); // Update progress every second
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [currentUser, progress]);
 
   const claim = async () => {
-    await claimToken(currentUser.telegramId);
-    const user = await getUserByTelegramID(currentUser.telegramId);
-    setUser(user);
+    try {
+      setLoading(true);
+      await claimToken(currentUser.telegramId);
+      const user = await getUserByTelegramID(currentUser.telegramId);
+      setUser(user);
+    } catch (error) {
+      console.error('Error claiming tokens:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="storage mt-5">
+    <div className="storage-card-wrapper">
       <Container>
-        <Progress
-          value={progress}
-          style={{
-            borderRadius: '15px 15px 0 0',
-            height: '5px',
-            backgroundColor: '#ffd600',
-            width: '106%',
-            marginLeft: '-10px',
-          }}
-        />
-        <Row className="align-items-center storage-card">
-          <Col xs="auto">
-            <img src={rain} alt="" width="35" height="35" />
-          </Col>
-          <Col>
-            <h5 className="mb-0">Storage</h5>
-            {currentUser && (
-              <small className="minig-rate">
-                {currentUser.miningRate} PLTL / {currentUser.miningFrequency}{' '}
-                hour
-              </small>
-            )}
-          </Col>
-          <Col xs="auto">
-            <Button color="primary" onClick={claim}>
-              Claim
-            </Button>
-          </Col>
-        </Row>
+        <div className="storage-card">
+          <Progress value={progress} className="storage-progress" />
+          <Row className="storage-content">
+            <Col xs="auto" className="storage-icon">
+              <FaWater className="water-icon" />
+            </Col>
+            <Col className="storage-info">
+              <h5 className="storage-title">Storage</h5>
+              {currentUser && (
+                <div className="mining-rate">
+                  {currentUser.miningRate} PLTL / {currentUser.miningFrequency}h
+                </div>
+              )}
+            </Col>
+            <Col xs="auto" className="storage-action">
+              <Button
+                className="claim-button"
+                onClick={claim}
+                disabled={loading}
+              >
+                {loading ? 'Claiming...' : 'Claim'}
+              </Button>
+            </Col>
+          </Row>
+        </div>
       </Container>
     </div>
   );

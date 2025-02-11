@@ -1,66 +1,87 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Spinner } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { getBoosters } from '../../../lib/server';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import BoostCard from '../../../components/airdrop/BoostCard';
-
 import rainCrypt from '../../../assets/images/rain-crypt.png';
-import './boosts.css'; 
+import './boosts.css';
 
 function Boosts() {
   const currentUser = useCurrentUser();
   const [boosters, setBoosters] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  console.log('currentUser boosts', currentUser);
   useEffect(() => {
-    const fn = async () => {
-      const b = await getBoosters();
-      setBoosters(b);
+    const fetchBoosters = async () => {
+      try {
+        setLoading(true);
+        const data = await getBoosters();
+        setBoosters(data);
+      } catch (error) {
+        console.error('Error fetching boosters:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fn();
-  }, [setBoosters]);
+    fetchBoosters();
+  }, []);
+
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: '300px' }}
+      >
+        <Spinner color="primary" />
+      </div>
+    );
+  }
 
   return (
-    <>
-      <TelegramBackButton />
-      <Container className="boosts-container">
-        <Container className="boosts-content">
-          <Row>
-            <Col className="total-balance-text">Total Balance:</Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className="balance-value mt-3">
-                {currentUser ? currentUser.balance?.toFixed(6) : '0'} GPLTL
+    <div className="boosts-page">
+      <Container>
+        <div className="boosts-header">
+          <div className="balance-info">
+            <h2 className="balance-title">Total Balance</h2>
+            <div className="balance-amount">
+              {currentUser
+                ? `${currentUser.balance?.toFixed(6)} PLTL`
+                : '0 PLTL'}
+            </div>
+          </div>
+
+          {currentUser && (
+            <div className="mining-info">
+              <div className="mining-stat">
+                <span className="stat-label">Mining Rate:</span>
+                <span className="stat-value">{currentUser.miningRate}</span>
               </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              {currentUser && (
-                <div className="mining-info-text mt-3">
-                  Mining Rate: {currentUser.miningRate}; Mining Frequency:{' '}
-                  {currentUser.miningFrequency}
-                </div>
-              )}
-            </Col>
-          </Row>
-          <Row>
-            {boosters.map((b) => (
-              <BoostCard
-                key={b.id}
-                id={b.id}
-                image={rainCrypt}
-                title={b.name}
-                description={`${b.miningRate} GPLTL per ${b.miningFrequency} hours`}
-                value={b.price}
-              />
-            ))}
-          </Row>
-        </Container>
+              <div className="mining-stat">
+                <span className="stat-label">Mining Frequency:</span>
+                <span className="stat-value">
+                  {currentUser.miningFrequency}h
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <Row className="boosts-grid">
+          {boosters.map((booster) => (
+            <BoostCard
+              key={booster.id}
+              id={booster.id}
+              image={rainCrypt}
+              title={booster.name}
+              description={`${booster.miningRate} PLTL per ${booster.miningFrequency} hours`}
+              value={booster.price}
+            />
+          ))}
+        </Row>
       </Container>
-    </>
+    </div>
   );
 }
 

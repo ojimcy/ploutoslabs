@@ -7,17 +7,19 @@ import {
   NavLink,
   TabContent,
   TabPane,
+  Container,
+  Spinner,
 } from 'reactstrap';
 import classnames from 'classnames';
 import './contest.css';
 import { getRefLeaderboard } from '../../lib/server';
 import ContestList from './ContestList';
-import TelegramBackButton from '../common/TelegramBackButton';
 
 const ReferralContests = () => {
   const [activeTab, setActiveTab] = useState('daily');
   const [dailyData, setDailyData] = useState([]);
   const [weeklyData, setWeeklyData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const toggleTab = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -25,13 +27,18 @@ const ReferralContests = () => {
 
   const fetchLeaderboardData = async () => {
     try {
-      const leaderboard = await getRefLeaderboard('daily');
-      setDailyData(leaderboard.leaderboard || []);
+      setLoading(true);
+      const [dailyLeaderboard, weeklyLeaderboard] = await Promise.all([
+        getRefLeaderboard('daily'),
+        getRefLeaderboard('weekly'),
+      ]);
 
-      const weeklyData = await getRefLeaderboard('weekly');
-      setWeeklyData(weeklyData.leaderboard || []);
+      setDailyData(dailyLeaderboard.leaderboard || []);
+      setWeeklyData(weeklyLeaderboard.leaderboard || []);
     } catch (error) {
       console.error('Error fetching leaderboard data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,50 +46,64 @@ const ReferralContests = () => {
     fetchLeaderboardData();
   }, []);
 
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: '300px' }}
+      >
+        <Spinner color="primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="contest-page">
-      <TelegramBackButton />
-      <Row>
-        <Col xs={12}>
-          <h3 className="text-center my-4">Referral Contests</h3>
-          <Nav tabs className="justify-content-center">
-            <NavItem>
-              <NavLink
-                className={classnames({ active: activeTab === 'daily' })}
-                onClick={() => toggleTab('daily')}
-              >
-                Daily Contest
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({ active: activeTab === 'weekly' })}
-                onClick={() => toggleTab('weekly')}
-              >
-                Weekly Contest
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <TabContent activeTab={activeTab} className="mt-4">
-            <TabPane tabId="daily">
-              <ContestList
-                title="Daily Referral Contest"
-                subtitle="First 5 to refer 100 people in a day win $10"
-                data={dailyData}
-                contestType="daily"
-              />
-            </TabPane>
-            <TabPane tabId="weekly">
-              <ContestList
-                title="Weekly Referral Contest"
-                subtitle="First 5 to refer 700 people in a week win $100"
-                data={weeklyData}
-                contestType="weekly"
-              />
-            </TabPane>
-          </TabContent>
-        </Col>
-      </Row>
+      <Container>
+        <Row>
+          <Col xs={12}>
+            <h3 className="contest-title text-center mb-4">
+              Referral Contests
+            </h3>
+            <Nav tabs>
+              <NavItem>
+                <NavLink
+                  className={classnames({ active: activeTab === 'daily' })}
+                  onClick={() => toggleTab('daily')}
+                >
+                  Daily Contest
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({ active: activeTab === 'weekly' })}
+                  onClick={() => toggleTab('weekly')}
+                >
+                  Weekly Contest
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <TabContent activeTab={activeTab}>
+              <TabPane tabId="daily">
+                <ContestList
+                  title="Daily Referral Contest"
+                  subtitle="First 5 to refer 100 people in a day win $10"
+                  data={dailyData}
+                  contestType="daily"
+                />
+              </TabPane>
+              <TabPane tabId="weekly">
+                <ContestList
+                  title="Weekly Referral Contest"
+                  subtitle="First 5 to refer 700 people in a week win $100"
+                  data={weeklyData}
+                  contestType="weekly"
+                />
+              </TabPane>
+            </TabContent>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

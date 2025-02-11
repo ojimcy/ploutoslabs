@@ -1,62 +1,64 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Row, Col } from 'reactstrap';
-import { FaArrowUp, FaGreaterThan } from 'react-icons/fa';
+import { Button,  Col, Spinner } from 'reactstrap';
+import { FaArrowUp } from 'react-icons/fa';
 import { useCurrentUser } from '../../hooks/telegram';
 import { WebappContext } from '../../context/telegram';
 import { boost, getUserByTelegramID } from '../../lib/server';
-
-import logo from '../../assets/images/logo.png';
+import { toast } from 'react-toastify';
 import './boost-card.css';
 
 function BoostCard({ id, image, title, description, value }) {
   const currentUser = useCurrentUser();
   const { setUser } = useContext(WebappContext);
+  const [loading, setLoading] = useState(false);
 
   const changeLevel = async () => {
     try {
+      setLoading(true);
       await boost({ boosterId: id, telegramId: currentUser.telegramId });
-
       const user = await getUserByTelegramID(currentUser.telegramId);
       setUser(user);
-      alert('Account boosted');
+      toast.success('Successfully boosted!');
     } catch (error) {
-      console.log(error);
-      alert(error.response.data.error);
+      console.error(error);
+      toast.error(error.response?.data?.error || 'Failed to boost');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="boost-card">
-      <div className="boost-card-content">
-        <Row className="boost-card-info">
-          <Col xs="auto" className="boost-card-image-container">
-            <img src={image} alt="" />
-          </Col>
-          <Col>
-            <div className="boost-card-title">{title}</div>
-            <div className="boost-card-description">{description}</div>
-            <div className="boost-card-value">
-              <img
-                src={logo}
-                alt=""
-                className="boost-card-logo"
-                width={40}
-                height={40}
-              />
-              {value} GPLTL <FaArrowUp style={{ margin: '0 0.5rem' }} />
+    <Col xs={12} md={6} className="mb-4">
+      <div className="boost-card">
+        <div className="boost-card-content">
+          <div className="boost-card-header">
+            <div className="boost-card-icon">
+              <img src={image} alt={title} />
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button onClick={changeLevel} className="boost-card-button">
-              <FaGreaterThan />
+            <div className="boost-card-info">
+              <h3 className="boost-card-title">{title}</h3>
+              <p className="boost-card-description">{description}</p>
+            </div>
+          </div>
+
+          <div className="boost-card-footer">
+            <div className="boost-card-value">
+              <span className="value-amount">{value}</span>
+              <span className="value-currency">PLTL</span>
+              <FaArrowUp className="boost-icon" />
+            </div>
+            <Button
+              className="boost-button"
+              onClick={changeLevel}
+              disabled={loading}
+            >
+              {loading ? <Spinner size="sm" /> : 'Boost'}
             </Button>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </div>
-    </div>
+    </Col>
   );
 }
 

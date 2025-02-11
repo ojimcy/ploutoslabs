@@ -4,7 +4,7 @@ import React from 'react';
 function ContestList({ title, subtitle, data, contestType }) {
   return (
     <div>
-      <h5 className="contest-title">{title}</h5>
+      <h5 className="contest-title mt-4">{title}</h5>
       <p className="contest-subtitle">{subtitle}</p>
       {data.length > 0 ? (
         data.map((user, index) => (

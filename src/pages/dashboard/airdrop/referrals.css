@@ -1,61 +1,204 @@
 .referral-page {
-  padding-bottom: 150px;
+  width: 100%;
+  min-height: calc(100vh - 60px);
 }
 
 .referrals-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
+  max-width: 768px;
+  margin: 0 auto;
 }
 
 .referrals-content {
-  padding-top: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 24px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.referrals-grid {
-  margin-bottom: 35px;
-}
-
-.referrals-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 2px;
-  margin-right: 20px;
-}
-
-.referrals-title {
-  font-size: 24px;
-  font-weight: 800;
-  font-family: 'Chakra Petch, sans-serif';
-}
-
-.referrals-text {
-  margin-top: 10px;
+/* Contest Section */
+.referral-contest-section {
+  background: rgba(41, 41, 41, 0.5);
+  border-radius: 16px;
+  padding: 1.5rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.referral-link-container,
-.referral-bonus-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 30px;
+.contest-info {
+  font-size: 1.1rem;
+  color: #fff;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
-.referral-link-text,
-.referral-bonus-text {
-  font-weight: 800;
-}
-
-.copy-link-button,
-.claim-bonus-button {
-  background-color: #29dbdf;
-  padding: 20px;
+.contest-button {
+  background: linear-gradient(45deg, #29dbdf, #1a9cf1);
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
   color: white;
 }
 
-.hr-separator {
-  margin-bottom: 5px;
+.contest-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(41, 219, 223, 0.2);
+  background: linear-gradient(45deg, #29dbdf, #147abc);
+}
+
+/* Statistics Section */
+.referrals-grid {
+  margin: 1.5rem 0;
+}
+
+.referrals-box {
+  background: rgba(41, 41, 41, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.referrals-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #fff, #e0e0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.referrals-text {
+  color: #9e9e9e;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Referral Link Section */
+.referral-link-container {
+  background: rgba(41, 41, 41, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.referral-link-text {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.referral-link-container div:nth-child(2) {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-family: monospace;
+  color: #29dbdf;
+  word-break: break-all;
+}
+
+.copy-link-button {
+  background: linear-gradient(45deg, #29dbdf, #1a9cf1);
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.copy-link-button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(45deg, #29dbdf, #147abc);
+}
+
+/* Bonus Section */
+.referral-bonus-container {
+  background: rgba(41, 41, 41, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.referral-bonus-text {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.referral-bonus-container div:nth-child(2),
+.referral-bonus-container div:nth-child(4) {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #29dbdf;
+  margin-bottom: 1rem;
+}
+
+.claim-bonus-button {
+  background: linear-gradient(45deg, #ffd700, #ffa500);
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.claim-bonus-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+  background: linear-gradient(45deg, #ffd700, #ff8c00);
+}
+
+/* Separator */
+.separator {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 1.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .referrals-content {
+    padding: 1.5rem;
+  }
+
+  .referral-contest-section {
+    padding: 1.25rem;
+  }
+
+  .contest-info {
+    font-size: 1rem;
+  }
+
+  .referrals-title {
+    font-size: 1.5rem;
+  }
+
+  .referral-bonus-container div:nth-child(2),
+  .referral-bonus-container div:nth-child(4) {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .referrals-content {
+    padding: 1rem;
+  }
+
+  .contest-button,
+  .copy-link-button,
+  .claim-bonus-button {
+    width: 100%;
+  }
 }

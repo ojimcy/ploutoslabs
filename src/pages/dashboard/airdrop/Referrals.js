@@ -3,17 +3,19 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { WebappContext } from '../../../context/telegram';
 import { claimReBonus } from '../../../lib/server';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './referrals.css';
-import { Separator } from '../../../components/common/Seperator';
-
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { BASE_URL } from '../../../constants';
 function Referrals() {
   const currentUser = useCurrentUser();
   const { setUser } = useContext(WebappContext);
+  const navigate = useNavigate();
 
   const copyReferralLink = () => {
-    const link = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser.telegramId}`;
+    const link = `${BASE_URL}?ref=${currentUser.telegramId}`;
     navigator.clipboard.writeText(link);
+    toast.success('Referral link copied to clipboard');
   };
 
   const claimBonus = async () => {
@@ -22,33 +24,37 @@ function Referrals() {
   };
 
   const navigateToContest = () => {
-    window.location.href = '/dashboard/ref-leaderboard';
+    navigate('/dashboard/ref-leaderboard');
   };
 
   return (
     <div className="referral-page">
       <Container className="referrals-container">
-        <TelegramBackButton />
-        <Container className="referrals-content">
-          {/* Referral Contest Section */}
-          <Row className="referral-contest-section mb-4">
+        <div className="referrals-content">
+          {/* Contest Section */}
+          <Row className="referral-contest-section">
             <Col>
               <div className="contest-info">
-                🎉 **Referral Contest Ongoing!** 🎉 <br />
+                <span role="img" aria-label="celebration">
+                  🎉
+                </span>{' '}
+                <strong>Referral Contest Ongoing!</strong>{' '}
+                <span role="img" aria-label="celebration">
+                  🎉
+                </span>
+                <br />
                 Invite friends and earn rewards! Top referrers will win exciting
                 prizes.
               </div>
-              <Button
-                onClick={navigateToContest}
-                className="contest-button mt-3"
-              >
+              <Button onClick={navigateToContest} className="contest-button">
                 View Contest Details
               </Button>
             </Col>
           </Row>
-          <Separator />
 
-          {/* Referral Statistics Section */}
+          <div className="separator" />
+
+          {/* Statistics Section */}
           <Row className="referrals-grid">
             <Col className="referrals-box">
               <div className="referrals-title">
@@ -60,16 +66,15 @@ function Referrals() {
               </div>
             </Col>
           </Row>
-          <Separator />
+
+          <div className="separator" />
 
           {/* Referral Link Section */}
           <Row className="referrals-grid">
             <Col className="referral-link-container">
-              <div className="referral-link-text">Referral Link</div>
+              <div className="referral-link-text">Your Referral Link</div>
               <div>
-                {currentUser
-                  ? `https://t.me/ploutos_labs_bot/app?startapp=${currentUser.telegramId}`
-                  : ''}
+                {currentUser ? `${BASE_URL}?ref=${currentUser.telegramId}` : ''}
               </div>
               <Button
                 onClick={copyReferralLink}
@@ -79,29 +84,34 @@ function Referrals() {
               </Button>
             </Col>
           </Row>
-          <Separator />
 
-          {/* Referral Bonus Section */}
+          <div className="separator" />
+
+          {/* Bonus Section */}
           <Row className="referrals-grid">
             <Col className="referral-bonus-container">
               <div className="referral-bonus-text">Direct Referral Bonus</div>
               <div>
-                {currentUser ? currentUser.referralBonus?.toFixed(6) : ''}
+                {currentUser
+                  ? `${currentUser.referralBonus?.toFixed(6)} PLTL`
+                  : '0 PLTL'}
               </div>
-              <Separator />
+
               <div className="referral-bonus-text mt-3">
                 Indirect Referral Bonus
               </div>
               <div>
-                {currentUser ? currentUser.referralBonus2?.toFixed(6) : ''}
+                {currentUser
+                  ? `${currentUser.referralBonus2?.toFixed(6)} PLTL`
+                  : '0 PLTL'}
               </div>
-              <Separator />
+
               <Button onClick={claimBonus} className="claim-bonus-button mt-4">
                 Claim Bonus
               </Button>
             </Col>
           </Row>
-        </Container>
+        </div>
       </Container>
     </div>
   );

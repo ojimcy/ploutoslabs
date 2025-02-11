@@ -53,7 +53,7 @@ export const useCurrentUser = () => {
   return user;
 };
 
-export const computeTokensToCliam = (currentUser) => {
+export const computeTokensToClaim = (currentUser) => {
   if (!currentUser) return 0;
   // Calculate tokens based on mining rate (assuming rate is per hour and max claim window of one hour)
   let lastClaimAt =

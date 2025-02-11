@@ -5,15 +5,12 @@ import { createAccount, getUserByTelegramID } from '../../lib/server';
 import {
   useTelegramUser,
   // useCurrentUser,
-  useInitData,
 } from '../../hooks/telegram';
 import { Spinner } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 const GameLayout = ({ children }) => {
-  const initData = useInitData();
   const {
-    webapp,
     setUser,
     loadingPageIsVissible,
     // hideLoadingPage,
@@ -30,14 +27,14 @@ const GameLayout = ({ children }) => {
     // showLoadingPage();
 
     const fn = async () => {
-      if (webapp.expand) webapp.expand();
       let user = await getUserByTelegramID(telegramUser.id);
       if (!user || !user.id) {
         const userData = {
           telegramId: telegramUser.id,
           username: telegramUser.username,
           pin: '0000',
-          uplineId: parseInt(initData.start_param) || 0,
+          // get uplineId from url
+          uplineId: parseInt(new URLSearchParams(window.location.search).get('ref')) || 0,
         };
         const resp = await createAccount(userData);
         console.log('resp', resp)

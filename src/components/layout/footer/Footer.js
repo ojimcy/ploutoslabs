@@ -25,15 +25,13 @@ function AirdropFooter() {
                 <ul className="footer-links list-unstyled">
                   <li>
                     <Link
-                      to="/dashboard/airdrop"
+                      to="/dashboard/"
                       className={`d-flex flex-column align-items-center ${
-                        location.pathname === '/dashboard/airdrop'
-                          ? 'active'
-                          : ''
+                        location.pathname === '/dashboard/' ? 'active' : ''
                       }`}
                     >
-                      <FaHome size={28} />
-                      <span>Home</span>
+                      <FaGem size={28} />
+                      <span className="mt-1">Wallet</span>
                     </Link>
                   </li>
                   <li>
@@ -49,20 +47,24 @@ function AirdropFooter() {
                   </li>
                   <li>
                     <Link
-                      to="/dashboard/"
+                      to="/dashboard/airdrop"
                       className={`d-flex flex-column align-items-center ${
-                        location.pathname === '/dashboard/' ? 'active' : ''
+                        location.pathname === '/dashboard/airdrop'
+                          ? 'active'
+                          : ''
                       }`}
                     >
-                      <FaGem size={28} />
-                      <span className="mt-1">Wallet</span>
+                      <FaHome size={28} />
+                      <span>Home</span>
                     </Link>
                   </li>
                   <li>
                     <Link
                       to="/dashboard/utitlities"
                       className={`d-flex flex-column align-items-center ${
-                        location.pathname === '/dashboard/utitlities' ? 'active' : ''
+                        location.pathname === '/dashboard/utitlities'
+                          ? 'active'
+                          : ''
                       }`}
                     >
                       <FaTools size={28} />

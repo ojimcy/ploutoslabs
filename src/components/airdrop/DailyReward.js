@@ -3,14 +3,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import './daily-reward.css';
 
 import logo from '../../assets/images/airdrop-logo.png';
-import { FaCheckCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { useTelegramUser } from '../../hooks/telegram';
+import { FaCheckCircle, FaClock } from 'react-icons/fa';
 import { claimDailyReward, getUserByTelegramID } from '../../lib/server';
 import { WebappContext } from '../../context/telegram';
 import { toast } from 'react-toastify';
 import { Container, Spinner } from 'reactstrap';
-import TelegramBackButton from '../common/TelegramBackButton';
 
 const dailyRewards = [
   { day: 1, amount: '0.05' },
@@ -26,17 +23,17 @@ const dailyRewards = [
 ];
 
 function DailyReward() {
-  const { setUser, user } = useContext(WebappContext);
-  const telegramUser = useTelegramUser();
-  const [checkedIn, setCheckedIn] = useState(false);
+  const { setUser, currentUser, checkedIn, setCheckedIn } = useContext(WebappContext);
   const [loading, setLoading] = useState(false);
+  const [nextClaimTime, setNextClaimTime] = useState(null);
 
-  // Calculate current day in the streak based on currentUser's streak
-  const currentDay = user?.checkInStreak;
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
+  
+  const currentDay = currentUser?.checkInStreak;
 
   const fetchUserData = async () => {
     try {
-      const user = await getUserByTelegramID(telegramUser.id);
+      const user = await getUserByTelegramID(telegramId);
       setUser(user);
     } catch (error) {
       console.error('Failed to fetch user data:', error);
@@ -44,54 +41,66 @@ function DailyReward() {
   };
 
   useEffect(() => {
-    if (telegramUser) {
+    if (telegramId) {
       fetchUserData();
     }
-  }, [telegramUser]);
+  }, [telegramId]);
 
   useEffect(() => {
-    const lastCheckinDate = new Date(user?.lastCheckInAt);
-    const today = new Date();
-    const isSameDay = lastCheckinDate.toDateString() === today.toDateString();
+    if (currentUser?.lastCheckInAt) {
+      const lastCheckin = new Date(currentUser.lastCheckInAt);
+      const now = new Date();
+      const isSameDay = lastCheckin.toDateString() === now.toDateString();
+      setCheckedIn(isSameDay);
 
-    setCheckedIn(isSameDay);
-  }, [user]);
+      if (isSameDay) {
+        // Calculate next claim time (next day at 00:00 UTC)
+        const tomorrow = new Date();
+        tomorrow.setUTCHours(24, 0, 0, 0);
+        setNextClaimTime(tomorrow);
+      }
+    }
+  }, [currentUser]);
 
   const handleCheckIn = async (day) => {
     if (day !== currentDay || checkedIn) return;
 
     setLoading(true);
     try {
-      await claimDailyReward();
+      await claimDailyReward(telegramId);
       setCheckedIn(true);
-      toast.success('Checked in successful!', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-      });
+      toast.success('Daily reward claimed successfully!');
       await fetchUserData();
     } catch (error) {
       console.error('Check-in failed:', error.response?.data || error.message);
+      toast.error('Failed to claim daily reward');
     } finally {
       setLoading(false);
     }
   };
 
+  const formatTimeUntilNextClaim = () => {
+    if (!nextClaimTime) return '';
+    const now = new Date();
+    const diff = nextClaimTime - now;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
+  };
+
   return (
     <div className="daily-reward">
       <Container className="d-flex flex-column align-items-center">
-        <TelegramBackButton />
-        <div className="daily-reward-header mt-4">
-          <h3>Rewards</h3>
-          <p className="mt-4">
+        <div className="daily-reward-header">
+          <h3>Daily Rewards</h3>
+          <p>
             Earn game coins by logging into the game daily without missing a day
           </p>
           <span className="tips">
             Tip: Your streak will reset if you skip a day
           </span>
         </div>
-        <div className="daily-reward-list mt-5">
+        <div className="daily-reward-list w-100">
           {dailyRewards.map((reward, index) => (
             <div
               key={index}
@@ -100,32 +109,31 @@ function DailyReward() {
               }`}
             >
               <div className="day">
-                Day {reward.day}{' '}
-                {index + 1 <= currentDay ? (
-                  <FaCheckCircle color="green" size={15} />
-                ) : (
-                  ''
+                Day {reward.day}
+                {index + 1 <= currentDay && (
+                  <FaCheckCircle className="check-icon" />
                 )}
               </div>
-              <img src={logo} alt="Ploutos" width={23} height={23} />
+              <img src={logo} alt="Ploutos" />
               <div className="amount">
                 <span className="reward-amount">{reward.amount}</span>
               </div>
             </div>
           ))}
         </div>
-        {!checkedIn ? (
-          <Link
-            to="#"
-            className={`claim-button mt-5 ${
-              loading || checkedIn ? 'disabled' : ''
-            }`}
-            onClick={() => handleCheckIn(currentDay)}
-          >
-            {loading ? <Spinner /> : 'Claim Reward!'}
-          </Link>
+        {checkedIn ? (
+          <div className="next-claim-info">
+            <FaClock className="clock-icon" />
+            <span>Next claim available in {formatTimeUntilNextClaim()}</span>
+          </div>
         ) : (
-          ''
+          <button
+            className={`claim-button ${loading || checkedIn ? 'disabled' : ''}`}
+            onClick={() => handleCheckIn(currentDay)}
+            disabled={loading || checkedIn}
+          >
+            {loading ? <Spinner size="sm" /> : 'Claim Reward!'}
+          </button>
         )}
       </Container>
     </div>

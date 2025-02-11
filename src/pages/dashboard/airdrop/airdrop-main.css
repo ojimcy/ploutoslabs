@@ -3,8 +3,9 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  /* padding-bottom: 75px; */
-  /* min-height: 100vh; */
+  width: 100%;
+  height: 71vh;
+  justify-content: center;
 }
 
 .storage-section {
@@ -87,10 +88,10 @@
 
 .game-pad {
   position: absolute;
-  top: 35px; 
-  right: 20px; 
+  top: 35px;
+  right: 20px;
   z-index: 10;
-  transition: transform 0.3s ease; 
+  transition: transform 0.3s ease;
 }
 
 .game-pad:hover {

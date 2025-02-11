@@ -11,18 +11,14 @@ import {
   FaTwitter,
   FaYoutube,
 } from 'react-icons/fa';
-import {
-  useCurrentUser,
-  useTelegramUser,
-  useWebApp,
-} from '../../../hooks/telegram';
+import { useCurrentUser } from '../../../hooks/telegram';
 import {
   completeTask,
   getTasks,
   getUserByTelegramID,
 } from '../../../lib/server';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo.png';
 import './tasks.css';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
@@ -30,64 +26,77 @@ import { useCheckInStatus } from '../../../lib/checkInStatus';
 import { WebappContext } from '../../../context/telegram';
 
 function Tasks() {
-  const { setUser, user } = useContext(WebappContext);
+  const navigate = useNavigate();
+  const { setUser } = useContext(WebappContext);
   const [tasks, setTasks] = useState([]);
   const [loadingTaskId, setLoadingTaskId] = useState(null);
-  const webApp = useWebApp();
+  const [loading, setLoading] = useState(true);
   const currentUser = useCurrentUser();
-  const telegramUser = useTelegramUser();
-  const { checkedIn, countdown } = useCheckInStatus(user);
+  const { checkedIn, countdown } = useCheckInStatus(currentUser);
 
-  const fetchUserData = async () => {
-    try {
-      const user = await getUserByTelegramID(telegramUser.id);
-      setUser(user);
-    } catch (error) {
-      console.error('Failed to fetch user data:', error);
-    }
-  };
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {
-    if (telegramUser) {
-      fetchUserData();
+    if (!telegramId) {
+      navigate('/auth');
+      return;
     }
-  }, [telegramUser]);
 
-  const fetchTask = async () => {
-    try {
-      const tks = await getTasks(user.id);
-      setTasks(tks);
-    } catch (error) {
-      toast.error('Failed to fetch tasks.');
-    }
-  };
+    const fetchUserData = async () => {
+      try {
+        const user = await getUserByTelegramID(telegramId);
+        if (user) {
+          setUser(user);
+        } else {
+          toast.error('Failed to fetch user data');
+          navigate('/auth');
+        }
+      } catch (error) {
+        toast.error('Error fetching user data');
+        if (error.response?.status === 401) navigate('/auth');
+      }
+    };
+
+    fetchUserData();
+  }, [telegramId]);
 
   useEffect(() => {
-    if (!telegramUser) return;
-    fetchTask();
-  }, [telegramUser]);
+    if (!currentUser?.id) return;
 
-  const handleTaskClick = (task) => {
-    // Open task link
-    if (task.link.indexOf('t.me') >= 0) {
-      webApp.openTelegramLink(task?.link);
+    const fetchTasks = async () => {
+      try {
+        const tks = await getTasks(currentUser.id);
+        setTasks(tks);
+        setLoading(false);
+      } catch (error) {
+        toast.error('Failed to fetch tasks.');
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, [currentUser]);
+
+  const handleTaskClick = async (task) => {
+    if (task.link.startsWith('http')) {
+      window.open(task.link, '_blank');
     } else {
-      webApp.openLink(task.link);
+      navigate(task.link);
     }
 
     setLoadingTaskId(task.id);
 
-    setTimeout(async () => {
-      try {
-        const result = await completeTask(currentUser.id, task?.id, 'no proof');
-        toast.success(result.message);
-        fetchTask();
-      } catch (error) {
-        toast.error(error?.response?.data?.error || 'An error occurred');
-      } finally {
-        setLoadingTaskId(null);
-      }
-    }, 3000);
+    try {
+      const result = await completeTask(currentUser.id, task?.id, 'no proof');
+      toast.success(result.message);
+      setTasks((prev) =>
+        prev.map((t) => (t.id === task.id ? { ...t, completed: true } : t))
+      );
+    } catch (error) {
+      toast.error(error?.response?.data?.error || 'An error occurred');
+    } finally {
+      setLoadingTaskId(null);
+    }
   };
 
   const taskIcons = {
@@ -98,6 +107,17 @@ function Tasks() {
     medium: <FaMedium className="task-icon" />,
     others: <FaTasks className="task-icon" />,
   };
+
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: '200px' }}
+      >
+        <Spinner color="primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="task-page">
@@ -127,7 +147,7 @@ function Tasks() {
                   <FaCalendar />
                 </div>
                 <div className="info d-flex flex-column">
-                  <span className="task-title">Daily Checkin</span>
+                  <span className="task-title">Daily Check-in</span>
                   <span className="task-reward">
                     {checkedIn ? `Claim in ${countdown}` : 'Claim now'}
                   </span>
