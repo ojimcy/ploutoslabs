@@ -11,7 +11,6 @@ import {
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import './utilities.css';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { NetworkProviders, TransactionTypes } from '../../../lib/utils';
@@ -67,7 +66,6 @@ const Airtime = () => {
 
   return (
     <Container className="airtime-page">
-      <TelegramBackButton />
       <Row className="mt-5">
         <Col md={{ size: 6, offset: 3 }} className="text-center">
           <h3 className="mb-4">Buy Airtime</h3>

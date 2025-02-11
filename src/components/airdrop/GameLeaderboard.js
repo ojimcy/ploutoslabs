@@ -3,7 +3,6 @@ import './game-leaderboard.css';
 import { useCurrentUser } from '../../hooks/telegram';
 import { getGameLeaderboard } from '../../lib/server';
 import { Container } from 'reactstrap';
-import TelegramBackButton from '../common/TelegramBackButton';
 
 const GameLeaderboard = () => {
   const currentUser = useCurrentUser();
@@ -19,7 +18,6 @@ const GameLeaderboard = () => {
       try {
         setLoading(true);
         const res = await getGameLeaderboard();
-        console.log('leaderboard', res);
 
         setLeaderboard(res);
         setTopEarners(res.leaders);
@@ -46,7 +44,6 @@ const GameLeaderboard = () => {
   return (
     <div className="referral-leaderboard">
       <Container>
-        <TelegramBackButton />
 
         {/* User Summary */}
         <div className="user-summary">

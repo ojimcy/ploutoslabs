@@ -10,7 +10,6 @@ import {
   Label,
   Button,
 } from 'reactstrap';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +35,6 @@ const Checkout = () => {
 
   return (
     <Container>
-      <TelegramBackButton />
       <div className="payment-method-selection">
         <h2>Select Payment Method</h2>
         <div className="payment-options">

@@ -13,7 +13,6 @@ import { toast } from 'react-toastify';
 import { Button, Container } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { useNavigate } from 'react-router-dom';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { TransactionTypes } from '../../../lib/utils';
 
 const TransactionSummary = () => {
@@ -110,7 +109,6 @@ const TransactionSummary = () => {
 
   return (
     <Container>
-      <TelegramBackButton />
 
       <div className="transaction-summary">
         <h2>Transaction Summary</h2>

@@ -19,7 +19,6 @@ import {
 } from 'reactstrap';
 import { AppContext } from '../../../context/AppContext';
 import './send.css';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import pltlLogo from '../../../assets/images/logo.png';
 import TransactionPin from '../../../components/auth/TransactionPin';
 
@@ -170,7 +169,6 @@ const Send = () => {
 
   return (
     <Container className="send-container">
-      <TelegramBackButton />
       <div className="send-header d-flex flex-column justify-content-center align-items-center">
         <h3>Send {selectedToken.name}</h3>
         <img

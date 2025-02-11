@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
-import { WebappContext } from '../../../context/telegram';
+import { AppContext } from '../../../context/AppContext';
 import { claimReBonus } from '../../../lib/server';
 import './referrals.css';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { BASE_URL } from '../../../constants';
 function Referrals() {
   const currentUser = useCurrentUser();
-  const { setUser } = useContext(WebappContext);
+  const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
 
   const copyReferralLink = () => {

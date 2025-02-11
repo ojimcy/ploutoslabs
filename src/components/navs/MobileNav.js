@@ -7,9 +7,7 @@ import AccountCard from './AccountCard';
 
 function MobileMenu({ isOpen, toggleMobileMenu }) {
   const closeMenu = () => {
-    if (isOpen) {
-      toggleMobileMenu(); // Close the mobile menu
-    }
+    toggleMobileMenu(); // Close the mobile menu
   };
 
   return (

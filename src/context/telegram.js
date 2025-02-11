@@ -1,31 +1,15 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext,  useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const WebappContext = createContext(undefined);
 
 export const WebappProvider = ({ children }) => {
-  const [webapp, setWebapp] = useState(null);
   const [user, setUser] = useState(null);
   const [checkedIn, setCheckedIn] = useState(false);
 
-  const refreshUser = async () => {
-    if (webapp) {
-      const userData = webapp.initDataUnsafe?.user;
-      if (userData) {
-        setUser(userData);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!window.Telegram || !window.Telegram.WebApp) return;
-    setWebapp(window.Telegram.WebApp);
-    window.Telegram.WebApp.ready();
-    refreshUser();
-  }, [window.Telegram.WebApp]);
 
   return (
-    <WebappContext.Provider value={{ webapp, user, setUser, refreshUser, checkedIn, setCheckedIn }}>
+    <WebappContext.Provider value={{ user, setUser, checkedIn, setCheckedIn }}>
       {children}
     </WebappContext.Provider>
   );

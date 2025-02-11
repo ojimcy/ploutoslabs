@@ -10,7 +10,6 @@ import {
   Input,
   Button,
 } from 'reactstrap';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './transactions.css';
 import { getUtilityTransactions } from '../../../lib/server';
 import { useNavigate } from 'react-router-dom';
@@ -55,7 +54,6 @@ const TransactionPage = () => {
 
   return (
     <Container className="transaction-page">
-      <TelegramBackButton />
       <Row>
         <Col md={12} className="text-center mb-4">
           <h3>Transactions</h3>

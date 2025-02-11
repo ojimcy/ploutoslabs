@@ -9,7 +9,6 @@ import {
   Input,
   Button,
 } from 'reactstrap';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { toast } from 'react-toastify';
 import {
   getTvProviders,
@@ -109,7 +108,6 @@ const TvSubscriptionPage = () => {
 
   return (
     <Container className="tv-subscription-page">
-      <TelegramBackButton />
       <Row>
         <Col md={6} className="mx-auto">
           <h3 className="text-center">Pay TV Subscription</h3>

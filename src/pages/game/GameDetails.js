@@ -7,15 +7,13 @@ import pltl from '../../assets/images/logo.png';
 import './game-details.css';
 import { Button } from 'reactstrap';
 import { AppContext } from '../../context/AppContext';
-import { useCurrentUser, useWebApp } from '../../hooks/telegram';
+import { useCurrentUser } from '../../hooks/telegram';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getGame } from '../../lib/server';
-import TelegramBackButton from '../../components/common/TelegramBackButton';
 import { openSuperCatchGameConsole } from '../../lib/utils';
 
 function GameDetails() {
-  const webapp = useWebApp();
   const navigate = useNavigate();
   const currentUser = useCurrentUser();
   const [timeLeft, setTimeLeft] = useState(0);
@@ -111,14 +109,13 @@ function GameDetails() {
       const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
         gameCode && gameCode
       )}&text=${encodeURIComponent('Let’s play a one-on-one battle! 🎮')}`;
-      webapp.openTelegramLink(telegramUrl);
+      navigate(telegramUrl);
     }
     navigate('/game/super-catch/waiting');
   };
 
   return (
     <div className="detail-page">
-      <TelegramBackButton />
       <div className="detail-card d-flex justify-content-between align-items-center">
         <div className="user d-flex align-items-center">
           <div className="user-avatar">

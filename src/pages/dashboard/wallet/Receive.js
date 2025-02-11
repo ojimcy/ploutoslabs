@@ -4,23 +4,16 @@ import QRCode from 'qrcode.react';
 import './receive.css';
 import { AppContext } from '../../../context/AppContext';
 import { toast } from 'react-toastify';
-import { useTelegramUser } from '../../../hooks/telegram';
 import { getUserByTelegramID } from '../../../lib/server';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 const Receive = () => {
   const {setSelectedWallet, selectedWallet} = useContext(AppContext);
-
-  // const [currentUser, setCurrentUser] = useState({});
-  const telegramUser = useTelegramUser();
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {
-    if (!telegramUser) return;
+    if (!telegramId) return;
     const fn = async () => {
-      const user = await getUserByTelegramID(telegramUser.id);
-      // console.log(user);
-      // setCurrentUser(user);
-
+      const user = await getUserByTelegramID(telegramId);
       if (user.smartWalletAddress) {
         setSelectedWallet({
           id: 1,
@@ -32,7 +25,7 @@ const Receive = () => {
     };
 
     fn();
-  }, [telegramUser]);
+  }, [telegramId]);
 
   const copyAddress = () => {
     navigator.clipboard.writeText(selectedWallet?.address);
@@ -45,7 +38,6 @@ const Receive = () => {
 
   return (
     <Container className="receive-container d-flex flex-column justify-content-center align-items-center">
-      <TelegramBackButton/>
       <h3 className="receive-header">Receive</h3>
       <hr />
       <div className="address-code">

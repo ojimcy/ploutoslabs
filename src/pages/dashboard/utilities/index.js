@@ -18,8 +18,7 @@ import {
   FaBitcoin,
 } from 'react-icons/fa';
 import './utilities.css';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
-import { useCurrentUser, useWebApp } from '../../../hooks/telegram';
+import { useCurrentUser } from '../../../hooks/telegram';
 import GameDepositModal from '../../../components/common/modal/GameDepositModal';
 
 const utilities = [
@@ -56,7 +55,6 @@ const utilities = [
 ];
 
 function UtilitiesPage() {
-  const webApp = useWebApp();
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -71,16 +69,11 @@ function UtilitiesPage() {
   };
 
   const handleLinkClicked = (u) => {
-    if (u.link.startsWith('https://')) {
-      webApp.openLink(u.link, { try_instant_view: true });
-    } else {
-      navigate(u.link);
-    }
+    navigate(u.link);
   };
 
   return (
     <div className="utilities-page">
-      <TelegramBackButton />
       <Container>
         <div className="wallet-dropdown d-flex justify-content-end">
           <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} end>

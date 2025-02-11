@@ -21,7 +21,6 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo.png';
 import './tasks.css';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { useCheckInStatus } from '../../../lib/checkInStatus';
 import { WebappContext } from '../../../context/telegram';
 
@@ -121,7 +120,6 @@ function Tasks() {
 
   return (
     <div className="task-page">
-      <TelegramBackButton />
       <Container>
         <Row>
           <div className="title">

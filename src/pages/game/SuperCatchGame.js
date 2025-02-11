@@ -12,7 +12,6 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-import TelegramBackButton from '../../components/common/TelegramBackButton';
 import GameDificultyModal from '../../components/common/modal/GameDificultyModal';
 
 import superman from '../../assets/images/superman.png';
@@ -57,8 +56,7 @@ function SuperCatchGame() {
 
   return (
     <div className="game-page">
-      <TelegramBackButton />
-      {currentUser && (
+        {currentUser && (
         <Container className="game-page">
           {/* Game Card Section */}
           <Row className="mt-5 d-flex justify-content-center align-items-center">

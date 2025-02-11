@@ -5,48 +5,30 @@ import { scrollSpy } from 'react-scroll';
 import { Container, Navbar } from 'reactstrap';
 import { FaCaretDown, FaCog, FaTimes } from 'react-icons/fa';
 import MobileMenu from '../../navs/MobileNav';
-
 import logo from '../../../assets/images/logo.png';
-import { useTelegramUser } from '../../../hooks/telegram';
-
-// const userName = 'cryptzjay.tg';
+import { getUserByTelegramID } from '../../../lib/server';
 
 function MainNavigation() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isTableMenuOpen, setIsTableMenuOpen] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const telegramUser = useTelegramUser();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [telegramUser, setTelegramUser] = useState(null);
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setIsTablet(width <= 1024 && width > 768);
-      setIsMobile(width <= 768);
-    };
-
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
 
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
-
     return () => {
-      window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    // Determine the active tab based on the current location
-    // const currentPath = location.pathname;
     let path = location.hash;
-    if (path == '') path = '/';
+    if (path === '') path = '/';
     if (path.indexOf('#') > -1) {
       path = '/#' + path.split('#')[1];
     }
@@ -56,12 +38,8 @@ function MainNavigation() {
     scrollSpy.update();
   }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const toggleTabletOpen = () => {
-    setIsTableMenuOpen(!isTableMenuOpen);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const scrollToSection = (sectionId) => {
@@ -71,20 +49,26 @@ function MainNavigation() {
         top: section.offsetTop - 180,
         behavior: 'smooth',
       });
-      toggleMobileMenu();
+      toggleMenu();
     }
   };
+
+  useEffect(() => {
+    const fetchTelegramUser = async () => {
+      const user = await getUserByTelegramID(telegramId);
+      setTelegramUser(user);
+    };  
+    fetchTelegramUser();
+  }, [telegramId]);
 
   return (
     <header>
       {/* Overlay */}
-      {isMobileMenuOpen && (
-        <div className="overlay" onClick={toggleMobileMenu} />
-      )}
+      {isMenuOpen && <div className="overlay" onClick={toggleMenu} />}
 
       {/* Navbar */}
       <Navbar className={`navbar ${isScrolled ? 'scrolled' : ''}`} expand="md">
-        <Container className="d-flex align-items-cente justify-content-between">
+        <Container className="d-flex align-items-center justify-content-between">
           {/* Logo */}
           <Link
             to="/dashboard"
@@ -105,32 +89,20 @@ function MainNavigation() {
             <FaCaretDown className="caret-icon" />
           </Link>
 
-          {/* Navbar Toggler */}
+          {/* Menu Toggle */}
           <div className="navbar-right d-flex justify-content-between align-items-center">
-            {/* Tablet Menu */}
-            {isTablet && (
-              <>
-                <div className="tab-toggle navicon" onClick={toggleTabletOpen}>
-                  {isTableMenuOpen ? <FaTimes /> : <FaCog />}
-                </div>
-              </>
-            )}
-
-            {/* Mobile Menu */}
-            {isMobile && (
-              <div className="navicon" onClick={toggleMobileMenu}>
-                {isMobileMenuOpen ? <FaTimes /> : <FaCog />}
-              </div>
-            )}
+            <div className="menu-toggle" onClick={toggleMenu}>
+              {!isMenuOpen ? <FaCog className="settings-icon" /> : <FaTimes />}
+            </div>
           </div>
         </Container>
       </Navbar>
 
-      {/* Mobile Menu */}
-      {isMobile && (
+      {/* Menu */}
+      {isMenuOpen && (
         <MobileMenu
-          isOpen={isMobileMenuOpen}
-          toggleMobileMenu={toggleMobileMenu}
+          isOpen={isMenuOpen}
+          toggleMobileMenu={toggleMenu}
           scrollToSection={scrollToSection}
         />
       )}

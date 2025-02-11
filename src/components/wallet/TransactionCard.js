@@ -6,12 +6,12 @@ import { formatAddress } from '../../lib/utils';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { getWalletHIstory } from '../../lib/server';
 import { AppContext } from '../../context/AppContext';
-import { useWebApp } from '../../hooks/telegram';
+import { useNavigate } from 'react-router-dom';
 
 const TransactionCard = () => {
-  const webApp = useWebApp();
   const [transactions, setTransactions] = useState([]);
   const { selectedWallet } = useContext(AppContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!selectedWallet) return;
@@ -26,7 +26,7 @@ const TransactionCard = () => {
   const isSend = transactions.amount < 0 === 'send';
 
   const handleTransactionClick = async (trx) => {
-    webApp.openLink(`https://basescan.org/tx/${trx.transactionHash}`);
+    navigate(`https://basescan.org/tx/${trx.transactionHash}`);
   };
 
   return (

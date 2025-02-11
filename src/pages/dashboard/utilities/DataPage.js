@@ -10,7 +10,6 @@ import {
   Button,
   Spinner,
 } from 'reactstrap';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './utilities.css';
 import { getServiceVariations } from '../../../lib/server';
 import { toast } from 'react-toastify';
@@ -90,7 +89,6 @@ const DataPage = () => {
 
   return (
     <Container className="data-page">
-      <TelegramBackButton />
       <Row>
         <Col md={6} className="mx-auto">
           <h3 className="text-center">Buy Data</h3>

@@ -22,7 +22,7 @@ function ContestList({ title, subtitle, data, contestType }) {
               </div>
               <div className="info d-flex flex-column">
                 <span className="contest-username">
-                  {user.username || 'Unknown'}
+                  {user.username || user.firstName || 'Unknown'}
                 </span>
                 <span className="contest-count">
                   Referrals: (

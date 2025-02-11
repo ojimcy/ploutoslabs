@@ -11,7 +11,6 @@ import {
 import { generateMnemonic } from 'bip39';
 import { mnemonicToAccount } from 'viem/accounts';
 
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { useCurrentUser } from '../../../hooks/telegram';
 import TransactionPin from '../../../components/auth/TransactionPin';
 import { encryptAndSaveWallet } from '../../../lib/utils';
@@ -57,7 +56,6 @@ const CreateWallet = () => {
 
   return (
     <Container className="mt-4">
-      <TelegramBackButton />
       <h3>Create Wallet</h3>
       {step === 1 && (
         <TransactionPin

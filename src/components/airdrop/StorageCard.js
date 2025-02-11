@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, Row, Col, Progress, Container } from 'reactstrap';
 import { claimToken, getUserByTelegramID } from '../../lib/server';
 import { computeTokensToClaim, useCurrentUser } from '../../hooks/telegram';
-import { WebappContext } from '../../context/telegram';
 import { FaWater } from 'react-icons/fa';
 import './airdrop.css';
+import { WebappContext } from '../../context/telegram';
 
 function StorageCard() {
   const currentUser = useCurrentUser();

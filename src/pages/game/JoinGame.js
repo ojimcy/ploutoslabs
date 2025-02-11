@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Button, Input, FormGroup, Label } from 'reactstrap';
 import './join.css';
-import TelegramBackButton from '../../components/common/TelegramBackButton';
 import { joinGame } from '../../lib/server';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../../hooks/telegram';
@@ -36,7 +35,6 @@ function JoinPage() {
 
   return (
     <div className="join-page">
-      <TelegramBackButton />
       <Container>
         <h2 className="text-center mt-4">Join Game</h2>
 

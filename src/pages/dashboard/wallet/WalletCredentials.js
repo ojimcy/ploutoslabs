@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, Col, Container, Row } from 'reactstrap';
 import { FaEye, FaEyeSlash, FaCopy } from 'react-icons/fa';
 import './wallets.css';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 const wallet = {
   privateKey:
@@ -45,7 +44,6 @@ const WalletCredentials = () => {
 
   return (
     <Container className="mt-4">
-      <TelegramBackButton />
       <Row>
         <Col md={{ size: 6, offset: 3 }}>
           <div className="credentials-card">

@@ -11,7 +11,6 @@ import {
   Input,
   Alert,
 } from 'reactstrap';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './wallets.css';
 import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts';
 import { getWalletByAddress } from '../../../lib/db';
@@ -72,7 +71,6 @@ const ImportWallet = () => {
       return;
     }
 
-    console.log('inputValue', inputValue)
     encryptAndSaveWallet(account, password, currentUser.id, label, inputValue);
     setStep(3)
     } catch (error) {
@@ -83,7 +81,6 @@ const ImportWallet = () => {
 
   return (
     <Container className="mt-4 import-wallet">
-      <TelegramBackButton />
       <Row>
         <Col md={{ size: 6, offset: 3 }}>
           <h2>Import Wallet</h2>

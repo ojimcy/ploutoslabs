@@ -3,30 +3,25 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { FaPlus, FaWallet, FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './wallets.css';
-import { useCurrentUser, useTelegramUser } from '../../../hooks/telegram';
+import { useCurrentUser } from '../../../hooks/telegram';
 import { getUserByTelegramID, getWallets } from '../../../lib/server';
 import { formatAddress } from '../../../lib/utils';
 import { AppContext } from '../../../context/AppContext';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { syncWallet } from '../../../lib/db';
 
 const ViewWallets = () => {
   const [wallets, setWallets] = useState([]);
-  // const [selectedWalletId, setSelectedWalletId] = useState(null);
   const { setSelectedWallet, selectedWallet } = useContext(AppContext);
 
-  // const [currentUser, setCurrentUser] = useState({});
-  const telegramUser = useTelegramUser();
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
   const currentUser = useCurrentUser();
 
   useEffect(() => {
-    if (!telegramUser) return;
+    if (!telegramId) return;
     const fn = async () => {
-      const user = await getUserByTelegramID(telegramUser.id);
+      const user = await getUserByTelegramID(telegramId);
 
       const wals = await getWallets(user.id);
-      console.log('wals', wals);
-      console.log('walls', 900);
       if (!wals || wals.length == 0) return;
       setSelectedWallet(selectedWallet || wals[0]);
       setWallets(wals);
@@ -36,7 +31,7 @@ const ViewWallets = () => {
     };
 
     fn();
-  }, [telegramUser]);
+  }, [telegramId]);
 
   const handleWalletSelect = (wallet) => {
     setSelectedWallet(wallet);
@@ -44,7 +39,6 @@ const ViewWallets = () => {
 
   return (
     <Container className="mt-4">
-      <TelegramBackButton />
       <Row className="mb-3">
         <Col>
           <h1>Your Wallets</h1>

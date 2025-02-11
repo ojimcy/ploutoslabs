@@ -8,7 +8,6 @@ import AirdropNav from './header/AirdropNav';
 const AirdropLayout = ({ children }) => {
   const { setUser } = useContext(WebappContext);
 
-  // const webapp = useContext(WebappContext);
   const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {

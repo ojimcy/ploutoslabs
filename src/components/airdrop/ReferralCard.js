@@ -3,20 +3,20 @@ import { FaCheckCircle, FaGift, FaUsers } from 'react-icons/fa';
 import { Col, Row } from 'reactstrap';
 import './airdrop.css';
 
-import { useCurrentUser, useTelegramUser } from '../../hooks/telegram';
+import { useCurrentUser } from '../../hooks/telegram';
 import { Link } from 'react-router-dom';
-import { WebappContext } from '../../context/telegram';
 import { getUserByTelegramID } from '../../lib/server';
+import { WebappContext } from '../../context/telegram';
 
 function ReferralCard() {
   const currentUser = useCurrentUser();
   const { setUser, user } = useContext(WebappContext);
-  const telegramUser = useTelegramUser();
   const [checkedIn, setCheckedIn] = useState(false);
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   const fetchUserData = async () => {
     try {
-      const user = await getUserByTelegramID(telegramUser.id);
+      const user = await getUserByTelegramID(telegramId);
       setUser(user);
     } catch (error) {
       console.error('Failed to fetch user data:', error);
@@ -24,10 +24,10 @@ function ReferralCard() {
   };
 
   useEffect(() => {
-    if (telegramUser) {
+    if (telegramId) {
       fetchUserData();
     }
-  }, [telegramUser]);
+  }, [telegramId]);
 
   useEffect(() => {
     const lastCheckinDate = new Date(user?.lastCheckInAt);

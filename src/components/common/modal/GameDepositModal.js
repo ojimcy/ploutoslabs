@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap';
 import './modal.css';
 import { getDepositAddress } from '../../../lib/server';
-
+import { toast } from 'react-toastify';
 function GameDepositModal({ isOpen, toggle }) {
   const [depositAddress, setDepositAddress] = useState('');
 
@@ -18,7 +18,7 @@ function GameDepositModal({ isOpen, toggle }) {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(depositAddress);
-    alert('Deposit address copied to clipboard!');
+    toast.success('Deposit address copied to clipboard!');
   };
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="main-modal" fade={false}>

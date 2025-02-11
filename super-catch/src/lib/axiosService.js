@@ -7,9 +7,9 @@ const headers = () => {
   const headers = {
     'Content-Type': 'application/json',
   };
-  const webApp = window.Telegram.WebApp;
-  if (webApp) {
-    headers.TelegramInitData = webApp.initData;
+  const token = localStorage.getItem('ACCESS_TOKEN_KEY');
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
   }
 
   return headers;

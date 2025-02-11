@@ -56,5 +56,45 @@
 }
 
 .navbar-card {
-  padding-bottom: 75px;
+  position: fixed;
+  top: 73px;
+  left: -300px;
+  width: 300px;
+  height: calc(100vh - 73px);
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  transition: left 0.3s ease-in-out;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.navbar-card.open {
+  left: 0;
+}
+
+/* Tablet screens */
+@media (min-width: 768px) {
+  .navbar-card {
+    left: -400px;
+    width: 400px;
+  }
+}
+
+/* Desktop screens */
+@media (min-width: 1200px) {
+  .navbar-card {
+    left: -480px;
+    width: 480px;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
 }

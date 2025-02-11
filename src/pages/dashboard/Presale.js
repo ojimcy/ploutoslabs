@@ -19,8 +19,7 @@ import { AppContext } from '../../context/AppContext';
 
 import logo from '../../assets/images/logo.png';
 import PresaleTabs from '../../components/wallet/PresaleTabs';
-import TelegramBackButton from '../../components/common/TelegramBackButton';
-import { useCurrentUser, useTelegramUser } from '../../hooks/telegram';
+import { useCurrentUser } from '../../hooks/telegram';
 import {
   getUplineWallets,
   getUserByTelegramID,
@@ -53,7 +52,7 @@ function TokenPresale() {
   const [wallets, setWallets] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showPinPad, setShowPinPad] = useState(false);
-  const telegramUser = useTelegramUser();
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
   const currentUser = useCurrentUser();
   const [histories, setHistories] = useState([]);
   const [referrals, setReferrals] = useState([]);
@@ -99,9 +98,9 @@ function TokenPresale() {
   }, [presaleEndTime]);
 
   useEffect(() => {
-    if (!telegramUser) return;
+    if (!telegramId) return;
     const fn = async () => {
-      const user = await getUserByTelegramID(telegramUser.id);
+      const user = await getUserByTelegramID(telegramId);
       const wals = await getWallets(user.id);
       if (!wals || wals.length === 0) return;
       setWallets(wals);
@@ -110,7 +109,7 @@ function TokenPresale() {
     };
 
     fn();
-  }, [telegramUser]);
+  }, [telegramId]);
 
   useEffect(() => {
     refreshHistory();
@@ -256,7 +255,6 @@ function TokenPresale() {
 
   return (
     <div className="presale-page">
-      <TelegramBackButton />
       {!showPinPad && (
         <Container>
           <div className="presale-card d-flex align-items-center flex-column w-100">

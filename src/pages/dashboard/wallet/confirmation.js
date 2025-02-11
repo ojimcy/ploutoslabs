@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './confirmation.css';
 
 import sec from '../../../assets/images/crypto-security.png';
@@ -22,7 +21,6 @@ const ConfirmationPage = ({onContinue}) => {
 
   return (
     <div className="confirmation-page">
-      <TelegramBackButton />
       <div className="confirmation-card">
         <div className="text-center">
           <img src={sec} alt="Wallet Security" className="confirmation-image" />

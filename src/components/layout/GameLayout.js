@@ -2,10 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { WebappContext } from '../../context/telegram';
 import { createAccount, getUserByTelegramID } from '../../lib/server';
-import {
-  useTelegramUser,
-  // useCurrentUser,
-} from '../../hooks/telegram';
 import { Spinner } from 'reactstrap';
 import { toast } from 'react-toastify';
 
@@ -16,10 +12,11 @@ const GameLayout = ({ children }) => {
     // hideLoadingPage,
     // showLoadingPage,
   } = useContext(WebappContext);
-  const telegramUser = useTelegramUser();
+
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {
-    if (!telegramUser) {
+    if (!telegramId) {
       // hideLoadingPage();
       return;
     }
@@ -27,11 +24,11 @@ const GameLayout = ({ children }) => {
     // showLoadingPage();
 
     const fn = async () => {
-      let user = await getUserByTelegramID(telegramUser.id);
+      let user = await getUserByTelegramID(telegramId);
       if (!user || !user.id) {
         const userData = {
-          telegramId: telegramUser.id,
-          username: telegramUser.username,
+          telegramId: telegramId,
+          username: telegramId,
           pin: '0000',
           // get uplineId from url
           uplineId: parseInt(new URLSearchParams(window.location.search).get('ref')) || 0,
@@ -51,7 +48,7 @@ const GameLayout = ({ children }) => {
     };
 
     fn();
-  }, [telegramUser]);
+  }, [telegramId]);
 
   return (
     <div className="page-content">

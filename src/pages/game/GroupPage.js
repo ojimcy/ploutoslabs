@@ -1,7 +1,6 @@
 import React from 'react';
 import './game.css';
 import { Button, Container } from 'reactstrap';
-import TelegramBackButton from '../../components/common/TelegramBackButton';
 
 function GroupPage() {
   const group = {
@@ -13,7 +12,6 @@ function GroupPage() {
 
   return (
     <div className="group-page">
-      <TelegramBackButton />
       <Container className="group-content">
         <div className="group-header text-center">
           <h1>{group.name}</h1>

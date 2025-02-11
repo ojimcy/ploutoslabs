@@ -9,7 +9,6 @@ import {
   DropdownItem,
 } from 'reactstrap';
 import './game.css';
-import TelegramBackButton from '../../components/common/TelegramBackButton';
 import { Link } from 'react-router-dom';
 
 import crash from '../../assets/images/crash-game.png';
@@ -70,7 +69,6 @@ const Games = () => {
 
   return (
     <Container className="game-page">
-      <TelegramBackButton />
       <div className="game-header">
         <Link to="/" className="main-title">
           <img src={pltlLogo} alt="logo" />

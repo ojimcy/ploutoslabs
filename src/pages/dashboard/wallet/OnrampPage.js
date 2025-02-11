@@ -8,7 +8,6 @@ import {
   Row,
   Container,
 } from 'reactstrap';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import { OnrampWebSDK } from '@onramp.money/onramp-web-sdk';
 
 const OnrampPage = () => {
@@ -41,7 +40,6 @@ const OnrampPage = () => {
 
   return (
     <Container>
-      <TelegramBackButton />
 
       <Row>
         <Row form>

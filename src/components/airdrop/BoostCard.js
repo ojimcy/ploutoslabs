@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { Button,  Col, Spinner } from 'reactstrap';
 import { FaArrowUp } from 'react-icons/fa';
 import { useCurrentUser } from '../../hooks/telegram';
-import { WebappContext } from '../../context/telegram';
 import { boost, getUserByTelegramID } from '../../lib/server';
 import { toast } from 'react-toastify';
 import './boost-card.css';
-
+import { WebappContext } from '../../context/telegram';
 function BoostCard({ id, image, title, description, value }) {
   const currentUser = useCurrentUser();
   const { setUser } = useContext(WebappContext);

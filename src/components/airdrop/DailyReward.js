@@ -5,10 +5,11 @@ import './daily-reward.css';
 import logo from '../../assets/images/airdrop-logo.png';
 import { FaCheckCircle, FaClock } from 'react-icons/fa';
 import { claimDailyReward, getUserByTelegramID } from '../../lib/server';
-import { WebappContext } from '../../context/telegram';
 import { toast } from 'react-toastify';
 import { Container, Spinner } from 'reactstrap';
-
+import { useCurrentUser } from '../../hooks/telegram';
+import { AppContext } from '../../context/AppContext';
+import { WebappContext } from '../../context/telegram';
 const dailyRewards = [
   { day: 1, amount: '0.05' },
   { day: 2, amount: '0.1' },
@@ -23,12 +24,14 @@ const dailyRewards = [
 ];
 
 function DailyReward() {
-  const { setUser, currentUser, checkedIn, setCheckedIn } = useContext(WebappContext);
+  const { checkedIn, setCheckedIn } = useContext(AppContext);
+  const { setUser } = useContext(WebappContext);
+  const currentUser = useCurrentUser();
   const [loading, setLoading] = useState(false);
   const [nextClaimTime, setNextClaimTime] = useState(null);
 
   const telegramId = localStorage.getItem('TELEGRAM_ID');
-  
+
   const currentDay = currentUser?.checkInStreak;
 
   const fetchUserData = async () => {
@@ -67,7 +70,9 @@ function DailyReward() {
 
     setLoading(true);
     try {
-      await claimDailyReward(telegramId);
+      const res = await claimDailyReward(telegramId);
+      console.log('res', res);
+
       setCheckedIn(true);
       toast.success('Daily reward claimed successfully!');
       await fetchUserData();

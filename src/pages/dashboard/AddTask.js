@@ -11,7 +11,6 @@ import {
 import { toast } from 'react-toastify';
 
 import { addTasks } from '../../lib/server'; // API function for creating tasks
-import TelegramBackButton from '../../components/common/TelegramBackButton';
 
 const AddTask = () => {
   const [taskData, setTaskData] = useState({
@@ -75,7 +74,6 @@ const AddTask = () => {
 
   return (
     <div className="add-task-page">
-      <TelegramBackButton />
       <Container>
         <h3 className="text-center">Add Task</h3>
         <p className="text-center">

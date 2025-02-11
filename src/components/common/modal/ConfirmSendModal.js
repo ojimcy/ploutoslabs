@@ -13,17 +13,16 @@ import {
 } from 'reactstrap';
 import './confirmSendModal.css';
 import { getTransactionDetails } from '../../../lib/server';
-import { WebappContext } from '../../../context/telegram';
 import { decryptPrivateKey, formatAddress } from '../../../lib/utils';
 import { privateKeyToAccount } from 'viem/accounts';
 import { createWalletClient, http } from 'viem';
 import { base } from 'viem/chains';
 import TransactionPin from '../../auth/TransactionPin';
 import { AppContext } from '../../../context/AppContext';
-
+import { useNavigate } from 'react-router-dom';
 function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
+  const navigate = useNavigate();
   const { selectedToken, selectedWallet } = useContext(AppContext);
-  const { webapp } = useContext(WebappContext);
   const [loading, setLoading] = useState(false);
   const [showPinPad, setShowPinPad] = useState(false);
   const [transactionResult, setTransactionResult] = useState(null);
@@ -32,7 +31,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
   useEffect(() => {
     if (result) {
       setLoading(true);
-      webapp.openLink(` https://keys.ploutoslabs.io/sign?txid=${result.id}`);
+      navigate(` https://keys.ploutoslabs.io/sign?txid=${result.id}`);
       pollTransactionDetails(result.id);
     }
   }, [result]);

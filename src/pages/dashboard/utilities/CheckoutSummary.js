@@ -6,7 +6,6 @@ import { getUtilitiesTransactionDetails } from '../../../lib/server';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { TransactionTypes } from '../../../lib/utils';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 
 const CheckoutConfirmation = ({ onDone }) => {
   const [status, setStatus] = useState('');
@@ -46,7 +45,6 @@ const CheckoutConfirmation = ({ onDone }) => {
   if (status === 'pending') {
     return (
       <div className="checkout-confirmation">
-        <TelegramBackButton />
         <h2>Processing Transaction</h2>
         <div className="loader"></div>
         <p>Please wait while we process your transaction...</p>
@@ -57,7 +55,6 @@ const CheckoutConfirmation = ({ onDone }) => {
   if (status === 'completed') {
     return (
       <div className="checkout-confirmation">
-        <TelegramBackButton />
         <h2>Transaction Successful</h2>
         <div className="transaction-details">
           <div className="details-item">
@@ -151,7 +148,6 @@ const CheckoutConfirmation = ({ onDone }) => {
   if (status === 'failed') {
     return (
       <div className="checkout-confirmation">
-        <TelegramBackButton />
         <h2>Transaction Failed</h2>
         <p>Something went wrong. Please try again.</p>
         <button className="done-button" onClick={onDone}>

@@ -3,24 +3,21 @@ import React, { useState } from 'react';
 import { Modal, ModalBody, Button } from 'reactstrap';
 import './modal.css';
 import { FaTelegram } from 'react-icons/fa';
-import { useCurrentUser, useWebApp } from '../../hooks/telegram';
+import { useCurrentUser } from '../../hooks/telegram';
 import { userInChannel } from '../../lib/server';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const tgLink = 'https://t.me/ploutoslabannouncement';
 
 const TelegramModal = ({ isOpen, toggle, fetchUserData }) => {
   const currentUser = useCurrentUser();
-  const webApp = useWebApp();
+  const navigate = useNavigate();
   const [buttonState, setButtonState] = useState('join'); // 'join' or 'check'
 
   const handleJoinChannel = () => {
     // Open the Telegram link
-    if (tgLink.indexOf('t.me') >= 0) {
-      webApp.openTelegramLink(tgLink);
-    } else {
-      window.open(tgLink, '_blank');
-    }
+    navigate(tgLink);
 
     // Switch button to 'Check'
     setButtonState('check');

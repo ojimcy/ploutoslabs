@@ -1,11 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useTelegramUser } from '../hooks/telegram';
 import { getUserByTelegramID, getWallets } from '../lib/server';
 
 export const AppContext = createContext();
 
-export const AppProvider = ({ children }) => {
+export const AppProvider = ({ children }) => {  
+  const [checkedIn, setCheckedIn] = useState(false);    
   const [selectedToken, setSelectedToken] = useState(null);
   const [selectedWallet, setSelectedWallet] = useState(null);
   const [difficulty, setDifficulty] = useState('easy');
@@ -13,19 +13,19 @@ export const AppProvider = ({ children }) => {
   const [gameCode, setGameCode] = useState('');
   const [utilityTransaction, setUtilityTransaction] = useState(null);
 
-  const telegramUser = useTelegramUser();
+  const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {
-    if (!telegramUser) return;
+    if (!telegramId) return;
     const fn = async () => {
-      const user = await getUserByTelegramID(telegramUser.id);
+      const user = await getUserByTelegramID(telegramId);
       const wals = await getWallets(user.id);
       if (!wals || wals.length === 0) return;
       setSelectedWallet(wals[0]);
     };
 
     fn();
-  }, [telegramUser]);
+  }, [telegramId]);
 
   const selectToken = (token) => {
     setSelectedToken(token);
@@ -38,6 +38,8 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        checkedIn,
+        setCheckedIn,
         selectedToken,
         selectToken,
         selectedWallet,

@@ -17,7 +17,6 @@ import rocket from '../../../assets/images/rocket.png';
 import TelegramModal from '../../../components/modal/TelegramModal';
 
 import gamePad from '../../../assets/images/pad.png';
-
 function Airdrop() {
   const currentUser = useCurrentUser();
   const { setUser } = useContext(WebappContext);

@@ -9,7 +9,6 @@ import {
   Input,
   Button,
 } from 'reactstrap';
-import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './utilities.css';
 import {
   getElectricityProviders,
@@ -95,7 +94,6 @@ const ElectricityBillPage = () => {
 
   return (
     <Container className="electricity-bill-page">
-      <TelegramBackButton />
       <Row>
         <Col md={6} className="mx-auto">
           <h3 className="text-center">Pay Electricity Bill</h3>

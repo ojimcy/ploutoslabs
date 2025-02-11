@@ -15,15 +15,16 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import './portfolio.css';
 import { Separator } from '../common/Seperator';
-import { useCurrentUser, useWebApp } from '../../hooks/telegram';
+import { useCurrentUser } from '../../hooks/telegram';
 import { toast } from 'react-toastify';
 import { FaCopy, FaEthereum, FaTelegramPlane } from 'react-icons/fa';
 import { formatEther, formatUnits } from 'viem';
 import { formatAddress } from '../../lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
-  const webapp = useWebApp();
   const currentUser = useCurrentUser();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('1');
 
   const totalRefEarningn = () => {
@@ -94,7 +95,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
       referralLink
     )}&text=${encodeURIComponent(inviteMessage)}`;
 
-    webapp.openTelegramLink(telegramUrl);
+    navigate(telegramUrl);
   };
 
   const toggle = (tab) => {
