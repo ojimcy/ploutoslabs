@@ -5,7 +5,7 @@ import './modal.css';
 import { AppContext } from '../../../context/AppContext';
 import CompetitionTypeModal from './CompetitionTypeModal';
 import { createGame } from '../../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { openSuperCatchGameConsole } from '../../../lib/utils';
 import PaymentModal from './PaymentModal';

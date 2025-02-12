@@ -9,7 +9,7 @@ import {
   buyPower,
   payTvSubscription,
 } from '../../../lib/server'; // Importing all necessary functions
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { Button, Container } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { useNavigate } from 'react-router-dom';
@@ -262,11 +262,11 @@ const TransactionSummary = () => {
 };
 
 TransactionSummary.propTypes = {
-  paymentMethod: PropTypes.string.isRequired,
+  paymentMethod: PropTypes.string,
   token: PropTypes.string,
   network: PropTypes.string,
-  amount: PropTypes.number.isRequired,
-  onConfirm: PropTypes.func.isRequired,
+  amount: PropTypes.number,
+  onConfirm: PropTypes.func,
 };
 
 export default TransactionSummary;

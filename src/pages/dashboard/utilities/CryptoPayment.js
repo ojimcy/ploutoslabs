@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import './checkout.css';
 import { Col, FormGroup, Input, Label, Row } from 'reactstrap';
-
+import { toast } from 'react-hot-toast';
 function CryptoPayment({ onConfirm }) {
   const [network, setNetwork] = useState('');
   const [token, setToken] = useState('');
@@ -11,7 +11,7 @@ function CryptoPayment({ onConfirm }) {
     if (network && token) {
       onConfirm();
     } else {
-      alert('Please select a network and token.');
+      toast.error('Please select a network and token.');
     }
   };
 

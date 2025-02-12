@@ -1,27 +1,176 @@
+/* Join Page Container */
 .join-page {
-  padding: 20px;
+  width: 100%;
+  padding: 2rem 0;
+  min-height: calc(100vh - 73px);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 24px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Page Header */
+.join-page h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+.join-page h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+/* Join Section */
 .join-section {
-  margin-bottom: 40px;
+  background: rgba(41, 41, 41, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
+/* Form Styles */
+.join-page .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.join-page label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.join-page .form-control {
+  background: rgba(41, 41, 41, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 1rem !important;
+  color: #fff !important;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.join-page .form-control:focus {
+  background: rgba(41, 41, 41, 0.4) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(41, 219, 223, 0.3) !important;
+}
+
+.join-page .form-control::placeholder {
+  color: #9e9e9e;
+}
+
+/* Join Button */
+.join-btn {
+  background: linear-gradient(45deg, #29dbdf, #29dbdf80) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.875rem !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  color: #fff !important;
+  width: 100%;
+  transition: all 0.3s ease !important;
+  margin-top: 1rem;
+}
+
+.join-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(41, 219, 223, 0.2) !important;
+}
+
+.join-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.join-btn:disabled {
+  background: rgba(41, 219, 223, 0.5) !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Group Card */
 .group-card {
   background: linear-gradient(
     180deg,
     rgba(0, 25, 255, 0.24) 0%,
     rgba(0, 15, 153, 0.24) 100%
   );
-  border-radius: 8px;
-  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.group-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 .group-info h4 {
-  margin-bottom: 10px;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .join-group-code {
-  text-align: center;
+  background: rgba(41, 41, 41, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  color: #29dbdf;
+  font-family: monospace;
+  font-size: 0.875rem;
+  margin: 1rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .join-page {
+    padding: 1.5rem;
+  }
+
+  .join-page h2 {
+    font-size: 1.25rem;
+  }
+
+  .join-page h3 {
+    font-size: 1.125rem;
+  }
+
+  .join-section {
+    padding: 1rem;
+  }
+
+  .join-page .form-control {
+    font-size: 0.813rem;
+    padding: 0.625rem 0.875rem !important;
+  }
+
+  .join-btn {
+    font-size: 0.813rem !important;
+    padding: 0.75rem !important;
+  }
+
+  .group-card {
+    padding: 1rem;
+  }
+
+  .group-info h4 {
+    font-size: 1rem;
+  }
+
+  .join-group-code {
+    font-size: 0.813rem;
+    padding: 0.75rem;
+  }
 }

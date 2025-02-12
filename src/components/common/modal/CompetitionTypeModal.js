@@ -12,7 +12,7 @@ import {
 import './modal.css';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { createGame } from '../../../lib/server';
 import { AppContext } from '../../../context/AppContext';
 

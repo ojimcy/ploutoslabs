@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { WebappContext } from '../../context/telegram';
 import { createAccount, getUserByTelegramID } from '../../lib/server';
 import { Spinner } from 'reactstrap';
-import { toast } from 'react-toastify';
-
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 const GameLayout = ({ children }) => {
+  const navigate = useNavigate();
   const {
     setUser,
     loadingPageIsVissible,
@@ -17,7 +18,7 @@ const GameLayout = ({ children }) => {
 
   useEffect(() => {
     if (!telegramId) {
-      // hideLoadingPage();
+      navigate('/auth');
       return;
     }
     // if (currentUser) return;
@@ -31,10 +32,11 @@ const GameLayout = ({ children }) => {
           username: telegramId,
           pin: '0000',
           // get uplineId from url
-          uplineId: parseInt(new URLSearchParams(window.location.search).get('ref')) || 0,
+          uplineId:
+            parseInt(new URLSearchParams(window.location.search).get('ref')) ||
+            0,
         };
         const resp = await createAccount(userData);
-        console.log('resp', resp)
         if (resp.error) {
           // toast the error
           toast.error(resp.error);

@@ -27,7 +27,6 @@ const ViewWallets = () => {
       setWallets(wals);
 
       await syncWallet(currentUser.id);
-
     };
 
     fn();
@@ -38,8 +37,8 @@ const ViewWallets = () => {
   };
 
   return (
-    <Container className="mt-4">
-      <Row className="mb-3">
+    <Container className="wallet-page">
+      <Row className="mb-4">
         <Col>
           <h1>Your Wallets</h1>
           <p>Manage all your cryptocurrency accounts in one place.</p>
@@ -54,21 +53,20 @@ const ViewWallets = () => {
                   <div className="wallet-icon">
                     <FaWallet />
                   </div>
-                  <div className="wallet-info d-flex justify-content-between align-items-center">
-                    <div className="info-main">
-                      <div className="wallet-title">{wallet.name}</div>
-                      <div className="wallet-balance">
-                        {formatAddress(wallet.address)}
-                      </div>
-                      <div className="wallet-balance">{wallet.label}</div>
+                  <div className="wallet-info">
+                    <div className="wallet-title">{wallet.name}</div>
+                    <div className="wallet-balance">
+                      {formatAddress(wallet.address)}
                     </div>
-
-                    {selectedWallet && selectedWallet.id === wallet.id && (
-                      <div className="selected-check">
-                        <FaCheck />
-                      </div>
+                    {wallet.label && (
+                      <div className="wallet-label">{wallet.label}</div>
                     )}
                   </div>
+                  {selectedWallet && selectedWallet.id === wallet.id && (
+                    <div className="selected-check">
+                      <FaCheck />
+                    </div>
+                  )}
                 </div>
               </CardBody>
             </Card>

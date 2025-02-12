@@ -8,7 +8,7 @@ import {
   Label,
   Spinner,
 } from 'reactstrap';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 import { addTasks } from '../../lib/server'; // API function for creating tasks
 
@@ -61,7 +61,7 @@ const AddTask = () => {
     try {
       const response = await addTasks({
         ...taskData,
-        reward: rewardAsNumber, 
+        reward: rewardAsNumber,
       });
       toast.success(response.message || 'Task added successfully');
       setTaskData({ name: '', link: '', reward: '', type: '' }); // Reset form

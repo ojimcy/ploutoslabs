@@ -49,6 +49,8 @@ const Portfolio = () => {
     tokenBalances();
   }, [selectedWallet]);
 
+  const transactions = []
+
   return (
     <div className="portfolio">
       <Nav tabs>
@@ -94,10 +96,10 @@ const Portfolio = () => {
                 </div>
               </Row>
             ) : (
-              tokens.map((token) => (
+              tokens.map((token, index) => (
                 <>
                   <Col
-                    key={token.address}
+                    key={index}
                     xs="12"
                     className="crypto-card"
                     onClick={() => handleTokenClick(token)}
@@ -147,7 +149,7 @@ const Portfolio = () => {
           </Row>
         </TabPane>
         <TabPane tabId="3">
-          <TransactionCard />
+          <TransactionCard transactions={transactions} />
         </TabPane>
       </TabContent>
     </div>

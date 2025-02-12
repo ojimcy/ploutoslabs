@@ -9,7 +9,7 @@ import {
   Input,
   Button,
 } from 'reactstrap';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import {
   getTvProviders,
   getTvBouquets,
@@ -23,7 +23,7 @@ import { TransactionTypes } from '../../../lib/utils';
 const TvSubscriptionPage = () => {
   const { updateUtilityTransaction } = useContext(AppContext);
   const navigate = useNavigate();
-  
+
   const [providers, setProviders] = useState([]);
   const [bouquets, setBouquets] = useState([]);
   const [provider, setProvider] = useState('');
@@ -91,7 +91,7 @@ const TvSubscriptionPage = () => {
       serviceId: provider,
       variationCode: bouquet,
       smartCardNumber,
-      amount: parseFloat(bouquetObj.variation_amount),// TODO: Check on the backend
+      amount: parseFloat(bouquetObj.variation_amount), // TODO: Check on the backend
       amountInNaira: parseFloat(bouquetObj.variation_amount) * 100,
       phoneNumber: phoneNumber.toString(),
       type: TransactionTypes.TvSubscription,
@@ -166,7 +166,10 @@ const TvSubscriptionPage = () => {
                   <option disabled>Loading bouquets...</option>
                 ) : (
                   bouquets.map((bouquet) => (
-                    <option key={bouquet.variation_code} value={bouquet.variation_code}>
+                    <option
+                      key={bouquet.variation_code}
+                      value={bouquet.variation_code}
+                    >
                       {bouquet.name}
                     </option>
                   ))

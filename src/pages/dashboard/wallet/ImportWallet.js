@@ -17,7 +17,7 @@ import { getWalletByAddress } from '../../../lib/db';
 import { encryptAndSaveWallet } from '../../../lib/utils';
 import TransactionPin from '../../../components/auth/TransactionPin';
 import { useCurrentUser } from '../../../hooks/telegram';
-
+import { toast } from 'react-hot-toast';  
 const ImportWallet = () => {
   const [inputValue, setInputValue] = useState('');
   const [inputType, setInputType] = useState(null);
@@ -56,7 +56,7 @@ const ImportWallet = () => {
     try {
       e.preventDefault();
     if (!validateInput(inputValue)) {
-      alert('Invalid input');
+      toast.error('Invalid input');
       return;
     }
 

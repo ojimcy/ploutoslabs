@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Col, Container, Row } from 'reactstrap';
 import { FaEye, FaEyeSlash, FaCopy } from 'react-icons/fa';
 import './wallets.css';
+import { toast } from 'react-hot-toast';
 
 const wallet = {
   privateKey:
@@ -36,7 +37,7 @@ const WalletCredentials = () => {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    alert('Copied to clipboard');
+    toast.success('Copied to clipboard');
   };
 
   // Masked text for private key and seed phrase

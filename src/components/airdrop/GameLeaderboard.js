@@ -40,21 +40,19 @@ const GameLeaderboard = () => {
   const isInTop5 = topEarners.some(
     (earner) => earner.username === currentUser?.username
   );
-
+  
   return (
     <div className="referral-leaderboard">
       <Container>
-
         {/* User Summary */}
         <div className="user-summary">
           <h5>Game Referral Leaderboard</h5>
-          <div className="stats mt-2">
+          <div className="stats">
             <p>
-              <strong>My Referral Earnings:</strong> $
-              {userEarnings.toFixed(3)}
+              <strong>My Referral Earnings</strong>${userEarnings.toFixed(3)}
             </p>
             <p>
-              <strong>Total Referral Pot Balance:</strong> $
+              <strong>Total Referral Pot Balance</strong>$
               {leaderboard?.pot?.toFixed(3)}
             </p>
           </div>
@@ -72,7 +70,7 @@ const GameLeaderboard = () => {
                 }`}
               >
                 <span>
-                  {index + 1}. {earner.username}
+                  #{index + 1} {earner.username}
                 </span>
                 <span>${earner.earning.toFixed(3)}</span>
               </li>
@@ -80,6 +78,20 @@ const GameLeaderboard = () => {
           </ul>
         </div>
 
+        {/* User's Position */}
+        {!isInTop5 && (
+          <div className="user-position">
+            <h4>Your Position</h4>
+            <p>
+              Current position <strong>#{userPosition}</strong>
+              <br />
+              Earnings <strong>${userEarnings.toFixed(3)}</strong>
+            </p>
+            somehting
+          </div>
+        )}
+
+        {/* Info Note */}
         <div className="referral-pot-note">
           <p>
             <strong>Note:</strong> Only the top 5 referral earners will share in
@@ -87,17 +99,6 @@ const GameLeaderboard = () => {
             the top 5 and increase your earnings!
           </p>
         </div>
-
-        {/* User's Position */}
-        {!isInTop5 && userPosition && (
-          <div className="user-position">
-            <h4>Your Position</h4>
-            <p>
-              Current position <strong>#{userPosition}</strong>, earnings $
-              {userEarnings.toFixed(3)}.
-            </p>
-          </div>
-        )}
       </Container>
     </div>
   );

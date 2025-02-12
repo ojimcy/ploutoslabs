@@ -20,6 +20,7 @@ import { base } from 'viem/chains';
 import TransactionPin from '../../auth/TransactionPin';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
   const navigate = useNavigate();
   const { selectedToken, selectedWallet } = useContext(AppContext);
@@ -53,7 +54,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
         );
       } catch (error) {
         console.log(error);
-        alert('Invalid passord');
+        toast.error('Invalid passord');
         return;
       }
 
@@ -76,7 +77,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
       setTransactionResult({ hash });
     } catch (err) {
       console.log(err);
-      alert('Error. Please try again later');
+      toast.error('Error. Please try again later');
     }
   };
 

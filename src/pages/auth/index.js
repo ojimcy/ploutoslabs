@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import './auth.css';
 import { BOT_USERNAME } from '../../constants';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { loginWithTelegram as loginWithTelegramAPI } from '../../lib/server';
 import { WebappContext } from '../../context/telegram';
 import AuthPinPad from '../../components/auth/AuthPinPad';

@@ -5,7 +5,7 @@ import { joinGame } from '../../lib/server';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../../hooks/telegram';
 import { AppContext } from '../../context/AppContext';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 function JoinPage() {
   const currentUser = useCurrentUser();

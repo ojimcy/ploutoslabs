@@ -21,7 +21,7 @@ import { AppContext } from '../../../context/AppContext';
 import './send.css';
 import pltlLogo from '../../../assets/images/logo.png';
 import TransactionPin from '../../../components/auth/TransactionPin';
-
+import { toast } from 'react-hot-toast';
 const Send = () => {
   const { selectedToken, selectedWallet } = useContext(AppContext);
   const [amount, setAmount] = useState('');
@@ -67,7 +67,7 @@ const Send = () => {
       );
     } catch (error) {
       console.log(error);
-      alert('Invalid password');
+      toast.error('Invalid password');
       return;
     }
 
@@ -115,7 +115,7 @@ const Send = () => {
       setTransactionResult({ hash });
     } catch (err) {
       console.log(err);
-      alert('went wrong')
+      toast.error('went wrong')
       setTransactionError('Error. Please try again later');
     }
   };

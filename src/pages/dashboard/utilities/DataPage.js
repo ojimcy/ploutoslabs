@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import './utilities.css';
 import { getServiceVariations } from '../../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { TransactionTypes } from '../../../lib/utils';

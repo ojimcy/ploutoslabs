@@ -5,7 +5,7 @@ import { AppContext } from '../../../context/AppContext';
 import { claimReBonus } from '../../../lib/server';
 import './referrals.css';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { BASE_URL } from '../../../constants';
 function Referrals() {
   const currentUser = useCurrentUser();

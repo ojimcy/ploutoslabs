@@ -14,7 +14,7 @@ import {
   getElectricityProviders,
   verifyMeterNumber,
 } from '../../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../../context/AppContext';
 import { TransactionTypes } from '../../../lib/utils';

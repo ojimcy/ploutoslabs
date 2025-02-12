@@ -1,21 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ToastContainer } from 'react-toastify';
 import '../src/assets/css/animate.min.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import { WebappProvider } from './context/telegram';
 import { AppProvider } from './context/AppContext'; // Corrected import
+import { Toaster } from 'react-hot-toast';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <WebappProvider>
     <AppProvider>
       <React.StrictMode>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: 'rgba(41, 41, 41, 0.9)',
+              color: '#fff',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+            },
+            success: {
+              iconTheme: {
+                primary: '#29dbdf',
+                secondary: '#000',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ff453a',
+                secondary: '#000',
+              },
+            },
+          }}
+        />
         <App />
-        <ToastContainer />
       </React.StrictMode>
     </AppProvider>
   </WebappProvider>

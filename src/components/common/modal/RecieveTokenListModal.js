@@ -17,7 +17,7 @@ import {
 import { AppContext } from '../../../context/AppContext';
 import './tokenList.css';
 import { FaCopy } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { useCurrentUser } from '../../../hooks/telegram';
 
 import pltlLogo from '../../../assets/images/logo.png';
@@ -85,10 +85,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
                   <div className="token-info">
                     <div className="token-name">{token.name}</div>
                     <div className="token-address">
-                      {currentUser &&
-                        formatAddress(
-                          selectedWallet?.address
-                        )}
+                      {currentUser && formatAddress(selectedWallet?.address)}
                     </div>
                   </div>
                 </div>

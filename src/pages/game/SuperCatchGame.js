@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Container,
-  Row,
-  Button,
-  Col,
-} from 'reactstrap';
-import {
-  FaQuestion,
-  FaShare,
-  FaEthereum,
-} from 'react-icons/fa';
+import { Container, Row, Button, Col } from 'reactstrap';
+import { FaQuestion, FaShare, FaEthereum } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import GameDificultyModal from '../../components/common/modal/GameDificultyModal';
@@ -19,7 +10,6 @@ import './game.css';
 import { useCurrentUser } from '../../hooks/telegram';
 import { getActiveGames } from '../../lib/server';
 import { openSuperCatchGameConsole } from '../../lib/utils';
-
 
 function SuperCatchGame() {
   const currentUser = useCurrentUser();
@@ -55,11 +45,11 @@ function SuperCatchGame() {
   };
 
   return (
-    <div className="game-page">
-        {currentUser && (
-        <Container className="game-page">
+    <div className="game-page mt-2">
+      {currentUser && (
+        <Container>
           {/* Game Card Section */}
-          <Row className="mt-5 d-flex justify-content-center align-items-center">
+          <Row className="d-flex justify-content-center align-items-center">
             <div className="game-card">
               <div className="card-info">
                 <div></div>

@@ -9,7 +9,7 @@ import {
   Input,
   Button,
 } from 'reactstrap';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import './utilities.css';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';

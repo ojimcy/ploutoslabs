@@ -16,7 +16,7 @@ import superCatch from '../../assets/game/superman.png';
 import pltlLogo from '../../assets/images/logo.png';
 import { FaCaretDown, FaWallet } from 'react-icons/fa';
 import { submitGameWithdrawal } from '../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 import GameDepositModal from '../../components/common/modal/GameDepositModal';
 import WithdrawModal from '../../components/common/modal/WithdrawalModal';
@@ -68,7 +68,7 @@ const Games = () => {
   ];
 
   return (
-    <Container className="game-page">
+    <Container>
       <div className="game-header">
         <Link to="/" className="main-title">
           <img src={pltlLogo} alt="logo" />
@@ -80,9 +80,9 @@ const Games = () => {
               <FaWallet className="wallet-icon" />
               <FaCaretDown />
             </DropdownToggle>
-            <DropdownMenu right>
+            <DropdownMenu>
               <DropdownItem header>
-                Balance: ${currentUser.gameWalletBalance}
+                Balance: ${currentUser?.gameWalletBalance}
               </DropdownItem>
               <DropdownItem onClick={toggleDepositModal}>Deposit</DropdownItem>
               <DropdownItem onClick={toggleWithdrawalModal}>

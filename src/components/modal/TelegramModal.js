@@ -5,7 +5,7 @@ import './modal.css';
 import { FaTelegram } from 'react-icons/fa';
 import { useCurrentUser } from '../../hooks/telegram';
 import { userInChannel } from '../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 const tgLink = 'https://t.me/ploutoslabannouncement';

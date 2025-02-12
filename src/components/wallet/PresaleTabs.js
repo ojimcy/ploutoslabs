@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import './portfolio.css';
 import { Separator } from '../common/Seperator';
 import { useCurrentUser } from '../../hooks/telegram';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { FaCopy, FaEthereum, FaTelegramPlane } from 'react-icons/fa';
 import { formatEther, formatUnits } from 'viem';
 import { formatAddress } from '../../lib/utils';
@@ -29,11 +29,11 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
 
   const totalRefEarningn = () => {
     let total = 0;
-    for(let i = 0; i < referrals.length; i++) {
-      total += parseFloat(formatEther(referrals[i].referralAmount))
+    for (let i = 0; i < referrals.length; i++) {
+      total += parseFloat(formatEther(referrals[i].referralAmount));
     }
-    return total
-  }
+    return total;
+  };
 
   function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement('textarea');
@@ -133,8 +133,8 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
               <h4>Referrals</h4>
               <p>
                 Share your referral link and earn 7% of every purchase your
-                referral makes plus 3% of thei downlines purchase. Use the buttons below to share or copy your
-                referral link.
+                referral makes plus 3% of thei downlines purchase. Use the
+                buttons below to share or copy your referral link.
               </p>
               <Separator />
               <Row className="referrals-grid">
@@ -183,7 +183,9 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
                             {r.username}
                           </span> */}
                         </div>
-                        <span className="referral-balance">+{formatEther(r.referralAmount)}</span>
+                        <span className="referral-balance">
+                          +{formatEther(r.referralAmount)}
+                        </span>
                       </div>
                     </React.Fragment>
                   ))}
@@ -206,7 +208,10 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
                     purchaseHistory.map((purchase) => (
                       <div key={purchase.id} className="purchase-history-item">
                         <div className="history-date">
-                          Date: {new Date(parseInt(purchase.date || 2) * 1000).toLocaleDateString()}
+                          Date:{' '}
+                          {new Date(
+                            parseInt(purchase.date || 2) * 1000
+                          ).toLocaleDateString()}
                         </div>
                         <div className="history-eth">
                           ETH: {formatEther(purchase.ethSpent)}
@@ -230,7 +235,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
 PresaleTabs.propTypes = {
   purchaseHistory: PropTypes.array,
   referrals: PropTypes.array,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
 };
 
 export default PresaleTabs;

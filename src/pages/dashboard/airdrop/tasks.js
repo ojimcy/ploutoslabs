@@ -17,7 +17,7 @@ import {
   getTasks,
   getUserByTelegramID,
 } from '../../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo.png';
 import './tasks.css';

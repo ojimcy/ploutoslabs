@@ -1,56 +1,214 @@
+/* Leaderboard Container */
+.referral-leaderboard {
+  padding: 2rem 0;
+  min-height: calc(100vh - 73px);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 24px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* User Summary Section */
 .user-summary {
+  background: rgba(41, 41, 41, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
   text-align: center;
-  margin-bottom: 20px;
+}
+
+.user-summary h5 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
 }
 
 .stats {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.stats p {
+  background: rgba(41, 41, 41, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 0;
+  color: #fff;
+  font-size: 0.875rem;
+}
+
+.stats strong {
+  display: block;
+  color: #29dbdf;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Top Earners Section */
+.top-earners {
+  background: rgba(41, 41, 41, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
 }
 
 .top-earners h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
   text-align: center;
-  margin-bottom: 10px;
 }
 
 .top-earners ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
 }
 
 .earner {
+  background: linear-gradient(
+    135deg,
+    rgba(41, 219, 223, 0.1),
+    rgba(41, 219, 223, 0.05)
+  );
+  border: 1px solid rgba(41, 219, 223, 0.1);
+  border-radius: 12px;
+  padding: 1.25rem;
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 25, 255, 0.24) 0%,
-    rgba(0, 15, 153, 0.24) 100%
-  );
-  margin-bottom: 5px;
-  border-radius: 8px;
+  align-items: center;
+  color: #fff;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.earner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .earner.highlight {
-  border: 1px solid #ffd700;
-  font-weight: bold;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.1),
+    rgba(255, 215, 0, 0.05)
+  );
+  border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
+.earner span:last-child {
+  color: #29dbdf;
+  font-weight: 500;
+}
+
+/* User Position Section */
 .user-position {
+  background: rgba(41, 41, 41, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
+.user-position h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.user-position p {
+  color: #fff;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.user-position strong {
+  color: #29dbdf;
+}
+
+/* Referral Pot Note */
 .referral-pot-note {
-  margin-top: 20px;
-  background-color: #f9f9f9;
-  padding: 10px;
-  border-left: 4px solid #ff6f61;
+  background: rgba(255, 69, 58, 0.1);
+  border: 1px solid rgba(255, 69, 58, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 2rem;
 }
 
 .referral-pot-note p {
   margin: 0;
-  font-size: 14px;
-  color: #050c4d;
+  font-size: 0.875rem;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.referral-pot-note strong {
+  color: #ff453a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .referral-leaderboard {
+    padding: 1.5rem;
+  }
+
+  .user-summary,
+  .top-earners {
+    padding: 1.5rem;
+  }
+
+  .user-summary h5 {
+    font-size: 1.25rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .stats p {
+    padding: 1rem;
+    font-size: 0.813rem;
+  }
+
+  .stats strong {
+    font-size: 0.875rem;
+  }
+
+  .top-earners h3 {
+    font-size: 1.125rem;
+  }
+
+  .earner {
+    padding: 1rem;
+    font-size: 0.813rem;
+  }
+
+  .user-position {
+    padding: 1rem;
+  }
+
+  .user-position h4 {
+    font-size: 1rem;
+  }
+
+  .referral-pot-note {
+    padding: 1rem;
+  }
+
+  .referral-pot-note p {
+    font-size: 0.813rem;
+  }
 }

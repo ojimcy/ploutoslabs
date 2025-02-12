@@ -8,7 +8,7 @@ import './game-details.css';
 import { Button } from 'reactstrap';
 import { AppContext } from '../../context/AppContext';
 import { useCurrentUser } from '../../hooks/telegram';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { getGame } from '../../lib/server';
 import { openSuperCatchGameConsole } from '../../lib/utils';
@@ -26,8 +26,8 @@ function GameDetails() {
     const res = await getGame(gameCode);
     setGame(res.game);
     if (res.game.player2Nickname) {
-      openGameConsole()
-      return
+      openGameConsole();
+      return;
     }
     // Notify user that the opponent did not join
     // Navigate back to game page
@@ -47,8 +47,8 @@ function GameDetails() {
         setGame(res.game);
         // if it is a random user game, open console
         if (res.game.type == 'one-vs-one') {
-          openGameConsole()
-          return
+          openGameConsole();
+          return;
         }
         setOpponentJoined(!!res.game.player2Nickname);
 
@@ -101,7 +101,7 @@ function GameDetails() {
   };
 
   const openGameConsole = () => {
-    openSuperCatchGameConsole(gameCode, currentUser.id)
+    openSuperCatchGameConsole(gameCode, currentUser.id);
   };
 
   const share = () => {
@@ -175,14 +175,14 @@ function GameDetails() {
 
 GameDetails.propTypes = {
   initiator: PropTypes.shape({
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
     profilePic: PropTypes.string,
-  }).isRequired,
+  }),
   opponent: PropTypes.shape({
     username: PropTypes.string,
     profilePic: PropTypes.string,
   }),
-  onTimeout: PropTypes.func.isRequired,
+  onTimeout: PropTypes.func,
 };
 
 export default GameDetails;

@@ -81,7 +81,7 @@ function UtilitiesPage() {
               Wallet: ${currentUser?.gameWalletBalance}
               <FaCaretDown />
             </DropdownToggle>
-            <DropdownMenu right>
+            <DropdownMenu end>
               <DropdownItem header>
                 Balance: ${currentUser?.gameWalletBalance}
               </DropdownItem>

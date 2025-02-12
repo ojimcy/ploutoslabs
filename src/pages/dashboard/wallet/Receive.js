@@ -3,11 +3,11 @@ import { Container, Button } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import './receive.css';
 import { AppContext } from '../../../context/AppContext';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { getUserByTelegramID } from '../../../lib/server';
 
 const Receive = () => {
-  const {setSelectedWallet, selectedWallet} = useContext(AppContext);
+  const { setSelectedWallet, selectedWallet } = useContext(AppContext);
   const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {
@@ -41,11 +41,7 @@ const Receive = () => {
       <h3 className="receive-header">Receive</h3>
       <hr />
       <div className="address-code">
-        <QRCode
-          value={selectedWallet.address}
-          size={180}
-          className="qrcode"
-        />
+        <QRCode value={selectedWallet.address} size={180} className="qrcode" />
         <div className="qr-info">
           <p>Your {selectedWallet.name} address</p>
         </div>

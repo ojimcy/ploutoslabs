@@ -5,7 +5,7 @@ import './daily-reward.css';
 import logo from '../../assets/images/airdrop-logo.png';
 import { FaCheckCircle, FaClock } from 'react-icons/fa';
 import { claimDailyReward, getUserByTelegramID } from '../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { Container, Spinner } from 'reactstrap';
 import { useCurrentUser } from '../../hooks/telegram';
 import { AppContext } from '../../context/AppContext';

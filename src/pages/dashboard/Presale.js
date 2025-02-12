@@ -46,7 +46,7 @@ import {
   PRESALE_CONTRACT_ADDRESS,
 } from '../../lib/const';
 import { presaleAbi } from '../../lib/presaleAbi';
-
+import { toast } from 'react-hot-toast';
 function TokenPresale() {
   const { selectedWallet, setSelectedWallet } = useContext(AppContext);
   const [wallets, setWallets] = useState([]);
@@ -202,7 +202,7 @@ function TokenPresale() {
       );
     } catch (error) {
       console.log(error);
-      alert('Invalid passord');
+      toast.error('Invalid passord');
       setIsLoading(false);
       return;
     }
@@ -244,9 +244,9 @@ function TokenPresale() {
 
       await refreshHistory();
 
-      alert('Transaction submitted');
+      toast.success('Transaction submitted');
     } catch (err) {
-      alert(err.shortMessage || 'Something went wrong. Please try again later');
+      toast.error(err.shortMessage || 'Something went wrong. Please try again later');
       console.log(err);
     } finally {
       setIsLoading(false);

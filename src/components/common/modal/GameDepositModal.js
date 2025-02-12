@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap';
 import './modal.css';
 import { getDepositAddress } from '../../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 function GameDepositModal({ isOpen, toggle }) {
   const [depositAddress, setDepositAddress] = useState('');
 

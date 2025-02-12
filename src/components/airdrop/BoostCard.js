@@ -4,7 +4,7 @@ import { Button,  Col, Spinner } from 'reactstrap';
 import { FaArrowUp } from 'react-icons/fa';
 import { useCurrentUser } from '../../hooks/telegram';
 import { boost, getUserByTelegramID } from '../../lib/server';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import './boost-card.css';
 import { WebappContext } from '../../context/telegram';
 function BoostCard({ id, image, title, description, value }) {

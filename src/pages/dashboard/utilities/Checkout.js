@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import './checkout.css';
 import {
   Container,
@@ -109,8 +108,4 @@ const Checkout = () => {
     </Container>
   );
 };
-Checkout.propTypes = {
-  onProceed: PropTypes.func.isRequired,
-};
-
 export default Checkout;

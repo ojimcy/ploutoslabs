@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { getUtilitiesTransactionDetails } from '../../../lib/server';
 import { useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { TransactionTypes } from '../../../lib/utils';
 
 const CheckoutConfirmation = ({ onDone }) => {
@@ -63,7 +63,7 @@ const CheckoutConfirmation = ({ onDone }) => {
           </div>
           <div className="details-item">
             <span>Amount:</span>
-            <span>{parseFloat(details.naira_amount)/100}</span>
+            <span>{parseFloat(details.naira_amount) / 100}</span>
           </div>
           <div className="details-item">
             <span>Payment Method:</span>
@@ -161,7 +161,7 @@ const CheckoutConfirmation = ({ onDone }) => {
 };
 
 CheckoutConfirmation.propTypes = {
-  onDone: PropTypes.func.isRequired,
+  onDone: PropTypes.func,
 };
 
 export default CheckoutConfirmation;
