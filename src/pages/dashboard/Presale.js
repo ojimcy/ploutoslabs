@@ -347,7 +347,7 @@ function TokenPresale() {
               </Row>
             </div>
 
-            <Row className="amount-input-row">
+            <Row className="amount-input-row w-75">
               <Col>
                 <Form className="presale-form mt-3">
                   <FormGroup>

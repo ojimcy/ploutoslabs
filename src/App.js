@@ -45,6 +45,7 @@ import TvSubscriptionPage from './pages/dashboard/utilities/TvSubscriptionPage';
 import Checkout from './pages/dashboard/utilities/Checkout';
 import TransactionSummary from './pages/dashboard/utilities/TransactionSummary';
 import CheckoutSummary from './pages/dashboard/utilities/CheckoutSummary';
+import PageNotFound from './pages/NotFound';
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
     const randomValues = randomBytes(array.length);
@@ -159,6 +160,8 @@ const App = () => {
             </Routes>
           }
         />
+        {/* page not found */}
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );

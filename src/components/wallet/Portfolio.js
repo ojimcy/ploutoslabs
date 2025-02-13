@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import TransactionCard from './TransactionCard';
 import { getTokenBalances } from '../../lib/server';
+import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
+import TokenSkeleton from './TokenSkeleton';
 
 import pltlLogo from '../../assets/images/logo.png';
 
@@ -24,6 +26,7 @@ const Portfolio = () => {
   const [activeTab, setActiveTab] = useState('1');
 
   const [tokens, setTokens] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
   const { selectToken } = useContext(AppContext);
@@ -41,15 +44,22 @@ const Portfolio = () => {
   useEffect(() => {
     const tokenBalances = async () => {
       if (selectedWallet) {
-        const response = await getTokenBalances(selectedWallet.address);
-        setTokens(response);
+        setLoading(true);
+        try {
+          const response = await getTokenBalances(selectedWallet.address);
+          setTokens(response);
+        } catch (error) {
+          console.error('Error fetching token balances:', error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
 
     tokenBalances();
   }, [selectedWallet]);
 
-  const transactions = []
+  const transactions = [];
 
   return (
     <div className="portfolio">
@@ -88,7 +98,9 @@ const Portfolio = () => {
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
           <Row className="mt-4">
-            {!tokens ? (
+            {loading ? (
+              <TokenSkeleton />
+            ) : !tokens ? (
               <Row className="justify-content-center align-items-center text-center">
                 <div className="mt-4">
                   <h4>Assets</h4>
@@ -114,8 +126,27 @@ const Portfolio = () => {
                         />
                         <div className="crypto-info">
                           <div className="crypto-symbol">{token.symbol}</div>
-                          <div className="crypto-price">
-                            {token.usd_price.toFixed(2)}
+                          <div className="crypto-price-container">
+                            <span className="crypto-price">
+                              ${token.usd_price.toFixed(2)}
+                            </span>
+                            <span
+                              className={`price-change ${
+                                token.usd_price_24hr_percent_change >= 0
+                                  ? 'positive'
+                                  : 'negative'
+                              }`}
+                            >
+                              {token.usd_price_24hr_percent_change >= 0 ? (
+                                <FaCaretUp className="change-icon" />
+                              ) : (
+                                <FaCaretDown className="change-icon" />
+                              )}
+                              {Math.abs(
+                                token.usd_price_24hr_percent_change
+                              ).toFixed(2)}
+                              %
+                            </span>
                           </div>
                         </div>
                       </div>

@@ -1,0 +1,143 @@
+.skeleton-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(41, 219, 223, 0.08),
+    rgba(41, 219, 223, 0.03)
+  );
+  border: 1px solid rgba(41, 219, 223, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-symbol {
+  width: 75px;
+  height: 18px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-price {
+  width: 65px;
+  height: 14px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-change {
+  width: 60px;
+  height: 22px;
+  border-radius: 8px;
+  background: rgba(41, 219, 223, 0.08);
+  margin-left: 10px;
+  border: 1px solid rgba(41, 219, 223, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-quantity {
+  width: 85px;
+  height: 18px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 6px;
+  text-align: right;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-value {
+  width: 95px;
+  height: 14px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  text-align: right;
+  position: relative;
+  overflow: hidden;
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Shimmer effect */
+.pulse::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+  transform: skewX(-15deg);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+/* Card hover effect */
+.crypto-card:hover .pulse::after {
+  animation-duration: 1.5s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .skeleton-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .skeleton-symbol {
+    width: 65px;
+    height: 16px;
+  }
+
+  .skeleton-price {
+    width: 55px;
+    height: 12px;
+  }
+
+  .skeleton-change {
+    width: 50px;
+    height: 20px;
+    margin-left: 8px;
+  }
+
+  .skeleton-quantity {
+    width: 75px;
+    height: 16px;
+  }
+
+  .skeleton-value {
+    width: 85px;
+    height: 12px;
+  }
+}

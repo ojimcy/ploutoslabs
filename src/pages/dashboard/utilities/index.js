@@ -16,6 +16,7 @@ import {
   FaTv,
   FaCaretDown,
   FaBitcoin,
+  FaWallet,
 } from 'react-icons/fa';
 import './utilities.css';
 import { useCurrentUser } from '../../../hooks/telegram';
@@ -76,12 +77,12 @@ function UtilitiesPage() {
     <div className="utilities-page">
       <Container>
         <div className="wallet-dropdown d-flex justify-content-end">
-          <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} end>
-            <DropdownToggle header className="wallet-dropdown-toggle">
-              Wallet: ${currentUser?.gameWalletBalance}
+          <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+            <DropdownToggle className="wallet-dropdown-toggle">
+              <FaWallet className="wallet-icon" />
               <FaCaretDown />
             </DropdownToggle>
-            <DropdownMenu end>
+            <DropdownMenu>
               <DropdownItem header>
                 Balance: ${currentUser?.gameWalletBalance}
               </DropdownItem>

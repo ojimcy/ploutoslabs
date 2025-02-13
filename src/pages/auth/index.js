@@ -42,7 +42,7 @@ function Auth() {
           localStorage.setItem('ACCESS_TOKEN_KEY', result.token);
           localStorage.setItem('TELEGRAM_ID', result.user.telegramId);
           setUser(result.user);
-          navigate('/dashboard');
+          navigate('/dashboard/airdrop');
           toast.success('Successfully logged in!');
         }
       } catch (error) {
@@ -73,7 +73,7 @@ function Auth() {
       localStorage.setItem('TELEGRAM_ID', user.telegramId);
       if (user) {
         setUser(user);
-        navigate('/dashboard');
+        navigate('/dashboard/airdrop');
         toast.success('Account created successfully!');
       }
     } catch (error) {
