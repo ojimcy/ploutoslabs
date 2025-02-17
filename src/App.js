@@ -48,6 +48,7 @@ import CheckoutSummary from './pages/dashboard/utilities/CheckoutSummary';
 import PageNotFound from './pages/NotFound';
 import AuthGuard from './components/guards/AuthGuard';
 import TokenDetail from './pages/dashboard/wallet/TokenDetail';
+import WalletDetail from './pages/dashboard/wallet/WalletDetail';
 
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
@@ -139,6 +140,7 @@ const App = () => {
                     element={<CheckoutSummary />}
                   />
                   <Route path="token-detail" element={<TokenDetail />} />
+                  <Route path="wallet" element={<WalletDetail />} />
                 </Routes>
               </Layout>
             </AuthGuard>

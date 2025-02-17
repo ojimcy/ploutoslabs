@@ -1,76 +1,80 @@
 import React from 'react';
-import { Col, Row } from 'reactstrap';
-import { Separator } from '../common/Seperator';
 import { formatAddress } from '../../lib/utils';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import './transaction-card.css';
 
 const TransactionCard = ({ transactions }) => {
-  const navigate = useNavigate();
-
-  const isSend = transactions.amount < 0 === 'send';
-
   const handleTransactionClick = async (trx) => {
-    navigate(`https://basescan.org/tx/${trx.transactionHash}`);
+    window.open(`https://basescan.org/tx/${trx.transactionHash}`, '_blank');
   };
 
   return (
-    <>
-      {transactions.length === 0 ? (
-        <Row className="justify-content-center align-items-center text-center">
-          <div className="mt-4">
-            <h4>Transactions</h4>
-            <p>No records found!!!</p>
+    <div className="transactions-wrapper">
+      <div className="transactions-header">
+        <h4>Recent Transactions</h4>
+      </div>
+      
+      <div className="transactions-container">
+        {transactions.length === 0 ? (
+          <div className="no-transactions">
+            <p>No transactions found</p>
           </div>
-        </Row>
-      ) : (
-        transactions.map((trx, index) => (
-          <React.Fragment key={index}>
-            <Col
-              xs="12"
-              className="crypto-card"
+        ) : (
+          transactions.map((trx, index) => (
+            <div 
+              key={index}
+              className="transaction-card" 
               onClick={() => handleTransactionClick(trx)}
             >
-              <div className="crypto-card-content mt-2">
-                <div className="crypto-icon">
-                  <div className="icons">
-                    {isSend ? (
-                      <FaArrowUp size={30} />
-                    ) : (
-                      <FaArrowDown size={30} />
-                    )}
+              <div className="transaction-icon">
+                <div className={`icon-wrapper ${trx.amount < 0 ? 'send' : 'receive'}`}>
+                  {trx.amount < 0 ? <FaArrowUp /> : <FaArrowDown />}
+                </div>
+              </div>
+
+              <div className="transaction-details">
+                <div className="transaction-main">
+                  <div className="transaction-type">
+                    {trx.amount < 0 ? 'Sent' : 'Received'}
                   </div>
-                  <div className="crypto-info d-flex flex-column align-items-baseline">
-                    <div className="crypto-symbol">
-                      {trx.action.charAt(0).toUpperCase() + trx.action.slice(1)}
-                    </div>
-                    <div className="crypto-price">
-                      {`${isSend ? 'To' : 'From'}: 
-                ${formatAddress(trx.walletAddress)}`}
-                    </div>
+                  <div className={`transaction-amount ${trx.amount < 0 ? 'send' : 'receive'}`}>
+                    {`${trx.amount < 0 ? '-' : '+'}${Math.abs(trx.amount).toFixed(4)} ${trx.symbol}`}
                   </div>
                 </div>
-                <div className="crypto-amount">
-                  <div
-                    className="crypto-quantity"
-                    style={{ color: isSend ? 'red' : 'green' }}
-                  >
-                    {`${isSend ? '-' : '+'}${trx.amount} ${trx.tokenSymbol}`}
+                <div className="transaction-info">
+                  <div className="transaction-address">
+                    {`${trx.amount < 0 ? 'To: ' : 'From: '}${formatAddress(trx.to || trx.from)}`}
+                  </div>
+                  <div className="transaction-time">
+                    {new Date(trx.timestamp * 1000).toLocaleString()}
                   </div>
                 </div>
               </div>
-            </Col>
-            <Separator />
-          </React.Fragment>
-        ))
-      )}
-    </>
+
+              <div className={`transaction-status ${trx.status?.toLowerCase() || 'completed'}`}>
+                {trx.status?.toLowerCase() || 'completed'}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
   );
 };
 
 TransactionCard.propTypes = {
-  transactions: PropTypes.array.isRequired,
+  transactions: PropTypes.arrayOf(
+    PropTypes.shape({
+      amount: PropTypes.number,
+      symbol: PropTypes.string,
+      to: PropTypes.string,
+      from: PropTypes.string,
+      timestamp: PropTypes.number,
+      status: PropTypes.string,
+      transactionHash: PropTypes.string
+    })
+  ).isRequired,
 };
 
 export default TransactionCard;

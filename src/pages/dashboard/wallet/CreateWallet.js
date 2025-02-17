@@ -221,7 +221,7 @@ const CreateWallet = () => {
           <Alert color="success">
             Wallet created successfully! Your private key is securely stored.
           </Alert>
-          <Button tag={Link} to="/dashboard/wallets" block>
+          <Button tag={Link} to="/dashboard/accounts" block>
             View My Wallets
           </Button>
         </div>

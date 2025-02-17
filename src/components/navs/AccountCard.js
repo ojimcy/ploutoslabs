@@ -7,10 +7,9 @@ import {
   FaUser,
   FaWallet,
 } from 'react-icons/fa';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Col, Container, Row } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { WebappContext } from '../../context/telegram';
-import '../airdrop/airdrop.css';
 import { Separator } from '../common/Seperator';
 import './account.css';
 import { Link } from 'react-router-dom';
@@ -61,9 +60,7 @@ function AccountCard() {
                   <div className="referral-info">
                     <div className="ref-title">{currentUser?.username}</div>
                     <div className="ref-count">
-                      {currentUser
-                        ? currentUser.balance?.toFixed(4)
-                        : '0'}
+                      {currentUser ? currentUser.balance?.toFixed(4) : '0'}
                       PLTL
                     </div>
                   </div>
@@ -79,50 +76,48 @@ function AccountCard() {
         </Link>
 
         <Row className="add-account-card">
-          <Card>
-            <CardBody>
-              <div>
-                <Link to="/dashboard/import-wallet" className="links">
-                  <div className="referral-card-content my-4">
-                    <div className="referral-icon">
-                      <div className="ref-icon">
-                        <FaPlusSquare />
-                      </div>
-                      <div className="referral-info">
-                        <div className="ref-title">Import Account</div>
-                      </div>
+          <div className="account-card-content">
+            <div>
+              <Link to="/dashboard/import-wallet" className="links">
+                <div className="referral-card-content my-4">
+                  <div className="referral-icon">
+                    <div className="ref-icon">
+                      <FaPlusSquare />
                     </div>
-                    <div className="right">
-                      <div className="right-arrow">
-                        <FaArrowRight />
-                      </div>
+                    <div className="referral-info">
+                      <div className="ref-title">Import Account</div>
                     </div>
                   </div>
-                </Link>
-                <Separator />
-              </div>
-              <div>
-                <Link to="#" className="links">
-                  <div className="referral-card-content my-4">
-                    <div className="referral-icon">
-                      <div className="ref-icon">
-                        <FaWallet />
-                      </div>
-                      <div className="referral-info">
-                        <div className="ref-title">Withdrawal Address</div>
-                      </div>
-                    </div>
-                    <div className="right">
-                      <div className="right-arrow">
-                        <FaArrowDown />
-                      </div>
+                  <div className="right">
+                    <div className="right-arrow">
+                      <FaArrowRight />
                     </div>
                   </div>
-                </Link>
-                <Separator />
-              </div>
-            </CardBody>
-          </Card>
+                </div>
+              </Link>
+              <Separator />
+            </div>
+            <div>
+              <Link to="#" className="links">
+                <div className="referral-card-content my-4">
+                  <div className="referral-icon">
+                    <div className="ref-icon">
+                      <FaWallet />
+                    </div>
+                    <div className="referral-info">
+                      <div className="ref-title">Withdrawal Address</div>
+                    </div>
+                  </div>
+                  <div className="right">
+                    <div className="right-arrow">
+                      <FaArrowDown />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              <Separator />
+            </div>
+          </div>
         </Row>
 
         <Row className="mt-4 signout-card">

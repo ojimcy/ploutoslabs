@@ -4,14 +4,15 @@ import { getUserByTelegramID, getWallets } from '../lib/server';
 
 export const AppContext = createContext();
 
-export const AppProvider = ({ children }) => {  
-  const [checkedIn, setCheckedIn] = useState(false);    
+export const AppProvider = ({ children }) => {
+  const [checkedIn, setCheckedIn] = useState(false);
   const [selectedToken, setSelectedToken] = useState(null);
   const [selectedWallet, setSelectedWallet] = useState(null);
   const [difficulty, setDifficulty] = useState('easy');
   const [mode, setMode] = useState('solo');
   const [gameCode, setGameCode] = useState('');
   const [utilityTransaction, setUtilityTransaction] = useState(null);
+  const [walletToManage, setWalletToManage] = useState(null);
 
   const telegramId = localStorage.getItem('TELEGRAM_ID');
 
@@ -52,6 +53,8 @@ export const AppProvider = ({ children }) => {
         setGameCode,
         utilityTransaction,
         updateUtilityTransaction,
+        walletToManage,
+        setWalletToManage,
       }}
     >
       {children}

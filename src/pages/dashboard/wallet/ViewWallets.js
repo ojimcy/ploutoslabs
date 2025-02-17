@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import { FaPlus, FaWallet, FaCheck } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Col, Container, Row } from 'reactstrap';
+import { FaPlus, FaWallet, FaCheck, FaCog } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
 import './wallets.css';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { getUserByTelegramID, getWallets } from '../../../lib/server';
@@ -11,7 +11,9 @@ import { syncWallet } from '../../../lib/db';
 
 const ViewWallets = () => {
   const [wallets, setWallets] = useState([]);
-  const { setSelectedWallet, selectedWallet } = useContext(AppContext);
+  const { setSelectedWallet, selectedWallet, setWalletToManage } =
+    useContext(AppContext);
+  const navigate = useNavigate();
 
   const telegramId = localStorage.getItem('TELEGRAM_ID');
   const currentUser = useCurrentUser();
@@ -36,6 +38,11 @@ const ViewWallets = () => {
     setSelectedWallet(wallet);
   };
 
+  const handleSettingsClick = (wallet) => {
+    setWalletToManage(wallet);
+    navigate(`/dashboard/wallet`);
+  };
+
   return (
     <Container className="wallet-page">
       <Row className="mb-4">
@@ -47,46 +54,53 @@ const ViewWallets = () => {
       <Row>
         {wallets.map((wallet) => (
           <Col md="4" key={wallet.id} className="mb-3">
-            <Card onClick={() => handleWalletSelect(wallet)}>
-              <CardBody>
-                <div className="wallet-card-content">
-                  <div className="wallet-icon">
-                    <FaWallet />
+            <div
+              className="wallet-card"
+              onClick={() => handleWalletSelect(wallet)}
+            >
+              <div className="wallet-card-content">
+                <div className="wallet-icon">
+                  <FaWallet />
+                </div>
+                <div className="wallet-info">
+                  <div className="wallet-title">{wallet.name}</div>
+                  <div className="wallet-balance">
+                    {formatAddress(wallet.address)}
                   </div>
-                  <div className="wallet-info">
-                    <div className="wallet-title">{wallet.name}</div>
-                    <div className="wallet-balance">
-                      {formatAddress(wallet.address)}
-                    </div>
-                    {wallet.label && (
-                      <div className="wallet-label">{wallet.label}</div>
-                    )}
-                  </div>
+                  {wallet.label && (
+                    <div className="wallet-label">{wallet.label}</div>
+                  )}
+                </div>
+                <div className="wallet-actions-wrapper">
                   {selectedWallet && selectedWallet.id === wallet.id && (
                     <div className="selected-check">
                       <FaCheck />
                     </div>
                   )}
+                  <button
+                    className="settings-button"
+                    onClick={() => handleSettingsClick(wallet)}
+                  >
+                    <FaCog />
+                  </button>
                 </div>
-              </CardBody>
-            </Card>
+              </div>
+            </div>
           </Col>
         ))}
         <Col md="4" className="mb-3">
-          <Card className="add-wallet-card">
-            <CardBody>
-              <Link to="/dashboard/create" className="links">
-                <div className="wallet-card-content">
-                  <div className="wallet-icon">
-                    <FaPlus />
-                  </div>
-                  <div className="wallet-info">
-                    <div className="wallet-title">Add New Wallet</div>
-                  </div>
+          <div className="add-wallet-card">
+            <Link to="/dashboard/create" className="links">
+              <div className="wallet-card-content">
+                <div className="wallet-icon">
+                  <FaPlus />
                 </div>
-              </Link>
-            </CardBody>
-          </Card>
+                <div className="wallet-info">
+                  <div className="wallet-title">Add New Wallet</div>
+                </div>
+              </div>
+            </Link>
+          </div>
         </Col>
       </Row>
     </Container>

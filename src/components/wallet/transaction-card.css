@@ -1,40 +1,218 @@
-.transaction-header {
-  padding: 1rem;
-  margin-bottom: 1rem;
+.transactions-wrapper {
+  background: rgba(41, 41, 41, 0.3);
+  border: 1px solid rgba(41, 219, 223, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.transactions-header {
+  padding: 1.25rem;
   border-bottom: 1px solid rgba(41, 219, 223, 0.1);
 }
 
-.transaction-header h4 {
+.transactions-header h4 {
   margin: 0;
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.transaction-header h4::before {
+.transactions-header h4::before {
   content: '';
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background: #29dbdf;
   border-radius: 50%;
 }
 
-/* Add to existing styles */
-.no-transactions p {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
+.transactions-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.transactions-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.transactions-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+}
+
+.transactions-container::-webkit-scrollbar-thumb {
+  background: rgba(41, 219, 223, 0.3);
+  border-radius: 2px;
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 2rem;
+  color: #9e9e9e;
+}
+
+.transaction-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.transaction-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+.transaction-icon {
+  flex-shrink: 0;
+}
+
+.icon-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.icon-wrapper.send {
+  background: rgba(255, 69, 58, 0.1);
+  color: #ff453a;
+  border: 1px solid rgba(255, 69, 58, 0.2);
+}
+
+.icon-wrapper.receive {
+  background: rgba(0, 255, 157, 0.1);
+  color: #00ff9d;
+  border: 1px solid rgba(0, 255, 157, 0.2);
+}
+
+.transaction-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.transaction-type {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.transaction-amount {
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.transaction-amount.send {
+  color: #ff453a;
+}
+
+.transaction-amount.receive {
+  color: #00ff9d;
+}
+
+.transaction-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transaction-address {
+  font-size: 0.8rem;
+  color: #9e9e9e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transaction-time {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.transaction-status {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  text-transform: capitalize;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.transaction-status.completed {
+  background: rgba(41, 219, 223, 0.1);
+  color: #29dbdf;
+  border: 1px solid rgba(41, 219, 223, 0.2);
+}
+
+.transaction-status.pending {
+  background: rgba(255, 171, 0, 0.1);
+  color: #ffab00;
+  border: 1px solid rgba(255, 171, 0, 0.2);
+}
+
+.transaction-status.failed {
+  background: rgba(255, 69, 58, 0.1);
+  color: #ff453a;
+  border: 1px solid rgba(255, 69, 58, 0.2);
 }
 
 @media (max-width: 768px) {
-  .transaction-header {
-    padding: 0.75rem;
+  .transactions-wrapper {
+    margin-top: 0.75rem;
   }
 
-  .transaction-header h4 {
-    font-size: 1rem;
+  .transactions-header {
+    padding: 1rem;
+  }
+
+  .transaction-card {
+    padding: 0.875rem;
+    gap: 0.75rem;
+  }
+
+  .icon-wrapper {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .transaction-type,
+  .transaction-amount {
+    font-size: 0.85rem;
+  }
+
+  .transaction-address {
+    font-size: 0.75rem;
+  }
+
+  .transaction-time {
+    font-size: 0.7rem;
+  }
+
+  .transaction-status {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
   }
 } 

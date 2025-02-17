@@ -4,26 +4,28 @@
 
 /* Profile Card */
 .account-card {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .referral-card {
   background: rgba(41, 41, 41, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 1.25rem;
+  border: 1px solid rgba(41, 219, 223, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .referral-card:hover {
-  background: rgba(41, 41, 41, 0.4);
   transform: translateY(-2px);
+  background: rgba(41, 41, 41, 0.4);
+  box-shadow: 0 8px 32px rgba(41, 219, 223, 0.1);
 }
 
 .referral-card-content {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
 }
 
 .referral-icon {
@@ -33,124 +35,126 @@
 }
 
 .ref-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
   background: rgba(41, 219, 223, 0.1);
+  border: 1px solid rgba(41, 219, 223, 0.2);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: #29dbdf;
+  transition: all 0.3s ease;
+}
+
+.referral-card:hover .ref-icon {
+  transform: scale(1.05);
+  background: rgba(41, 219, 223, 0.15);
 }
 
 .referral-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 }
 
 .ref-title {
-  font-size: 1rem;
   font-weight: 600;
+  font-size: 1rem;
   color: #fff;
 }
 
 .ref-count {
-  font-size: 0.875rem;
-  color: #9e9e9e;
+  font-size: 0.9rem;
+  color: #29dbdf;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
 }
 
-/* Add Account Card */
-.add-account-card .card {
+.right-arrow {
+  color: #666;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.referral-card:hover .right-arrow {
+  transform: translateX(4px);
+  color: #29dbdf;
+}
+
+/* Add Account Section */
+.add-account-card {
+  margin-top: 1.5rem;
+}
+
+.account-card-content {
   background: rgba(41, 41, 41, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
+  border: 1px solid rgba(41, 219, 223, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
 }
 
-.add-account-card .card-body {
-  padding: 0.5rem;
-}
-
-.add-account-card .links {
+.links {
   text-decoration: none;
   color: inherit;
   display: block;
 }
 
-.add-account-card .ref-icon {
-  background: rgba(255, 215, 0, 0.1);
-  color: #ffd700;
-}
-
-.add-account-card .referral-card-content {
-  padding: 0.75rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.add-account-card .referral-card-content:hover {
-  background: rgba(41, 41, 41, 0.3);
+.links:hover {
+  color: inherit;
 }
 
 /* Signout Card */
 .signout-card .referral-card {
-  margin-bottom: 0;
+  background: rgba(255, 69, 58, 0.05);
+  border: 1px solid rgba(255, 69, 58, 0.1);
 }
 
 .signout-card .ref-icon {
   background: rgba(255, 69, 58, 0.1);
+  border: 1px solid rgba(255, 69, 58, 0.2);
   color: #ff453a;
 }
 
-.right-arrow {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  color: #9e9e9e;
-  transition: all 0.3s ease;
+.signout-card .referral-card:hover {
+  background: rgba(255, 69, 58, 0.1);
 }
 
-.referral-card:hover .right-arrow {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateX(2px);
+.signout-card .referral-card:hover .right-arrow {
+  color: #ff453a;
 }
 
-/* Separator */
+/* Separator Customization */
 .separator {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.05);
-  margin: 0.5rem 0;
+  margin: 0;
+  opacity: 0.1;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
-  .referral-card {
+  .referral-card-content {
     padding: 1rem;
   }
 
   .ref-icon {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     font-size: 1rem;
   }
 
   .ref-title {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
   }
 
   .ref-count {
-    font-size: 0.813rem;
+    font-size: 0.8rem;
   }
 
   .right-arrow {
-    width: 28px;
-    height: 28px;
-    font-size: 0.875rem;
+    font-size: 1rem;
+  }
+
+  .add-account-card {
+    margin-top: 1rem;
   }
 }
