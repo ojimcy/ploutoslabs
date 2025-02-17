@@ -76,15 +76,15 @@ function TokenListModal({ isOpen, toggle, tokens }) {
 }
 
 TokenListModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func,
   tokens: PropTypes.arrayOf(
     PropTypes.shape({
-      icon: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      quantity: PropTypes.number.isRequired,
+      icon: PropTypes.string,
+      name: PropTypes.string,
+      quantity: PropTypes.number,
     })
-  ).isRequired,
+  ),
 };
 
 export default TokenListModal;

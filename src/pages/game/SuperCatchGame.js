@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Button, Col } from 'reactstrap';
+import { Container, Row, Button, Col, UncontrolledTooltip } from 'reactstrap';
 import { FaQuestion, FaShare, FaEthereum } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import GameDificultyModal from '../../components/common/modal/GameDificultyModal';
 
 import superman from '../../assets/images/superman.png';
+import coin from '../../assets/images/coin.png';
 import './game.css';
 import { useCurrentUser } from '../../hooks/telegram';
 import { getActiveGames } from '../../lib/server';
@@ -53,7 +54,29 @@ function SuperCatchGame() {
             <div className="game-card">
               <div className="card-info">
                 <div></div>
-                <FaQuestion />
+                <FaQuestion id="gameInfo" className="info-icon" />
+                <UncontrolledTooltip
+                  placement="top"
+                  target="gameInfo"
+                  className="game-tooltip"
+                >
+                  <div className="game-info-content">
+                    <h6>How to Play:</h6>
+                    <ul>
+                      <li>Catch falling coins and stars for points</li>
+                      <li>Avoid bombs to keep your lifeline</li>
+                      <li>Compete with others for high scores</li>
+                      <li>Win rewards by topping the leaderboard</li>
+                    </ul>
+                    <div className="points-info">
+                      <div>⭐ = 30 points</div>
+                      <div>
+                        <img src={coin} alt="coin" width={15} /> = 50 points
+                      </div>
+                      <div>💣 = -1 lifeline</div>
+                    </div>
+                  </div>
+                </UncontrolledTooltip>
               </div>
               <div className="character-image">
                 <img src={superman} alt="Superman character" />

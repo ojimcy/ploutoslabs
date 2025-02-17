@@ -19,7 +19,7 @@ export const AppProvider = ({ children }) => {
     if (!telegramId) return;
     const fn = async () => {
       const user = await getUserByTelegramID(telegramId);
-      const wals = await getWallets(user.id);
+      const wals = await getWallets(user?.id);
       if (!wals || wals.length === 0) return;
       setSelectedWallet(wals[0]);
     };

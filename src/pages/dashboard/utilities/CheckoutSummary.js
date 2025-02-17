@@ -3,11 +3,12 @@ import './checkout.css';
 import PropTypes from 'prop-types';
 
 import { getUtilitiesTransactionDetails } from '../../../lib/server';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { TransactionTypes } from '../../../lib/utils';
 
-const CheckoutConfirmation = ({ onDone }) => {
+const CheckoutConfirmation = () => {
+  const navigate = useNavigate();
   const [status, setStatus] = useState('');
   const [details, setDetails] = useState(null);
   const location = useLocation();
@@ -41,6 +42,10 @@ const CheckoutConfirmation = ({ onDone }) => {
 
     return () => clearInterval(interval);
   }, [getUtilitiesTransactionDetails]);
+
+  const onDone = () => {
+    navigate('/dashboard/utilities');
+  };
 
   if (status === 'pending') {
     return (

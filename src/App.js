@@ -46,6 +46,9 @@ import Checkout from './pages/dashboard/utilities/Checkout';
 import TransactionSummary from './pages/dashboard/utilities/TransactionSummary';
 import CheckoutSummary from './pages/dashboard/utilities/CheckoutSummary';
 import PageNotFound from './pages/NotFound';
+import AuthGuard from './components/guards/AuthGuard';
+import TokenDetail from './pages/dashboard/wallet/TokenDetail';
+
 if (!crypto.getRandomValues) {
   crypto.getRandomValues = (array) => {
     const randomValues = randomBytes(array.length);
@@ -75,80 +78,96 @@ const App = () => {
         <Route
           path="/dashboard/airdrop"
           element={
-            <AirdropLayout>
-              <Routes>
-                <Route index element={<Airdrop />} />
-              </Routes>
-            </AirdropLayout>
+            <AuthGuard>
+              <AirdropLayout>
+                <Routes>
+                  <Route index element={<Airdrop />} />
+                </Routes>
+              </AirdropLayout>
+            </AuthGuard>
           }
         />
 
         <Route
           path="/dashboard/*"
           element={
-            <Layout>
-              <Routes>
-                <Route index element={<Dashboard />} />
-                <Route path="send" element={<Send />} />
-                <Route path="receive" element={<Receive />} />
-                <Route path="accounts" element={<ViewWallets />} />
-                <Route path="onramp" element={<OnrampPage />} />
-                <Route
-                  path="wallet-credentials"
-                  element={<WalletCredentials />}
-                />
-                <Route path="create" element={<CreateWallet />} />
-                {/* <Route path="confirm" element={<ConfirmationPage />} /> */}
-                <Route path="import-wallet" element={<ImportWallet />} />
-                <Route path="tasks" element={<Tasks />} />
-                <Route path="referrals" element={<Referrals />} />
-                <Route path="boosts" element={<Boosts />} />
-                <Route path="rewards" element={<DailyReward />} />
-                <Route path="presales" element={<TokenPresale />} />
-                <Route path="game-leaderboard" element={<GameLeaderBoard />} />
-                <Route path="ref-leaderboard" element={<ReferralContests />} />
-                <Route path="create-task" element={<AddTask />} />
-                <Route path="utitlities" element={<UtilitiesPage />} />
-                <Route path="airtime" element={<Airtime />} />
-                <Route path="data" element={<DataPage />} />
-                <Route path="electricity" element={<ElectricityBillPage />} />
-                <Route path="transactions" element={<TransactionPage />} />
-                <Route
-                  path="tv-subscription"
-                  element={<TvSubscriptionPage />}
-                />
-                <Route path="checkout" element={<Checkout />} />
-                <Route
-                  path="transaction-summary"
-                  element={<TransactionSummary />}
-                />
-                <Route
-                  path="transaction-details"
-                  element={<CheckoutSummary />}
-                />
-              </Routes>
-            </Layout>
+            <AuthGuard>
+              <Layout>
+                <Routes>
+                  <Route index element={<Dashboard />} />
+                  <Route path="send" element={<Send />} />
+                  <Route path="receive" element={<Receive />} />
+                  <Route path="accounts" element={<ViewWallets />} />
+                  <Route path="onramp" element={<OnrampPage />} />
+                  <Route
+                    path="wallet-credentials"
+                    element={<WalletCredentials />}
+                  />
+                  <Route path="create" element={<CreateWallet />} />
+                  {/* <Route path="confirm" element={<ConfirmationPage />} /> */}
+                  <Route path="import-wallet" element={<ImportWallet />} />
+                  <Route path="tasks" element={<Tasks />} />
+                  <Route path="referrals" element={<Referrals />} />
+                  <Route path="boosts" element={<Boosts />} />
+                  <Route path="rewards" element={<DailyReward />} />
+                  <Route path="presales" element={<TokenPresale />} />
+                  <Route
+                    path="game-leaderboard"
+                    element={<GameLeaderBoard />}
+                  />
+                  <Route
+                    path="ref-leaderboard"
+                    element={<ReferralContests />}
+                  />
+                  <Route path="create-task" element={<AddTask />} />
+                  <Route path="utitlities" element={<UtilitiesPage />} />
+                  <Route path="airtime" element={<Airtime />} />
+                  <Route path="data" element={<DataPage />} />
+                  <Route path="electricity" element={<ElectricityBillPage />} />
+                  <Route path="transactions" element={<TransactionPage />} />
+                  <Route
+                    path="tv-subscription"
+                    element={<TvSubscriptionPage />}
+                  />
+                  <Route path="checkout" element={<Checkout />} />
+                  <Route
+                    path="transaction-summary"
+                    element={<TransactionSummary />}
+                  />
+                  <Route
+                    path="transaction-details"
+                    element={<CheckoutSummary />}
+                  />
+                  <Route path="token-detail" element={<TokenDetail />} />
+                </Routes>
+              </Layout>
+            </AuthGuard>
           }
         />
 
         <Route
           path="/game/*"
           element={
-            <GameLayout>
-              <Routes>
-                <Route index element={<Games />} />
-                <Route path="/coming-soon" element={<ComingSoon />} />
-                <Route path="/super-catch" element={<SuperCatchGame />} />
-                {/* <Route path="/super-catch" element={<RainGameCanvas />} /> */}
-                <Route path="/super-catch/group" element={<GroupPage />} />
-                <Route path="/super-catch/join" element={<JoinPage />} />
-                <Route
-                  path="/super-catch/summary"
-                  element={<GameSummaryPage />}
-                />
-                <Route path="/super-catch/waiting" element={<GameDetails />} />
-              </Routes>
-            </GameLayout>
+            <AuthGuard>
+              <GameLayout>
+                <Routes>
+                  <Route index element={<Games />} />
+                  <Route path="/coming-soon" element={<ComingSoon />} />
+                  <Route path="/super-catch" element={<SuperCatchGame />} />
+                  {/* <Route path="/super-catch" element={<RainGameCanvas />} /> */}
+                  <Route path="/super-catch/group" element={<GroupPage />} />
+                  <Route path="/super-catch/join" element={<JoinPage />} />
+                  <Route
+                    path="/super-catch/summary"
+                    element={<GameSummaryPage />}
+                  />
+                  <Route
+                    path="/super-catch/waiting"
+                    element={<GameDetails />}
+                  />
+                </Routes>
+              </GameLayout>
+            </AuthGuard>
           }
         />
 

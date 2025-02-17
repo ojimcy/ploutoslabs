@@ -1,27 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { Separator } from '../common/Seperator';
 import { formatAddress } from '../../lib/utils';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import { getWalletHIstory } from '../../lib/server';
-import { AppContext } from '../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const TransactionCard = () => {
-  const [transactions, setTransactions] = useState([]);
-  const { selectedWallet } = useContext(AppContext);
+const TransactionCard = ({ transactions }) => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!selectedWallet) return;
-    const fn = async () => {
-      const response = await getWalletHIstory(selectedWallet.address);
-      setTransactions(response);
-    };
-
-    fn();
-  }, [selectedWallet]);
 
   const isSend = transactions.amount < 0 === 'send';
 
@@ -84,12 +70,7 @@ const TransactionCard = () => {
 };
 
 TransactionCard.propTypes = {
-  transaction: PropTypes.shape({
-    symbol: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    address: PropTypes.string.isRequired,
-    amount: PropTypes.string.isRequired,
-  }).isRequired,
+  transactions: PropTypes.array.isRequired,
 };
 
 export default TransactionCard;

@@ -61,7 +61,7 @@ function AirdropNav() {
         <Container className="d-flex align-items-cente justify-content-between">
           {/* Logo */}
           <Link
-            to="/dashboard"
+            to="/dashboard/airdrop"
             className="navbar-logo d-flex align-items-center"
             onClick={() => scrollToSection('home')}
             style={{ textDecoration: 'none' }}

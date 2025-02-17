@@ -59,9 +59,12 @@ function AccountCard() {
                     <FaUser />
                   </div>
                   <div className="referral-info">
-                    <div className="ref-title">{currentUser?.userName}</div>
+                    <div className="ref-title">{currentUser?.username}</div>
                     <div className="ref-count">
-                      {currentUser ? currentUser.balance : '0'} PLTL
+                      {currentUser
+                        ? currentUser.balance?.toFixed(4)
+                        : '0'}
+                      PLTL
                     </div>
                   </div>
                 </div>

@@ -1,16 +1,18 @@
-import React, { useContext } from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import React, { useContext, useState } from 'react';
+import { Container, Row, Col, Button, Spinner } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
-import { AppContext } from '../../../context/AppContext';
 import { claimReBonus } from '../../../lib/server';
 import './referrals.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { BASE_URL } from '../../../constants';
+import { WebappContext } from '../../../context/telegram';
+
 function Referrals() {
   const currentUser = useCurrentUser();
-  const { setUser } = useContext(AppContext);
+  const { setUser } = useContext(WebappContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const copyReferralLink = () => {
     const link = `${BASE_URL}?ref=${currentUser.telegramId}`;
@@ -19,8 +21,15 @@ function Referrals() {
   };
 
   const claimBonus = async () => {
-    const user = await claimReBonus(currentUser.telegramId);
-    setUser(user);
+    try {
+      setLoading(true);
+      const user = await claimReBonus(currentUser.telegramId);
+      setUser(user);
+    } catch (error) {
+      toast.error('Failed to claim bonus');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const navigateToContest = () => {
@@ -106,8 +115,12 @@ function Referrals() {
                   : '0 PLTL'}
               </div>
 
-              <Button onClick={claimBonus} className="claim-bonus-button mt-4">
-                Claim Bonus
+              <Button
+                onClick={claimBonus}
+                className="claim-bonus-button mt-4"
+                disabled={loading}
+              >
+                {loading ? <Spinner size="sm"  /> : 'Claim Bonus'}
               </Button>
             </Col>
           </Row>

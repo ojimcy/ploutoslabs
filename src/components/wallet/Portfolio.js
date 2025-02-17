@@ -15,7 +15,7 @@ import { Separator } from '../common/Seperator';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import TransactionCard from './TransactionCard';
-import { getTokenBalances } from '../../lib/server';
+import { getTokenBalances, getWalletHIstory } from '../../lib/server';
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 import TokenSkeleton from './TokenSkeleton';
 
@@ -26,6 +26,7 @@ const Portfolio = () => {
   const [activeTab, setActiveTab] = useState('1');
 
   const [tokens, setTokens] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const Portfolio = () => {
 
   const handleTokenClick = (token) => {
     selectToken(token);
-    navigate('/dashboard/send');
+    navigate('/dashboard/token-detail');
     toggle();
   };
 
@@ -59,7 +60,15 @@ const Portfolio = () => {
     tokenBalances();
   }, [selectedWallet]);
 
-  const transactions = [];
+  useEffect(() => {
+    if (!selectedWallet) return;
+    const fn = async () => {
+      const response = await getWalletHIstory(selectedWallet.address);
+      setTransactions(response);
+    };
+
+    fn();
+  }, [selectedWallet]);
 
   return (
     <div className="portfolio">
@@ -111,7 +120,7 @@ const Portfolio = () => {
               tokens.map((token, index) => (
                 <>
                   <Col
-                    key={index}
+                    key={index + 1}
                     xs="12"
                     className="crypto-card"
                     onClick={() => handleTokenClick(token)}

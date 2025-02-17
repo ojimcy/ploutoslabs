@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Container, Row } from 'reactstrap';
-// import { toast } from 'react-hot-toast';
 import {
   FaArrowDown,
   FaArrowUp,
@@ -28,14 +26,6 @@ function BalanceCard() {
   const toggleSendModal = () => setSendModal(!sendModal);
   const toggleReceiveModal = () => setReceiveModal(!receiveModal);
 
-  // const handleComingSoonClicked = () => {
-  //   if (toast) {
-  //     toast.info('This feature will be available soon');
-  //   } else {
-  //     console.error('Toast is not defined');
-  //   }
-  // };
-
   const calculateNetWorth = (tokens) => {
     return tokens.reduce((acc, token) => {
       return acc + token.balance_formatted * token.usd_price;
@@ -46,6 +36,7 @@ function BalanceCard() {
     const tokenBalances = async () => {
       if (selectedWallet) {
         const response = await getTokenBalances(selectedWallet.address);
+
         setTokens(response);
         const netWorth = calculateNetWorth(response);
         setNetWorth(netWorth);
@@ -94,20 +85,6 @@ function BalanceCard() {
           <div className="label">Buy & Sell</div>
         </div>
 
-        {/* <div
-          className="wallet-action"
-          onClick={() => {
-            // 1247696
-            // location.href = 'https://onramp.money/app/?appId=2&redirectUrl=https://t.me/ploutos_labs_dev_bot/app';
-          }}
-        >
-          <Link to="/dashboard/onramp">
-            <FaDollarSign className="icon" />
-            <div className="label">Buy & Sell</div>
-          </Link>
-          
-        </div> */}
-
         <div
           className="wallet-action"
           onClick={() => {
@@ -137,16 +114,5 @@ function BalanceCard() {
     </Container>
   );
 }
-
-BalanceCard.propTypes = {
-  netWorth: PropTypes.string,
-  tokens: PropTypes.arrayOf(
-    PropTypes.shape({
-      icon: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      quantity: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-};
 
 export default BalanceCard;
