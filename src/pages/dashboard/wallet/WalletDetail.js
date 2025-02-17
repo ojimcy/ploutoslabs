@@ -7,12 +7,16 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  Alert,
 } from 'reactstrap';
 import { FaEdit, FaKey, FaTrash, FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { formatAddress } from '../../../lib/utils';
 import './wallet-detail.css';
 import { AppContext } from '../../../context/AppContext';
+import TransactionPin from '../../../components/auth/TransactionPin';
+import { decryptWalletData } from '../../../lib/utils';
+import BackupWalletModal from '../../../components/wallet/BackupWalletModal';
 
 const WalletDetail = () => {
   const navigate = useNavigate();
@@ -20,6 +24,9 @@ const WalletDetail = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showBackupModal, setShowBackupModal] = useState(false);
+  const [showPinModal, setShowPinModal] = useState(false);
+  const [recoveryPhrase, setRecoveryPhrase] = useState('');
+  const [pinError, setPinError] = useState('');
 
   if (!walletToManage) {
     navigate('/dashboard/accounts');
@@ -34,7 +41,22 @@ const WalletDetail = () => {
 
   const handleDelete = async () => {};
 
-  
+  const handleShowBackup = async (pin) => {
+    try {
+      // Decrypt wallet data including mnemonic
+      const decryptedData = await decryptWalletData(walletToManage, pin);
+      if (!decryptedData.mnemonic) {
+        throw new Error('No recovery phrase found for this wallet');
+      }
+      console.log('decryptedData', decryptedData);
+      setRecoveryPhrase(decryptedData.mnemonic);
+      setShowBackupModal(true);
+      setPinError('');
+      setShowPinModal(false);
+    } catch (err) {
+      setPinError(err.message || 'Invalid PIN or corrupted wallet data');
+    }
+  };
 
   return (
     <div className="wallet-detail-page">
@@ -80,7 +102,7 @@ const WalletDetail = () => {
           <div className="wallet-action">
             <Button
               className="action-button backup-button"
-              onClick={() => setShowBackupModal(true)}
+              onClick={() => setShowPinModal(true)}
             >
               <FaKey />
               <span> Backup Wallet</span>
@@ -117,26 +139,29 @@ const WalletDetail = () => {
           </ModalFooter>
         </Modal>
 
-        {/* Backup Modal */}
-        <Modal
+        {/* Replace the old backup modal with: */}
+        <BackupWalletModal
           isOpen={showBackupModal}
           toggle={() => setShowBackupModal(false)}
-        >
-          <ModalHeader toggle={() => setShowBackupModal(false)}>
-            Backup Wallet
+          recoveryPhrase={recoveryPhrase}
+        />
+
+        {/* Keep the PIN modal */}
+        <Modal isOpen={showPinModal} toggle={() => setShowPinModal(false)}>
+          <ModalHeader toggle={() => setShowPinModal(false)}>
+            Verify PIN
           </ModalHeader>
           <ModalBody>
-            <div className="backup-warning">
-              Keep your recovery phrase in a safe place. Anyone with access to
-              it can take control of your wallet.
-            </div>
-            <div className="recovery-phrase">{}</div>
+            <TransactionPin
+              title="Enter your wallet PIN to view recovery phrase"
+              onSubmit={handleShowBackup}
+            />
+            {pinError && (
+              <Alert color="danger" className="mt-3">
+                {pinError}
+              </Alert>
+            )}
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={() => setShowBackupModal(false)}>
-              Done
-            </Button>
-          </ModalFooter>
         </Modal>
       </Container>
     </div>

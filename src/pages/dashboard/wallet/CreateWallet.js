@@ -96,16 +96,23 @@ const CreateWallet = () => {
       // Create wallet from seed using viem
       const wallet = mnemonicToAccount(mnemonic);
 
-      await encryptAndSaveWallet(wallet, password, currentUser.id, lable);
+      // Pass mnemonic to encryption function
+      await encryptAndSaveWallet(
+        wallet,
+        password,
+        currentUser.id,
+        lable,
+        undefined, // privateKeyHex
+        mnemonic // Add this line
+      );
 
-      // Proceed to the next step
       setStep(6);
     } catch (err) {
       console.error('Error creating wallet:', err);
       setError('Failed to create wallet.');
     } finally {
       setLoading(false);
-    } 
+    }
   };
 
   return (
