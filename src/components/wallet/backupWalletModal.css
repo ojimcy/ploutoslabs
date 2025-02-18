@@ -21,6 +21,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  max-height: 40vh;
+  overflow-y: auto;
 }
 
 .phrase-word {
@@ -41,25 +43,24 @@
 }
 
 .copy-button {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
   background: rgba(41, 219, 223, 0.1);
   border: 1px solid rgba(41, 219, 223, 0.2);
   color: #29dbdf;
-  width: 36px;
-  height: 36px;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .copy-button:hover {
   background: rgba(41, 219, 223, 0.15);
-  transform: scale(1.05);
+  transform: translateY(-2px);
 }
 
 .copy-button.copied {
@@ -75,16 +76,87 @@
   color: #4bb543 !important;
 }
 
+/* Custom scrollbar for the recovery phrase */
+.recovery-phrase::-webkit-scrollbar {
+  width: 6px;
+}
+
+.recovery-phrase::-webkit-scrollbar-track {
+  background: rgba(41, 41, 41, 0.3);
+  border-radius: 3px;
+}
+
+.recovery-phrase::-webkit-scrollbar-thumb {
+  background: rgba(41, 219, 223, 0.2);
+  border-radius: 3px;
+}
+
+.recovery-phrase::-webkit-scrollbar-thumb:hover {
+  background: rgba(41, 219, 223, 0.3);
+}
+
 @media (max-width: 768px) {
   .recovery-phrase {
     grid-template-columns: repeat(2, 1fr);
     padding: 1rem;
+    max-height: 250px;
   }
 
   .copy-button {
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 32px;
-    height: 32px;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Add these styles for the bottom sheet modal */
+.bottom-sheet-modal {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  position: fixed !important;
+  bottom: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.bottom-sheet-modal .modal-content {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.bottom-sheet-modal .modal-header {
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
+  padding: 1.5rem !important;
+}
+
+/* Add animation for sliding up */
+.bottom-sheet-modal.show {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+.bottom-sheet-modal.hide {
+  animation: slideDown 0.3s ease-in forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
   }
 }

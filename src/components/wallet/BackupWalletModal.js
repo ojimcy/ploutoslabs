@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -13,6 +13,15 @@ import './backupWalletModal.css';
 
 const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
   const [copied, setCopied] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      toggle();
+    }, 300); // Match animation duration
+  };
 
   const handleCopy = async () => {
     try {
@@ -24,9 +33,20 @@ const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
     }
   };
 
+  // Clean up animation state when modal is closed
+  useEffect(() => {
+    if (!isOpen) {
+      setIsClosing(false);
+    }
+  }, [isOpen]);
+
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
-      <ModalHeader toggle={toggle}>Backup Wallet</ModalHeader>
+    <Modal
+      isOpen={isOpen}
+      toggle={handleClose}
+      className={`bottom-sheet-modal ${isClosing ? 'hide' : 'show'}`}
+    >
+      <ModalHeader toggle={handleClose}>Backup Wallet</ModalHeader>
       <ModalBody>
         <div className="backup-warning">
           Keep your recovery phrase in a safe place. Anyone with access to it
@@ -41,13 +61,14 @@ const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
               </div>
             ))}
           </div>
-          <button
-            className={`copy-button ${copied ? 'copied' : ''}`}
-            onClick={handleCopy}
-          >
-            {copied ? <FaCheck /> : <FaCopy />}
-          </button>
         </div>
+        <button
+          className={`copy-button ${copied ? 'copied' : ''}`}
+          onClick={handleCopy}
+        >
+          {copied ? <FaCheck /> : <FaCopy />}
+          <span>{copied ? 'Copied!' : 'Copy to clipboard'}</span>
+        </button>
         {copied && (
           <Alert color="success" className="copy-alert">
             Recovery phrase copied to clipboard!
@@ -55,7 +76,7 @@ const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
         )}
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={toggle}>
+        <Button color="primary" onClick={handleClose}>
           Done
         </Button>
       </ModalFooter>

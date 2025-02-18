@@ -46,3 +46,16 @@ export const syncWallet = async (userId) => {
     console.log('current', r)
   }
 };
+
+export const removeWallet = (address) => {
+  const wallets = getWalletsFromDb();
+  const updatedWallets = wallets.filter(wallet => wallet.address !== address);
+  localStorage.setItem(WALLETS_KEY, JSON.stringify(updatedWallets));
+};
+
+// edit wallet label
+export const editWalletLabel = (address, label) => {
+  const wallets = getWalletsFromDb();
+  const updatedWallets = wallets.map(wallet => wallet.address === address ? { ...wallet, label } : wallet);
+  localStorage.setItem(WALLETS_KEY, JSON.stringify(updatedWallets));
+};

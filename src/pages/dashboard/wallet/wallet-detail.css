@@ -4,7 +4,7 @@
   min-height: calc(100vh - 73px);
 }
 
-.wallet-detail-card {
+.wallet-detail-page .wallet-detail-card {
   background: rgba(41, 41, 41, 0.3);
   border: 1px solid rgba(41, 219, 223, 0.1);
   border-radius: 20px;
@@ -13,14 +13,14 @@
   transition: all 0.3s ease;
 }
 
-.wallet-header {
+.wallet-detail-page .wallet-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-.wallet-header h3 {
+.wallet-detail-page .wallet-header h3 {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
@@ -29,7 +29,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-.edit-button {
+.wallet-detail-page .edit-button {
   background: transparent !important;
   border: none !important;
   color: #29dbdf !important;
@@ -37,42 +37,42 @@
   transition: all 0.3s ease;
 }
 
-.edit-button:hover {
+.wallet-detail-page .edit-button:hover {
   transform: scale(1.1);
 }
 
-.edit-name-container {
+.wallet-detail-page .edit-name-container {
   display: flex;
   align-items: center;
   gap: 1rem;
   width: 100%;
 }
 
-.edit-name-container input {
+.wallet-detail-page .edit-name-container input {
   background: rgba(255, 255, 255, 0.05) !important;
   border: 1px solid rgba(41, 219, 223, 0.2) !important;
   color: #fff !important;
   border-radius: 10px;
 }
 
-.edit-actions {
+.wallet-detail-page .edit-actions {
   display: flex;
   gap: 0.5rem;
 }
 
-.wallet-address {
+.wallet-detail-page .wallet-address {
   font-family: 'Roboto Mono', monospace;
   font-size: 0.9rem;
   color: #9e9e9e;
   margin-bottom: 2rem;
 }
 
-.wallet-action {
+.wallet-detail-page .wallet-action {
   display: flex;
   gap: 1rem;
 }
 
-.action-button {
+.wallet-detail-page .action-button {
   flex: 1;
   display: flex;
   align-items: center;
@@ -84,44 +84,44 @@
   transition: all 0.3s ease !important;
 }
 
-.backup-button {
+.wallet-detail-page .backup-button {
   background: rgba(41, 219, 223, 0.1) !important;
   border: 1px solid rgba(41, 219, 223, 0.2) !important;
   color: #29dbdf !important;
 }
 
-.backup-button:hover {
+.wallet-detail-page .backup-button:hover {
   background: rgba(41, 219, 223, 0.15) !important;
   transform: translateY(-2px);
 }
 
-.delete-button {
+.wallet-detail-page .delete-button {
   background: rgba(255, 69, 58, 0.1) !important;
   border: 1px solid rgba(255, 69, 58, 0.2) !important;
   color: #ff453a !important;
 }
 
-.delete-button:hover {
+.wallet-detail-page .delete-button:hover {
   background: rgba(255, 69, 58, 0.15) !important;
   transform: translateY(-2px);
 }
 
 /* Modal Styling */
-.modal-content {
+.wallet-detail-page .modal-content {
   background: rgba(41, 41, 41, 0.95) !important;
   border: 1px solid rgba(41, 219, 223, 0.1) !important;
   backdrop-filter: blur(10px);
 }
 
-.modal-header {
+.wallet-detail-page .modal-header {
   border-bottom: 1px solid rgba(41, 219, 223, 0.1) !important;
 }
 
-.modal-footer {
+.wallet-detail-page .modal-footer {
   border-top: 1px solid rgba(41, 219, 223, 0.1) !important;
 }
 
-.backup-warning {
+.wallet-detail-page .backup-warning {
   color: #ffab00;
   background: rgba(255, 171, 0, 0.1);
   border: 1px solid rgba(255, 171, 0, 0.2);
@@ -131,7 +131,7 @@
   font-size: 0.9rem;
 }
 
-.recovery-phrase {
+.wallet-detail-page .recovery-phrase {
   background: rgba(41, 41, 41, 0.3);
   border: 1px solid rgba(41, 219, 223, 0.1);
   border-radius: 12px;
@@ -142,23 +142,23 @@
 }
 
 @media (max-width: 768px) {
-  .wallet-detail-card {
+  .wallet-detail-page .wallet-detail-card {
     padding: 1.5rem;
   }
 
-  .wallet-header h3 {
+  .wallet-detail-page .wallet-header h3 {
     font-size: 1.25rem;
   }
 
-  .wallet-address {
+  .wallet-detail-page .wallet-address {
     font-size: 0.8rem;
   }
 
-  .wallet-action {
+  .wallet-detail-page .wallet-action {
     flex-direction: column;
   }
 
-  .action-button {
+  .wallet-detail-page .action-button {
     width: 100%;
   }
 }

@@ -1,0 +1,26 @@
+.delete-wallet-modal .modal-content {
+  background: rgba(41, 41, 41, 0.95) !important;
+  border: 1px solid rgba(41, 219, 223, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+}
+
+.delete-wallet-modal .modal-header {
+  border-bottom: 1px solid rgba(41, 219, 223, 0.1) !important;
+  padding: 1.5rem;
+}
+
+.delete-wallet-modal .modal-footer {
+  border-top: 1px solid rgba(41, 219, 223, 0.1) !important;
+  padding: 1.5rem;
+}
+
+.delete-warning {
+  color: #ff453a;
+  background: rgba(255, 69, 58, 0.1);
+  border: 1px solid rgba(255, 69, 58, 0.2);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}

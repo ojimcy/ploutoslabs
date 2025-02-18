@@ -2,21 +2,20 @@ import React, { useContext, useState } from 'react';
 import {
   Container,
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Input,
-  Alert,
+  Spinner,
 } from 'reactstrap';
 import { FaEdit, FaKey, FaTrash, FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { formatAddress } from '../../../lib/utils';
 import './wallet-detail.css';
 import { AppContext } from '../../../context/AppContext';
-import TransactionPin from '../../../components/auth/TransactionPin';
 import { decryptWalletData } from '../../../lib/utils';
 import BackupWalletModal from '../../../components/wallet/BackupWalletModal';
+import { toast } from 'react-hot-toast';
+import DeleteWalletModal from '../../../components/wallet/DeleteWalletModal';
+import { removeWallet, editWalletLabel } from '../../../lib/db';
+import VerifyPinModal from '../../../components/wallet/VerifyPinModal';
 
 const WalletDetail = () => {
   const navigate = useNavigate();
@@ -27,6 +26,8 @@ const WalletDetail = () => {
   const [showPinModal, setShowPinModal] = useState(false);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [pinError, setPinError] = useState('');
+  const [walletLabel, setWalletLabel] = useState(walletToManage.label);
+  const [loading, setLoading] = useState(false);
 
   if (!walletToManage) {
     navigate('/dashboard/accounts');
@@ -37,18 +38,44 @@ const WalletDetail = () => {
     navigate('/dashboard/accounts');
   };
 
-  const handleEditSave = async () => {};
+  const handleEditLabel = async () => {
+    try {
+      setLoading(true);
+      editWalletLabel(walletToManage.address, walletLabel);
+      toast.success('Wallet label updated successfully');
+      setIsEditMode(false);
+    } catch (err) {
+      console.error('Failed to update wallet label:', err);
+      toast.error(err.response?.data?.error || 'Failed to update wallet label');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      // Remove wallet from local storage
+      removeWallet(walletToManage.address);
+
+      toast.success('Wallet deleted successfully');
+      navigate('/dashboard/accounts');
+    } catch (err) {
+      console.error('Failed to delete wallet:', err);
+      toast.error('Failed to delete wallet');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleShowBackup = async (pin) => {
     try {
       // Decrypt wallet data including mnemonic
       const decryptedData = await decryptWalletData(walletToManage, pin);
+      console.log('decryptedData', decryptedData);
       if (!decryptedData.mnemonic) {
         throw new Error('No recovery phrase found for this wallet');
       }
-      console.log('decryptedData', decryptedData);
       setRecoveryPhrase(decryptedData.mnemonic);
       setShowBackupModal(true);
       setPinError('');
@@ -69,10 +96,18 @@ const WalletDetail = () => {
           <div className="wallet-header">
             {isEditMode ? (
               <div className="edit-name-container">
-                <Input value={walletToManage.label} placeholder="Wallet Name" />
+                <Input
+                  value={walletLabel}
+                  placeholder="Wallet Name"
+                  onChange={(e) => setWalletLabel(e.target.value)}
+                />
                 <div className="edit-actions">
-                  <Button color="primary" onClick={handleEditSave}>
-                    Save
+                  <Button
+                    color="primary"
+                    onClick={handleEditLabel}
+                    disabled={loading}
+                  >
+                    {loading ? <Spinner size="sm" /> : 'Save'}
                   </Button>
                   <Button
                     color="secondary"
@@ -84,7 +119,7 @@ const WalletDetail = () => {
               </div>
             ) : (
               <>
-                <h3>{walletToManage.label}</h3>
+                <h3>{walletLabel}</h3>
                 <Button
                   className="edit-button"
                   onClick={() => setIsEditMode(true)}
@@ -117,52 +152,25 @@ const WalletDetail = () => {
           </div>
         </div>
 
-        {/* Delete Confirmation Modal */}
-        <Modal
+        <DeleteWalletModal
           isOpen={showDeleteModal}
           toggle={() => setShowDeleteModal(false)}
-        >
-          <ModalHeader toggle={() => setShowDeleteModal(false)}>
-            Delete Wallet
-          </ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete this wallet? This action cannot be
-            undone.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button color="secondary" onClick={() => setShowDeleteModal(false)}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
+          onDelete={handleDelete}
+          loading={loading}
+        />
 
-        {/* Replace the old backup modal with: */}
         <BackupWalletModal
           isOpen={showBackupModal}
           toggle={() => setShowBackupModal(false)}
           recoveryPhrase={recoveryPhrase}
         />
 
-        {/* Keep the PIN modal */}
-        <Modal isOpen={showPinModal} toggle={() => setShowPinModal(false)}>
-          <ModalHeader toggle={() => setShowPinModal(false)}>
-            Verify PIN
-          </ModalHeader>
-          <ModalBody>
-            <TransactionPin
-              title="Enter your wallet PIN to view recovery phrase"
-              onSubmit={handleShowBackup}
-            />
-            {pinError && (
-              <Alert color="danger" className="mt-3">
-                {pinError}
-              </Alert>
-            )}
-          </ModalBody>
-        </Modal>
+        <VerifyPinModal
+          isOpen={showPinModal}
+          toggle={() => setShowPinModal(false)}
+          onSubmit={handleShowBackup}
+          error={pinError}
+        />
       </Container>
     </div>
   );

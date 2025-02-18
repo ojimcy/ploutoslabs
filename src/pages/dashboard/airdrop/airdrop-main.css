@@ -46,14 +46,14 @@
 
 /* Claim Button */
 .btn-claim {
-  width: 179px;
-  padding: 15px;
-  border-radius: 8px;
-  background: linear-gradient(180deg, #ffd600 0%, #d49708 100%);
-  font-family: Montserrat;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 11.45px;
+  width: 179px !important;
+  padding: 15px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, #ffd600 0%, #d49708 100%) !important;
+  font-family: Montserrat !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 11.45px !important;
   text-align: center;
   display: flex;
   justify-content: center;

@@ -247,10 +247,6 @@
 }
 
 @media (max-width: 768px) {
-  .token-detail-page {
-    padding: 1.5rem;
-  }
-
   .token-overview-card {
     padding: 24px;
   }

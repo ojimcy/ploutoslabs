@@ -17,8 +17,11 @@ import { getWalletByAddress } from '../../../lib/db';
 import { encryptAndSaveWallet } from '../../../lib/utils';
 import TransactionPin from '../../../components/auth/TransactionPin';
 import { useCurrentUser } from '../../../hooks/telegram';
-import { toast } from 'react-hot-toast';  
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
 const ImportWallet = () => {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
   const [inputType, setInputType] = useState(null);
   const [error, setError] = useState('');
@@ -55,27 +58,33 @@ const ImportWallet = () => {
   const handleSubmit = (e) => {
     try {
       e.preventDefault();
-    if (!validateInput(inputValue)) {
-      toast.error('Invalid input');
-      return;
-    }
+      if (!validateInput(inputValue)) {
+        toast.error('Invalid input');
+        return;
+      }
 
-    const account =
-      inputType == 'seedPhrase'
-        ? mnemonicToAccount(inputValue)
-        : privateKeyToAccount(inputValue);
+      const account =
+        inputType == 'seedPhrase'
+          ? mnemonicToAccount(inputValue)
+          : privateKeyToAccount(inputValue);
 
-    const existingWallet = getWalletByAddress(account.address);
-    if (existingWallet && existingWallet.privateKey) {
-      setError('The imported wallet exists');
-      return;
-    }
+      const existingWallet = getWalletByAddress(account.address);
+      if (existingWallet && existingWallet.privateKey) {
+        setError('The imported wallet exists');
+        return;
+      }
 
-    encryptAndSaveWallet(account, password, currentUser.id, label, inputValue);
-    setStep(3)
+      encryptAndSaveWallet(
+        account,
+        password,
+        currentUser.id,
+        label,
+        inputValue
+      );
+      setStep(3);
     } catch (error) {
-      setError('Error in importing wallet')
-      console.log(error)
+      setError('Error in importing wallet');
+      console.log(error);
     }
   };
 
@@ -129,9 +138,18 @@ const ImportWallet = () => {
           )}
 
           {step === 3 && (
-            <Alert color="success">
-              Wallet imported successfully! Your private key is securely stored.
-            </Alert>
+            <div className="d-flex justify-content-center">
+              <Alert color="success">
+                Wallet imported successfully! Your private key is securely
+                stored.
+              </Alert>
+              <Button
+                color="primary"
+                onClick={() => navigate('/dashboard/wallet')}
+              >
+                Return to Wallet
+              </Button>
+            </div>
           )}
         </Col>
       </Row>

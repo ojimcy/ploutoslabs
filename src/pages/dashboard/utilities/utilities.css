@@ -113,17 +113,17 @@ select.form-control {
 }
 
 .btn-secondary {
-  background: rgba(41, 41, 41, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
-  border-radius: 12px !important;
-  padding: 0.875rem !important;
-  font-weight: 600 !important;
+  background: rgba(41, 41, 41, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 0.875rem;
+  font-weight: 600;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: rgba(41, 41, 41, 0.4) !important;
+  background: rgba(41, 41, 41, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary:active:not(:disabled) {
@@ -131,10 +131,10 @@ select.form-control {
 }
 
 .btn-secondary:disabled {
-  background: rgba(41, 219, 223, 0.5) !important;
+  background: rgba(41, 219, 223, 0.5);
   cursor: not-allowed;
   opacity: 0.7;
-} 
+}
 /* Customer Info */
 .customer-info {
   background: rgba(41, 41, 41, 0.3);

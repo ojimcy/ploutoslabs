@@ -1,0 +1,15 @@
+.verify-pin-modal .modal-content {
+  background: rgba(41, 41, 41, 0.95) !important;
+  border: 1px solid rgba(41, 219, 223, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+}
+
+.verify-pin-modal .modal-header {
+  border-bottom: 1px solid rgba(41, 219, 223, 0.1) !important;
+  padding: 1.5rem;
+}
+
+.verify-pin-modal .modal-body {
+  padding: 1.5rem;
+}
