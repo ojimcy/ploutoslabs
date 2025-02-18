@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {
-  FaArrowDown,
   FaArrowRight,
   FaPlusSquare,
   FaSignOutAlt,
   FaUser,
-  FaWallet,
 } from 'react-icons/fa';
 import { Col, Container, Row } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
@@ -91,26 +89,6 @@ function AccountCard() {
                   <div className="right">
                     <div className="right-arrow">
                       <FaArrowRight />
-                    </div>
-                  </div>
-                </div>
-              </Link>
-              <Separator />
-            </div>
-            <div>
-              <Link to="#" className="links">
-                <div className="referral-card-content my-4">
-                  <div className="referral-icon">
-                    <div className="ref-icon">
-                      <FaWallet />
-                    </div>
-                    <div className="referral-info">
-                      <div className="ref-title">Withdrawal Address</div>
-                    </div>
-                  </div>
-                  <div className="right">
-                    <div className="right-arrow">
-                      <FaArrowDown />
                     </div>
                   </div>
                 </div>

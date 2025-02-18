@@ -44,7 +44,6 @@ export const decryptPrivateKey = (encryptedPrivateKey, password, iv, tag) => {
 };
 
 export const decryptWalletData = async (walletData, password) => {
-  console.log('walletData', walletData);
   try {
     // First decrypt the private key
     const privateKey = decryptPrivateKey(

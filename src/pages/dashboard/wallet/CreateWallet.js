@@ -177,11 +177,7 @@ const CreateWallet = () => {
         </div>
       )}
 
-      {step === 4 && (
-        <div className="step-container">
-          <ConfirmationPage onContinue={() => setStep(5)} />
-        </div>
-      )}
+      {step === 4 && <ConfirmationPage onContinue={() => setStep(5)} />}
 
       {step === 5 && (
         <div className="step-container">

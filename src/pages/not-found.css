@@ -1,10 +1,9 @@
 .not-found-page {
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
   padding: 2rem 0;
+  height: 71vh;
 }
 
 .not-found-content {
