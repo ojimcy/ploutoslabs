@@ -175,6 +175,26 @@ export const TransactionTypes = {
   ElectricityBill: 6,
 };
 
+// format transaction type to string
+export const formatTransactionType = (type) => {
+  switch (type) {
+    case TransactionTypes.FundTransfer:
+      return 'Fund Transfer';
+    case TransactionTypes.BuyPower:
+      return 'Buy Power';
+    case TransactionTypes.BuyAirtime:
+      return 'Buy Airtime';
+    case TransactionTypes.BuyData:
+      return 'Buy Data';
+    case TransactionTypes.TvSubscription:
+      return 'Tv Subscription';
+    case TransactionTypes.ElectricityBill:
+      return 'Electricity Bill';
+    default:
+      return 'Unknown';
+  }
+};
+
 export const NetworkProviders = [
   { name: 'MTN', id: 'mtn' },
   { name: '9mobile', id: 'etesalt' },

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap';
-import './modal.css';
+import { Button } from 'reactstrap';
+import BaseModal from '../modal/BaseModal';
 import { getDepositAddress } from '../../../lib/server';
 import { toast } from 'react-hot-toast';
+
 function GameDepositModal({ isOpen, toggle }) {
   const [depositAddress, setDepositAddress] = useState('');
 
@@ -20,22 +21,25 @@ function GameDepositModal({ isOpen, toggle }) {
     navigator.clipboard.writeText(depositAddress);
     toast.success('Deposit address copied to clipboard!');
   };
-  return (
-    <Modal isOpen={isOpen} toggle={toggle} className="main-modal" fade={false}>
-      <ModalHeader toggle={toggle}>Create Game</ModalHeader>
-      <ModalBody>
-        <div className="game-deposit">
-          <p>Send ETH (base network) to the following address:</p>
-          <div className="deposit-address">
-            <code>{depositAddress}</code>
-          </div>
 
-          <Button color="primary" onClick={copyToClipboard}>
-            Copy Address
-          </Button>
+  return (
+    <BaseModal
+      isOpen={isOpen}
+      toggle={toggle}
+      title="Create Game"
+      className="main-modal"
+    >
+      <div className="game-deposit">
+        <p>Send ETH (base network) to the following address:</p>
+        <div className="deposit-address">
+          <code>{depositAddress}</code>
         </div>
-      </ModalBody>
-    </Modal>
+
+        <Button color="primary" onClick={copyToClipboard}>
+          Copy Address
+        </Button>
+      </div>
+    </BaseModal>
   );
 }
 

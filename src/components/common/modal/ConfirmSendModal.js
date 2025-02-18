@@ -2,15 +2,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Button,
-  Row,
-  Col,
-  Spinner,
-} from 'reactstrap';
+import { Button, Row, Col, Spinner } from 'reactstrap';
 import './confirmSendModal.css';
 import { getTransactionDetails } from '../../../lib/server';
 import { decryptPrivateKey, formatAddress } from '../../../lib/utils';
@@ -21,6 +13,8 @@ import TransactionPin from '../../auth/TransactionPin';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import BaseModal from '../modal/BaseModal';
+
 function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
   const navigate = useNavigate();
   const { selectedToken, selectedWallet } = useContext(AppContext);
@@ -105,103 +99,113 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
 
   const { recipient, amount, token } = transaction;
 
+  const footerContent = (
+    <>
+      <Button color="secondary" className="cancel-button" onClick={toggle}>
+        Cancel
+      </Button>
+      <Button
+        color="primary"
+        className="send-button"
+        onClick={() => setShowPinPad(true)}
+      >
+        {loading ? <Spinner size="sm" /> : 'Send'}
+      </Button>
+    </>
+  );
+
   return (
-    <Modal
+    <BaseModal
       isOpen={isOpen}
       toggle={toggle}
+      title="Confirm Transaction"
       className="confirm-send-modal"
-      fade={false}
+      position="bottom"
+      footerContent={footerContent}
     >
-      <ModalHeader toggle={toggle} className="modal-header">
-        Confirm Send
-      </ModalHeader>
-      <ModalBody className="modal-body">
-        {showPinPad && (
-          <TransactionPin
-            title={'Enter your 6 digit pin'}
-            onSubmit={validatePin}
-          />
-        )}
+      {showPinPad && (
+        <TransactionPin
+          title={'Enter your 6 digit pin'}
+          onSubmit={validatePin}
+        />
+      )}
 
-        {!showPinPad && (
-          <>
-            {transactionError ? (
-              <div className="error-message">
-                <p>Transaction failed:</p>
-                <p>{transactionError}</p>
+      {!showPinPad && (
+        <>
+          {transactionError ? (
+            <div className="error-message">
+              <p>Transaction failed:</p>
+              <p>{transactionError}</p>
+            </div>
+          ) : transactionResult ? (
+            <div className="success-message">
+              <p>Transaction submitted successfully!</p>
+              <p>
+                <a href={`https://basescan.org/tx/${transactionResult.hash}`}>
+                  Track Transaction
+                </a>
+              </p>
+            </div>
+          ) : loading ? (
+            <div className="loading-message">
+              <Spinner />
+              <p>Waiting for transaction confirmation...</p>
+            </div>
+          ) : (
+            <>
+              <div className="confirm-header d-flex flex-column justify-content-center align-items-center">
+                <img src={token.logo} alt={token.name} className="token-icon" />
+                <h3 className="amount">
+                  {amount} {token.name}
+                </h3>
               </div>
-            ) : transactionResult ? (
-              <div className="success-message">
-                <p>Transaction submitted successfully!</p>
-                <p><a href={`https://basescan.org/tx/${transactionResult.hash}`}>Track Transaction</a></p>
+              <div className="confirm-details">
+                <Row>
+                  <Col>
+                    <div className="detail-item">
+                      <span className="label">To</span>
+                      <span className="value">{formatAddress(recipient)}</span>
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <div className="detail-item">
+                      <span className="label">Network</span>
+                      <span className="value">{token.network}</span>
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <div className="detail-item">
+                      <span className="label">Network fee</span>
+                      <span className="value">${token.networkFee}</span>
+                    </div>
+                  </Col>
+                </Row>
               </div>
-            ) : loading ? (
-              <div className="loading-message">
-                <Spinner />
-                <p>Waiting for transaction confirmation...</p>
+              <div className="confirm-actions d-flex justify-content-between">
+                <Button
+                  color="secondary"
+                  onClick={toggle}
+                  className="cancel-button"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  color="primary"
+                  className="send-button"
+                  onClick={() => setShowPinPad(true)}
+                >
+                  {loading ? <Spinner size="sm" /> : 'Send'}
+                </Button>
               </div>
-            ) : (
-              <>
-                <div className="confirm-header d-flex flex-column justify-content-center align-items-center">
-                  <img
-                    src={token.logo}
-                    alt={token.name}
-                    className="token-icon"
-                  />
-                  <h3 className="amount">
-                    {amount} {token.name}
-                  </h3>
-                </div>
-                <div className="confirm-details">
-                  <Row>
-                    <Col>
-                      <div className="detail-item">
-                        <span className="label">To</span>
-                        <span className="value">
-                          {formatAddress(recipient)}
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <div className="detail-item">
-                        <span className="label">Network</span>
-                        <span className="value">{token.network}</span>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <div className="detail-item">
-                        <span className="label">Network fee</span>
-                        <span className="value">${token.networkFee}</span>
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
-                <div className="confirm-actions d-flex justify-content-between">
-                  <Button
-                    color="secondary"
-                    onClick={toggle}
-                    className="cancel-button"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    color="primary"
-                    className="send-button"
-                    onClick={() => setShowPinPad(true)}
-                  >
-                    {loading ? <Spinner size="sm" /> : 'Send'}
-                  </Button>
-                </div>
-              </>
-            )}
-          </>
-        )}
-      </ModalBody>
-    </Modal>
+            </>
+          )}
+        </>
+      )}
+    </BaseModal>
   );
 }
 

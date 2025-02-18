@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Alert,
-} from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
+import BaseModal from '../modal/BaseModal';
 import './modal.css';
 
 function WithdrawModal({ isOpen, toggle, onSubmit }) {
@@ -31,41 +22,45 @@ function WithdrawModal({ isOpen, toggle, onSubmit }) {
     toggle();
   };
 
+  const footerContent = (
+    <Button className="modal-btn-success" onClick={handleSubmit}>
+      Submit
+    </Button>
+  );
+
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="main-modal" fade={false}>
-      <ModalHeader toggle={toggle}>Withdraw Funds</ModalHeader>
-      <ModalBody>
-        <Form>
-          {error && <Alert color="danger">{error}</Alert>}
-          <FormGroup>
-            <Label for="withdrawAmount">Amount</Label>
-            <Input
-              type="number"
-              id="withdrawAmount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="Enter amount to withdraw"
-              min="0"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="destinationAddress">Destination Address</Label>
-            <Input
-              type="text"
-              id="destinationAddress"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Enter destination address"
-            />
-          </FormGroup>
-        </Form>
-        <div className="action-buttons">
-          <Button className="modal-btn-success" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </div>
-      </ModalBody>
-    </Modal>
+    <BaseModal
+      isOpen={isOpen}
+      toggle={toggle}
+      title="Withdraw Funds"
+      className="main-modal"
+      footerContent={footerContent}
+    >
+      <Form>
+        {error && <Alert color="danger">{error}</Alert>}
+        <FormGroup>
+          <Label for="withdrawAmount">Amount</Label>
+          <Input
+            type="number"
+            id="withdrawAmount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder="Enter amount to withdraw"
+            min="0"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="destinationAddress">Destination Address</Label>
+          <Input
+            type="text"
+            id="destinationAddress"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="Enter destination address"
+          />
+        </FormGroup>
+      </Form>
+    </BaseModal>
   );
 }
 

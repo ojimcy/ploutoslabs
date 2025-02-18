@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Alert,
-} from 'reactstrap';
+import { Button, Alert } from 'reactstrap';
 import { FaCopy, FaCheck } from 'react-icons/fa';
+import BaseModal from '../common/modal/BaseModal';
 import './backupWalletModal.css';
 
 const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
   const [copied, setCopied] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
-
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsClosing(false);
-      toggle();
-    }, 300); // Match animation duration
-  };
 
   const handleCopy = async () => {
     try {
@@ -33,54 +18,48 @@ const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
     }
   };
 
-  // Clean up animation state when modal is closed
-  useEffect(() => {
-    if (!isOpen) {
-      setIsClosing(false);
-    }
-  }, [isOpen]);
+  const footerContent = (
+    <Button color="primary" onClick={toggle}>
+      Done
+    </Button>
+  );
 
   return (
-    <Modal
+    <BaseModal
       isOpen={isOpen}
-      toggle={handleClose}
-      className={`bottom-sheet-modal ${isClosing ? 'hide' : 'show'}`}
+      toggle={toggle}
+      title="Backup Wallet"
+      className="backup-wallet-modal"
+      position="bottom"
+      footerContent={footerContent}
     >
-      <ModalHeader toggle={handleClose}>Backup Wallet</ModalHeader>
-      <ModalBody>
-        <div className="backup-warning">
-          Keep your recovery phrase in a safe place. Anyone with access to it
-          can take control of your wallet.
+      <div className="backup-warning">
+        Keep your recovery phrase in a safe place. Anyone with access to it can
+        take control of your wallet.
+      </div>
+      <div className="recovery-container">
+        <div className="recovery-phrase">
+          {recoveryPhrase.split(' ').map((word, index) => (
+            <div key={index} className="phrase-word">
+              <span className="word-number">{index + 1}.</span>
+              <span className="word-text">{word}</span>
+            </div>
+          ))}
         </div>
-        <div className="recovery-container">
-          <div className="recovery-phrase">
-            {recoveryPhrase.split(' ').map((word, index) => (
-              <div key={index} className="phrase-word">
-                <span className="word-number">{index + 1}.</span>
-                <span className="word-text">{word}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <button
-          className={`copy-button ${copied ? 'copied' : ''}`}
-          onClick={handleCopy}
-        >
-          {copied ? <FaCheck /> : <FaCopy />}
-          <span>{copied ? 'Copied!' : 'Copy to clipboard'}</span>
-        </button>
-        {copied && (
-          <Alert color="success" className="copy-alert">
-            Recovery phrase copied to clipboard!
-          </Alert>
-        )}
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={handleClose}>
-          Done
-        </Button>
-      </ModalFooter>
-    </Modal>
+      </div>
+      <button
+        className={`copy-button ${copied ? 'copied' : ''}`}
+        onClick={handleCopy}
+      >
+        {copied ? <FaCheck /> : <FaCopy />}
+        <span>{copied ? 'Copied!' : 'Copy to clipboard'}</span>
+      </button>
+      {copied && (
+        <Alert color="success" className="copy-alert">
+          Recovery phrase copied to clipboard!
+        </Alert>
+      )}
+    </BaseModal>
   );
 };
 

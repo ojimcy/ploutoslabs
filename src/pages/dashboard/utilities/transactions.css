@@ -15,6 +15,9 @@
   font-weight: 600;
   color: #fff;
   margin-bottom: 0.5rem;
+  background: linear-gradient(45deg, #fff, #29dbdf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .transaction-page p {
@@ -69,18 +72,16 @@
 .styled-table th {
   color: #fff;
   font-size: 0.875rem;
-  font-weight: 600;
-  padding: 1rem;
-  text-transform: uppercase;
-  border: none;
+  padding: 1rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
 .styled-table td {
   color: #fff;
   font-size: 0.875rem;
-  padding: 1rem;
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  vertical-align: middle;
 }
 
 .styled-table tbody tr {
@@ -98,17 +99,14 @@
 /* Status Colors */
 .status-completed {
   color: #29dbdf !important;
-  font-weight: 500;
+}
+
+.status-pending {
+  color: #ffab00 !important;
 }
 
 .status-failed {
   color: #ff453a !important;
-  font-weight: 500;
-}
-
-.status-pending {
-  color: #ffd60a !important;
-  font-weight: 500;
 }
 
 /* Action Button */
@@ -133,7 +131,7 @@
 
 /* Empty State */
 .text-center td {
-  color: #9e9e9e;
+  color: #9e9e9e !important;
   font-style: italic;
   padding: 2rem !important;
 }
@@ -171,7 +169,7 @@
   .styled-table th,
   .styled-table td {
     font-size: 0.813rem;
-    padding: 0.75rem;
+    padding: 0.75rem !important;
   }
 
   .btn-info {

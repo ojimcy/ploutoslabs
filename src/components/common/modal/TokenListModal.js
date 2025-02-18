@@ -1,19 +1,10 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Input,
-  ListGroup,
-  ListGroupItem,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Input, ListGroup, ListGroupItem, Row, Col } from 'reactstrap';
 import { AppContext } from '../../../context/AppContext';
+import BaseModal from '../modal/BaseModal';
 import './tokenList.css';
-
 import pltlLogo from '../../../assets/images/logo.png';
 
 function TokenListModal({ isOpen, toggle, tokens }) {
@@ -27,57 +18,58 @@ function TokenListModal({ isOpen, toggle, tokens }) {
 
   const handleTokenClick = (token) => {
     selectToken(token);
-    console.log('clicked');
     navigate('/dashboard/send');
     toggle();
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="token-modal" fade={false}>
-      <ModalHeader toggle={toggle}>Select Token</ModalHeader>
-      <ModalBody>
-        <Row className="mb-3">
-          <Col>
-            <Input
-              type="text"
-              placeholder="Search token"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-          </Col>
-        </Row>
-        <ListGroup>
-          {filteredTokens.map((token, index) => (
-            <React.Fragment key={index}>
-              <ListGroupItem
-                className="token-item"
-                onClick={() => handleTokenClick(token)}
-              >
-                <img
-                  src={token.logo === '' ? pltlLogo : token.logo}
-                  alt={token.name}
-                  width={35}
-                  height={40}
-                  className="token-icon"
-                />
-                <div className="token-info">
-                  <div className="token-name">{token.name}</div>
-                  <div className="token-amount">{token.balance_formatted}</div>
-                </div>
-              </ListGroupItem>
-              <hr />
-            </React.Fragment>
-          ))}
-        </ListGroup>
-      </ModalBody>
-    </Modal>
+    <BaseModal
+      isOpen={isOpen}
+      toggle={toggle}
+      title="Select Token"
+      className="token-modal"
+    >
+      <Row className="mb-3">
+        <Col>
+          <Input
+            type="text"
+            placeholder="Search token"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </Col>
+      </Row>
+      <ListGroup>
+        {filteredTokens.map((token, index) => (
+          <React.Fragment key={index}>
+            <ListGroupItem
+              className="token-item"
+              onClick={() => handleTokenClick(token)}
+            >
+              <img
+                src={token.logo === '' ? pltlLogo : token.logo}
+                alt={token.name}
+                width={35}
+                height={40}
+                className="token-icon"
+              />
+              <div className="token-info">
+                <div className="token-name">{token.name}</div>
+                <div className="token-amount">{token.balance_formatted}</div>
+              </div>
+            </ListGroupItem>
+            <hr />
+          </React.Fragment>
+        ))}
+      </ListGroup>
+    </BaseModal>
   );
 }
 
 TokenListModal.propTypes = {
-  isOpen: PropTypes.bool,
-  toggle: PropTypes.func,
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
   tokens: PropTypes.arrayOf(
     PropTypes.shape({
       icon: PropTypes.string,

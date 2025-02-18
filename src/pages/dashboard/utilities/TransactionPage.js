@@ -13,7 +13,7 @@ import {
 import './transactions.css';
 import { getUtilityTransactions } from '../../../lib/server';
 import { useNavigate } from 'react-router-dom';
-
+import { formatTransactionType } from '../../../lib/utils';
 const TransactionPage = () => {
   const [transactions, setTransactions] = useState([]);
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const TransactionPage = () => {
     };
 
     fetchTransactions();
-  });
+  }, []);
 
   const [filters, setFilters] = useState({
     date: '',
@@ -115,7 +115,7 @@ const TransactionPage = () => {
 
       <Row>
         <Col md={12}>
-          <Table className="styled-table" striped responsive>
+          <Table className="styled-table" dark striped responsive>
             <thead>
               <tr>
                 <th>#</th>
@@ -132,14 +132,15 @@ const TransactionPage = () => {
                   <tr key={transaction.id}>
                     <td>{index + 1}</td>
                     <td>{transaction.date}</td>
-                    <td>{transaction.type}</td>
-                    <td
-                      className={`status-${transaction.status.toLowerCase()}`}
-                    >
-                      {transaction.status}
+                    <td>{formatTransactionType(transaction.type)}</td>
+                    <td>
+                      <span
+                        className={`status-${transaction.status.toLowerCase()}`}
+                      >
+                        {transaction.status}
+                      </span>
                     </td>
-                    <td>{transaction.amountInNaira}</td>
-
+                    <td>{transaction.amount}</td>
                     <td>
                       <Button
                         color="info"

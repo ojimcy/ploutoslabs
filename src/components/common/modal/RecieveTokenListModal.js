@@ -3,23 +3,13 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ListGroup,
-  ListGroupItem,
-  Button,
-  Row,
-  Col,
-  Input,
-} from 'reactstrap';
+import { ListGroup, ListGroupItem, Row, Col, Input, Button } from 'reactstrap';
 import { AppContext } from '../../../context/AppContext';
+import BaseModal from '../modal/BaseModal';
 import './tokenList.css';
 import { FaCopy } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { useCurrentUser } from '../../../hooks/telegram';
-
 import pltlLogo from '../../../assets/images/logo.png';
 
 function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
@@ -49,65 +39,63 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
     return `${address.slice(0, 6)}...${address.slice(-6)}`;
   };
 
+  const footerContent = (
+    <Button color="primary" className="close-button" onClick={toggle}>
+      Close
+    </Button>
+  );
+
   return (
-    <Modal
+    <BaseModal
       isOpen={isOpen}
       toggle={toggle}
+      title="Select Token"
       className="receive token-modal"
-      fade={false}
+      footerContent={footerContent}
     >
-      <ModalHeader toggle={toggle}>Select Token</ModalHeader>
-      <ModalBody>
-        <Row className="mb-3">
-          <Col>
-            <Input
-              type="text"
-              placeholder="Search token"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-              style={{ color: 'white' }}
-            />
-          </Col>
-        </Row>
-        <ListGroup>
-          {filteredTokens.map((token, index) => (
-            <React.Fragment key={index}>
-              <ListGroupItem className="token-item">
-                <div className="d-flex" onClick={() => handleTokenClick(token)}>
-                  <img
-                    src={token.logo === '' ? pltlLogo : token.logo}
-                    alt={token.name}
-                    width={35}
-                    height={40}
-                    className="token-icon"
-                  />
-                  <div className="token-info">
-                    <div className="token-name">{token.name}</div>
-                    <div className="token-address">
-                      {currentUser && formatAddress(selectedWallet?.address)}
-                    </div>
+      <Row className="mb-3">
+        <Col>
+          <Input
+            type="text"
+            placeholder="Search token"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+            style={{ color: 'white' }}
+          />
+        </Col>
+      </Row>
+      <ListGroup>
+        {filteredTokens.map((token, index) => (
+          <React.Fragment key={index}>
+            <ListGroupItem className="token-item">
+              <div className="d-flex" onClick={() => handleTokenClick(token)}>
+                <img
+                  src={token.logo === '' ? pltlLogo : token.logo}
+                  alt={token.name}
+                  width={35}
+                  height={40}
+                  className="token-icon"
+                />
+                <div className="token-info">
+                  <div className="token-name">{token.name}</div>
+                  <div className="token-address">
+                    {currentUser && formatAddress(selectedWallet?.address)}
                   </div>
                 </div>
+              </div>
 
-                <div className="token-actions">
-                  <button
-                    className="token-action-btn"
-                    onClick={() => copyAddress()}
-                  >
-                    <FaCopy size={22} />
-                  </button>
-                </div>
-              </ListGroupItem>
-              <hr />
-            </React.Fragment>
-          ))}
-        </ListGroup>
-      </ModalBody>
-      <Button className="close-button" onClick={toggle}>
-        Close
-      </Button>
-    </Modal>
+              <div className="token-actions">
+                <button className="token-action-btn" onClick={copyAddress}>
+                  <FaCopy size={22} />
+                </button>
+              </div>
+            </ListGroupItem>
+            <hr />
+          </React.Fragment>
+        ))}
+      </ListGroup>
+    </BaseModal>
   );
 }
 

@@ -1,25 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody, Alert } from 'reactstrap';
+import { Alert } from 'reactstrap';
 import TransactionPin from '../auth/TransactionPin';
-import './verifyPinModal.css';
+import BaseModal from '../common/modal/BaseModal';
 
 const VerifyPinModal = ({ isOpen, toggle, onSubmit, error }) => {
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="verify-pin-modal">
-      <ModalHeader toggle={toggle}>Verify PIN</ModalHeader>
-      <ModalBody>
-        <TransactionPin
-          title="Enter your wallet PIN to view recovery phrase"
-          onSubmit={onSubmit}
-        />
-        {error && (
-          <Alert color="danger" className="mt-3">
-            {error}
-          </Alert>
-        )}
-      </ModalBody>
-    </Modal>
+    <BaseModal
+      isOpen={isOpen}
+      toggle={toggle}
+      title="Verify PIN"
+      className="verify-pin-modal"
+    >
+      <TransactionPin
+        title="Enter your wallet PIN to view recovery phrase"
+        onSubmit={onSubmit}
+      />
+      {error && (
+        <Alert color="danger" className="mt-3">
+          {error}
+        </Alert>
+      )}
+    </BaseModal>
   );
 };
 

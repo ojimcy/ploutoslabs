@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody, Row, Col, Button } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
+import BaseModal from '../modal/BaseModal';
 import './modal.css';
 import { AppContext } from '../../../context/AppContext';
 import CompetitionTypeModal from './CompetitionTypeModal';
@@ -9,7 +10,6 @@ import { toast } from 'react-hot-toast';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { openSuperCatchGameConsole } from '../../../lib/utils';
 import PaymentModal from './PaymentModal';
-// import { useNavigate } from 'react-router-dom';
 
 function GameDificultyModal({ isOpen, toggle }) {
   const { difficulty, setDifficulty, mode, setMode } = useContext(AppContext);
@@ -72,15 +72,23 @@ function GameDificultyModal({ isOpen, toggle }) {
     }
   };
 
-  // const handleGroupClicked = () => {
-  //   setMode('group');
-  //   navigate('/game/super-catch/group');
-  // };
+  const footerContent = (
+    <Row className="play-action mt-4 d-flex">
+      <Button onClick={handleContinue} className="play-btn">
+        Continue
+      </Button>
+    </Row>
+  );
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="main-modal" fade={false}>
-      <ModalHeader toggle={toggle}>Create Game</ModalHeader>
-      <ModalBody>
+    <>
+      <BaseModal
+        isOpen={isOpen}
+        toggle={toggle}
+        title="Create Game"
+        className="main-modal"
+        footerContent={footerContent}
+      >
         <div className="game-difficulty">
           <Row className="mb-3">
             <h6 className="mt-5">Game Difficulty</h6>
@@ -143,30 +151,17 @@ function GameDificultyModal({ isOpen, toggle }) {
                 One on One
               </Button>
             </Col>
-            {/* <Col>
-              <Button
-                className={`game-btn ${mode === 'group' ? 'selected' : ''}`}
-                onClick={handleGroupClicked}
-                block
-              >
-                Group
-              </Button>
-            </Col> */}
-          </Row>
-          <Row className="play-action mt-4 d-flex">
-            <Button onClick={handleContinue} className="play-btn">
-              Continue
-            </Button>
           </Row>
         </div>
-      </ModalBody>
+      </BaseModal>
+
       <CompetitionTypeModal isOpen={typeModal} toggle={handleOneClicked} />
       <PaymentModal
         isOpen={showPaymentModal}
         toggle={() => setShowPaymentModal(false)}
         onConfirm={handlePaymentConfirm}
       />
-    </Modal>
+    </>
   );
 }
 

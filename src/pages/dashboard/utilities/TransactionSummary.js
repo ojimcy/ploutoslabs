@@ -13,7 +13,7 @@ import { toast } from 'react-hot-toast';
 import { Button, Container } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { useNavigate } from 'react-router-dom';
-import { TransactionTypes } from '../../../lib/utils';
+import { TransactionTypes, formatTransactionType } from '../../../lib/utils';
 import { FaCopy } from 'react-icons/fa';
 
 const TransactionSummary = () => {
@@ -115,7 +115,7 @@ const TransactionSummary = () => {
         <div className="summary-details">
           <div className="summary-item">
             <span>Utility Type</span>
-            <span>{utilityTransaction.type}</span>
+            <span>{formatTransactionType(utilityTransaction.type)}</span>
           </div>
 
           <div className="summary-item">
