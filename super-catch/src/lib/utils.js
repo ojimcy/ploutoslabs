@@ -38,7 +38,7 @@ export const decryptPrivateKey = (encryptedPrivateKey, password, iv, tag) => {
     return decryptedPrivateKey.toString('hex');
   } catch (err) {
     console.error('Error decrypting private key:', err);
-    throw new Error('Failed to decrypt private key.');
+    throw new Error('Something went wrong');
   }
 };
 

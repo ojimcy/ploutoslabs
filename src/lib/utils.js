@@ -39,7 +39,7 @@ export const decryptPrivateKey = (encryptedPrivateKey, password, iv, tag) => {
     return decryptedPrivateKey.toString('hex');
   } catch (err) {
     console.error('Error decrypting private key:', err);
-    throw new Error('Failed to decrypt private key.');
+    throw new Error('Something went wrong');
   }
 };
 
@@ -69,7 +69,18 @@ export const decryptWalletData = async (walletData, password) => {
     return { privateKey, mnemonic };
   } catch (err) {
     console.error('Error decrypting wallet data:', err);
-    throw new Error('Failed to decrypt wallet data');
+
+    // Handle specific decryption failure cases
+    if (err.message.includes('unable to authenticate data')) {
+      throw new Error('Invalid PIN - Please try again');
+    }
+
+    // Handle missing mnemonic case
+    if (err.message.includes('No recovery phrase')) {
+      throw err; // Preserve original error
+    }
+
+    throw new Error('Something went wrong');
   }
 };
 
