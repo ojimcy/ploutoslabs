@@ -83,6 +83,9 @@ const App = () => {
               <AirdropLayout>
                 <Routes>
                   <Route index element={<Airdrop />} />
+
+                  {/* 404 page */}
+                  <Route path="*" element={<PageNotFound />} />
                 </Routes>
               </AirdropLayout>
             </AuthGuard>
@@ -141,6 +144,9 @@ const App = () => {
                   />
                   <Route path="token-detail" element={<TokenDetail />} />
                   <Route path="wallet" element={<WalletDetail />} />
+
+                  {/* 404 page */}
+                  <Route path="*" element={<PageNotFound />} />
                 </Routes>
               </Layout>
             </AuthGuard>
@@ -167,6 +173,9 @@ const App = () => {
                     path="/super-catch/waiting"
                     element={<GameDetails />}
                   />
+
+                  {/* 404 page */}
+                  <Route path="*" element={<PageNotFound />} />
                 </Routes>
               </GameLayout>
             </AuthGuard>
@@ -178,6 +187,9 @@ const App = () => {
           element={
             <Routes>
               <Route index element={<Register />} />
+
+              {/* 404 page */}
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           }
         />
