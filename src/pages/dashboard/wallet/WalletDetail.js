@@ -26,7 +26,7 @@ const WalletDetail = () => {
   const [showPinModal, setShowPinModal] = useState(false);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [pinError, setPinError] = useState('');
-  const [walletLabel, setWalletLabel] = useState(walletToManage.label);
+  const [walletLabel, setWalletLabel] = useState(walletToManage?.label);
   const [loading, setLoading] = useState(false);
 
   if (!walletToManage) {

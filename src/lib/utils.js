@@ -71,12 +71,12 @@ export const decryptWalletData = async (walletData, password) => {
     console.error('Error decrypting wallet data:', err);
 
     // Handle specific decryption failure cases
-    if (err.message.includes('unable to authenticate data')) {
+    if (err.includes('unable to authenticate data')) {
       throw new Error('Invalid PIN - Please try again');
     }
 
     // Handle missing mnemonic case
-    if (err.message.includes('No recovery phrase')) {
+    if (err.includes('No recovery phrase')) {
       throw err; // Preserve original error
     }
 
