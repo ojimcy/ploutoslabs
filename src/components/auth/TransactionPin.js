@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './transaction.css';
 
+// Add rate limiting
+const MAX_ATTEMPTS = 3;
+const LOCKOUT_DURATION = 300_000; // 5 minutes
+
 function TransactionPin({ onSubmit, title }) {
   const [pin, setPin] = useState('');
+  const [attempts, setAttempts] = useState(0);
+  const [locked, setLocked] = useState(false);
 
   const handleDigitClick = (digit) => {
     if (pin.length < 6) {
@@ -15,10 +21,18 @@ function TransactionPin({ onSubmit, title }) {
     setPin(pin.slice(0, -1));
   };
 
-  const handleSubmit = () => {
-    if (pin.length === 6) {
+  const handleSubmit = (pin) => {
+    if (locked) return;
+
+    try {
       onSubmit(pin);
-      setPin('');
+      setAttempts(0);
+    } catch (err) {
+      if (attempts >= MAX_ATTEMPTS - 1) {
+        setLocked(true);
+        setTimeout(() => setLocked(false), LOCKOUT_DURATION);
+      }
+      setAttempts((a) => a + 1);
     }
   };
 
@@ -48,7 +62,7 @@ function TransactionPin({ onSubmit, title }) {
         <button className="pin-button" onClick={() => handleDigitClick(0)}>
           0
         </button>
-        <button className="pin-button submit" onClick={handleSubmit}>
+        <button className="pin-button submit" onClick={() => handleSubmit(pin)}>
           ✔
         </button>
       </div>

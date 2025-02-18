@@ -60,9 +60,9 @@ function AirdropFooter() {
                   </li>
                   <li>
                     <Link
-                      to="/dashboard/utitlities"
+                      to="/dashboard/utilities"
                       className={`d-flex flex-column align-items-center ${
-                        location.pathname === '/dashboard/utitlities'
+                        location.pathname === '/dashboard/utilities'
                           ? 'active'
                           : ''
                       }`}

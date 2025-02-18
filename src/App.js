@@ -121,7 +121,7 @@ const App = () => {
                     element={<ReferralContests />}
                   />
                   <Route path="create-task" element={<AddTask />} />
-                  <Route path="utitlities" element={<UtilitiesPage />} />
+                  <Route path="utilities" element={<UtilitiesPage />} />
                   <Route path="airtime" element={<Airtime />} />
                   <Route path="data" element={<DataPage />} />
                   <Route path="electricity" element={<ElectricityBillPage />} />

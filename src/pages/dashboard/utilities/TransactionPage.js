@@ -52,6 +52,18 @@ const TransactionPage = () => {
     navigate(`/dashboard/transaction-details?txID=${transaction.id}`);
   };
 
+  const formatDate = (date) => {
+    // Convert to milliseconds if timestamp is in seconds
+    const dateObj =
+      typeof date === 'number' ? new Date(date * 1000) : new Date(date);
+
+    return dateObj.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    });
+  };
+
   return (
     <Container className="transaction-page">
       <Row>
@@ -131,7 +143,7 @@ const TransactionPage = () => {
                 filteredTransactions.map((transaction, index) => (
                   <tr key={transaction.id}>
                     <td>{index + 1}</td>
-                    <td>{transaction.date}</td>
+                    <td>{formatDate(transaction.date)}</td>
                     <td>{formatTransactionType(transaction.type)}</td>
                     <td>
                       <span
