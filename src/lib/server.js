@@ -47,6 +47,7 @@ import {
   GET_UTILITY_TRANSACTIONS,
   GET_UTILITY_TRANSACTION,
   LOGIN_WITH_TELEGRAM,
+  GET_REFERRALS,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -308,4 +309,9 @@ export const getUtilityTransaction = async (id) => {
 export const loginWithTelegram = async (telegramData) => {
   const response = await axios.post(LOGIN_WITH_TELEGRAM(), telegramData);
   return response.data;
+};
+
+export const fetchReferrals = async () => {
+  const result = await axios.get(GET_REFERRALS());
+  return result.data;
 };

@@ -16,6 +16,7 @@ export const COMPLET_TASK = (userID, taskID) =>
   `${ROOT}/user/${userID}/complete-task/${taskID}`;
 export const TASKS = (userID) => `${ROOT}/user/${userID}/tasks`;
 export const DAILYREWARD = () => `${ROOT}/claim-rewards`;
+export const GET_REFERRALS = () => `${ROOT}/referrals`;
 
 export const INIT_TRANSACTION = () => `${ROOT}/init-transaction`;
 export const GET_TRANSACTION_DETAILS = (txid) =>
