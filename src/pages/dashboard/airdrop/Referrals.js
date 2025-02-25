@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Spinner } from 'reactstrap';
 import { useCurrentUser } from '../../../hooks/telegram';
-import { claimReBonus } from '../../../lib/server';
+import { claimReBonus, fetchReferrals } from '../../../lib/server';
 import './referrals.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -15,9 +15,28 @@ function Referrals() {
   const { setUser } = useContext(WebappContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [firstGeneration, setFirstGeneration] = useState([]);
+  const [secondGeneration, setSecondGeneration] = useState([]);
+
+  useEffect(() => {
+    const loadReferrals = async () => {
+      try {
+        setLoading(true);
+        const result = await fetchReferrals();
+        setFirstGeneration(result.firstGeneration || []);
+        setSecondGeneration(result.secondGeneration || []);
+      } catch (error) {
+        console.log('Error in getReferrals', error);
+        toast.error('Failed to get referrals');
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadReferrals();
+  }, []);
 
   const copyReferralLink = () => {
-    const link = `${BASE_URL}?ref=${currentUser.telegramId}`;
+    const link = `${BASE_URL}/auth?ref=${currentUser.telegramId}`;
     navigator.clipboard.writeText(link);
     toast.success('Referral link copied to clipboard');
   };
@@ -39,6 +58,8 @@ function Referrals() {
     navigate('/dashboard/ref-leaderboard');
   };
 
+  const totalReferrals = firstGeneration.length + secondGeneration.length;
+
   return (
     <div className="referral-page">
       <Container className="referrals-container">
@@ -51,7 +72,7 @@ function Referrals() {
                   <FiUsers />
                 </div>
                 <div className="stats-info">
-                  <h3>{currentUser?.referralCount || 0}</h3>
+                  <h3>{totalReferrals}</h3>
                   <p>Total Referrals</p>
                 </div>
               </div>
@@ -95,7 +116,7 @@ function Referrals() {
             <div className="referral-link-box">
               <input
                 type="text"
-                value={`${BASE_URL}?ref=${currentUser?.telegramId}`}
+                value={`${BASE_URL}/auth?ref=${currentUser?.telegramId}`}
                 readOnly
               />
               <Button className="copy-button" onClick={copyReferralLink}>
@@ -115,7 +136,11 @@ function Referrals() {
 
           {/* Referral Table */}
           <div className="referral-table-section">
-            <ReferralTable />
+            <ReferralTable
+              firstGeneration={firstGeneration}
+              secondGeneration={secondGeneration}
+              loading={loading}
+            />
           </div>
         </div>
       </Container>

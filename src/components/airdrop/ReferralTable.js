@@ -9,34 +9,12 @@ import {
   PaginationLink,
 } from 'reactstrap';
 import './referral-table.css';
-import { fetchReferrals } from '../../lib/server';
-import { toast } from 'react-hot-toast';
-
+import PropTypes from 'prop-types';
 const ITEMS_PER_PAGE = 20;
 
-const ReferralTable = () => {
-  const [firstGeneration, setFirstGeneration] = useState([]);
-  const [secondGeneration, setSecondGeneration] = useState([]);
-  const [loading, setLoading] = useState(false);
+const ReferralTable = ({ firstGeneration, secondGeneration, loading }) => {
   const [activeTab, setActiveTab] = useState('first');
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    const loadReferrals = async () => {
-      try {
-        setLoading(true);
-        const result = await fetchReferrals();
-        setFirstGeneration(result.firstGeneration || []);
-        setSecondGeneration(result.secondGeneration || []);
-      } catch (error) {
-        console.log('Error in getReferrals', error);
-        toast.error('Failed to get referrals');
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadReferrals();
-  }, []);
 
   // Reset page when changing tabs
   useEffect(() => {
@@ -68,7 +46,77 @@ const ReferralTable = () => {
   };
 
   console.log('firstGeneration', firstGeneration);
-  
+
+  const renderPaginationItems = () => {
+    const items = [];
+    const maxVisiblePages = 5; // Show max 5 page numbers at a time
+
+    // Always show first page
+    items.push(
+      <PaginationItem active={currentPage === 1} key={1}>
+        <PaginationLink onClick={() => handlePageChange(1)}>1</PaginationLink>
+      </PaginationItem>
+    );
+
+    if (totalPages <= maxVisiblePages) {
+      // If total pages is less than max visible, show all pages
+      for (let i = 2; i <= totalPages; i++) {
+        items.push(
+          <PaginationItem active={currentPage === i} key={i}>
+            <PaginationLink onClick={() => handlePageChange(i)}>
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    } else {
+      // Show ellipsis and limited pages
+      if (currentPage > 3) {
+        items.push(
+          <PaginationItem disabled key="start-ellipsis">
+            <PaginationLink>...</PaginationLink>
+          </PaginationItem>
+        );
+      }
+
+      // Show pages around current page
+      for (
+        let i = Math.max(2, currentPage - 1);
+        i <= Math.min(currentPage + 1, totalPages - 1);
+        i++
+      ) {
+        items.push(
+          <PaginationItem active={currentPage === i} key={i}>
+            <PaginationLink onClick={() => handlePageChange(i)}>
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+
+      if (currentPage < totalPages - 2) {
+        items.push(
+          <PaginationItem disabled key="end-ellipsis">
+            <PaginationLink>...</PaginationLink>
+          </PaginationItem>
+        );
+      }
+
+      // Always show last page
+      if (totalPages > 1) {
+        items.push(
+          <PaginationItem active={currentPage === totalPages} key={totalPages}>
+            <PaginationLink onClick={() => handlePageChange(totalPages)}>
+              {totalPages}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    }
+
+    return items;
+  };
+
   return (
     <div className="referral-table-container">
       <Nav tabs className="referral-tabs">
@@ -136,13 +184,7 @@ const ReferralTable = () => {
               />
             </PaginationItem>
 
-            {[...Array(totalPages)].map((_, index) => (
-              <PaginationItem active={currentPage === index + 1} key={index}>
-                <PaginationLink onClick={() => handlePageChange(index + 1)}>
-                  {index + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+            {renderPaginationItems()}
 
             <PaginationItem disabled={currentPage === totalPages}>
               <PaginationLink
@@ -155,6 +197,12 @@ const ReferralTable = () => {
       )}
     </div>
   );
+};
+
+ReferralTable.propTypes = {
+  firstGeneration: PropTypes.array.isRequired,
+  secondGeneration: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default ReferralTable;

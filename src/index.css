@@ -117,7 +117,7 @@ section {
 
 .content {
   padding-bottom: 75px;
-  max-width: 976px;
+  /* max-width: 976px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
