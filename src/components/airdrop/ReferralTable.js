@@ -67,6 +67,8 @@ const ReferralTable = () => {
     setCurrentPage(page);
   };
 
+  console.log('firstGeneration', firstGeneration);
+  
   return (
     <div className="referral-table-container">
       <Nav tabs className="referral-tabs">
