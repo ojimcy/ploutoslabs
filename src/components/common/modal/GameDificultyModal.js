@@ -73,8 +73,8 @@ function GameDificultyModal({ isOpen, toggle }) {
   };
 
   const footerContent = (
-    <Row className="play-action mt-4 d-flex">
-      <Button onClick={handleContinue} className="play-btn">
+    <Row className="play-action mt-4">
+      <Button onClick={handleContinue} className="play-btn w-100">
         Continue
       </Button>
     </Row>
