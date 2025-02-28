@@ -72,7 +72,7 @@ function TokenPresale() {
 
   const currentPrice = 138000;
 
-  const presaleEndTime = new Date('2025-02-28T23:59:59Z').getTime();
+  const presaleEndTime = new Date('2025-03-3T23:59:59Z').getTime();
 
   useEffect(() => {
     // Countdown timer setup
