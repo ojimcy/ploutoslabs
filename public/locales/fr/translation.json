@@ -94,7 +94,9 @@
     "processing": "Traitement...",
     "buyNow": "Acheter maintenant",
     "share": "Partager",
-    "more": "Plus d'options"
+    "more": "Plus d'options",
+    "noTransactionFound": "Aucune transaction trouvée",
+    "withdraw": "Retirer"
   },
   "portfolio": {
     "title": "Portefeuille",

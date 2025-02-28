@@ -88,7 +88,9 @@
     "processing": "Processing...",
     "buyNow": "Buy Now",
     "share": "Share",
-    "more": "More Options"
+    "more": "More Options",
+    "noTransactionFound": "No transaction found",
+    "withdraw": "Withdraw"
   },
   "portfolio": {
     "title": "Portfolio",
