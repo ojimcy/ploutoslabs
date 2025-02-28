@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './checkout.css';
+import { useTranslation } from 'react-i18next';
 
 const PaymentMethodSelection = ({ onProceed }) => {
+  const { t } = useTranslation();
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [selectedToken, setSelectedToken] = useState('');
   const [selectedNetwork, setSelectedNetwork] = useState('');
@@ -11,7 +13,7 @@ const PaymentMethodSelection = ({ onProceed }) => {
 
   return (
     <div className="payment-method-selection d-flex flex-column">
-      <h2>Select Payment Method</h2>
+      <h2>{t('utilities.selectPaymentMethod')}</h2>
       <div className="payment-options">
         <div
           className={`payment-card ${
@@ -20,7 +22,7 @@ const PaymentMethodSelection = ({ onProceed }) => {
           onClick={() => handleMethodSelect('wallet')}
         >
           <div className="payment-icon">💳</div>
-          <div className="payment-title">Pay with Wallet</div>
+          <div className="payment-title">{t('utilities.payWithWallet')}</div>
         </div>
         <div
           className={`payment-card ${
@@ -29,30 +31,30 @@ const PaymentMethodSelection = ({ onProceed }) => {
           onClick={() => handleMethodSelect('crypto')}
         >
           <div className="payment-icon">💰</div>
-          <div className="payment-title">Pay with Crypto</div>
+          <div className="payment-title">{t('utilities.payWithCrypto')}</div>
         </div>
       </div>
 
       {selectedMethod === 'crypto' && (
         <div className="crypto-options">
           <label>
-            Select Token:
+            {t('utilities.selectToken')}:
             <select
               value={selectedToken}
               onChange={(e) => setSelectedToken(e.target.value)}
             >
-              <option value="">Choose a token</option>
+              <option value="">{t('utilities.chooseAToken')}</option>
               <option value="0x4200000000000000000000000000000000000006">Ether (ETH)</option>
             </select>
           </label>
           <label>
-            Select Network:
+            {t('utilities.selectNetwork')}:
             <select
               value={selectedNetwork}
               onChange={(e) => setSelectedNetwork(e.target.value)}
             >
-              <option value="">Choose a network</option>
-              <option value="base">Base</option>
+              <option value="">{t('utilities.chooseANetwork')}</option>
+              <option value="base">{t('common.base')}</option>
             </select>
           </label>
         </div>
@@ -68,7 +70,7 @@ const PaymentMethodSelection = ({ onProceed }) => {
             selectedMethod === 'crypto' && (!selectedToken || !selectedNetwork)
           }
         >
-          Confirm and Continue
+          {t('utilities.confirmAndContinue')}
         </button>
       )}
     </div>

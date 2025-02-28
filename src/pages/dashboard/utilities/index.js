@@ -21,43 +21,12 @@ import {
 import './utilities.css';
 import { useCurrentUser } from '../../../hooks/telegram';
 import GameDepositModal from '../../../components/common/modal/GameDepositModal';
-
-const utilities = [
-  {
-    name: 'Buy Airtime',
-    icon: <FaMobileAlt />,
-    link: '/dashboard/airtime',
-    description: 'Top up your mobile airtime instantly.',
-  },
-  {
-    name: 'Buy Data',
-    icon: <FaWifi />,
-    link: '/dashboard/data',
-    description: 'Purchase affordable data bundles.',
-  },
-  {
-    name: 'Pay Electricity Bill',
-    icon: <FaBolt />,
-    link: '/dashboard/electricity',
-    description: 'Settle your electricity bills with ease.',
-  },
-  {
-    name: 'TV Subscription',
-    icon: <FaTv />,
-    link: '/dashboard/tv-subscription',
-    description: 'Subscribe to your favorite TV services.',
-  },
-  {
-    name: 'International Bill Payments',
-    icon: <FaBitcoin />,
-    link: 'https://widget.zypto.com/8d8kvdb7x9bgtwz65me1bk8tajn2ehuvm8oh333gvp2t9brpzhgtn337rdtz?collapse',
-    description: 'Pay your international bills with ease.',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 function UtilitiesPage() {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [depositModal, setDepositModal] = useState(false);
 
@@ -69,9 +38,47 @@ function UtilitiesPage() {
     setDepositModal(!depositModal);
   };
 
-  const handleLinkClicked = (u) => {
-    navigate(u.link);
+  const handleLinkClicked = (utility) => {
+    if (utility.external) {
+      window.open(utility.link, '_blank');
+    } else {
+      navigate(utility.link);
+    }
   };
+
+  const utilities = [
+    {
+      name: t('utilities.buyAirtime'),
+      icon: <FaMobileAlt />,
+      link: '/dashboard/airtime',
+      description: t('utilities.buyAirtimeDescription'),
+    },
+    {
+      name: t('utilities.buyData'),
+      icon: <FaWifi />,
+      link: '/dashboard/data',
+      description: t('utilities.buyDataDescription'),
+    },
+    {
+      name: t('utilities.payElectricityBill'),
+      icon: <FaBolt />,
+      link: '/dashboard/electricity',
+      description: t('utilities.payElectricityBillDescription'),
+    },
+    {
+      name: t('utilities.tvSubscription'),
+      icon: <FaTv />,
+      link: '/dashboard/tv-subscription',
+      description: t('utilities.tvSubscriptionDescription'),
+    },
+    {
+      name: t('utilities.internationalBillPayments'),
+      icon: <FaBitcoin />,
+      link: 'https://widget.zypto.com/8d8kvdb7x9bgtwz65me1bk8tajn2ehuvm8oh333gvp2t9brpzhgtn337rdtz?collapse',
+      description: t('utilities.internationalBillPaymentsDescription'),
+      external: true,
+    },
+  ];
 
   return (
     <div className="utilities-page">
@@ -84,19 +91,21 @@ function UtilitiesPage() {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>
-                Balance: ${currentUser?.gameWalletBalance}
+                {t('common.balance')}: ${currentUser?.gameWalletBalance}
               </DropdownItem>
-              <DropdownItem onClick={toggleDepositModal}>Deposit</DropdownItem>
+              <DropdownItem onClick={toggleDepositModal}>
+                {t('common.deposit')}
+              </DropdownItem>
               <DropdownItem>
-                <Link to="/dashboard/transactions">Transactions</Link>
+                <Link to="/dashboard/transactions">
+                  {t('portfolio.transactions')}
+                </Link>
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
-        <h3 className="text-center my-4">Utilities</h3>
-        <p className="text-center">
-          Explore our range of utility services for your convenience.
-        </p>
+        <h3 className="text-center my-4">{t('utilities.title')}</h3>
+        <p className="text-center">{t('utilities.subtitle')}</p>
         <Row>
           {utilities.map((utility, index) => (
             <Col xs={12} md={6} lg={4} className="mb-4" key={index}>

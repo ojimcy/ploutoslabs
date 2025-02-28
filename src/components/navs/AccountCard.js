@@ -12,12 +12,14 @@ import { Separator } from '../common/Seperator';
 import './account.css';
 import { Link } from 'react-router-dom';
 import { getUserByTelegramID } from '../../lib/server';
+import { useTranslation } from 'react-i18next';
 
 function AccountCard() {
   const [currentUser, setCurrentUser] = useState({});
   const telegramId = localStorage.getItem('TELEGRAM_ID');
   const navigate = useNavigate();
   const { setUser } = useContext(WebappContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!telegramId) return;
@@ -59,7 +61,7 @@ function AccountCard() {
                     <div className="ref-title">{currentUser?.username}</div>
                     <div className="ref-count">
                       {currentUser ? currentUser.balance?.toFixed(4) : '0'}
-                      PLTL
+                      {t('common.pltl')}
                     </div>
                   </div>
                 </div>
@@ -83,7 +85,7 @@ function AccountCard() {
                       <FaPlusSquare />
                     </div>
                     <div className="referral-info">
-                      <div className="ref-title">Import Account</div>
+                      <div className="ref-title">{t('common.importAccount')}</div>
                     </div>
                   </div>
                   <div className="right">
@@ -110,7 +112,7 @@ function AccountCard() {
                   <FaSignOutAlt />
                 </div>
                 <div className="referral-info">
-                  <div className="ref-title">Logout</div>
+                  <div className="ref-title">{t('common.logout')}</div>
                 </div>
               </div>
               <div className="right">

@@ -9,12 +9,14 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import BaseModal from '../common/modal/BaseModal';
 import './modal.css';
+import { useTranslation } from 'react-i18next';
 
 const tgLink = 'https://t.me/ploutoslabannouncement';
 
 const TelegramModal = ({ isOpen, toggle, fetchUserData }) => {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [buttonState, setButtonState] = useState('join');
 
   const handleJoinChannel = () => {
@@ -31,7 +33,7 @@ const TelegramModal = ({ isOpen, toggle, fetchUserData }) => {
       }
     } catch (error) {
       console.error('error checking channel', error);
-      toast.error('Please make sure you have joined the Telegram channel.');
+      toast.error(t('modal.pleaseMakeSureYouHaveJoinedTheTelegramChannel'));
       setButtonState('join');
     }
   };
@@ -51,10 +53,9 @@ const TelegramModal = ({ isOpen, toggle, fetchUserData }) => {
         <FaTelegram size={45} />
       </div>
 
-      <h2 className="modal-title">Join Channel</h2>
+      <h2 className="modal-title">{t('modal.joinChannel')}</h2>
       <p className="modal-description">
-        To continue earning, please join our official Telegram channel by
-        clicking the button below.
+        {t('modal.joinChannelDescription')}
       </p>
 
       {buttonState === 'join' ? (
@@ -64,7 +65,7 @@ const TelegramModal = ({ isOpen, toggle, fetchUserData }) => {
           size="lg"
           block
         >
-          Join Channel
+          {t('modal.joinChannel')}
         </Button>
       ) : (
         <Button
@@ -73,7 +74,7 @@ const TelegramModal = ({ isOpen, toggle, fetchUserData }) => {
           size="lg"
           block
         >
-          Check
+          {t('common.check')}
         </Button>
       )}
     </BaseModal>

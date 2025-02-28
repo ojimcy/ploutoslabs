@@ -1,3 +1,4 @@
+import './i18n';
 import React, { useEffect } from 'react';
 import randomBytes from 'randombytes';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';

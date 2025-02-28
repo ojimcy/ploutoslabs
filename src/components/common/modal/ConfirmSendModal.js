@@ -14,9 +14,10 @@ import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import BaseModal from '../modal/BaseModal';
-
+import { useTranslation } from 'react-i18next';
 function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { selectedToken, selectedWallet } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [showPinPad, setShowPinPad] = useState(false);
@@ -48,12 +49,11 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
         );
       } catch (error) {
         console.log(error);
-        toast.error('Invalid passord');
+        toast.error(t('modal.invalidPassword'));
         return;
       }
 
       const account = privateKeyToAccount(`0x${decryptedPrivateKey}`);
-      console.log(account.address);
 
       const walletClient = createWalletClient({
         chain: base,
@@ -71,7 +71,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
       setTransactionResult({ hash });
     } catch (err) {
       console.log(err);
-      toast.error('Error. Please try again later');
+      toast.error(t('modal.errorTryAgain'));
     }
   };
 
@@ -102,14 +102,14 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
   const footerContent = (
     <>
       <Button color="secondary" className="cancel-button" onClick={toggle}>
-        Cancel
+        {t('common.cancel')}
       </Button>
       <Button
         color="primary"
         className="send-button"
         onClick={() => setShowPinPad(true)}
       >
-        {loading ? <Spinner size="sm" /> : 'Send'}
+        {loading ? <Spinner size="sm" /> : t('common.send')}
       </Button>
     </>
   );
@@ -134,22 +134,22 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
         <>
           {transactionError ? (
             <div className="error-message">
-              <p>Transaction failed:</p>
+              <p>{t('modal.transactionFailed')}:</p>
               <p>{transactionError}</p>
             </div>
           ) : transactionResult ? (
             <div className="success-message">
-              <p>Transaction submitted successfully!</p>
+              <p>{t('modal.transactionSubmitted')}</p>
               <p>
                 <a href={`https://basescan.org/tx/${transactionResult.hash}`}>
-                  Track Transaction
+                  {t('modal.trackTransaction')}
                 </a>
               </p>
             </div>
           ) : loading ? (
             <div className="loading-message">
               <Spinner />
-              <p>Waiting for transaction confirmation...</p>
+              <p>{t('modal.waitingForTransactionConfirmation')}</p>
             </div>
           ) : (
             <>
@@ -163,7 +163,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
                 <Row>
                   <Col>
                     <div className="detail-item">
-                      <span className="label">To</span>
+                      <span className="label">{t('common.to')}</span>
                       <span className="value">{formatAddress(recipient)}</span>
                     </div>
                   </Col>
@@ -171,7 +171,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
                 <Row>
                   <Col>
                     <div className="detail-item">
-                      <span className="label">Network</span>
+                      <span className="label">{t('common.network')}</span>
                       <span className="value">{token.network}</span>
                     </div>
                   </Col>
@@ -179,7 +179,7 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
                 <Row>
                   <Col>
                     <div className="detail-item">
-                      <span className="label">Network fee</span>
+                      <span className="label">{t('common.networkFee')}</span>
                       <span className="value">${token.networkFee}</span>
                     </div>
                   </Col>
@@ -191,14 +191,14 @@ function ConfirmSendModal({ isOpen, toggle, transaction, result, error }) {
                   onClick={toggle}
                   className="cancel-button"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 <Button
                   color="primary"
                   className="send-button"
                   onClick={() => setShowPinPad(true)}
                 >
-                  {loading ? <Spinner size="sm" /> : 'Send'}
+                  {loading ? <Spinner size="sm" /> : t('common.send')}
                 </Button>
               </div>
             </>

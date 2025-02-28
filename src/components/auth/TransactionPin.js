@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import './transaction.css';
-
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 // Add rate limiting
 const MAX_ATTEMPTS = 3;
 const LOCKOUT_DURATION = 300_000; // 5 minutes
 const PIN_LENGTH = 6;
 
 function TransactionPin({ onSubmit, title }) {
+  const { t } = useTranslation();
   const [pin, setPin] = useState('');
   const [attempts, setAttempts] = useState(0);
   const [locked, setLocked] = useState(false);
@@ -59,14 +60,14 @@ function TransactionPin({ onSubmit, title }) {
       setAttempts((a) => a + 1);
       setPin(''); // Reset pin on error
       setError(
-        `Invalid PIN. ${MAX_ATTEMPTS - attempts - 1} attempts remaining`
+        `${t('auth.invalidPin')}. ${MAX_ATTEMPTS - attempts - 1} ${t('auth.attemptsRemaining')}`
       );
     }
   };
 
   return (
     <div className="transaction-pin">
-      <p>{title || 'Input your 6 digit PIN'}</p>
+      <p>{title || t('auth.input6DigitPin')}</p>
       <div className="pin-display">
         {[...Array(PIN_LENGTH)].map((_, index) => (
           <div key={index} className="pin-digit">
@@ -77,7 +78,7 @@ function TransactionPin({ onSubmit, title }) {
       {(error || locked) && (
         <p className="error-message">
           {locked
-            ? 'Too many failed attempts. Please try again in 5 minutes.'
+            ? t('auth.tooManyFailedAttempts')
             : error}
         </p>
       )}

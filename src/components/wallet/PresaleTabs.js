@@ -21,11 +21,13 @@ import { FaCopy, FaEthereum, FaTelegramPlane } from 'react-icons/fa';
 import { formatEther, formatUnits } from 'viem';
 import { formatAddress } from '../../lib/utils';
 import { useNavigate } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
+import { BASE_URL } from '../../constants';
 const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('1');
+  const { t } = useTranslation();
 
   const totalRefEarningn = () => {
     let total = 0;
@@ -69,16 +71,16 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
 
   const copyReferralLink = async () => {
     try {
-      const referralLink = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser?.telegramId}`;
+      const referralLink = `${BASE_URL}/dashboard/presales?ref=${currentUser?.telegramId}`;
       await copyTextToClipboard(referralLink);
-      toast.success('Referral link copied!', {
+      toast.success(t('wallet.referralLinkCopied'), {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
       });
     } catch (error) {
-      toast.error('Failed to copy link', {
+      toast.error(t('wallet.failedToCopyReferralLink'), {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
@@ -88,8 +90,10 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
   };
 
   const handleShare = () => {
-    const referralLink = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser?.telegramId}`;
-    const inviteMessage = `🚀 Join the Ploutos Labs Presale and secure your place in the future of decentralized finance! 💰 \n\nTap here to get started: ${referralLink}`;
+    const referralLink = `${BASE_URL}/dashboard/presales?ref=${currentUser?.telegramId}`;
+    const inviteMessage = `${t('wallet.inviteMessage1')} \n\n${t(
+      'wallet.inviteMessage2'
+    )} { referralLink }`;
 
     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
       referralLink
@@ -112,7 +116,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
               toggle('1');
             }}
           >
-            Refferals
+            {t('wallet.referrals')}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -122,7 +126,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
               toggle('2');
             }}
           >
-            History
+            {t('wallet.history')}
           </NavLink>
         </NavItem>
       </Nav>
@@ -130,16 +134,14 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
         <TabPane tabId="1">
           <Row className="justify-content-center align-items-center text-center">
             <div className="mt-4">
-              <h4>Referrals</h4>
-              <p>
-                Share your referral link and earn 7% of every purchase your
-                referral makes plus 3% of thei downlines purchase. Use the
-                buttons below to share or copy your referral link.
-              </p>
+              <h4>{t('wallet.referrals')}</h4>
+              <p>{t('wallet.referralDescription')}</p>
               <Separator />
               <Row className="referrals-grid">
                 <Col className="referral-link-container">
-                  <div className="referral-link-text mt-3">Referral Link</div>
+                  <div className="referral-link-text mt-3">
+                    {t('wallet.referralLink')}
+                  </div>
                   <div>
                     {currentUser
                       ? `https://t.me/ploutos_labs_bot/app?startapp=${currentUser.telegramId}`
@@ -151,14 +153,14 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
                       onClick={handleShare}
                       aria-label="Share referal link"
                     >
-                      <FaTelegramPlane /> Share Link
+                      <FaTelegramPlane /> {t('referral.shareLink')}
                     </Button>
                     <Button
                       onClick={copyReferralLink}
                       className="share-btn copy-button "
                       aria-label="Copy referral link"
                     >
-                      <FaCopy /> Copy Link
+                      <FaCopy /> {t('referral.copyLink')}
                     </Button>
                   </div>
                 </Col>
@@ -166,7 +168,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
               <Row>
                 <Col>
                   <span>
-                    Total Earnings:{' '}
+                    {t('wallet.totalEarnings')}:{' '}
                     <span style={{ fontWeight: 'bold' }}>
                       <FaEthereum />
                       {totalRefEarningn()}
@@ -197,9 +199,9 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
         <TabPane tabId="2">
           <Row className="justify-content-center align-items-center text-center">
             <div className="mt-4">
-              <h4>Presale History</h4>
+              <h4>{t('wallet.history')}</h4>
               {purchaseHistory.length === 0 ? (
-                <p>No record found</p>
+                <p>{t('wallet.noRecordsFound')}</p>
               ) : (
                 <div className="purchase-history-list">
                   {loading ? (

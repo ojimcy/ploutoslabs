@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './transaction.css';
-
+import { useTranslation } from 'react-i18next';
 function AuthPinPad({ onSubmit, loading = false }) {
+  const { t } = useTranslation();
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
   const [isConfirming, setIsConfirming] = useState(false);
@@ -34,7 +35,7 @@ function AuthPinPad({ onSubmit, loading = false }) {
   const handleSubmit = () => {
     if (!isConfirming) {
       if (pin.length !== 4) {
-        setError('Please enter 4 digits');
+        setError(t('auth.pleaseEnter4Digits'));
         return;
       }
       setIsConfirming(true);
@@ -42,12 +43,12 @@ function AuthPinPad({ onSubmit, loading = false }) {
     }
 
     if (confirmPin.length !== 4) {
-      setError('Please enter 4 digits');
+      setError(t('auth.pleaseEnter4Digits'));
       return;
     }
 
     if (pin !== confirmPin) {
-      setError('PINs do not match');
+      setError(t('auth.pinMismatch'));
       setConfirmPin('');
       return;
     }
@@ -64,9 +65,9 @@ function AuthPinPad({ onSubmit, loading = false }) {
 
   return (
     <div className="auth-pin-pad">
-      <h4 className="text-center mb-4">Create Your PIN</h4>
+      <h4 className="text-center mb-4">{t('auth.createPin')}</h4>
       <p className="text-center text-muted mb-4">
-        {isConfirming ? 'Confirm your PIN' : 'Enter a 4-digit PIN'}
+        {isConfirming ? t('auth.confirmPin') : t('auth.enter4DigitPin')}
       </p>
 
       <div className="pin-display mb-4">
@@ -132,9 +133,9 @@ function AuthPinPad({ onSubmit, loading = false }) {
             <div></div>
           </div>
         ) : isConfirming ? (
-          'Confirm PIN'
+          t('auth.confirmPin')
         ) : (
-          'Next'
+          t('common.next')
         )}
       </button>
     </div>

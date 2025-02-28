@@ -15,9 +15,10 @@ import { useCurrentUser } from '../../../hooks/telegram';
 import { useNavigate } from 'react-router-dom';
 import { TransactionTypes, formatTransactionType } from '../../../lib/utils';
 import { FaCopy } from 'react-icons/fa';
-
+import { useTranslation } from 'react-i18next';
 const TransactionSummary = () => {
   const currentUser = useCurrentUser();
+  const { t } = useTranslation();
   const { utilityTransaction } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -94,9 +95,9 @@ const TransactionSummary = () => {
         navigate(`/dashboard/transaction-details?txID=${result.id}`);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       let msg = error?.response?.data?.error;
-      toast.error(msg || 'An error occurred. Please try again later.');
+      toast.error(msg || t('common.errorOccurred'));
     } finally {
       setLoading(false);
     }
@@ -111,39 +112,39 @@ const TransactionSummary = () => {
   return (
     <Container>
       <div className="transaction-summary">
-        <h2>Transaction Summary</h2>
+        <h2>{t('utilities.transactionSummary')}</h2>
         <div className="summary-details">
           <div className="summary-item">
-            <span>Utility Type</span>
+            <span>{t('utilities.utility')}</span>
             <span>{formatTransactionType(utilityTransaction.type)}</span>
           </div>
 
           <div className="summary-item">
-            <span>Payment Method:</span>
+            <span>{t('utilities.paymentMethod')}</span>
             <span>
               {utilityTransaction.method === 'wallet'
-                ? 'Wallet'
-                : 'Cryptocurrency'}
+                ? t('common.wallet')
+                : t('common.cryptocurrency')}
             </span>
           </div>
 
           <div className="summary-item">
-            <span>Amount:</span>
+            <span>{t('common.amount')}:</span>
             <span>₦{utilityTransaction.amount}</span>
           </div>
 
           {utilityTransaction.method === 'crypto' && (
             <>
               <div className="summary-item">
-                <span>Token:</span>
+                <span>{t('common.token')}:</span>
                 <span>{utilityTransaction.currency}</span>
               </div>
               <div className="summary-item">
-                <span>Network:</span>
+                <span>{t('common.network')}:</span>
                 <span>{utilityTransaction.currency_network}</span>
               </div>
               <div className="summary-item">
-                <span>Token Amount:</span>
+                <span>{t('common.tokenAmount')}:</span>
                 <span>{utilityTransaction.token_amount}</span>
               </div>
             </>
@@ -153,11 +154,11 @@ const TransactionSummary = () => {
           {utilityTransaction.utilityType === TransactionTypes.BuyAirtime && (
             <>
               <div className="summary-item">
-                <span>Phone Number:</span>
+                <span>{t('utilities.phoneNumber')}:</span>
                 <span>{utilityTransaction.phone_number}</span>
               </div>
               <div className="summary-item">
-                <span>Network Provider:</span>
+                <span>{t('utilities.networkProvider')}:</span>
                 <span>{utilityTransaction.network}</span>
               </div>
             </>
@@ -166,11 +167,11 @@ const TransactionSummary = () => {
           {utilityTransaction.utilityType === TransactionTypes.BuyData && (
             <>
               <div className="summary-item">
-                <span>Phone Number:</span>
+                <span>{t('utilities.phoneNumber')}:</span>
                 <span>{utilityTransaction.phoneNumber}</span>
               </div>
               <div className="summary-item">
-                <span>Data Plan:</span>
+                <span>{t('utilities.dataPlan')}:</span>
                 <span>{utilityTransaction.dataPlan}</span>
               </div>
             </>
@@ -180,11 +181,11 @@ const TransactionSummary = () => {
             TransactionTypes.ElectricityBill && (
             <>
               <div className="summary-item">
-                <span>Meter Number:</span>
+                <span>{t('utilities.meterNumber')}:</span>
                 <span>{utilityTransaction.meterNumber}</span>
               </div>
               <div className="summary-item">
-                <span>Provider:</span>
+                <span>{t('utilities.provider')}:</span>
                 <span>{utilityTransaction.provider}</span>
               </div>
             </>
@@ -194,11 +195,11 @@ const TransactionSummary = () => {
             TransactionTypes.TvSubscription && (
             <>
               <div className="summary-item">
-                <span>Smart Card Number:</span>
+                <span>{t('utilities.smartCardNumber')}:</span>
                 <span>{utilityTransaction.smartCardNumber}</span>
               </div>
               <div className="summary-item">
-                <span>TV Provider:</span>
+                <span>{t('utilities.tvProvider')}:</span>
                 <span>{utilityTransaction.provider}</span>
               </div>
             </>
@@ -208,7 +209,7 @@ const TransactionSummary = () => {
         {/* Show wallet balance if method is wallet */}
         {utilityTransaction.method === 'wallet' && (
           <div className="wallet-balance-card">
-            <h5>Wallet Balance</h5>
+            <h5>{t('common.walletBalance')}</h5>
             <p>
               <strong>${currentUser?.gameWalletBalance}</strong>
             </p>
@@ -219,8 +220,8 @@ const TransactionSummary = () => {
         {cryptoTransactionDetails && (
           <div className="crypto-instructions">
             <p>
-              Send {cryptoTransactionDetails.token_amount}{' '}
-              {cryptoTransactionDetails.currency} to the following address:
+              {t('common.send')} {cryptoTransactionDetails.token_amount}{' '}
+              {cryptoTransactionDetails.currency} {t('utilities.toAddress')}
             </p>
             <div className="wallet-address">
               <strong>{cryptoTransactionDetails.wallet_address}</strong>
@@ -230,18 +231,17 @@ const TransactionSummary = () => {
                   navigator.clipboard.writeText(
                     cryptoTransactionDetails.wallet_address
                   );
-                  toast.success('Copied to clipboard');
+                  toast.success(t('common.copiedToClipboard'));
                 }}
               />
             </div>
-            <p>After sending, please click the button below to continue. </p>
+            <p>{t('utilities.afterSending')}</p>
 
             <div className="note">
-              ⚠️ Ensure you send the correct token on the selected network to
-              avoid loss of funds.
+              {t('utilities.sendNote')}
             </div>
             <Button className="confirm-button" onClick={handleContinue}>
-              Continue
+              {t('common.continue')}
             </Button>
           </div>
         )}
@@ -253,7 +253,7 @@ const TransactionSummary = () => {
             disabled={loading}
             onClick={handleCheckout}
           >
-            Confirm and Checkout
+            {t('utilities.confirmAndCheckout')}
           </Button>
         )}
       </div>

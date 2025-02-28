@@ -14,8 +14,9 @@ import classnames from 'classnames';
 import './contest.css';
 import { getRefLeaderboard } from '../../lib/server';
 import ContestList from './ContestList';
-
+import { useTranslation } from 'react-i18next';
 const ReferralContests = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('daily');
   const [dailyData, setDailyData] = useState([]);
   const [weeklyData, setWeeklyData] = useState([]);
@@ -63,7 +64,7 @@ const ReferralContests = () => {
         <Row>
           <Col xs={12}>
             <h3 className="contest-title text-center mb-4">
-              Referral Contests
+              {t('referral.contests')}
             </h3>
             <Nav tabs>
               <NavItem>
@@ -71,7 +72,7 @@ const ReferralContests = () => {
                   className={classnames({ active: activeTab === 'daily' })}
                   onClick={() => toggleTab('daily')}
                 >
-                  Daily Contest
+                  {t('referral.daily')}
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -79,23 +80,23 @@ const ReferralContests = () => {
                   className={classnames({ active: activeTab === 'weekly' })}
                   onClick={() => toggleTab('weekly')}
                 >
-                  Weekly Contest
+                  {t('referral.weekly')}
                 </NavLink>
               </NavItem>
             </Nav>
             <TabContent activeTab={activeTab}>
               <TabPane tabId="daily">
                 <ContestList
-                  title="Daily Referral Contest"
-                  subtitle="First 5 to refer 100 people in a day win $10"
+                  title={t('referral.dailyContestListTitle')}
+                  subtitle={t('referral.dailyContestListSubtitle')}
                   data={dailyData}
                   contestType="daily"
                 />
               </TabPane>
               <TabPane tabId="weekly">
                 <ContestList
-                  title="Weekly Referral Contest"
-                  subtitle="First 5 to refer 700 people in a week win $100"
+                  title={t('referral.weeklyContestListTitle')}
+                  subtitle={t('referral.weeklyContestListSubtitle')}
                   data={weeklyData}
                   contestType="weekly"
                 />

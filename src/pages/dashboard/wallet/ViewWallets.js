@@ -8,8 +8,10 @@ import { getUserByTelegramID, getWallets } from '../../../lib/server';
 import { formatAddress } from '../../../lib/utils';
 import { AppContext } from '../../../context/AppContext';
 import { syncWallet } from '../../../lib/db';
+import { useTranslation } from 'react-i18next';
 
 const ViewWallets = () => {
+  const { t } = useTranslation();
   const [wallets, setWallets] = useState([]);
   const { setSelectedWallet, selectedWallet, setWalletToManage } =
     useContext(AppContext);
@@ -47,8 +49,8 @@ const ViewWallets = () => {
     <Container className="wallet-page">
       <Row className="mb-4">
         <Col>
-          <h1>Your Wallets</h1>
-          <p>Manage all your cryptocurrency accounts in one place.</p>
+          <h1>{t('wallet.yourWalletsTitle')}</h1>
+          <p>{t('wallet.yourWalletsDescription')}</p>
         </Col>
       </Row>
       <Row>
@@ -96,7 +98,7 @@ const ViewWallets = () => {
                   <FaPlus />
                 </div>
                 <div className="wallet-info">
-                  <div className="wallet-title">Add New Wallet</div>
+                  <div className="wallet-title">{t('wallet.addNewWallet')}</div>
                 </div>
               </div>
             </Link>

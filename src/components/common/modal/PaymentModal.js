@@ -3,22 +3,23 @@ import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import BaseModal from '../modal/BaseModal';
 import './modal.css';
+import { useTranslation } from 'react-i18next';
 
 const PaymentModal = ({ isOpen, toggle, onConfirm }) => {
+  const { t } = useTranslation();
   return (
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Payment Required"
+      title={t('modal.paymentRequired')}
       className="main-modal"
     >
       <p>
-        You have already played your first solo game for today. To play again,
-        you need to pay $0.1.
+        {t('modal.paymentRequiredMessage')}
       </p>
       <div className="d-flex justify-content-center">
         <Button onClick={onConfirm} color="primary">
-          Pay $0.1 and Play
+          {t('modal.payAndPlay')}
         </Button>
       </div>
     </BaseModal>

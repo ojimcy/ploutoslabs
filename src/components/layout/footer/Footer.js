@@ -3,9 +3,10 @@ import { Col, Container, Row } from 'reactstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { FaTasks, FaUsers, FaGem, FaHome, FaTools } from 'react-icons/fa';
 import './Footer.css';
-
+import { useTranslation } from 'react-i18next';
 function AirdropFooter() {
   const location = useLocation();
+  const { t } = useTranslation();
 
   // const handleComingSoonClicked = () => {
   //   if (toast) {
@@ -31,7 +32,7 @@ function AirdropFooter() {
                       }`}
                     >
                       <FaGem size={28} />
-                      <span className="mt-1">Wallet</span>
+                      <span className="mt-1">{t('footer.wallet')}</span>
                     </Link>
                   </li>
                   <li>
@@ -42,7 +43,7 @@ function AirdropFooter() {
                       }`}
                     >
                       <FaTasks size={28} />
-                      <span className="mt-1">Tasks</span>
+                      <span className="mt-1">{t('footer.tasks')}</span>
                     </Link>
                   </li>
                   <li>
@@ -55,7 +56,7 @@ function AirdropFooter() {
                       }`}
                     >
                       <FaHome size={28} />
-                      <span>Home</span>
+                      <span>{t('footer.home')}</span>
                     </Link>
                   </li>
                   <li>
@@ -68,7 +69,7 @@ function AirdropFooter() {
                       }`}
                     >
                       <FaTools size={28} />
-                      <span className="mt-1">Utilities</span>
+                      <span className="mt-1">{t('footer.utilities')}</span>
                     </Link>
                   </li>
                   <li>
@@ -81,7 +82,7 @@ function AirdropFooter() {
                       }`}
                     >
                       <FaUsers size={28} />
-                      <span className="mt-1">Referrals</span>
+                      <span className="mt-1">{t('footer.referrals')}</span>
                     </Link>
                   </li>
                 </ul>

@@ -7,9 +7,11 @@ import { useCurrentUser } from '../../hooks/telegram';
 import { Link } from 'react-router-dom';
 import { getUserByTelegramID } from '../../lib/server';
 import { WebappContext } from '../../context/telegram';
+import { useTranslation } from 'react-i18next';
 
 function ReferralCard() {
   const currentUser = useCurrentUser();
+  const { t } = useTranslation();
   const { setUser, user } = useContext(WebappContext);
   const [checkedIn, setCheckedIn] = useState(false);
   const telegramId = localStorage.getItem('TELEGRAM_ID');
@@ -45,7 +47,7 @@ function ReferralCard() {
             <div className="task-reward-card-content">
               <div className="icon-title-wrapper">
                 <FaUsers className="task-icon" />
-                <div className="task-title">Referrals</div>
+                <div className="task-title">{t('referral.title')}</div>
               </div>
               <div className="notification-badge">
                 {currentUser ? currentUser.referralCount : 0}
@@ -58,7 +60,7 @@ function ReferralCard() {
             <div className="task-reward-card-content">
               <div className="icon-title-wrapper">
                 <FaGift className="rewards-icon" />
-                <div className="reward-title">Rewards</div>
+                <div className="reward-title">{t('common.rewards')}</div>
               </div>
               {checkedIn ? (
                 <FaCheckCircle color='#006F04' size={15}/>

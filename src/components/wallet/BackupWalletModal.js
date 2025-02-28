@@ -4,9 +4,11 @@ import { Button, Alert } from 'reactstrap';
 import { FaCopy, FaCheck } from 'react-icons/fa';
 import BaseModal from '../common/modal/BaseModal';
 import './backupWalletModal.css';
+import { useTranslation } from 'react-i18next';
 
 const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const handleCopy = async () => {
     try {
@@ -20,7 +22,7 @@ const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
 
   const footerContent = (
     <Button color="primary" onClick={toggle}>
-      Done
+      {t('common.done')}
     </Button>
   );
 
@@ -28,14 +30,13 @@ const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Backup Wallet"
+      title={t('modal.backupWallet')}
       className="backup-wallet-modal"
       position="bottom"
       footerContent={footerContent}
     >
       <div className="backup-warning">
-        Keep your recovery phrase in a safe place. Anyone with access to it can
-        take control of your wallet.
+        {t('modal.backupWarning')}
       </div>
       <div className="recovery-container">
         <div className="recovery-phrase">
@@ -52,11 +53,11 @@ const BackupWalletModal = ({ isOpen, toggle, recoveryPhrase }) => {
         onClick={handleCopy}
       >
         {copied ? <FaCheck /> : <FaCopy />}
-        <span>{copied ? 'Copied!' : 'Copy to clipboard'}</span>
+        <span>{copied ? t('modal.copied') : t('modal.copyToClipboard')}</span>
       </button>
       {copied && (
         <Alert color="success" className="copy-alert">
-          Recovery phrase copied to clipboard!
+          {t('modal.recoveryPhraseCopied')}
         </Alert>
       )}
     </BaseModal>

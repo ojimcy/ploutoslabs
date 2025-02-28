@@ -16,8 +16,9 @@ import { toast } from 'react-hot-toast';
 import DeleteWalletModal from '../../../components/wallet/DeleteWalletModal';
 import { removeWallet, editWalletLabel } from '../../../lib/db';
 import VerifyPinModal from '../../../components/wallet/VerifyPinModal';
-
+import { useTranslation } from 'react-i18next';
 const WalletDetail = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { walletToManage } = useContext(AppContext);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -42,11 +43,11 @@ const WalletDetail = () => {
     try {
       setLoading(true);
       editWalletLabel(walletToManage.address, walletLabel);
-      toast.success('Wallet label updated successfully');
+      toast.success(t('wallet.updatedSuccessfully'));
       setIsEditMode(false);
     } catch (err) {
       console.error('Failed to update wallet label:', err);
-      toast.error(err.response?.data?.error || 'Failed to update wallet label');
+      toast.error(err.response?.data?.error || t('wallet.failedToUpdate'));
     } finally {
       setLoading(false);
     }
@@ -58,11 +59,11 @@ const WalletDetail = () => {
       // Remove wallet from local storage
       removeWallet(walletToManage.address);
 
-      toast.success('Wallet deleted successfully');
+      toast.success(t('wallet.deletedSuccessfully'));
       navigate('/dashboard/accounts');
     } catch (err) {
       console.error('Failed to delete wallet:', err);
-      toast.error('Failed to delete wallet');
+      toast.error(t('wallet.failedToDelete'));
     } finally {
       setLoading(false);
     }
@@ -72,16 +73,15 @@ const WalletDetail = () => {
     try {
       // Decrypt wallet data including mnemonic
       const decryptedData = await decryptWalletData(walletToManage, pin);
-      console.log('decryptedData', decryptedData);
       if (!decryptedData.mnemonic) {
-        throw new Error('No recovery phrase found for this wallet');
+        throw new Error(t('wallet.noRecoveryPhraseFound'));
       }
       setRecoveryPhrase(decryptedData.mnemonic);
       setShowBackupModal(true);
       setPinError('');
       setShowPinModal(false);
     } catch (err) {
-      setPinError(err.message || 'Invalid PIN or corrupted wallet data');
+      setPinError(err.message || t('wallet.invalidPinOrCorruptedWalletData'));
     }
   };
 
@@ -89,7 +89,7 @@ const WalletDetail = () => {
     <div className="wallet-detail-page">
       <Container>
         <Button className="back-button mb-4" onClick={handleBack}>
-          <FaArrowLeft /> Back
+          <FaArrowLeft /> {t('common.back')}
         </Button>
 
         <div className="wallet-detail-card">
@@ -98,7 +98,7 @@ const WalletDetail = () => {
               <div className="edit-name-container">
                 <Input
                   value={walletLabel}
-                  placeholder="Wallet Name"
+                  placeholder={t('wallet.walletName')}
                   onChange={(e) => setWalletLabel(e.target.value)}
                 />
                 <div className="edit-actions">
@@ -107,13 +107,13 @@ const WalletDetail = () => {
                     onClick={handleEditLabel}
                     disabled={loading}
                   >
-                    {loading ? <Spinner size="sm" /> : 'Save'}
+                    {loading ? <Spinner size="sm" /> : t('common.save')}
                   </Button>
                   <Button
                     color="secondary"
                     onClick={() => setIsEditMode(false)}
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </Button>
                 </div>
               </div>
@@ -140,14 +140,14 @@ const WalletDetail = () => {
               onClick={() => setShowPinModal(true)}
             >
               <FaKey />
-              <span> Backup Wallet</span>
+              <span>{t('wallet.backupWallet')}</span>
             </Button>
             <Button
               className="action-button delete-button"
               onClick={() => setShowDeleteModal(true)}
             >
               <FaTrash />
-              <span> Delete Wallet</span>
+              <span>{t('wallet.deleteWallet')}</span>
             </Button>
           </div>
         </div>

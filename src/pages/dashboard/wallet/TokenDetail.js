@@ -7,10 +7,12 @@ import './token-detail.css';
 import { Separator } from '../../../components/common/Seperator';
 import { getWalletHIstory } from '../../../lib/server';
 import TransactionCard from '../../../components/wallet/TransactionCard';
+import { useTranslation } from 'react-i18next';
 
 const TokenDetail = () => {
   const navigate = useNavigate();
   const { selectedToken } = useContext(AppContext);
+  const { t } = useTranslation();
 
   const [showActions, setShowActions] = useState(false);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -48,7 +50,7 @@ const TokenDetail = () => {
       <Container>
         {/* Balance Section */}
         <div className="token-balance-section">
-          <h4>Your Balance</h4>
+          <h4>{t('wallet.yourBalance')}</h4>
           <div className="balance-details">
             <div className="token-amount-container">
               <p className="token-amount">
@@ -83,14 +85,14 @@ const TokenDetail = () => {
               onClick={handleSend}
             >
               <FaPaperPlane />
-              <span> Send</span>
+              <span>{t('wallet.send')}</span>
             </Button>
             <Button
               className="action-button receive-token-button"
               onClick={handleReceive}
             >
               <FaQrcode />
-              <span> Receive</span>
+              <span>{t('wallet.receive')}</span>
             </Button>
           </div>
         </div>

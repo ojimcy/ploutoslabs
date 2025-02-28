@@ -10,6 +10,8 @@ import { Container, Spinner } from 'reactstrap';
 import { useCurrentUser } from '../../hooks/telegram';
 import { AppContext } from '../../context/AppContext';
 import { WebappContext } from '../../context/telegram';
+import { useTranslation } from 'react-i18next';
+
 const dailyRewards = [
   { day: 1, amount: '0.05' },
   { day: 2, amount: '0.1' },
@@ -24,6 +26,7 @@ const dailyRewards = [
 ];
 
 function DailyReward() {
+  const { t } = useTranslation();
   const { checkedIn, setCheckedIn } = useContext(AppContext);
   const { setUser } = useContext(WebappContext);
   const currentUser = useCurrentUser();
@@ -70,15 +73,14 @@ function DailyReward() {
 
     setLoading(true);
     try {
-      const res = await claimDailyReward(telegramId);
-      console.log('res', res);
+      await claimDailyReward(telegramId);
 
       setCheckedIn(true);
-      toast.success('Daily reward claimed successfully!');
+      toast.success(t('dailyReward.success'));
       await fetchUserData();
     } catch (error) {
       console.error('Check-in failed:', error.response?.data || error.message);
-      toast.error('Failed to claim daily reward');
+      toast.error(t('dailyReward.error'));
     } finally {
       setLoading(false);
     }
@@ -97,13 +99,9 @@ function DailyReward() {
     <div className="daily-reward">
       <Container className="d-flex flex-column align-items-center">
         <div className="daily-reward-header">
-          <h3>Daily Rewards</h3>
-          <p>
-            Earn game coins by logging into the game daily without missing a day
-          </p>
-          <span className="tips">
-            Tip: Your streak will reset if you skip a day
-          </span>
+          <h3>{t('dailyReward.title')}</h3>
+          <p>{t('dailyReward.subtitle')}</p>
+          <span className="tips">{t('dailyReward.tips')}</span>
         </div>
         <div className="daily-reward-list w-100">
           {dailyRewards.map((reward, index) => (
@@ -114,7 +112,7 @@ function DailyReward() {
               }`}
             >
               <div className="day">
-                Day {reward.day}
+                {t('tasks.day')} {reward.day}
                 {index + 1 <= currentDay && (
                   <FaCheckCircle className="check-icon" />
                 )}
@@ -129,7 +127,9 @@ function DailyReward() {
         {checkedIn ? (
           <div className="next-claim-info">
             <FaClock className="clock-icon" />
-            <span>Next claim available in {formatTimeUntilNextClaim()}</span>
+            <span>
+              {t('dailyReward.nextClaim')} {formatTimeUntilNextClaim()}
+            </span>
           </div>
         ) : (
           <button
@@ -137,7 +137,7 @@ function DailyReward() {
             onClick={() => handleCheckIn(currentDay)}
             disabled={loading || checkedIn}
           >
-            {loading ? <Spinner size="sm" /> : 'Claim Reward!'}
+            {loading ? <Spinner size="sm" /> : t('dailyReward.claim')}
           </button>
         )}
       </Container>

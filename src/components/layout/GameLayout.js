@@ -43,7 +43,6 @@ const GameLayout = ({ children }) => {
           return;
         }
         user = resp.user;
-        console.log('new user', user);
       }
       setUser(user);
       // hideLoadingPage();

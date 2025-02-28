@@ -7,6 +7,7 @@ import './index.css';
 import { WebappProvider } from './context/telegram';
 import { AppProvider } from './context/AppContext'; // Corrected import
 import { Toaster } from 'react-hot-toast';
+import i18n from './i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -42,3 +43,8 @@ root.render(
     </AppProvider>
   </WebappProvider>
 );
+
+// Add this after initializing i18n
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.lang = lng;
+});

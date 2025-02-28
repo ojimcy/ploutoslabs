@@ -18,10 +18,11 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../../context/AppContext';
 import { TransactionTypes } from '../../../lib/utils';
-
+import { useTranslation } from 'react-i18next';
 const ElectricityBillPage = () => {
   const navigate = useNavigate();
   const { updateUtilityTransaction } = useContext(AppContext);
+  const { t } = useTranslation();
 
   const [providers, setProviders] = useState([]);
   const [provider, setProvider] = useState('');
@@ -56,7 +57,7 @@ const ElectricityBillPage = () => {
         );
         setCustomerName(result.customerName);
       } catch (error) {
-        toast.error('Failed to verify meter number. Please try again.');
+        toast.error(t('utilities.failedToVerifyMeterNumber'));
       } finally {
         setLoadingMeter(false);
       }
@@ -96,13 +97,13 @@ const ElectricityBillPage = () => {
     <Container className="electricity-bill-page">
       <Row>
         <Col md={6} className="mx-auto">
-          <h3 className="text-center">Pay Electricity Bill</h3>
+          <h3 className="text-center">{t('utilities.electricityBillTitle')}</h3>
           <p className="text-center">
-            Select a provider, enter your meter number, meter type, and amount
+            {t('utilities.payElectricityBillDescription')}
           </p>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label for="provider">Service Provider</Label>
+              <Label for="provider">{t('utilities.serviceProvider')}</Label>
               <Input
                 type="select"
                 id="provider"
@@ -110,7 +111,7 @@ const ElectricityBillPage = () => {
                 onChange={(e) => setProvider(e.target.value)}
                 className="form-control"
               >
-                <option value="">Select a provider</option>
+                <option value="">{t('utilities.selectAProvider')}</option>
                 {providers.map((provider) => (
                   <option key={provider.id} value={provider.id}>
                     {provider.name}
@@ -120,7 +121,7 @@ const ElectricityBillPage = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label for="meterType">Meter Type</Label>
+              <Label for="meterType">{t('utilities.meterType')}</Label>
               <Input
                 type="select"
                 id="meterType"
@@ -128,7 +129,7 @@ const ElectricityBillPage = () => {
                 onChange={(e) => setMeterType(e.target.value)}
                 className="form-control"
               >
-                <option value="">Select meter type</option>
+                <option value="">{t('utilities.selectMeterType')}</option>
                 {meterTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
@@ -138,28 +139,28 @@ const ElectricityBillPage = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label for="meterNumber">Meter Number</Label>
+              <Label for="meterNumber">{t('utilities.meterNumber')}</Label>
               <Input
                 type="text"
                 id="meterNumber"
-                placeholder="Enter meter number"
+                placeholder={t('utilities.enterMeterNumber')}
                 value={meterNumber}
                 onChange={(e) => onMeterNumberChanged(e.target.value)}
                 className="form-control"
               />
               {loadingMeter ? (
-                <p>Verifying meter number...</p>
+                <p>{t('common.verifyingMeterNumber')}</p>
               ) : (
                 <p>{customerName}</p>
               )}
             </FormGroup>
 
             <FormGroup>
-              <Label for="meterNumber">Phone Number</Label>
+              <Label for="meterNumber">{t('utilities.phoneNumber')}</Label>
               <Input
                 type="text"
                 id="phoneNumber"
-                placeholder="Enter phone number for notification"
+                placeholder={t('utilities.enterPhoneNumber')}
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumer(e.target.value)}
                 className="form-control"
@@ -167,11 +168,11 @@ const ElectricityBillPage = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label for="amount">Amount (₦)</Label>
+              <Label for="amount">{t('common.amount')}</Label>
               <Input
                 type="number"
                 id="amount"
-                placeholder="Enter amount"
+                placeholder={t('utilities.enterAmount')}
                 value={amount}
                 min={800}
                 onChange={(e) => setAmount(e.target.value)}
@@ -190,7 +191,7 @@ const ElectricityBillPage = () => {
                 !customerName
               }
             >
-              Pay Bill
+              {t('utilities.payBill')}
             </Button>
           </Form>
         </Col>

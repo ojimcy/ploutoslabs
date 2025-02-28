@@ -7,7 +7,9 @@ import { boost, getUserByTelegramID } from '../../lib/server';
 import { toast } from 'react-hot-toast';
 import './boost-card.css';
 import { WebappContext } from '../../context/telegram';
+import { useTranslation } from 'react-i18next';
 function BoostCard({ id, image, title, description, value }) {
+  const { t } = useTranslation();
   const currentUser = useCurrentUser();
   const { setUser } = useContext(WebappContext);
   const [loading, setLoading] = useState(false);
@@ -44,7 +46,7 @@ function BoostCard({ id, image, title, description, value }) {
           <div className="boost-card-footer">
             <div className="boost-card-value">
               <span className="value-amount">{value}</span>
-              <span className="value-currency">PLTL</span>
+              <span className="value-currency">{t('common.pltl')}</span>
               <FaArrowUp className="boost-icon" />
             </div>
             <Button

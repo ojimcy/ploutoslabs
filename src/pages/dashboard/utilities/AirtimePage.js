@@ -14,9 +14,11 @@ import './utilities.css';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { NetworkProviders, TransactionTypes } from '../../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const Airtime = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [networkProvider, setNetworkProvider] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [amount, setAmount] = useState('');
@@ -68,18 +70,15 @@ const Airtime = () => {
     <Container className="airtime-page">
       <Row className="mt-5">
         <Col md={{ size: 6, offset: 3 }} className="text-center">
-          <h3 className="mb-4">Buy Airtime</h3>
-          <p>
-            Select your network, enter your phone number, and amount to
-            recharge.
-          </p>
+          <h3 className="mb-4">{t('utilities.buyAirtime')}</h3>
+          <p>{t('utilities.airtimePageDescription')}</p>
         </Col>
       </Row>
       <Row className="mt-4">
         <Col md={{ size: 6, offset: 3 }}>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label for="networkProvider">Network Provider</Label>
+              <Label for="networkProvider">{t('utilities.airtimePageNetworkProvider')}</Label>
               <Input
                 type="select"
                 id="networkProvider"
@@ -87,7 +86,7 @@ const Airtime = () => {
                 onChange={(e) => setNetworkProvider(e.target.value)}
                 className="form-control"
               >
-                <option value="">Select a network</option>
+                <option value="">{t('utilities.selectNetworkProvider')}</option>
                 {NetworkProviders.map((provider) => (
                   <option key={provider.id} value={provider.id}>
                     {provider.name}
@@ -96,11 +95,11 @@ const Airtime = () => {
               </Input>
             </FormGroup>
             <FormGroup>
-              <Label for="phoneNumber">Phone Number</Label>
+              <Label for="phoneNumber">{t('utilities.phoneNumber')}</Label>
               <Input
                 type="text"
                 id="phoneNumber"
-                placeholder="Enter phone number"
+                placeholder={t('utilities.enterPhoneNumber')}
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
               />
@@ -109,18 +108,18 @@ const Airtime = () => {
               )}
             </FormGroup>
             <FormGroup>
-              <Label for="amount">Amount (₦)</Label>
+              <Label for="amount">{t('common.amount')}</Label>
               <Input
                 type="number"
                 id="amount"
-                placeholder="Enter amount"
+                placeholder={t('utilities.enterAmount')}
                 value={amount}
                 min={50}
                 onChange={(e) => setAmount(e.target.value)}
               />
             </FormGroup>
             <Button color="primary" block>
-              Proceed to Checkout
+              {t('utilities.proceedToCheckout')}
             </Button>
           </Form>
         </Col>

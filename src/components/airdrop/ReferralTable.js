@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import './referral-table.css';
 import PropTypes from 'prop-types';
+import { t } from 'i18next';
 const ITEMS_PER_PAGE = 20;
 
 const ReferralTable = ({ firstGeneration, secondGeneration, loading }) => {
@@ -125,7 +126,7 @@ const ReferralTable = ({ firstGeneration, secondGeneration, loading }) => {
             className={activeTab === 'first' ? 'active' : ''}
             onClick={() => setActiveTab('first')}
           >
-            Direct Referrals ({firstGeneration.length})
+            {t('referral.directReferrals')} ({firstGeneration.length})
           </NavLink>
         </NavItem>
         <NavItem>
@@ -133,7 +134,7 @@ const ReferralTable = ({ firstGeneration, secondGeneration, loading }) => {
             className={activeTab === 'second' ? 'active' : ''}
             onClick={() => setActiveTab('second')}
           >
-            Indirect Referrals ({secondGeneration.length})
+            {t('referral.indirectReferrals')} ({secondGeneration.length})
           </NavLink>
         </NavItem>
       </Nav>
@@ -142,8 +143,8 @@ const ReferralTable = ({ firstGeneration, secondGeneration, loading }) => {
         <thead>
           <tr>
             <th>#</th>
-            <th>Username</th>
-            <th>Balance</th>
+            <th>{t('common.username')}</th>
+            <th>{t('common.balance')}</th>
           </tr>
         </thead>
         <tbody>
@@ -166,8 +167,8 @@ const ReferralTable = ({ firstGeneration, secondGeneration, loading }) => {
           ) : (
             <tr>
               <td colSpan="3" className="text-center">
-                No {activeTab === 'first' ? 'direct' : 'indirect'} referrals
-                yet.
+                {t('common.no')} {activeTab === 'first' ? t('common.direct') : t('common.indirect')}{' '}
+                {t('referral.referralsYet')}
               </td>
             </tr>
           )}

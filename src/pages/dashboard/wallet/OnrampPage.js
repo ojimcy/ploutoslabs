@@ -9,8 +9,9 @@ import {
   Container,
 } from 'reactstrap';
 import { OnrampWebSDK } from '@onramp.money/onramp-web-sdk';
-
+import { useTranslation } from 'react-i18next';
 const OnrampPage = () => {
+  const { t } = useTranslation();
   const [asset, setAsset] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [amount, setAmount] = useState(0);
@@ -45,7 +46,7 @@ const OnrampPage = () => {
         <Row form>
           <Col md={4}>
             <FormGroup>
-              <Label for="assetSelect">Select Asset</Label>
+              <Label for="assetSelect">{t('wallet.selectAsset')}</Label>
               <Input
                 type="select"
                 name="asset"
@@ -55,7 +56,7 @@ const OnrampPage = () => {
                 required
               >
                 <option value="" disabled>
-                  Select an asset
+                  {t('wallet.selectAnAsset')}
                 </option>
                 <option value="usdc">USDC (USDC)</option>
                 <option value="eth">Ethereum (ETH)</option>
@@ -65,12 +66,12 @@ const OnrampPage = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="walletAddress">Wallet Address</Label>
+              <Label for="walletAddress">{t('common.walletAddress')}</Label>
               <Input
                 type="text"
                 name="walletAddress"
                 id="walletAddress"
-                placeholder="Enter wallet address"
+                placeholder={t('common.enterWalletAddress')}
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
                 required
@@ -79,12 +80,12 @@ const OnrampPage = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="amount">Amount</Label>
+              <Label for="amount">{t('common.amount')}</Label>
               <Input
                 type="number"
                 name="amount"
                 id="amount"
-                placeholder="Enter amount"
+                placeholder={t('utilities.enterAmount')}
                 max="3750000"
                 value={amount}
                 onChange={(e) => setAmount(parseFloat(e.target.value))}

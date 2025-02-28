@@ -18,11 +18,12 @@ import { useCurrentUser } from '../../../hooks/telegram';
 import TransactionPin from '../../../components/auth/TransactionPin';
 import { encryptAndSaveWallet } from '../../../lib/utils';
 import ConfirmationPage from './confirmation';
-
+import { useTranslation } from 'react-i18next';
 import './wallets.css';
 
 const CreateWallet = () => {
   const currentUser = useCurrentUser();
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [lable, setLable] = useState('');
   const [password, setPassword] = useState('');
@@ -53,7 +54,7 @@ const CreateWallet = () => {
       // Focus the last input after pasting
       inputRefs.current[11].focus();
     } else {
-      toast.error('Please paste all 12 words of your recovery phrase');
+      toast.error(t('wallet.recoveryPhraseError'));
     }
   };
 
@@ -86,7 +87,7 @@ const CreateWallet = () => {
     if (mnemonic === confirmMnemonic) {
       handleCreateWallet();
     } else {
-      setError('Recovery phrase does not match.');
+      setError(t('wallet.recoveryPhraseMismatchError'));
     }
   };
 
@@ -109,7 +110,7 @@ const CreateWallet = () => {
       setStep(6);
     } catch (err) {
       console.error('Error creating wallet:', err);
-      setError('Failed to create wallet.');
+      setError(t('wallet.failedToCreateWallet'));
     } finally {
       setLoading(false);
     }
@@ -117,12 +118,12 @@ const CreateWallet = () => {
 
   return (
     <Container className="create-wallet">
-      <h3>Create Wallet</h3>
+      <h3>{t('wallet.createWallet')}</h3>
 
       {step === 1 && (
         <div className="step-container">
           <TransactionPin
-            title="Enter a 6 digit pin for this wallet"
+            title={t('wallet.enterPin')}
             onSubmit={(pin) => {
               setPassword(pin);
               setStep(2);
@@ -134,10 +135,10 @@ const CreateWallet = () => {
       {step === 2 && (
         <div className="step-container">
           <TransactionPin
-            title="Confirm pin"
+            title={t('wallet.confirmPin')}
             onSubmit={(pin) => {
               if (pin !== password) {
-                toast.error('Invalid confirm password');
+                toast.error(t('wallet.invalidConfirmPassword'));
                 setStep(1);
                 return;
               }
@@ -150,7 +151,7 @@ const CreateWallet = () => {
       {step === 3 && (
         <div className="step-container">
           <Alert color="warning">
-            Please write down your recovery phrase and keep it in a safe place.
+            {t('wallet.recoveryPhraseAlert')}
           </Alert>
           <div className="recovery-phrase-container">
             <div className="recovery-phrase">
@@ -165,14 +166,14 @@ const CreateWallet = () => {
               className="copy-phrase"
               onClick={() => {
                 navigator.clipboard.writeText(mnemonic);
-                toast.success('Recovery phrase copied to clipboard');
+                toast.success(t('modal.recoveryPhraseCopied'));
               }}
             >
-              <FaCopy /> Copy Recovery Phrase
+              <FaCopy /> {t('wallet.copyRecoveryPhrase')}
             </button>
           </div>
           <Button onClick={() => setStep(4)} block>
-            I&apos;ve Written It Down
+            {t('wallet.iHaveWrittenItDown')}
           </Button>
         </div>
       )}
@@ -183,17 +184,17 @@ const CreateWallet = () => {
         <div className="step-container">
           <Form>
             <FormGroup>
-              <Label for="tag">Wallet Label</Label>
+              <Label for="tag">{t('wallet.walletLabel')}</Label>
               <Input
                 type="text"
                 id="tag"
                 value={lable}
                 onChange={(e) => setLable(e.target.value)}
-                placeholder="Enter a label for your wallet"
+                placeholder={t('wallet.walletLabelPlaceholder')}
               />
             </FormGroup>
             <FormGroup>
-              <Label>Confirm Recovery Phrase</Label>
+              <Label>{t('wallet.confirmRecoveryPhrase')}</Label>
               <div className="phrase-inputs-container" onPaste={handlePaste}>
                 {Array(12)
                   .fill(0)
@@ -213,7 +214,7 @@ const CreateWallet = () => {
             </FormGroup>
             {error && <Alert color="danger">{error}</Alert>}
             <Button onClick={handleConfirmMnemonic} block disabled={loading}>
-              {loading ? 'Creating Wallet...' : 'Create Wallet'}
+              {loading ? t('modal.creatingWallet') : t('wallet.createWallet')}
             </Button>
           </Form>
         </div>
@@ -222,10 +223,10 @@ const CreateWallet = () => {
       {step === 6 && (
         <div className="step-container">
           <Alert color="success">
-            Wallet created successfully! Your private key is securely stored.
+            {t('wallet.walletCreatedSuccessfully')}
           </Alert>
           <Button tag={Link} to="/dashboard/accounts" block>
-            View My Wallets
+            {t('wallet.viewMyWallets')}
           </Button>
         </div>
       )}

@@ -22,6 +22,7 @@ import './send.css';
 import pltlLogo from '../../../assets/images/logo.png';
 import TransactionPin from '../../../components/auth/TransactionPin';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 const Send = () => {
   const { selectedToken, selectedWallet } = useContext(AppContext);
   const [amount, setAmount] = useState('');
@@ -31,9 +32,10 @@ const Send = () => {
   const [showPinPad, setShowPinPad] = useState(false);
   const [transactionResult, setTransactionResult] = useState(null);
   const [transactionError, setTransactionError] = useState(null);
+  const { t } = useTranslation();
 
   if (!selectedToken) {
-    return <div>No token selected</div>;
+    return <div>{t('wallet.noTokenSelected')}</div>;
   }
 
   const handleMaxClick = () => {
@@ -181,7 +183,7 @@ const Send = () => {
       {!showPinPad && (
         <Form className="send-form mt-5">
           <FormGroup>
-            <Label for="recipient">Recipient</Label>
+            <Label for="recipient">{t('wallet.recipient')}</Label>
             <Input
               type="text"
               name="recipient"
@@ -192,17 +194,17 @@ const Send = () => {
             />
           </FormGroup>
           <FormGroup className="mt-3">
-            <Label for="amount">Amount</Label>
+            <Label for="amount">{t('common.amount')}</Label>
             <Input
               type="text"
               name="amount"
               id="amount"
-              placeholder="Amount"
+              placeholder={t('utilities.enterAmount')}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
             <span className="max-value mt-1" onClick={handleMaxClick}>
-              Max: {selectedToken.balance_formatted}
+              {t('wallet.max')} {selectedToken.balance_formatted}
             </span>
           </FormGroup>
           <Button
@@ -211,14 +213,14 @@ const Send = () => {
             onClick={handleSendClick}
             disabled={!amount || !recipient}
           >
-            Send
+            {t('wallet.send')}
           </Button>
         </Form>
       )}
 
       {showPinPad && (
         <TransactionPin
-          title={'Enter your 6 digit pin'}
+          title={t('wallet.enter6DigitPin')}
           onSubmit={sendTransaction}
         />
       )}
@@ -230,32 +232,32 @@ const Send = () => {
         fade={false}
       >
         <ModalHeader toggle={toggleModal} className="modal-header">
-          Confirm Send
+          {t('wallet.confirmSend')}
         </ModalHeader>
         <ModalBody className="modal-body">
           <>
             {transactionError ? (
               <div className="error-message">
-                <p>Transaction failed:</p>
+                <p>{t('wallet.transactionFailed')}:</p>
                 <p>{transactionError}</p>
               </div>
             ) : transactionResult ? (
               <div className="success-message">
-                <p>Transaction submitted successfully!</p>
-                <p>
+                <p>{t('wallet.transactionSubmittedSuccessfully')}</p>
+                <p> 
                   <a
                     target="_blank"
                     rel="noreferrer"
                     href={`https://basescan.org/tx/${transactionResult.hash}`}
                   >
-                    Track Transaction
+                    {t('wallet.trackTransaction')}
                   </a>
                 </p>
               </div>
             ) : loading ? (
               <div className="loading-message">
                 <Spinner />
-                <p>Waiting for transaction confirmation...</p>
+                <p>{t('wallet.waitingForTransactionConfirmation')}</p>
               </div>
             ) : (
               <>
@@ -273,7 +275,7 @@ const Send = () => {
                   <Row>
                     <Col>
                       <div className="detail-item">
-                        <span className="label">To</span>
+                        <span className="label">{t('common.to')}</span>
                         <span className="value">
                           {formatAddress(recipient)}
                         </span>
@@ -283,7 +285,7 @@ const Send = () => {
                   <Row>
                     <Col>
                       <div className="detail-item">
-                        <span className="label">Network</span>
+                        <span className="label">{t('common.network')}</span>
                         <span className="value">{selectedToken.network}</span>
                       </div>
                     </Col>
@@ -291,7 +293,7 @@ const Send = () => {
                   <Row>
                     <Col>
                       <div className="detail-item">
-                        <span className="label">Network fee</span>
+                          <span className="label">{t('common.networkFee')}</span>
                         <span className="value">
                           ${selectedToken.networkFee}
                         </span>
@@ -305,7 +307,7 @@ const Send = () => {
                     onClick={toggleModal}
                     className="cancel-button"
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </Button>
                   <Button
                     color="primary"
@@ -315,7 +317,7 @@ const Send = () => {
                       toggleModal();
                     }}
                   >
-                    {loading ? <Spinner size="sm" /> : 'Send'}
+                    {loading ? <Spinner size="sm" /> : t('wallet.send')}
                   </Button>
                 </div>
               </>

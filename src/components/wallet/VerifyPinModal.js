@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import { Alert } from 'reactstrap';
 import TransactionPin from '../auth/TransactionPin';
 import BaseModal from '../common/modal/BaseModal';
-
+import { useTranslation } from 'react-i18next';
 const VerifyPinModal = ({ isOpen, toggle, onSubmit, error }) => {
+  const { t } = useTranslation();
   return (
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Verify PIN"
+      title={t('wallet.verifyPin')}
       className="verify-pin-modal"
     >
       <TransactionPin
-        title="Enter your wallet PIN to view recovery phrase"
+        title={t('wallet.verifyWalletPinSubtitle')}
         onSubmit={onSubmit}
       />
       {error && (

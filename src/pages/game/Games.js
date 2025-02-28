@@ -21,9 +21,11 @@ import { toast } from 'react-hot-toast';
 import GameDepositModal from '../../components/common/modal/GameDepositModal';
 import WithdrawModal from '../../components/common/modal/WithdrawalModal';
 import { useCurrentUser } from '../../hooks/telegram';
+import { useTranslation } from 'react-i18next';
 
 const Games = () => {
   const currentUser = useCurrentUser();
+  const { t } = useTranslation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [depositModal, setDepositModal] = useState(false);
   const [withdrawalModal, setWithdrawalModal] = useState(false);
@@ -55,14 +57,14 @@ const Games = () => {
 
   const games = [
     {
-      title: 'Super Catch',
-      description: 'Catch as many items as you can avoiding the bombs.',
+      title: t('game.superCatch'),
+      description: t('game.superCatchDescription'),
       image: superCatch,
       link: '/game/super-catch',
     },
     {
-      title: 'Crash',
-      description: 'Watch the multiplier rise, but be careful not to crash!',
+      title: t('game.crash'),
+      description: t('game.crashDescription'),
       image: crash,
     },
   ];
@@ -82,14 +84,18 @@ const Games = () => {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>
-                Balance: ${currentUser?.gameWalletBalance}
+                {t('common.balance')}: ${currentUser?.gameWalletBalance}
               </DropdownItem>
-              <DropdownItem onClick={toggleDepositModal}>Deposit</DropdownItem>
+              <DropdownItem onClick={toggleDepositModal}>
+                {t('common.deposit')}
+              </DropdownItem>
               <DropdownItem onClick={toggleWithdrawalModal}>
-                Withdraw
+                {t('common.withdraw')}
               </DropdownItem>
               <DropdownItem>
-                <Link to="/dashboard/game-leaderboard">Leaderboard</Link>
+                <Link to="/dashboard/game-leaderboard">
+                  {t('footer.leaderboard')}
+                </Link>
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

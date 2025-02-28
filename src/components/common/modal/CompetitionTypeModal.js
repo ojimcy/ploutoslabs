@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { createGame } from '../../../lib/server';
 import { AppContext } from '../../../context/AppContext';
-
+import { useTranslation } from 'react-i18next';
 function CompetitionTypeModal({ isOpen, toggle }) {
   const currentUser = useCurrentUser();
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [entryFee, setEntryFee] = useState(2);
   const [showStartTimeInput, setShowStartTimeInput] = useState(false);
@@ -54,7 +54,7 @@ function CompetitionTypeModal({ isOpen, toggle }) {
               setShowStartTimeInput(false);
             }}
           >
-            Random User
+            {t('modal.randomUser')}
           </Button>
           <Button
             className={`game-btn ${mode === 'one-vs-friend' ? 'selected' : ''}`}
@@ -63,7 +63,7 @@ function CompetitionTypeModal({ isOpen, toggle }) {
               setShowStartTimeInput(true);
             }}
           >
-            Play with Friend
+            {t('modal.playWithFriend')}
           </Button>
         </div>
 
@@ -86,22 +86,22 @@ function CompetitionTypeModal({ isOpen, toggle }) {
           </FormGroup>
 
           <FormGroup>
-            <Label>Nickname:</Label>
+            <Label>{t('modal.nickname')}:</Label>
             <Input
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              placeholder="Enter a nickname"
+              placeholder={t('modal.nicknamePlaceholder')}
             />
           </FormGroup>
           {showStartTimeInput && false && (
             <FormGroup>
-              <Label>Start Time:</Label>
+              <Label>{t('modal.startTime')}:</Label>
               <Input
                 type="time"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                placeholder="Select start time"
+                placeholder={t('modal.startTimePlaceholder')}
               />
             </FormGroup>
           )}
@@ -110,7 +110,7 @@ function CompetitionTypeModal({ isOpen, toggle }) {
             className="continue-btn mt-3 w-100"
             onClick={handleCreateGame}
           >
-            Continue
+            {t('common.continue')}
           </Button>
         </div>
       </div>

@@ -29,10 +29,10 @@ const CryptoCard = ({ token, onTokenClick }) => {
 
 CryptoCard.propTypes = {
   token: PropTypes.shape({
-    icon: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
     symbol: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    quantity: PropTypes.number.isRequired,
+    usd_price: PropTypes.number.isRequired,
+    balance: PropTypes.number.isRequired,
   }).isRequired,
   onTokenClick: PropTypes.func.isRequired,
 };

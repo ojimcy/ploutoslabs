@@ -11,9 +11,10 @@ import {
 } from 'reactstrap';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 const Checkout = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { utilityTransaction, updateUtilityTransaction } =
     useContext(AppContext);
   const [selectedMethod, setSelectedMethod] = useState(null);
@@ -35,7 +36,7 @@ const Checkout = () => {
   return (
     <Container>
       <div className="payment-method-selection d-flex flex-column">
-        <h2>Select Payment Method</h2>
+        <h2>{t('utilities.selectPaymentMethod')}</h2>
         <div className="payment-options">
           <div
             className={`payment-card ${
@@ -44,7 +45,7 @@ const Checkout = () => {
             onClick={() => handleMethodSelect('wallet')}
           >
             <div className="payment-icon">💳</div>
-            <div className="payment-title">Pay with Wallet</div>
+            <div className="payment-title">{t('utilities.payWithWallet')}</div>
           </div>
           <div
             className={`payment-card ${
@@ -53,7 +54,7 @@ const Checkout = () => {
             onClick={() => handleMethodSelect('crypto')}
           >
             <div className="payment-icon">💰</div>
-            <div className="payment-title">Pay with Crypto</div>
+            <div className="payment-title">{t('utilities.payWithCrypto')}</div>
           </div>
         </div>
 
@@ -62,7 +63,7 @@ const Checkout = () => {
             <Row className="mt-3">
               <Col md="12">
                 <FormGroup>
-                  <Label for="cryptoNetwork">Network</Label>
+                  <Label for="cryptoNetwork">{t('common.network')}</Label>
                   <Input
                     type="select"
                     id="cryptoNetwork"
@@ -70,12 +71,12 @@ const Checkout = () => {
                     onChange={(e) => setSelectedNetwork(e.target.value)}
                     className="form-control"
                   >
-                    <option value="">Select a network</option>
-                    <option value="base">Base</option>
+                    <option value="">{t('utilities.selectNetwork')}</option>
+                    <option value="base">{t('common.base')}</option>
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="token">Currency</Label>
+                  <Label for="token">{t('common.currency')}</Label>
                   <Input
                     type="select"
                     id="token"
@@ -83,7 +84,7 @@ const Checkout = () => {
                     onChange={(e) => setSelectedToken(e.target.value)}
                     className="form-control"
                   >
-                    <option value="">Select Token</option>
+                    <option value="">{t('modal.selectToken')}</option>
                     <option value="ETH">Ether (ETH)</option>
                   </Input>
                 </FormGroup>
@@ -101,7 +102,7 @@ const Checkout = () => {
               (!selectedToken || !selectedNetwork)
             }
           >
-            Confirm and Continue
+            {t('utilities.confirmAndContinue')}
           </Button>
         )}
       </div>

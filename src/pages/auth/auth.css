@@ -152,3 +152,18 @@
     font-size: 0.9rem;
   }
 }
+
+.auth-language-switcher {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 100;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .auth-language-switcher {
+    top: 1rem;
+    right: 1rem;
+  }
+}

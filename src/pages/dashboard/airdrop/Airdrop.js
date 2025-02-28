@@ -17,8 +17,10 @@ import rocket from '../../../assets/images/rocket.png';
 import TelegramModal from '../../../components/modal/TelegramModal';
 
 import gamePad from '../../../assets/images/pad.png';
+import { useTranslation } from 'react-i18next';
 function Airdrop() {
   const currentUser = useCurrentUser();
+  const { t } = useTranslation(); 
   const { setUser } = useContext(WebappContext);
   const [isModalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -83,7 +85,7 @@ function Airdrop() {
               <div className="text-center my-3">
                 <div className="d-flex align-items-center justify-content-center gap-2 text-secondary">
                   <FaWallet className="icon-sm" />
-                  <span>Balance</span>
+                  <span>{t('common.balance')}</span>
                 </div>
                 <div className="fs-1 fw-bold text-light mt-1">
                   {currentUser ? currentUser.balance?.toFixed(2) : '0'} GPLTL
@@ -109,7 +111,7 @@ function Airdrop() {
                   {currentUser && (
                     <small className="minig-rate">
                       {currentUser.miningRate} PLTL /{' '}
-                      {currentUser.miningFrequency} hour
+                      {currentUser.miningFrequency} {t('common.hour')}
                     </small>
                   )}
                 </span>
@@ -118,7 +120,7 @@ function Airdrop() {
               <div className="booster d-flex flex-row align-items-center">
                 <Link className="" to="/dashboard/boosts">
                   <img width={25} height={25} src={rocket} alt="rocket" />
-                  <span style={{ color: '#ffffff' }}>Boost</span>
+                  <span style={{ color: '#ffffff' }}>{t('common.boost')}</span>
                 </Link>
               </div>
             </div>
@@ -127,11 +129,11 @@ function Airdrop() {
             <div className="claim-section d-flex justify-content-center align-items-center mt-5">
               {!currentUser?.IsUserInChannel ? (
                 <Button onClick={toggleModal} className="btn-claim">
-                  claim
+                  {t('common.claim')}
                 </Button>
               ) : (
                 <Button onClick={claim} className="btn-claim">
-                  {loading ? <Spinner size="sm" /> : 'Claim'}
+                  {loading ? <Spinner size="sm" /> : t('common.claim')}
                 </Button>
               )}
             </div>

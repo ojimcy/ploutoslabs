@@ -23,9 +23,11 @@ import logo from '../../../assets/images/logo.png';
 import './tasks.css';
 import { useCheckInStatus } from '../../../lib/checkInStatus';
 import { WebappContext } from '../../../context/telegram';
+import { useTranslation } from 'react-i18next';
 
 function Tasks() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { setUser } = useContext(WebappContext);
   const [tasks, setTasks] = useState([]);
   const [loadingTaskId, setLoadingTaskId] = useState(null);
@@ -123,10 +125,10 @@ function Tasks() {
       <Container>
         <Row>
           <div className="title">
-            <h3>Tasks</h3>
+            <h3>{t('tasks.title')}</h3>
           </div>
           <div className="sub-title">
-            <p>Each task must be fully completed in order to earn rewards!!!</p>
+            <p>{t('tasks.subtitle')}</p>
           </div>
         </Row>
 
@@ -145,9 +147,11 @@ function Tasks() {
                   <FaCalendar />
                 </div>
                 <div className="info d-flex flex-column">
-                  <span className="task-title">Daily Check-in</span>
+                  <span className="task-title">{t('tasks.dailyCheckIn')}</span>
                   <span className="task-reward">
-                    {checkedIn ? `Claim in ${countdown}` : 'Claim now'}
+                    {checkedIn
+                      ? `${t('tasks.claimIn')} ${countdown}`
+                      : t('tasks.claimNow')}
                   </span>
                 </div>
               </div>

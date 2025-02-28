@@ -18,11 +18,12 @@ import TransactionCard from './TransactionCard';
 import { getTokenBalances, getWalletHIstory } from '../../lib/server';
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 import TokenSkeleton from './TokenSkeleton';
-
+import { useTranslation } from 'react-i18next';
 import pltlLogo from '../../assets/images/logo.png';
 
 const Portfolio = () => {
   const { selectedWallet } = useContext(AppContext);
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('1');
 
   const [tokens, setTokens] = useState([]);
@@ -80,7 +81,7 @@ const Portfolio = () => {
               toggle('1');
             }}
           >
-            Crypto
+            {t('portfolio.crypto')}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -90,7 +91,7 @@ const Portfolio = () => {
               toggle('2');
             }}
           >
-            NFTs
+            {t('portfolio.nfts')}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -100,7 +101,7 @@ const Portfolio = () => {
               toggle('3');
             }}
           >
-            Transactions
+            {t('portfolio.transactions')}
           </NavLink>
         </NavItem>
       </Nav>
@@ -112,8 +113,8 @@ const Portfolio = () => {
             ) : !tokens ? (
               <Row className="justify-content-center align-items-center text-center">
                 <div className="mt-4">
-                  <h4>Assets</h4>
-                  <p>No records found!!!</p>
+                  <h4>{t('portfolio.assets')}</h4>
+                  <p>{t('portfolio.noRecordsFound')}</p>
                 </div>
               </Row>
             ) : (
@@ -183,8 +184,8 @@ const Portfolio = () => {
         <TabPane tabId="2">
           <Row className="justify-content-center align-items-center text-center">
             <div className="mt-4">
-              <h4>NFTs</h4>
-              <p>Coming Soon</p>
+              <h4>{t('portfolio.nfts')}</h4>
+              <p>{t('common.comingSoon')}</p>
             </div>
           </Row>
         </TabPane>

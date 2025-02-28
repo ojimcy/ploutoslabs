@@ -3,10 +3,10 @@ import './game-leaderboard.css';
 import { useCurrentUser } from '../../hooks/telegram';
 import { getGameLeaderboard } from '../../lib/server';
 import { Container } from 'reactstrap';
-
+import { useTranslation } from 'react-i18next';
 const GameLeaderboard = () => {
   const currentUser = useCurrentUser();
-
+  const { t } = useTranslation();
   const [topEarners, setTopEarners] = useState([]);
   const [loading, setLoading] = useState(false);
   const [leaderboard, setLeaderboard] = useState(null);
@@ -46,13 +46,13 @@ const GameLeaderboard = () => {
       <Container>
         {/* User Summary */}
         <div className="user-summary">
-          <h5>Game Referral Leaderboard</h5>
+          <h5>{t('game.leaderboard.title')}</h5>
           <div className="stats">
             <p>
-              <strong>My Referral Earnings</strong>${userEarnings.toFixed(3)}
+              <strong>{t('game.leaderboard.myReferralEarnings')}</strong>${userEarnings.toFixed(3)}
             </p>
             <p>
-              <strong>Total Referral Pot Balance</strong>$
+              <strong>{t('game.leaderboard.totalReferralPotBalance')}</strong>$
               {leaderboard?.pot?.toFixed(3)}
             </p>
           </div>
@@ -60,7 +60,7 @@ const GameLeaderboard = () => {
 
         {/* Top 5 Referral Earners */}
         <div className="top-earners">
-          <h3>Top 5 Referral Earners</h3>
+          <h3>{t('game.leaderboard.top5')}</h3>
           <ul>
             {topEarners?.map((earner, index) => (
               <li
@@ -81,11 +81,11 @@ const GameLeaderboard = () => {
         {/* User's Position */}
         {!isInTop5 && (
           <div className="user-position">
-            <h4>Your Position</h4>
+            <h4>{t('game.leaderboard.yourPosition')}</h4>
             <p>
-              Current position <strong>#{userPosition}</strong>
+              {t('game.leaderboard.currentPosition')} <strong>#{userPosition}</strong>
               <br />
-              Earnings <strong>${userEarnings.toFixed(3)}</strong>
+              {t('game.leaderboard.earnings')} <strong>${userEarnings.toFixed(3)}</strong>
             </p>
             somehting
           </div>
@@ -94,9 +94,7 @@ const GameLeaderboard = () => {
         {/* Info Note */}
         <div className="referral-pot-note">
           <p>
-            <strong>Note:</strong> Only the top 5 referral earners will share in
-            the referral pot. Keep referring more users to secure your spot in
-            the top 5 and increase your earnings!
+            <strong>{t('game.leaderboard.note')}</strong>
           </p>
         </div>
       </Container>

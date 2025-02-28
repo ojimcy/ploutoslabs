@@ -5,13 +5,13 @@ import { getBoosters } from '../../../lib/server';
 import BoostCard from '../../../components/airdrop/BoostCard';
 import rainCrypt from '../../../assets/images/rain-crypt.png';
 import './boosts.css';
-
+import { useTranslation } from 'react-i18next';
 function Boosts() {
+  const { t } = useTranslation();
   const currentUser = useCurrentUser();
   const [boosters, setBoosters] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log('currentUser boosts', currentUser);
   useEffect(() => {
     const fetchBoosters = async () => {
       try {
@@ -44,7 +44,7 @@ function Boosts() {
       <Container>
         <div className="boosts-header">
           <div className="balance-info">
-            <h2 className="balance-title">Total Balance</h2>
+            <h2 className="balance-title">{t('common.totalBalance')}</h2>
             <div className="balance-amount">
               {currentUser
                 ? `${currentUser.balance?.toFixed(6)} PLTL`
@@ -55,11 +55,13 @@ function Boosts() {
           {currentUser && (
             <div className="mining-info">
               <div className="mining-stat">
-                <span className="stat-label">Mining Rate:</span>
+                <span className="stat-label">{t('common.miningRate')}:</span>
                 <span className="stat-value">{currentUser.miningRate}</span>
               </div>
               <div className="mining-stat">
-                <span className="stat-label">Mining Frequency:</span>
+                <span className="stat-label">
+                  {t('common.miningFrequency')}
+                </span>
                 <span className="stat-value">
                   {currentUser.miningFrequency}h
                 </span>
@@ -75,7 +77,7 @@ function Boosts() {
               id={booster.id}
               image={rainCrypt}
               title={booster.name}
-              description={`${booster.miningRate} PLTL per ${booster.miningFrequency} hours`}
+              description={`${booster.miningRate} ${t('common.pltl')} per ${booster.miningFrequency} ${t('common.hours')}`}
               value={booster.price}
             />
           ))}

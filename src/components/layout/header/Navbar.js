@@ -3,17 +3,15 @@ import './Navbar.css';
 import { Link, useLocation } from 'react-router-dom';
 import { scrollSpy } from 'react-scroll';
 import { Container, Navbar } from 'reactstrap';
-import { FaCaretDown, FaCog, FaTimes } from 'react-icons/fa';
+import { FaCog, FaTimes } from 'react-icons/fa';
 import MobileMenu from '../../navs/MobileNav';
 import logo from '../../../assets/images/logo.png';
-import { getUserByTelegramID } from '../../../lib/server';
+import LanguageSwitcher from '../../LanguageSwitcher';
 
 function MainNavigation() {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [telegramUser, setTelegramUser] = useState(null);
-  const telegramId = localStorage.getItem('TELEGRAM_ID');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,13 +51,13 @@ function MainNavigation() {
     }
   };
 
-  useEffect(() => {
-    const fetchTelegramUser = async () => {
-      const user = await getUserByTelegramID(telegramId);
-      setTelegramUser(user);
-    };  
-    fetchTelegramUser();
-  }, [telegramId]);
+  // useEffect(() => {
+  //   const fetchTelegramUser = async () => {
+  //     const user = await getUserByTelegramID(telegramId);
+  //     setTelegramUser(user);
+  //   };
+  //   fetchTelegramUser();
+  // }, [telegramId]);
 
   return (
     <header>
@@ -80,17 +78,18 @@ function MainNavigation() {
           </Link>
 
           {/* Wallet Name */}
-          <Link
+          {/* <Link
             to="/dashboard/accounts"
             style={{ color: '#ffffff', textDecoration: 'none' }}
             className="wallet-name d-flex align-items-center"
           >
             <span>{telegramUser ? telegramUser.username + '.tg' : 'me'}</span>
             <FaCaretDown className="caret-icon" />
-          </Link>
+          </Link> */}
 
           {/* Menu Toggle */}
           <div className="navbar-right d-flex justify-content-between align-items-center">
+            <LanguageSwitcher />
             <div className="menu-toggle" onClick={toggleMenu}>
               {!isMenuOpen ? <FaCog className="settings-icon" /> : <FaTimes />}
             </div>

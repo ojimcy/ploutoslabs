@@ -16,10 +16,12 @@ import { toast } from 'react-hot-toast';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { TransactionTypes } from '../../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const DataPage = () => {
   const { updateUtilityTransaction } = useContext(AppContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [networkProvider, setNetworkProvider] = useState('');
   const [dataBundles, setDataBundles] = useState([]);
   const [selectedBundle, setSelectedBundle] = useState('');
@@ -43,7 +45,7 @@ const DataPage = () => {
       setDataBundles(variations);
     } catch (error) {
       console.log(error);
-      toast.error('Failed to fetch data bundles.');
+      toast.error(t('utilities.failedToFetchDataBundles'));
     } finally {
       setLoading(false);
     }
@@ -54,7 +56,7 @@ const DataPage = () => {
     setPhoneNumber(value);
 
     if (!/^\d{11}$/.test(value)) {
-      setPhoneError('Please enter a valid 11-digit phone number.');
+      setPhoneError(t('utilities.invalidPhoneNumber'));
     } else {
       setPhoneError('');
     }
@@ -91,13 +93,13 @@ const DataPage = () => {
     <Container className="data-page">
       <Row>
         <Col md={6} className="mx-auto">
-          <h3 className="text-center">Buy Data</h3>
+          <h3 className="text-center">{t('utilities.buyData')}</h3>
           <p className="text-center">
-            Choose a network provider, bundle, and recipient phone number
+            {t('utilities.chooseNetworkProvider')}
           </p>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label for="networkProvider">Network Provider</Label>
+              <Label for="networkProvider">{t('utilities.networkProvider')}</Label>
               <Input
                 type="select"
                 id="networkProvider"
@@ -105,7 +107,7 @@ const DataPage = () => {
                 onChange={(e) => onNetworkProviderChanged(e.target.value)}
                 className="form-control"
               >
-                <option value="">Select a network</option>
+                <option value="">{t('utilities.selectNetwork')}</option>
                 {networkProviders.map((provider) => (
                   <option key={provider.id} value={provider.id}>
                     {provider.name}
@@ -114,7 +116,7 @@ const DataPage = () => {
               </Input>
             </FormGroup>
             <FormGroup>
-              <Label for="dataBundle">Data Bundle</Label>
+              <Label for="dataBundle">{t('utilities.dataBundle')}</Label>
               <Input
                 type="select"
                 id="dataBundle"
@@ -123,7 +125,7 @@ const DataPage = () => {
                 className="form-control"
                 disabled={!dataBundles.length}
               >
-                <option value="">Select a data bundle</option>
+                <option value="">{t('utilities.selectDataBundle')}</option>
                 {dataBundles.map((bundle) => (
                   <option
                     key={bundle.variation_code}
@@ -135,12 +137,12 @@ const DataPage = () => {
               </Input>
             </FormGroup>
             <FormGroup>
-              <Label for="phoneNumber">Receiver&apos;s Phone Number</Label>
+              <Label for="phoneNumber">{t('utilities.receiverPhoneNumber')}</Label>
               <Input
                 type="text"
                 id="phoneNumber"
                 pattern="[0-9]*"
-                placeholder="Enter phone number"
+                placeholder={t('utilities.enterPhoneNumber')}
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
                 disabled={loading}
@@ -155,7 +157,7 @@ const DataPage = () => {
                 loading || !networkProvider || !selectedBundle || !phoneNumber
               }
             >
-              {loading ? <Spinner size="sm" /> : 'Buy Data'}
+              {loading ? <Spinner size="sm" /> : t('utilities.buyData')}
             </Button>
           </Form>
         </Col>

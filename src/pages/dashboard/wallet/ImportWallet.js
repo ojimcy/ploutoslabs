@@ -19,9 +19,10 @@ import TransactionPin from '../../../components/auth/TransactionPin';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 const ImportWallet = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState('');
   const [inputType, setInputType] = useState(null);
   const [error, setError] = useState('');
@@ -45,7 +46,7 @@ const ImportWallet = () => {
       setError('');
       return true;
     } else {
-      setError('Input is not a valid seed phrase or private key.');
+      setError(t('wallet.invalidPkInput'));
       return false;
     }
   };
@@ -59,7 +60,7 @@ const ImportWallet = () => {
     try {
       e.preventDefault();
       if (!validateInput(inputValue)) {
-        toast.error('Invalid input');
+        toast.error(t('wallet.invalidInput'));
         return;
       }
 
@@ -70,7 +71,7 @@ const ImportWallet = () => {
 
       const existingWallet = getWalletByAddress(account.address);
       if (existingWallet && existingWallet.privateKey) {
-        setError('The imported wallet exists');
+        setError(t('wallet.walletExists'));
         return;
       }
 
@@ -92,11 +93,11 @@ const ImportWallet = () => {
     <Container className="mt-4 import-wallet">
       <Row>
         <Col md={{ size: 6, offset: 3 }}>
-          <h2>Import Wallet</h2>
+          <h2>{t('wallet.importWallet')}</h2>
 
           {step == 1 && (
             <TransactionPin
-              title={'Enter a 6 digit pin'}
+              title={t('wallet.enter6DigitPin')}
               onSubmit={(pin) => {
                 setPassword(pin);
                 setStep(2);
@@ -107,7 +108,7 @@ const ImportWallet = () => {
           {step == 2 && (
             <Form onSubmit={handleSubmit}>
               <FormGroup>
-                <Label>Label</Label>
+                <Label>{t('common.walletLabel')}</Label>
                 <Input
                   name="lable"
                   id="lable"
@@ -116,9 +117,7 @@ const ImportWallet = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="walletInput">
-                  Enter Seed Phrase or Private Key
-                </Label>
+                <Label for="walletInput">{t('wallet.enterSeedPhraseOrPrivateKey')}</Label>
                 <Input
                   type="textarea"
                   name="walletInput"
@@ -127,12 +126,12 @@ const ImportWallet = () => {
                   onChange={handleInputChange}
                   rows="4"
                   className="import-input"
-                  placeholder="Seed phrase"
+                  placeholder={t('wallet.seedPhrase')}
                 />
                 {error && <div className="error-text">{error}</div>}
               </FormGroup>
               <Button type="submit" color="primary">
-                Import Wallet
+                {t('wallet.importWallet')}
               </Button>
             </Form>
           )}
@@ -140,14 +139,13 @@ const ImportWallet = () => {
           {step === 3 && (
             <div className="d-flex justify-content-center">
               <Alert color="success">
-                Wallet imported successfully! Your private key is securely
-                stored.
+                {t('wallet.walletImportedSuccessfully')}
               </Alert>
               <Button
                 color="primary"
                 onClick={() => navigate('/dashboard/wallet')}
               >
-                Return to Wallet
+                {t('wallet.returnToWallet')}
               </Button>
             </div>
           )}

@@ -14,9 +14,12 @@ import './transactions.css';
 import { getUtilityTransactions } from '../../../lib/server';
 import { useNavigate } from 'react-router-dom';
 import { formatTransactionType } from '../../../lib/utils';
+import { useTranslation } from 'react-i18next';
+
 const TransactionPage = () => {
   const [transactions, setTransactions] = useState([]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -68,8 +71,8 @@ const TransactionPage = () => {
     <Container className="transaction-page">
       <Row>
         <Col md={12} className="text-center mb-4">
-          <h3>Transactions</h3>
-          <p>View and manage your transactions</p>
+          <h3>{t('portfolio.transactions')}</h3>
+          <p>{t('utilities.viewAndManageTransactions')}</p>
         </Col>
       </Row>
       <Row className="mb-4">
@@ -77,7 +80,7 @@ const TransactionPage = () => {
           <Form className="d-flex align-items-center justify-content-center">
             <FormGroup className="mr-2">
               <Label for="filterDate" className="mr-2">
-                Date
+                {t('common.date')}
               </Label>
               <Input
                 type="date"
@@ -89,7 +92,7 @@ const TransactionPage = () => {
             </FormGroup>
             <FormGroup className="mr-2">
               <Label for="filterStatus" className="mr-2">
-                Status
+                {t('common.status')}
               </Label>
               <Input
                 type="select"
@@ -98,15 +101,15 @@ const TransactionPage = () => {
                 value={filters.status}
                 onChange={handleFilterChange}
               >
-                <option value="">All</option>
-                <option value="completed">Completed</option>
-                <option value="failed">Failed</option>
-                <option value="pending">Pending</option>
+                <option value="">{t('common.all')}</option>
+                <option value="completed">{t('common.completed')}</option>
+                <option value="failed">{t('common.failed')}</option>
+                <option value="pending">{t('common.pending')}</option>
               </Input>
             </FormGroup>
             <FormGroup className="mr-2">
               <Label for="filterType" className="mr-2">
-                Type
+                {t('common.type')}
               </Label>
               <Input
                 type="select"
@@ -115,10 +118,12 @@ const TransactionPage = () => {
                 value={filters.type}
                 onChange={handleFilterChange}
               >
-                <option value="">All</option>
-                <option value="Data">Data</option>
-                <option value="Airtime">Airtime</option>
-                <option value="Electricity">Electricity</option>
+                <option value="">{t('common.all')}</option>
+                <option value="Data">{t('utilities.data')}</option>
+                <option value="Airtime">{t('utilities.airtime')}</option>
+                <option value="Electricity">
+                  {t('utilities.electricity')}
+                </option>
               </Input>
             </FormGroup>
           </Form>
@@ -131,11 +136,11 @@ const TransactionPage = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Amount</th>
-                <th>Action</th>
+                <th>{t('common.date')}</th>
+                <th>{t('common.type')}</th>
+                <th>{t('common.status')}</th>
+                <th>{t('common.amount')}</th>
+                <th>{t('common.action')}</th>
               </tr>
             </thead>
             <tbody>
@@ -159,7 +164,7 @@ const TransactionPage = () => {
                         size="sm"
                         onClick={() => handleTransactionClick(transaction)}
                       >
-                        Details
+                        {t('common.details')}
                       </Button>
                     </td>
                   </tr>
@@ -167,7 +172,7 @@ const TransactionPage = () => {
               ) : (
                 <tr>
                   <td colSpan="6" className="text-center">
-                    No transactions found.
+                    {t('utilities.noTransactionsFound')}
                   </td>
                 </tr>
               )}

@@ -6,11 +6,13 @@ import { AppContext } from '../../../context/AppContext';
 import BaseModal from '../modal/BaseModal';
 import './tokenList.css';
 import pltlLogo from '../../../assets/images/logo.png';
+import { useTranslation } from 'react-i18next';
 
 function TokenListModal({ isOpen, toggle, tokens }) {
   const navigate = useNavigate();
   const { selectToken } = useContext(AppContext);
   const [searchTerm, setSearchTerm] = useState('');
+  const { t } = useTranslation();
 
   const filteredTokens = tokens.filter((token) =>
     token.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -26,14 +28,14 @@ function TokenListModal({ isOpen, toggle, tokens }) {
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Select Token"
+      title={t('modal.selectToken')}
       className="token-modal"
     >
       <Row className="mb-3">
         <Col>
           <Input
             type="text"
-            placeholder="Search token"
+            placeholder={t('modal.searchToken')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"

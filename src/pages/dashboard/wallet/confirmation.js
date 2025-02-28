@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 import './confirmation.css';
-
+import { useTranslation } from 'react-i18next';
 import sec from '../../../assets/images/crypto-security.png';
 
 const ConfirmationPage = ({onContinue}) => {
+  const { t } = useTranslation();
   const [checks, setChecks] = useState({
     check1: false,
     check2: false,
@@ -25,11 +26,10 @@ const ConfirmationPage = ({onContinue}) => {
         <div className="text-center">
           <img src={sec} alt="Wallet Security" className="confirmation-image" />
           <h2 className="confirmation-title">
-            This secret phrase is the master key to your Ploutos Wallet
+            {t('wallet.secretPhraseTitle')}
           </h2>
           <p className="confirmation-subtext">
-            Tap on all checkboxes to confirm that you understand the importance
-            of your secret phrase
+            {t('wallet.secretPhraseSubtitle')}
           </p>
         </div>
 
@@ -43,7 +43,7 @@ const ConfirmationPage = ({onContinue}) => {
                 onChange={handleCheckChange}
               />
               <span className="checkbox-text">
-                Ploutos does not store or recover your secret phrase.
+                {t('wallet.secretPhraseCheckbox1')}
               </span>
             </Label>
           </FormGroup>
@@ -56,8 +56,7 @@ const ConfirmationPage = ({onContinue}) => {
                 onChange={handleCheckChange}
               />
               <span className="checkbox-text">
-                Never share your secret phrase with anyone. Ploutos Wallet will
-                never ask for it.
+                {t('wallet.secretPhraseCheckbox2')}
               </span>
             </Label>
           </FormGroup>
@@ -70,8 +69,7 @@ const ConfirmationPage = ({onContinue}) => {
                 onChange={handleCheckChange}
               />
               <span className="checkbox-text">
-                Store your secret phrase securely offline. Digital storage is
-                risky and not recommended.
+                {t('wallet.secretPhraseCheckbox3')}
               </span>
             </Label>
           </FormGroup>
@@ -83,7 +81,7 @@ const ConfirmationPage = ({onContinue}) => {
           disabled={!allChecked}
           className="continue-button mt-3"
         >
-          Continue
+          {t('common.continue')}
         </Button>
       </div>
     </div>

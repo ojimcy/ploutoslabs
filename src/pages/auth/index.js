@@ -7,10 +7,12 @@ import { toast } from 'react-hot-toast';
 import { loginWithTelegram as loginWithTelegramAPI } from '../../lib/server';
 import { WebappContext } from '../../context/telegram';
 import AuthPinPad from '../../components/auth/AuthPinPad';
-
+import { useTranslation } from 'react-i18next';
 import airdropLogo from '../../assets/images/airdrop-logo.png';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 function Auth() {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [showPinPad, setShowPinPad] = useState(false);
   const [tempTelegramData, setTempTelegramData] = useState(null);
@@ -117,6 +119,9 @@ function Auth() {
 
   return (
     <div className="auth-container">
+      <div className="auth-language-switcher">
+        <LanguageSwitcher />
+      </div>
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} sm={10} md={8} lg={6} xl={4}>
@@ -132,11 +137,8 @@ function Auth() {
                         style={{ width: '80px', height: 'auto' }}
                       />
                     </div>
-                    <h3 className="title">Welcome to Ploutos Labs</h3>
-                    <p className="sub-title">
-                      Start mining <strong>$PLTL</strong> tokens and join our
-                      growing community. Connect with Telegram to continue.
-                    </p>
+                    <h3 className="title">{t('auth.welcome')}</h3>
+                    <p className="sub-title">{t('auth.subtitle')}</p>
                   </div>
 
                   <div className="d-flex justify-content-center">
@@ -145,9 +147,9 @@ function Auth() {
 
                   <div className="text-center mt-4">
                     <small className="text-muted">
-                      By connecting, you agree to our{' '}
+                      {t('auth.terms')}
                       <a href="/terms" className="text-primary">
-                        Terms of Service
+                        {t('auth.termsLink')}
                       </a>
                     </small>
                   </div>

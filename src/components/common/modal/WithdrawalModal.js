@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import BaseModal from '../modal/BaseModal';
 import './modal.css';
-
+import { useTranslation } from 'react-i18next';
 function WithdrawModal({ isOpen, toggle, onSubmit }) {
   const [amount, setAmount] = useState('');
   const [address, setAddress] = useState('');
   const [error, setError] = useState('');
-
+  const { t } = useTranslation();
   const handleSubmit = () => {
     // Basic validation
     if (!amount || !address) {
-      setError('Both amount and destination address are required.');
+      setError(t('modal.bothAmountAndDestinationAddressAreRequired'));
       return;
     }
 
@@ -24,7 +24,7 @@ function WithdrawModal({ isOpen, toggle, onSubmit }) {
 
   const footerContent = (
     <Button className="modal-btn-success" onClick={handleSubmit}>
-      Submit
+      {t('common.submit')}
     </Button>
   );
 
@@ -32,31 +32,31 @@ function WithdrawModal({ isOpen, toggle, onSubmit }) {
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Withdraw Funds"
+      title={t('modal.withdrawFunds')}
       className="main-modal"
       footerContent={footerContent}
     >
       <Form>
         {error && <Alert color="danger">{error}</Alert>}
         <FormGroup>
-          <Label for="withdrawAmount">Amount</Label>
+          <Label for="withdrawAmount">{t('common.amount')}</Label>
           <Input
             type="number"
             id="withdrawAmount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            placeholder="Enter amount to withdraw"
+            placeholder={t('modal.enterAmountToWithdraw')}
             min="0"
           />
         </FormGroup>
         <FormGroup>
-          <Label for="destinationAddress">Destination Address</Label>
+          <Label for="destinationAddress">{t('modal.destinationAddress')}</Label>
           <Input
             type="text"
             id="destinationAddress"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder="Enter destination address"
+            placeholder={t('modal.enterDestinationAddress')}
           />
         </FormGroup>
       </Form>

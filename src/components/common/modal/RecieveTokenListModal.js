@@ -11,12 +11,13 @@ import { FaCopy } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { useCurrentUser } from '../../../hooks/telegram';
 import pltlLogo from '../../../assets/images/logo.png';
-
+import { useTranslation } from 'react-i18next';
 function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
   const navigate = useNavigate();
   const { selectToken, selectedWallet } = useContext(AppContext);
   const [searchTerm, setSearchTerm] = useState('');
   const currentUser = useCurrentUser();
+  const { t } = useTranslation();
 
   const filteredTokens = tokens.filter((token) =>
     token.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -32,7 +33,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
     navigator.clipboard.writeText(
       selectedWallet?.address || currentUser.smartWalletAddress
     );
-    toast.success('Address copied to clipboard!');
+    toast.success(t('modal.addressCopiedToClipboard'));
   };
 
   const formatAddress = (address) => {
@@ -41,7 +42,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
 
   const footerContent = (
     <Button color="primary" className="close-button" onClick={toggle}>
-      Close
+      {t('modal.close')}
     </Button>
   );
 
@@ -49,7 +50,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Select Token"
+      title={t('modal.selectToken')}
       className="receive token-modal"
       footerContent={footerContent}
     >
@@ -57,7 +58,7 @@ function ReceiveTokenListModal({ isOpen, toggle, tokens }) {
         <Col>
           <Input
             type="text"
-            placeholder="Search token"
+            placeholder={t('modal.searchToken')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"

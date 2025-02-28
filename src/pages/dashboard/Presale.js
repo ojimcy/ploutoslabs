@@ -47,7 +47,10 @@ import {
 } from '../../lib/const';
 import { presaleAbi } from '../../lib/presaleAbi';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
+
 function TokenPresale() {
+  const { t } = useTranslation();
   const { selectedWallet, setSelectedWallet } = useContext(AppContext);
   const [wallets, setWallets] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -116,7 +119,7 @@ function TokenPresale() {
   }, [selectedWallet]);
 
   const refreshHistory = async () => {
-    if(!selectedWallet) return
+    if (!selectedWallet) return;
     setIsLoading(true);
 
     try {
@@ -125,7 +128,9 @@ function TokenPresale() {
         transport: http(NODE_URL),
       });
 
-      const bal = await publicClient.getBalance({ address: selectedWallet.address });
+      const bal = await publicClient.getBalance({
+        address: selectedWallet.address,
+      });
       setEthBalance(parseFloat(formatEther(bal)).toFixed(4));
 
       const contract = getContract({
@@ -160,7 +165,7 @@ function TokenPresale() {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleMaxClick = () => {
-    const max = parseFloat(ethBalance) - 0.000004
+    const max = parseFloat(ethBalance) - 0.000004;
     setEthereumAmount(max);
     calculateReceived(max);
   };
@@ -202,14 +207,13 @@ function TokenPresale() {
       );
     } catch (error) {
       console.log(error);
-      toast.error('Invalid passord');
+      toast.error(t('common.invalidPassword'));
       setIsLoading(false);
       return;
     }
 
     try {
       const account = privateKeyToAccount(`0x${decryptedPrivateKey}`);
-      console.log(account.address);
 
       const walletClient = createWalletClient({
         account,
@@ -228,25 +232,23 @@ function TokenPresale() {
         ? checksumAddress(uplineWallets.upline2)
         : DEFAULT_REF_ADDRESS;
 
-      const tx = await walletClient.writeContract({
+      await walletClient.writeContract({
         address: PRESALE_CONTRACT_ADDRESS,
         abi: presaleAbi,
         functionName: 'buyPresale',
         args: [upline1, upline2],
         value: amount,
-        // gasPrice: parseGwei('0.009803727'), 
+        // gasPrice: parseGwei('0.009803727'),
       });
-
-      console.log(tx)
 
       setEthereumAmount(0);
       setPloutosAmount(0);
 
       await refreshHistory();
 
-      toast.success('Transaction submitted');
+      toast.success(t('common.transactionSubmitted'));
     } catch (err) {
-      toast.error(err.shortMessage || 'Something went wrong. Please try again later');
+      toast.error(err.shortMessage || t('common.somethingWentWrong'));
       console.log(err);
     } finally {
       setIsLoading(false);
@@ -269,7 +271,7 @@ function TokenPresale() {
                     <FaEthereum />
                     {selectedWallet
                       ? formatAddress(selectedWallet.address)
-                      : 'Select Wallet'}
+                      : t('common.selectWallet')}
                   </DropdownToggle>
                   <DropdownMenu>
                     {wallets ? (
@@ -301,7 +303,7 @@ function TokenPresale() {
                             </div>
                             <div className="wallet-info">
                               <div className="wallet-title">
-                                No wallet found, add new
+                                {t('common.noWalletFound')}
                               </div>
                             </div>
                           </div>
@@ -315,7 +317,9 @@ function TokenPresale() {
               <Row className="timer-row mt-4 w-75">
                 {!presaleCompleted ? (
                   <>
-                    <h3 className="text-center">Presale ends in</h3>
+                    <h3 className="text-center">
+                      {t('wallet.presaleEndsIn')}
+                    </h3>
                     <div className="timer d-flex flex-row justify-content-between ">
                       <span>{timeLeft.days.toString().padStart(2, '0')}</span>:
                       <span>{timeLeft.hours.toString().padStart(2, '0')}</span>:
@@ -329,19 +333,18 @@ function TokenPresale() {
                     </div>
 
                     <div className="timer-labels mt-1">
-                      <span>DAY</span>
-                      <span className="ml-1">HOUR</span>
-                      <span>MINUTE</span>
-                      <span>SECOND</span>
+                      <span>{t('wallet.day')}</span>
+                      <span className="ml-1">{t('wallet.hour')}</span>
+                      <span>{t('wallet.minute')}</span>
+                      <span>{t('wallet.second')}</span>
                     </div>
                   </>
                 ) : (
                   <>
-                    <h4 className="alert-heading">Presale Completed</h4>
-                    <p>
-                      The presale has successfully ended. Thank you for
-                      participating!
-                    </p>
+                    <h4 className="alert-heading">
+                      {t('wallet.presaleCompleted')}
+                    </h4>
+                    <p>{t('wallet.presaleCompletedMessage')}</p>
                   </>
                 )}
               </Row>
@@ -351,9 +354,9 @@ function TokenPresale() {
               <Col>
                 <Form className="presale-form mt-3">
                   <FormGroup>
-                    <Label for="amount">Pay</Label>
+                    <Label for="amount">{t('common.pay')}</Label>
                     <span className="max-value mt-1" onClick={handleMaxClick}>
-                      Max: {ethBalance}
+                      {t('common.max')}: {ethBalance}
                     </span>
                     <Input
                       type="text"
@@ -369,7 +372,9 @@ function TokenPresale() {
                   </FormGroup>
 
                   <FormGroup>
-                    <Label for="ploutosAmount"> Receive</Label>
+                    <Label for="ploutosAmount">
+                      {t('common.receive')}
+                    </Label>
                     <Input
                       type="number"
                       name="ploutosAmount"
@@ -393,7 +398,7 @@ function TokenPresale() {
                 onClick={handleBuyNow}
                 disabled={isLoading}
               >
-                {isLoading ? 'Processing...' : 'Buy Now'}
+                {isLoading ? t('common.processing') : t('common.buyNow')}
               </Button>
             </Row>
           </div>

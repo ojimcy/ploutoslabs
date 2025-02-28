@@ -6,9 +6,11 @@ import { getUtilitiesTransactionDetails } from '../../../lib/server';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { TransactionTypes, formatTransactionType } from '../../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const CheckoutConfirmation = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [status, setStatus] = useState('');
   const [details, setDetails] = useState(null);
   const location = useLocation();
@@ -23,7 +25,7 @@ const CheckoutConfirmation = () => {
         setStatus(result.status);
       } catch (error) {
         console.error('Failed to fetch transaction details:', error);
-        toast.error('An error occurred. Please try again later.');
+        toast.error(t('common.errorOccurred'));
         setStatus('failed');
       }
     };
@@ -51,9 +53,9 @@ const CheckoutConfirmation = () => {
     return (
       <Container>
         <div className="checkout-confirmation">
-          <h2>Processing Transaction</h2>
+          <h2>{t('utilities.processingTransaction')}</h2>
           <div className="loader"></div>
-          <p>Please wait while we process your transaction...</p>
+          <p>{t('utilities.pleaseWait')}</p>
         </div>
       </Container>
     );
@@ -63,22 +65,22 @@ const CheckoutConfirmation = () => {
     return (
       <Container>
         <div className="checkout-confirmation">
-          <h2>Transaction Successful</h2>
+          <h2>{t('utilities.transactionSuccessful')}</h2>
           <div className="transaction-details">
             <div className="details-item">
-              <span>Transaction ID</span>
+              <span>{t('utilities.transactionId')}</span>
               <span>{details.id.substring(0, 10)}</span>
             </div>
             <div className="details-item">
-              <span>Type</span>
+              <span>{t('common.type')}</span>
               <span>{formatTransactionType(details.type)}</span>
             </div>
             <div className="details-item">
-              <span>Amount</span>
+              <span>{t('common.amount')}</span>
               <span>₦{parseFloat(details.naira_amount) / 100}</span>
             </div>
             <div className="details-item">
-              <span>Payment Method</span>
+              <span>{t('utilities.paymentMethod')}</span>
               <span>{details.paymentMethod}</span>
             </div>
 
@@ -86,11 +88,11 @@ const CheckoutConfirmation = () => {
             {details.type === TransactionTypes.BuyAirtime && (
               <>
                 <div className="details-item">
-                  <span>Phone Number:</span>
+                  <span>{t('utilities.phoneNumber')}</span>
                   <span>{details.phone_number}</span>
                 </div>
                 <div className="details-item">
-                  <span>Network Provider:</span>
+                  <span>{t('utilities.networkProvider')}</span>
                   <span>{details.network}</span>
                 </div>
               </>
@@ -99,11 +101,11 @@ const CheckoutConfirmation = () => {
             {details.type === TransactionTypes.BuyData && (
               <>
                 <div className="details-item">
-                  <span>Phone Number:</span>
+                  <span>{t('utilities.phoneNumber')}</span>
                   <span>{details.phoneNumber}</span>
                 </div>
                 <div className="details-item">
-                  <span>Data Plan:</span>
+                  <span>{t('utilities.dataPlan')}</span>
                   <span>{details.dataPlan}</span>
                 </div>
               </>
@@ -112,11 +114,11 @@ const CheckoutConfirmation = () => {
             {details.type === TransactionTypes.BuyPower && (
               <>
                 <div className="details-item">
-                  <span>Meter Number:</span>
+                  <span>{t('utilities.meterNumber')}</span>
                   <span>{details.meterNumber}</span>
                 </div>
                 <div className="details-item">
-                  <span>Provider:</span>
+                  <span>{t('utilities.provider')}</span>
                   <span>{details.provider}</span>
                 </div>
               </>
@@ -125,11 +127,11 @@ const CheckoutConfirmation = () => {
             {details.type === TransactionTypes.TvSubscription && (
               <>
                 <div className="details-item">
-                  <span>Smart Card Number:</span>
+                  <span>{t('utilities.smartCardNumber')}</span>
                   <span>{details.smartCardNumber}</span>
                 </div>
                 <div className="details-item">
-                  <span>TV Provider:</span>
+                  <span>{t('utilities.tvProvider')}</span>
                   <span>{details.tvProvider}</span>
                 </div>
               </>
@@ -139,18 +141,18 @@ const CheckoutConfirmation = () => {
             {details.token && (
               <>
                 <div className="details-item">
-                  <span>Token:</span>
+                  <span>{t('utilities.token')}</span>
                   <span>{details.token}</span>
                 </div>
                 <div className="details-item">
-                  <span>Network:</span>
+                  <span>{t('utilities.network')}</span>
                   <span>{details.network}</span>
                 </div>
               </>
             )}
           </div>
           <button className="done-button" onClick={onDone}>
-            Done
+            {t('common.done')}
           </button>
         </div>
       </Container>
@@ -161,10 +163,10 @@ const CheckoutConfirmation = () => {
     return (
       <Container>
         <div className="checkout-confirmation failed">
-          <h2>Transaction Failed</h2>
-          <p>Something went wrong. Please try again.</p>
+          <h2>{t('utilities.transactionFailed')}</h2>
+          <p>{t('common.somethingWentWrong')}</p>
           <button className="done-button" onClick={onDone}>
-            Retry
+            {t('common.retry')}
           </button>
         </div>
       </Container>
@@ -174,7 +176,7 @@ const CheckoutConfirmation = () => {
   return (
     <Container>
       <div className="checkout-confirmation">
-        <h2>Loading...</h2>
+        <h2>{t('common.loading')}</h2>
         <div className="loader"></div>
       </div>
     </Container>

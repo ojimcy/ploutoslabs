@@ -3,6 +3,7 @@ import { Button, Col, Container, Row } from 'reactstrap';
 import { FaEye, FaEyeSlash, FaCopy } from 'react-icons/fa';
 import './wallets.css';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const wallet = {
   privateKey:
@@ -26,6 +27,7 @@ const wallet = {
 const WalletCredentials = () => {
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [showSeedPhrase, setShowSeedPhrase] = useState(false);
+  const { t } = useTranslation();
 
   const togglePrivateKeyVisibility = () => {
     setShowPrivateKey(!showPrivateKey);
@@ -48,12 +50,12 @@ const WalletCredentials = () => {
       <Row>
         <Col md={{ size: 6, offset: 3 }}>
           <div className="credentials-card">
-            <h2>Wallet Credentials</h2>
+            <h2>{t('wallet.walletCredentials')}</h2>
 
             {/* Private Key Section */}
             <div className="credentials-section">
               <div className="cred-top d-flex justify-content-between align-items-center">
-                <h5>Private Key</h5>
+                <h5>{t('wallet.privateKey')}</h5>
                 <div className="cred-actions">
                   <Button
                     onClick={togglePrivateKeyVisibility}
@@ -85,7 +87,7 @@ const WalletCredentials = () => {
 
             {/* Seed Phrase Section */}
             <div className="cred-actions d-flex justify-content-between align-items-center mt-3">
-              <h5>Seed Phrase</h5>
+              <h5>{t('wallet.seedPhrase')}</h5>
               <div className="cred-actions">
                 <Button
                   onClick={toggleSeedPhraseVisibility}

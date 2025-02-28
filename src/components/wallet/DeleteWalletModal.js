@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import { Button, Spinner } from 'reactstrap';
 import BaseModal from '../common/modal/BaseModal';
 import './deleteWalletModal.css';
+import { useTranslation } from 'react-i18next';
 
 const DeleteWalletModal = ({ isOpen, toggle, onDelete, loading }) => {
+  const { t } = useTranslation();
   const footerContent = (
     <>
       <Button color="danger" onClick={onDelete} disabled={loading}>
-        {loading ? <Spinner size="sm" /> : 'Delete'}
+        {loading ? <Spinner size="sm" /> : t('common.delete')}
       </Button>
       <Button color="secondary" onClick={toggle}>
-        Cancel
+        {t('common.cancel')}
       </Button>
     </>
   );
@@ -20,13 +22,12 @@ const DeleteWalletModal = ({ isOpen, toggle, onDelete, loading }) => {
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Delete Wallet"
+      title={t('modal.deleteWallet')}
       className="delete-wallet-modal"
       footerContent={footerContent}
     >
       <div className="delete-warning">
-        Are you sure you want to delete this wallet? This action cannot be
-        undone.
+        {t('modal.deleteWalletWarning')}
       </div>
     </BaseModal>
   );

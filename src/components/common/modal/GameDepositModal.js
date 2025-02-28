@@ -4,8 +4,9 @@ import { Button } from 'reactstrap';
 import BaseModal from '../modal/BaseModal';
 import { getDepositAddress } from '../../../lib/server';
 import { toast } from 'react-hot-toast';
-
+import { useTranslation } from 'react-i18next';
 function GameDepositModal({ isOpen, toggle }) {
+  const { t } = useTranslation();
   const [depositAddress, setDepositAddress] = useState('');
 
   useEffect(() => {
@@ -19,24 +20,24 @@ function GameDepositModal({ isOpen, toggle }) {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(depositAddress);
-    toast.success('Deposit address copied to clipboard!');
+    toast.success(t('modal.depositAddressCopied'));
   };
 
   return (
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Create Game"
+      title={t('modal.createGame')}
       className="main-modal"
     >
       <div className="game-deposit">
-        <p>Send ETH (base network) to the following address:</p>
+        <p>{t('modal.sendETHBaseNetwork')}</p>
         <div className="deposit-address">
           <code>{depositAddress}</code>
         </div>
 
         <Button color="primary" onClick={copyToClipboard}>
-          Copy Address
+          {t('common.copy')}
         </Button>
       </div>
     </BaseModal>

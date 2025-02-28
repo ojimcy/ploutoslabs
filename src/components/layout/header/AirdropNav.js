@@ -3,12 +3,14 @@ import './Navbar.css';
 import { Link, useLocation } from 'react-router-dom';
 import { scrollSpy } from 'react-scroll';
 import { Container, Navbar } from 'reactstrap';
-
+import LanguageSwitcher from '../../LanguageSwitcher';
 import logo from '../../../assets/images/logo.png';
-
+import { FaCog, FaTimes } from 'react-icons/fa';
+import MobileMenu from '../../navs/MobileNav';
 function AirdropNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -54,6 +56,11 @@ function AirdropNav() {
     }
   };
 
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    };  
+
   return (
     <header>
       {/* Navbar */}
@@ -69,8 +76,24 @@ function AirdropNav() {
             <img src={logo} alt="logo" />
           </Link>
 
+          {/* Menu Toggle */}
+          <div className="navbar-right d-flex justify-content-between align-items-center">
+            <LanguageSwitcher />
+            <div className="menu-toggle" onClick={toggleMenu}>
+              {!isMenuOpen ? <FaCog className="settings-icon" /> : <FaTimes />}
+            </div>
+          </div>
         </Container>
       </Navbar>
+
+      {/* Menu */}
+      {isMenuOpen && (
+        <MobileMenu
+          isOpen={isMenuOpen}
+          toggleMobileMenu={toggleMenu}
+          scrollToSection={scrollToSection}
+        />
+      )}
     </header>
   );
 }

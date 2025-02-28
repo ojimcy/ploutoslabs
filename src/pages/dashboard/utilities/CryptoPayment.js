@@ -2,8 +2,11 @@
 import React, { useState } from 'react';
 import './checkout.css';
 import { Col, FormGroup, Input, Label, Row } from 'reactstrap';
+
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 function CryptoPayment({ onConfirm }) {
+  const { t } = useTranslation();
   const [network, setNetwork] = useState('');
   const [token, setToken] = useState('');
 
@@ -11,7 +14,7 @@ function CryptoPayment({ onConfirm }) {
     if (network && token) {
       onConfirm();
     } else {
-      toast.error('Please select a network and token.');
+      toast.error(t('common.pleaseSelectNetworkAndToken'));
     }
   };
 
@@ -20,7 +23,7 @@ function CryptoPayment({ onConfirm }) {
       <Row>
         <Col md="12">
           <FormGroup>
-            <Label for="cryptoNetwork">Network Provider</Label>
+            <Label for="cryptoNetwork">{t('utilities.networkProvider')}</Label>
             <Input
               type="select"
               id="cryptoNetwork"
@@ -28,12 +31,12 @@ function CryptoPayment({ onConfirm }) {
               onChange={(e) => setNetwork(e.target.value)}
               className="form-control"
             >
-              <option value="">Select a network</option>
-              <option value="base">Base</option>
+              <option value="">{t('utilities.selectNetwork')}</option>
+              <option value="base">{t('common.base')}</option>
             </Input>
           </FormGroup>
           <FormGroup>
-            <Label for="token">Network Provider</Label>
+            <Label for="token">{t('utilities.networkProvider')}</Label>
             <Input
               type="select"
               id="token"
@@ -41,7 +44,7 @@ function CryptoPayment({ onConfirm }) {
               onChange={(e) => setToken(e.target.value)}
               className="form-control"
             >
-              <option value="">Select Token</option>
+              <option value="">{t('modal.selectToken')}</option>
               <option value="base">Ploutos (PLTL)</option>
             </Input>
           </FormGroup>
@@ -77,7 +80,7 @@ function CryptoPayment({ onConfirm }) {
       </Row> */}
 
       <button className="button-next" onClick={handleConfirm}>
-        Confirm Payment
+        {t('utilities.confirmPayment')}
       </button>
     </div>
   );

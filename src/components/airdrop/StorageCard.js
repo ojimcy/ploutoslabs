@@ -5,10 +5,11 @@ import { computeTokensToClaim, useCurrentUser } from '../../hooks/telegram';
 import { FaWater } from 'react-icons/fa';
 import './airdrop.css';
 import { WebappContext } from '../../context/telegram';
-
+import { useTranslation } from 'react-i18next';
 function StorageCard() {
   const currentUser = useCurrentUser();
   const { setUser } = useContext(WebappContext);
+  const { t } = useTranslation();
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -47,10 +48,10 @@ function StorageCard() {
               <FaWater className="water-icon" />
             </Col>
             <Col className="storage-info">
-              <h5 className="storage-title">Storage</h5>
+              <h5 className="storage-title">{t('common.storage')}</h5>
               {currentUser && (
                 <div className="mining-rate">
-                  {currentUser.miningRate} PLTL / {currentUser.miningFrequency}h
+                  {currentUser.miningRate} {t('common.pltl')} / {currentUser.miningFrequency}h
                 </div>
               )}
             </Col>
@@ -60,7 +61,7 @@ function StorageCard() {
                 onClick={claim}
                 disabled={loading}
               >
-                {loading ? 'Claiming...' : 'Claim'}
+                {loading ? t('common.claiming') : t('common.claim')}
               </Button>
             </Col>
           </Row>

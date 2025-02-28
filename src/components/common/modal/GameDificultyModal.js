@@ -10,8 +10,9 @@ import { toast } from 'react-hot-toast';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { openSuperCatchGameConsole } from '../../../lib/utils';
 import PaymentModal from './PaymentModal';
-
+import { useTranslation } from 'react-i18next';
 function GameDificultyModal({ isOpen, toggle }) {
+  const { t } = useTranslation();
   const { difficulty, setDifficulty, mode, setMode } = useContext(AppContext);
   const currenUser = useCurrentUser();
   const [typeModal, setTypeModal] = useState(false);
@@ -85,14 +86,14 @@ function GameDificultyModal({ isOpen, toggle }) {
       <BaseModal
         isOpen={isOpen}
         toggle={toggle}
-        title="Create Game"
+        title={t('modal.createGame')}
         className="main-modal"
         footerContent={footerContent}
       >
         <div className="game-difficulty">
           <Row className="mb-3">
-            <h6 className="mt-5">Game Difficulty</h6>
-            <p className="text-muted">Click to select game difficulty</p>
+            <h6 className="mt-5">{t('modal.gameDifficulty')}</h6>
+            <p className="text-muted">{t('modal.clickToSelect')}</p>
             <Col>
               <Button
                 className={`game-btn ${
@@ -101,7 +102,7 @@ function GameDificultyModal({ isOpen, toggle }) {
                 onClick={() => setDifficulty('easy')}
                 block
               >
-                Easy
+                {t('modal.easy')}
               </Button>
             </Col>
             <Col>
@@ -112,7 +113,7 @@ function GameDificultyModal({ isOpen, toggle }) {
                 onClick={() => setDifficulty('medium')}
                 block
               >
-                Medium
+                {t('modal.medium')}
               </Button>
             </Col>
             <Col>
@@ -123,21 +124,21 @@ function GameDificultyModal({ isOpen, toggle }) {
                 onClick={() => setDifficulty('hard')}
                 block
               >
-                Hard
+                {t('modal.hard')}
               </Button>
             </Col>
           </Row>
 
           <Row>
-            <h6 className="mt-5">Game Mode</h6>
-            <p className="text-muted">Click to select game mode</p>
+            <h6 className="mt-5">{t('modal.gameMode')}</h6>
+            <p className="text-muted">{t('modal.clickToSelect')}</p>
             <Col>
               <Button
                 className={`game-btn ${mode === 'solo' ? 'selected' : ''}`}
                 onClick={() => setMode('solo')}
                 block
               >
-                Solo
+                {t('modal.solo')}
               </Button>
             </Col>
             <Col>
@@ -148,7 +149,7 @@ function GameDificultyModal({ isOpen, toggle }) {
                 onClick={handleOneClicked}
                 block
               >
-                One on One
+                {t('modal.oneVsOne')}
               </Button>
             </Col>
           </Row>

@@ -9,8 +9,10 @@ import { BASE_URL } from '../../../constants';
 import { WebappContext } from '../../../context/telegram';
 import ReferralTable from '../../../components/airdrop/ReferralTable';
 import { FiCopy, FiGift, FiUsers, FiTrendingUp } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
 
 function Referrals() {
+  const { t } = useTranslation();
   const currentUser = useCurrentUser();
   const { setUser } = useContext(WebappContext);
   const navigate = useNavigate();
@@ -73,7 +75,7 @@ function Referrals() {
                 </div>
                 <div className="stats-info">
                   <h3>{totalReferrals}</h3>
-                  <p>Total Referrals</p>
+                  <p>{t('referral.totalReferrals')}</p>
                 </div>
               </div>
             </Col>
@@ -84,7 +86,7 @@ function Referrals() {
                 </div>
                 <div className="stats-info">
                   <h3>{currentUser?.referralBonus?.toFixed(2) || '0.00'}</h3>
-                  <p>Direct Bonus (PLTL)</p>
+                  <p>{t('referral.directBonus')} ({t('common.pltl')})</p>
                 </div>
               </div>
             </Col>
@@ -95,7 +97,7 @@ function Referrals() {
                 </div>
                 <div className="stats-info">
                   <h3>{currentUser?.referralBonus2?.toFixed(2) || '0.00'}</h3>
-                  <p>Indirect Bonus (PLTL)</p>
+                  <p>{t('referral.indirectBonus')} ({t('common.pltl')})</p>
                 </div>
               </div>
             </Col>
@@ -104,13 +106,13 @@ function Referrals() {
           {/* Referral Link Card */}
           <div className="referral-link-section">
             <div className="referral-link-header">
-              <h2>Your Referral Link</h2>
+              <h2>{t('referral.yourReferralLink')}</h2>
               <Button
                 className="claim-button"
                 onClick={claimBonus}
                 disabled={loading}
               >
-                {loading ? <Spinner size="sm" /> : 'Claim Bonus'}
+                {loading ? <Spinner size="sm" /> : t('referral.claimBonus')}
               </Button>
             </div>
             <div className="referral-link-box">
@@ -120,7 +122,7 @@ function Referrals() {
                 readOnly
               />
               <Button className="copy-button" onClick={copyReferralLink}>
-                <FiCopy /> Copy
+                <FiCopy /> {t('common.copy')}
               </Button>
             </div>
           </div>
@@ -128,10 +130,10 @@ function Referrals() {
           {/* Contest Banner */}
           <div className="contest-banner" onClick={navigateToContest}>
             <div className="contest-text">
-              <h3>🏆 Referral Contest</h3>
-              <p>Join the contest and win exciting prizes!</p>
+              <h3>{t('referral.referralContest')}</h3>
+              <p>{t('referral.referralContestSubtitle')}</p>
             </div>
-            <Button className="view-contest-button">View Details</Button>
+            <Button className="view-contest-button">{t('common.viewDetails')}</Button>
           </div>
 
           {/* Referral Table */}

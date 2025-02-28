@@ -15,8 +15,11 @@ import { getTokenBalances } from '../../lib/server';
 
 import './wallet.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 function BalanceCard() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [sendModal, setSendModal] = useState(false);
   const [receiveModal, setReceiveModal] = useState(false);
   const { selectedWallet } = useContext(AppContext);
@@ -50,18 +53,18 @@ function BalanceCard() {
     <Container className="balance-card">
       <Row className="justify-content-center align-items-center text-center">
         <div className="mt-4">
-          <h4 className="net-worth">Net Worth</h4>
+          <h4 className="net-worth">{t('wallet.netWorth')}</h4>
           <h1 className="balance-amount">{netWorth.toFixed(2) || '~$0'}</h1>
         </div>
       </Row>
       <div className="wallet-actions">
         <div className="wallet-action" onClick={toggleSendModal}>
           <FaArrowUp className="icon" />
-          <div className="label">Send</div>
+          <div className="label">{t('wallet.send')}</div>
         </div>
         <div className="wallet-action" onClick={toggleReceiveModal}>
           <FaArrowDown className="icon" />
-          <div className="label">Receive</div>
+          <div className="label">{t('wallet.receive')}</div>
         </div>
         <div
           className="wallet-action"
@@ -70,7 +73,7 @@ function BalanceCard() {
           }}
         >
           <FaQrcode className="icon" />
-          <div className="label">Swap</div>
+          <div className="label">{t('wallet.swap')}</div>
         </div>
 
         <div
@@ -82,7 +85,7 @@ function BalanceCard() {
           }}
         >
           <FaDollarSign className="icon" />
-          <div className="label">Buy & Sell</div>
+          <div className="label">{t('wallet.buySell')}</div>
         </div>
 
         <div
@@ -92,12 +95,12 @@ function BalanceCard() {
           }}
         >
           <FaPlay className="icon" />
-          <div className="label">Launchpad</div>
+          <div className="label">{t('wallet.launchpad')}</div>
         </div>
         <div className="wallet-action">
           <Link to="/game" style={{ textDecoration: 'none', color: '#ffffff' }}>
             <FaGamepad className="icon" />
-            <div className="label">Games</div>
+            <div className="label">{t('wallet.games')}</div>
           </Link>
         </div>
       </div>

@@ -19,10 +19,11 @@ import './utilities.css';
 import { AppContext } from '../../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { TransactionTypes } from '../../../lib/utils';
-
+import { useTranslation } from 'react-i18next';
 const TvSubscriptionPage = () => {
   const { updateUtilityTransaction } = useContext(AppContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [providers, setProviders] = useState([]);
   const [bouquets, setBouquets] = useState([]);
@@ -40,7 +41,7 @@ const TvSubscriptionPage = () => {
         const result = await getTvProviders();
         setProviders(result);
       } catch (error) {
-        toast.error('Failed to load TV providers. Please try again later.');
+        toast.error(t('common.failedToLoadTvProviders'));
       }
     };
 
@@ -59,7 +60,7 @@ const TvSubscriptionPage = () => {
         const result = await getTvBouquets(providerId);
         setBouquets(result);
       } catch (error) {
-        toast.error('Failed to load bouquets for the selected provider.');
+        toast.error(t('common.failedToLoadBouquets'));
       } finally {
         setLoadingBouquets(false);
       }
@@ -75,7 +76,7 @@ const TvSubscriptionPage = () => {
         const result = await verifyTvSmartCard(cardNumber, provider);
         setCustomerName(result.customerName);
       } catch (error) {
-        toast.error('Failed to verify the smart card number.');
+        toast.error(t('common.failedToVerifySmartCard'));
       } finally {
         setLoadingCustomer(false);
       }
@@ -110,14 +111,13 @@ const TvSubscriptionPage = () => {
     <Container className="tv-subscription-page">
       <Row>
         <Col md={6} className="mx-auto">
-          <h3 className="text-center">Pay TV Subscription</h3>
+          <h3 className="text-center">{t('utilities.tvTitle')}</h3>
           <p className="text-center">
-            Select a provider, choose a bouquet, and enter your smart card
-            details
+            {t('utilities.tvDescription')}
           </p>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label for="provider">TV Provider</Label>
+              <Label for="provider">{t('utilities.tvProvider')}</Label>
               <Input
                 type="select"
                 id="provider"
@@ -125,7 +125,7 @@ const TvSubscriptionPage = () => {
                 onChange={(e) => handleProviderChange(e.target.value)}
                 className="form-control"
               >
-                <option value="">Select a provider</option>
+                <option value="">{t('utilities.selectProvider')}</option>
                 {providers.map((provider) => (
                   <option key={provider.id} value={provider.id}>
                     {provider.name}
@@ -135,24 +135,24 @@ const TvSubscriptionPage = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label for="smartCardNumber">Smart Card Number</Label>
+              <Label for="smartCardNumber">{t('utilities.smartCardNumber')}</Label>
               <Input
                 type="text"
                 id="smartCardNumber"
-                placeholder="Enter your smart card number"
+                placeholder={t('utilities.smartCardNumberPlaceholder')}
                 value={smartCardNumber}
                 onChange={(e) => handleSmartCardChange(e.target.value)}
                 className="form-control"
               />
               {loadingCustomer ? (
-                <p>Verifying smart card...</p>
+                <p>{t('common.verifyingSmartCard')}</p>
               ) : (
-                customerName && <p>Customer Name: {customerName}</p>
+                customerName && <p>{t('utilities.customerName')}: {customerName}</p>
               )}
             </FormGroup>
 
             <FormGroup>
-              <Label for="bouquet">Bouquet</Label>
+              <Label for="bouquet">{t('utilities.bouquet')}</Label>
               <Input
                 type="select"
                 id="bouquet"
@@ -161,9 +161,9 @@ const TvSubscriptionPage = () => {
                 disabled={!provider || loadingBouquets}
                 className="form-control"
               >
-                <option value="">Select a bouquet</option>
+                <option value="">{t('utilities.selectBouquet')}</option>
                 {loadingBouquets ? (
-                  <option disabled>Loading bouquets...</option>
+                  <option disabled>{t('utilities.loadingBouquets')}</option>
                 ) : (
                   bouquets.map((bouquet) => (
                     <option
@@ -178,11 +178,11 @@ const TvSubscriptionPage = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label for="phoneNumber">Phone Number</Label>
+              <Label for="phoneNumber">{t('utilities.phoneNumber')}</Label>
               <Input
                 type="text"
                 id="phoneNumber"
-                placeholder="Enter phone number for notification"
+                placeholder={t('utilities.enterPhoneNumberForNotification')}
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 className="form-control"
@@ -197,7 +197,7 @@ const TvSubscriptionPage = () => {
                 !provider || !bouquet || !smartCardNumber // || !customerName
               }
             >
-              Pay Subscription
+              {t('utilities.paySubscription')}
             </Button>
           </Form>
         </Col>

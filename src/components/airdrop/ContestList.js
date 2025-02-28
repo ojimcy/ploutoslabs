@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 function ContestList({ title, subtitle, data, contestType }) {
+  const { t } = useTranslation();
   return (
     <div>
       <h5 className="contest-title mt-4">{title}</h5>
@@ -37,7 +39,7 @@ function ContestList({ title, subtitle, data, contestType }) {
           </div>
         ))
       ) : (
-        <p className="text-center mt-4">No participants yet!</p>
+        <p className="text-center mt-4">{t('common.noParticipants')}</p>
       )}
     </div>
   );

@@ -4,13 +4,21 @@ import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import { FaCopy } from 'react-icons/fa';
 import BaseModal from '../common/modal/BaseModal';
+import { useTranslation } from 'react-i18next';
 
 const TransactionDetailsModal = ({ isOpen, toggle, transaction, onCopy }) => {
+  const { t } = useTranslation();
+
   if (!transaction) return null;
 
   const footerContent = (
-    <Button color="secondary" onClick={toggle}>
-      Close
+    <Button
+      color="primary"
+      onClick={() =>
+        window.open(`https://basescan.org/tx/${transaction.hash}`, '_blank')
+      }
+    >
+      {t('modal.viewOnExplorer')}
     </Button>
   );
 
@@ -18,27 +26,27 @@ const TransactionDetailsModal = ({ isOpen, toggle, transaction, onCopy }) => {
     <BaseModal
       isOpen={isOpen}
       toggle={toggle}
-      title="Transaction Details"
+      title={t('modal.transactionDetails')}
       className="transaction-details-modal"
       footerContent={footerContent}
     >
       <div className="transaction-details">
         <p>
-          <strong>Type:</strong> {transaction.type}
+          <strong>{t('modal.type')}:</strong> {transaction.type}
         </p>
         <p>
-          <strong>Date:</strong> {transaction.date}
+          <strong>{t('modal.date')}:</strong> {transaction.date}
         </p>
         <p>
-          <strong>Status:</strong> {transaction.status}
+          <strong>{t('modal.status')}:</strong> {transaction.status}
         </p>
         {transaction.type === 'Electricity' && (
           <div>
             <p>
-              <strong>Meter:</strong> {transaction.details.meter}
+              <strong>{t('modal.meter')}:</strong> {transaction.details.meter}
             </p>
             <p>
-              <strong>Token:</strong>{' '}
+              <strong>{t('modal.token')}:</strong>{' '}
               <span
                 className="copyable-token"
                 onClick={() => onCopy(transaction.details.token)}
@@ -54,12 +62,12 @@ const TransactionDetailsModal = ({ isOpen, toggle, transaction, onCopy }) => {
         )}
         {transaction.type === 'Data' && (
           <p>
-            <strong>Plan:</strong> {transaction.details.plan}
+            <strong>{t('modal.plan')}:</strong> {transaction.details.plan}
           </p>
         )}
         {transaction.type === 'Airtime' && (
           <p>
-            <strong>Amount:</strong> {transaction.details.amount}
+            <strong>{t('comm.amount')}:</strong> {transaction.details.amount}
           </p>
         )}
       </div>

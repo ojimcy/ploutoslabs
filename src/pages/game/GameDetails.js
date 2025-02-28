@@ -12,9 +12,10 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { getGame } from '../../lib/server';
 import { openSuperCatchGameConsole } from '../../lib/utils';
-
+import { useTranslation } from 'react-i18next';
 function GameDetails() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const currentUser = useCurrentUser();
   const [timeLeft, setTimeLeft] = useState(0);
   const [opponentJoined, setOpponentJoined] = useState(false);
@@ -90,7 +91,7 @@ function GameDetails() {
   const copyCodeToClipboard = () => {
     if (gameCode) {
       navigator.clipboard.writeText(gameCode);
-      toast.success('Code copied to clipboard!', {
+      toast.success(t('game.copiedToClipboard'), {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
@@ -125,7 +126,7 @@ function GameDetails() {
           <span>{game.player1Nickname}</span>
         </div>
         <div className="countdown-timer">
-          {timeLeft > 0 ? `${timeLeft} S` : 'Time’s up!'}
+          {timeLeft > 0 ? `${timeLeft} S` : t('game.timeUp')}
         </div>
         <div className="oponent d-flex align-items-center">
           <div className="user-avatar">
@@ -141,7 +142,7 @@ function GameDetails() {
 
       {/* Reward section */}
       <div className="game-reward d-flex flex-column justify-content-center align-items-center">
-        <h6>Reward</h6>
+        <h6>{t('game.reward')}</h6>
         <div className="amount">
           <img src={pltl} alt="logo" /> +{game.price}
         </div>
@@ -150,13 +151,13 @@ function GameDetails() {
       <div className="share-code my-4">
         {gameCode && (
           <div className="text-center">
-            <h6>Your Game Code: {gameCode}</h6>
+            <h6>{t('game.yourGameCode')}: {gameCode}</h6>
             <div className="code-action">
               <Button className="share-btn" onClick={share}>
-                <FaShare /> Share Code
+                <FaShare /> {t('game.shareCode')}
               </Button>
               <Button className="copy-btn" onClick={copyCodeToClipboard}>
-                Copy Code
+                {t('game.copyCode')}
               </Button>
             </div>
           </div>
@@ -166,7 +167,7 @@ function GameDetails() {
       {/* Play button */}
       <div className="buttons-actions">
         <Button className="play-btn" onClick={openGameConsole}>
-          Play
+          {t('game.play')}
         </Button>
       </div>
     </div>
