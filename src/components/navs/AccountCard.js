@@ -106,7 +106,7 @@ function AccountCard() {
                     </div>
                     <div className="referral-info">
                       <div className="ref-title">
-                        {t('common.createAccount')}
+                        {t('wallet.createAccount')}
                       </div>
                     </div>
                   </div>
