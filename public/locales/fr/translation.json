@@ -199,7 +199,14 @@
     "presaleCompletedMessage": "La prévente a été terminée avec succès. Merci pour votre participation!",
     "totalEarnings": "Gains totaux",
     "noRecordsFound": "Aucun enregistrement trouvé",
-    "presaleHistory": "Historique de la prévente"
+    "presaleHistory": "Historique de la prévente",
+    "downlinePurchases": "Achats des filleuls",
+    "downlinePurchasesDescription": "Voir tous les achats effectués par vos filleuls",
+    "noDownlinePurchases": "Aucun achat de filleul trouvé",
+    "totalDownlines": "Total des filleuls",
+    "downlineAddress": "Adresse",
+    "level": "Niveau",
+    "createAccount": "Créer un compte"
   },
   "boost": {
     "success": "Boost réussi !",

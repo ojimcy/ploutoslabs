@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Col, Container, Row } from 'reactstrap';
-import { FaPlus, FaWallet, FaCheck, FaCog } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { FaWallet, FaCheck, FaCog } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './wallets.css';
 import { useCurrentUser } from '../../../hooks/telegram';
 import { getUserByTelegramID, getWallets } from '../../../lib/server';
@@ -92,7 +92,7 @@ const ViewWallets = () => {
         ))}
         <Col md="4" className="mb-3">
           <div className="add-wallet-card">
-            <Link to="/dashboard/create" className="links">
+            {/* <Link to="/dashboard/create" className="links">
               <div className="wallet-card-content">
                 <div className="wallet-icon">
                   <FaPlus />
@@ -101,7 +101,7 @@ const ViewWallets = () => {
                   <div className="wallet-title">{t('wallet.addNewWallet')}</div>
                 </div>
               </div>
-            </Link>
+            </Link> */}
           </div>
         </Col>
       </Row>

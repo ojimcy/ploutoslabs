@@ -85,7 +85,9 @@ function AccountCard() {
                       <FaPlusSquare />
                     </div>
                     <div className="referral-info">
-                      <div className="ref-title">{t('common.importAccount')}</div>
+                      <div className="ref-title">
+                        {t('common.importAccount')}
+                      </div>
                     </div>
                   </div>
                   <div className="right">
@@ -96,6 +98,25 @@ function AccountCard() {
                 </div>
               </Link>
               <Separator />
+              <Link to="/dashboard/accounts" className="links">
+                <div className="referral-card-content my-4">
+                  <div className="referral-icon">
+                    <div className="ref-icon">
+                      <FaPlusSquare />
+                    </div>
+                    <div className="referral-info">
+                      <div className="ref-title">
+                        {t('common.createAccount')}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="right">
+                    <div className="right-arrow">
+                      <FaArrowRight />
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
         </Row>

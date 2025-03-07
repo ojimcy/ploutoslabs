@@ -186,7 +186,14 @@
     "presaleCompletedMessage": "The presale has successfully ended. Thank you for participating!",
     "totalEarnings": "Total Earnings",
     "noRecordsFound": "No records found",
-    "presaleHistory": "Presale History"
+    "presaleHistory": "Presale History",
+    "downlinePurchases": "Downline Purchases",
+    "downlinePurchasesDescription": "View all purchases made by your referrals",
+    "noDownlinePurchases": "No downline purchases found",
+    "totalDownlines": "Total Downlines",
+    "downlineAddress": "Address",
+    "level": "Level",
+    "createAccount": "Create Account"
   },
   "boost": {
     "success": "Successfully boosted!",

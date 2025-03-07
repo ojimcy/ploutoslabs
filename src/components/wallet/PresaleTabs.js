@@ -17,13 +17,19 @@ import './portfolio.css';
 import { Separator } from '../common/Seperator';
 import { useCurrentUser } from '../../hooks/telegram';
 import { toast } from 'react-hot-toast';
-import { FaCopy, FaEthereum, FaTelegramPlane } from 'react-icons/fa';
+import { FaCopy, FaEthereum, FaTelegramPlane, FaUsers } from 'react-icons/fa';
 import { formatEther, formatUnits } from 'viem';
 import { formatAddress } from '../../lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BASE_URL } from '../../constants';
-const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
+
+const PresaleTabs = ({
+  purchaseHistory,
+  referrals,
+  downlinePurchases,
+  loading,
+}) => {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('1');
@@ -129,6 +135,16 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
             {t('wallet.history')}
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === '3' })}
+            onClick={() => {
+              toggle('3');
+            }}
+          >
+            {t('wallet.downlinePurchases')}
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
@@ -229,6 +245,72 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
             </div>
           </Row>
         </TabPane>
+        <TabPane tabId="3">
+          <Row className="justify-content-center align-items-center text-center">
+            <div className="mt-4">
+              <h4>{t('wallet.downlinePurchases')}</h4>
+              <p>{t('wallet.downlinePurchasesDescription')}</p>
+              <Separator />
+              {downlinePurchases.length === 0 ? (
+                <p>{t('wallet.noDownlinePurchases')}</p>
+              ) : (
+                <div className="downline-purchases-list">
+                  {loading ? (
+                    <Spinner />
+                  ) : (
+                    <div className="downline-stats">
+                      <div className="downline-stat-item">
+                        <div className="stat-icon">
+                          <FaUsers />
+                        </div>
+                        <div className="stat-info">
+                          <div className="stat-label">
+                            {t('wallet.totalDownlines')}
+                          </div>
+                          <div className="stat-value">
+                            {downlinePurchases.length}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {!loading &&
+                    downlinePurchases.map((purchase, index) => (
+                      <div key={index} className="downline-purchase-item">
+                        <div className="purchase-header">
+                          <div className="downline-address">
+                            <span className="address-label">
+                              {t('wallet.downlineAddress')}:
+                            </span>
+                            <span className="address-value">
+                              {purchase.buyer}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="purchase-details">
+                          <div className="purchase-amount">
+                            <span className="amount-label">Amount:</span>
+                            <span className="amount-value">
+                              {purchase.amountUsd}
+                            </span>
+                          </div>
+                          <div className="purchase-level">
+                            <span className="level-label">
+                              {t('wallet.level')}:
+                            </span>
+                            <span className="level-value">
+                              {purchase.directReferral ? 'Direct' : 'Indirect'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          </Row>
+        </TabPane>
       </TabContent>
     </div>
   );
@@ -237,6 +319,7 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
 PresaleTabs.propTypes = {
   purchaseHistory: PropTypes.array,
   referrals: PropTypes.array,
+  downlinePurchases: PropTypes.array,
   loading: PropTypes.bool,
 };
 

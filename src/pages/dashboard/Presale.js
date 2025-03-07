@@ -24,6 +24,7 @@ import {
   getUplineWallets,
   getUserByTelegramID,
   getWallets,
+  getDownlinePurchases,
 } from '../../lib/server';
 import { decryptPrivateKey, formatAddress } from '../../lib/utils';
 import { Link } from 'react-router-dom';
@@ -59,6 +60,7 @@ function TokenPresale() {
   const currentUser = useCurrentUser();
   const [histories, setHistories] = useState([]);
   const [referrals, setReferrals] = useState([]);
+  const [downlinePurchases, setDownlinePurchases] = useState([]);
 
   const [ethBalance, setEthBalance] = useState(0);
   const [ethereumAmount, setEthereumAmount] = useState(0);
@@ -151,7 +153,7 @@ function TokenPresale() {
       ]);
       setReferrals(refResult);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
 
     setIsLoading(false);
@@ -255,6 +257,14 @@ function TokenPresale() {
     }
   };
 
+  useEffect(() => {
+    const fetchDownlinePurchases = async () => {
+      const purchases = await getDownlinePurchases(selectedWallet.address);
+      setDownlinePurchases(purchases);
+    };
+    fetchDownlinePurchases();
+  }, [selectedWallet]);
+
   return (
     <div className="presale-page">
       {!showPinPad && (
@@ -317,9 +327,7 @@ function TokenPresale() {
               <Row className="timer-row mt-4 w-75">
                 {!presaleCompleted ? (
                   <>
-                    <h3 className="text-center">
-                      {t('wallet.presaleEndsIn')}
-                    </h3>
+                    <h3 className="text-center">{t('wallet.presaleEndsIn')}</h3>
                     <div className="timer d-flex flex-row justify-content-between ">
                       <span>{timeLeft.days.toString().padStart(2, '0')}</span>:
                       <span>{timeLeft.hours.toString().padStart(2, '0')}</span>:
@@ -372,9 +380,7 @@ function TokenPresale() {
                   </FormGroup>
 
                   <FormGroup>
-                    <Label for="ploutosAmount">
-                      {t('common.receive')}
-                    </Label>
+                    <Label for="ploutosAmount">{t('common.receive')}</Label>
                     <Input
                       type="number"
                       name="ploutosAmount"
@@ -407,6 +413,7 @@ function TokenPresale() {
             purchaseHistory={histories}
             loading={isLoading}
             referrals={referrals}
+            downlinePurchases={downlinePurchases}
           />
         </Container>
       )}

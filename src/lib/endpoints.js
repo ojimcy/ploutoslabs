@@ -83,3 +83,6 @@ export const GET_UTILITY_TRANSACTIONS = () =>
   `${ROOT}/utilities/get-transactions`;
 
 export const LOGIN_WITH_TELEGRAM = () => `${ROOT}/auth/telegram`;
+
+export const GET_DOWNLINE_PURCHASES = (wallet) =>
+  `${ROOT}/downline-purchases/${wallet}`;

@@ -151,3 +151,213 @@
 .change-icon {
   font-size: 0.875rem;
 }
+
+/* Add styles for the share dropdown */
+.share-btn {
+  background: rgba(41, 41, 41, 0.4) !important;
+  border: 1px solid rgba(41, 219, 223, 0.1) !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+  padding: 0.625rem 1rem !important;
+  font-size: 0.875rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.share-btn:hover {
+  background: rgba(41, 41, 41, 0.6) !important;
+  border-color: rgba(41, 219, 223, 0.2) !important;
+  transform: translateY(-1px) !important;
+}
+
+.dropdown-menu {
+  background: rgba(41, 41, 41, 0.95) !important;
+  border: 1px solid rgba(41, 219, 223, 0.1) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.dropdown-item {
+  color: #fff !important;
+  padding: 0.75rem 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.dropdown-item:hover {
+  background: rgba(41, 219, 223, 0.1) !important;
+  color: #29dbdf !important;
+}
+
+/* Downline purchases styles */
+.downline-purchases-list {
+  margin-top: 1.5rem;
+}
+
+.downline-stats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.downline-stat-item {
+  background: rgba(41, 41, 41, 0.3);
+  border: 1px solid rgba(41, 219, 223, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 200px;
+  transition: all 0.3s ease;
+}
+
+.downline-stat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(41, 219, 223, 0.1);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: #29dbdf;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #9e9e9e;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.downline-purchase-item {
+  background: rgba(41, 41, 41, 0.2);
+  border: 1px solid rgba(41, 219, 223, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.downline-purchase-item:hover {
+  background: rgba(41, 41, 41, 0.3);
+  border-color: rgba(41, 219, 223, 0.1);
+}
+
+.purchase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.downline-address {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.address-label {
+  color: #9e9e9e;
+}
+
+.address-value {
+  font-family: 'Roboto Mono', monospace;
+  color: #fff;
+}
+
+.purchase-date {
+  font-size: 0.813rem;
+  color: #9e9e9e;
+}
+
+.purchase-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.purchase-amount,
+.purchase-tokens,
+.purchase-level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.amount-label,
+.tokens-label,
+.level-label {
+  font-size: 0.75rem;
+  color: #9e9e9e;
+  margin-bottom: 0.25rem;
+}
+
+.amount-value,
+.tokens-value,
+.level-value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.level-value {
+  color: #29dbdf;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .share-btn {
+    padding: 0.5rem 0.875rem !important;
+    font-size: 0.813rem !important;
+  }
+
+  .dropdown-item {
+    padding: 0.625rem 0.875rem !important;
+    font-size: 0.813rem !important;
+  }
+
+  .downline-stat-item {
+    padding: 1rem;
+    min-width: 160px;
+  }
+
+  .stat-icon {
+    font-size: 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  .purchase-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .purchase-amount,
+  .purchase-tokens,
+  .purchase-level {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+}
