@@ -19,7 +19,7 @@ const PageNotFound = () => {
             {t('common.pageNotFoundDescription')}
           </p>
           <Button tag={Link} to="/dashboard/airdrop" className="home-button">
-            <FaHome className="home-icon" /> {t('common.backToHome')}
+            <FaHome className="home-icon" /> {t('modal.backToHome')}
           </Button>
         </div>
       </Container>
