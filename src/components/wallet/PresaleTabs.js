@@ -129,6 +129,16 @@ const PresaleTabs = ({
             History
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === '3' })}
+            onClick={() => {
+              toggle('3');
+            }}
+          >
+            Downline Purchases
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
