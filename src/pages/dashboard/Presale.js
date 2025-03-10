@@ -25,6 +25,7 @@ import {
   getUplineWallets,
   getUserByTelegramID,
   getWallets,
+  getDownlinePurchases,
 } from '../../lib/server';
 import { decryptPrivateKey, formatAddress } from '../../lib/utils';
 import { Link } from 'react-router-dom';
@@ -57,6 +58,7 @@ function TokenPresale() {
   const currentUser = useCurrentUser();
   const [histories, setHistories] = useState([]);
   const [referrals, setReferrals] = useState([]);
+  const [downlinePurchases, setDownlinePurchases] = useState([]);
 
   const [ethBalance, setEthBalance] = useState(0);
   const [ethereumAmount, setEthereumAmount] = useState(0);
@@ -117,7 +119,7 @@ function TokenPresale() {
   }, [selectedWallet]);
 
   const refreshHistory = async () => {
-    if(!selectedWallet) return
+    if (!selectedWallet) return;
     setIsLoading(true);
 
     try {
@@ -126,7 +128,9 @@ function TokenPresale() {
         transport: http(NODE_URL),
       });
 
-      const bal = await publicClient.getBalance({ address: selectedWallet.address });
+      const bal = await publicClient.getBalance({
+        address: selectedWallet.address,
+      });
       setEthBalance(parseFloat(formatEther(bal)).toFixed(4));
 
       const contract = getContract({
@@ -153,6 +157,14 @@ function TokenPresale() {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    const fetchDownlinePurchases = async () => {
+      const purchases = await getDownlinePurchases(selectedWallet.address);
+      setDownlinePurchases(purchases);
+    };
+    fetchDownlinePurchases();
+  }, [selectedWallet]);
+
   const handleSelectWallet = (wallet) => {
     setSelectedWallet(wallet);
     setDropdownOpen(false);
@@ -161,7 +173,7 @@ function TokenPresale() {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleMaxClick = () => {
-    const max = parseFloat(ethBalance) - 0.000004
+    const max = parseFloat(ethBalance) - 0.000004;
     setEthereumAmount(max);
     calculateReceived(max);
   };
@@ -235,10 +247,10 @@ function TokenPresale() {
         functionName: 'buyPresale',
         args: [upline1, upline2],
         value: amount,
-        // gasPrice: parseGwei('0.009803727'), 
+        // gasPrice: parseGwei('0.009803727'),
       });
 
-      console.log(tx)
+      console.log(tx);
 
       setEthereumAmount(0);
       setPloutosAmount(0);
@@ -404,6 +416,7 @@ function TokenPresale() {
             purchaseHistory={histories}
             loading={isLoading}
             referrals={referrals}
+            downlinePurchases={downlinePurchases}
           />
         </Container>
       )}

@@ -46,6 +46,7 @@ import {
   GET_UTILITIES_TRANSACTION,
   GET_UTILITY_TRANSACTIONS,
   GET_UTILITY_TRANSACTION,
+  GET_DOWNLINE_PURCHASES,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -301,5 +302,10 @@ export const getUtilityTransactions = async () => {
 
 export const getUtilityTransaction = async (id) => {
   const result = await axios.get(GET_UTILITY_TRANSACTION(id));
+  return result.data;
+};
+
+export const getDownlinePurchases = async (wallet) => {
+  const result = await axios.get(GET_DOWNLINE_PURCHASES(wallet));
   return result.data;
 };

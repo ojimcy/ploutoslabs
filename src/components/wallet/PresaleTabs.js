@@ -17,22 +17,27 @@ import './portfolio.css';
 import { Separator } from '../common/Seperator';
 import { useCurrentUser, useWebApp } from '../../hooks/telegram';
 import { toast } from 'react-toastify';
-import { FaCopy, FaEthereum, FaTelegramPlane } from 'react-icons/fa';
+import { FaCopy, FaEthereum, FaTelegramPlane, FaUsers } from 'react-icons/fa';
 import { formatEther, formatUnits } from 'viem';
 import { formatAddress } from '../../lib/utils';
 
-const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
+const PresaleTabs = ({
+  purchaseHistory,
+  referrals,
+  downlinePurchases,
+  loading,
+}) => {
   const webapp = useWebApp();
   const currentUser = useCurrentUser();
   const [activeTab, setActiveTab] = useState('1');
 
   const totalRefEarningn = () => {
     let total = 0;
-    for(let i = 0; i < referrals.length; i++) {
-      total += parseFloat(formatEther(referrals[i].referralAmount))
+    for (let i = 0; i < referrals.length; i++) {
+      total += parseFloat(formatEther(referrals[i].referralAmount));
     }
-    return total
-  }
+    return total;
+  };
 
   function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement('textarea');
@@ -132,8 +137,8 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
               <h4>Referrals</h4>
               <p>
                 Share your referral link and earn 7% of every purchase your
-                referral makes plus 3% of thei downlines purchase. Use the buttons below to share or copy your
-                referral link.
+                referral makes plus 3% of thei downlines purchase. Use the
+                buttons below to share or copy your referral link.
               </p>
               <Separator />
               <Row className="referrals-grid">
@@ -182,7 +187,9 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
                             {r.username}
                           </span> */}
                         </div>
-                        <span className="referral-balance">+{formatEther(r.referralAmount)}</span>
+                        <span className="referral-balance">
+                          +{formatEther(r.referralAmount)}
+                        </span>
                       </div>
                     </React.Fragment>
                   ))}
@@ -205,7 +212,10 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
                     purchaseHistory.map((purchase) => (
                       <div key={purchase.id} className="purchase-history-item">
                         <div className="history-date">
-                          Date: {new Date(parseInt(purchase.date || 2) * 1000).toLocaleDateString()}
+                          Date:{' '}
+                          {new Date(
+                            parseInt(purchase.date || 2) * 1000
+                          ).toLocaleDateString()}
                         </div>
                         <div className="history-eth">
                           ETH: {formatEther(purchase.ethSpent)}
@@ -221,6 +231,89 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
             </div>
           </Row>
         </TabPane>
+        <TabPane tabId="3">
+          <Row className="justify-content-center align-items-center text-center">
+            <div className="mt-4">
+              <h4>Downline Purchases</h4>
+              <p>
+                Share your referral link and earn 7% of every purchase your
+                referral makes plus 3% of their downlines purchases. Share your
+                referral link to your downlines to earn more.
+              </p>
+              <Separator />
+              {downlinePurchases.length === 0 ? (
+                <p>No downline purchases</p>
+              ) : (
+                <div className="downline-purchases-list">
+                  {loading ? (
+                    <Spinner />
+                  ) : (
+                    <div className="downline-stats">
+                      <div className="downline-stat-item">
+                        <div className="stat-icon">
+                          <FaUsers />
+                        </div>
+                        <div className="stat-info">
+                          <div className="stat-label">Total downlines</div>
+                          <div className="stat-value">
+                            {downlinePurchases.length}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {!loading &&
+                    downlinePurchases.map((purchase, index) => (
+                      <div key={index} className="downline-purchase-item">
+                        <div className="purchase-header">
+                          <div className="downline-address">
+                            <span className="address-label">
+                              Downline Address:
+                            </span>
+                            <span className="address-value">
+                              {formatAddress(purchase.buyer)}
+                            </span>
+                          </div>
+                          <div className="purchase-date">
+                            {new Date(
+                              parseInt(purchase.date) * 1000
+                            ).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <div className="purchase-details">
+                          <div className="purchase-amount">
+                            <span className="amount-label">ETH:</span>
+                            <span className="amount-value">
+                              {formatEther(purchase.amount)}
+                              <small>
+                                {purchase.amountUSD &&
+                                  `(${purchase.amountUSD.toFixed(2)} USD)`}
+                              </small>
+                            </span>
+                          </div>
+                          <div className="purchase-tokens">
+                            <span className="tokens-label">PLTL:</span>
+                            <span className="tokens-value">
+                              {formatUnits(purchase.tokenAmount, 9)}
+                            </span>
+                          </div>
+                          <div className="purchase-level">
+                            <span className="level-label">Level:</span>
+                            <span className="level-value">
+                              {purchase.directReferrer === currentUser?.address
+                                ? 'First Generation'
+                                : 'Second Generation'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          </Row>
+        </TabPane>
       </TabContent>
     </div>
   );
@@ -229,7 +322,8 @@ const PresaleTabs = ({ purchaseHistory, referrals, loading }) => {
 PresaleTabs.propTypes = {
   purchaseHistory: PropTypes.array,
   referrals: PropTypes.array,
-  loading: PropTypes.bool
+  downlinePurchases: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 export default PresaleTabs;

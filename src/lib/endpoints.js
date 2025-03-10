@@ -77,3 +77,6 @@ export const GET_UTILITIES_TRANSACTIONS = () =>
 
 export const GET_UTILITY_TRANSACTION = () => `${ROOT}/utilities/get-transaction`
 export const GET_UTILITY_TRANSACTIONS = () => `${ROOT}/utilities/get-transactions`
+
+export const GET_DOWNLINE_PURCHASES = (wallet) =>
+  `${ROOT}/downline-purchases/${wallet}`;
