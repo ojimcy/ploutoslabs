@@ -72,7 +72,7 @@ function TokenPresale() {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const currentPrice = 138000;
+  const currentPrice = 124200;
 
   const presaleEndTime = new Date('2025-03-31T23:59:59Z').getTime();
 
