@@ -19,3 +19,8 @@ export const computeTokensToClaim = (currentUser) => {
   }
   return 10 * currentUser.miningRate * (lastClaimAt / milliSocondPerHour);
 };
+
+export const useReferralLink = (currentUser) => {
+  if (!currentUser) return '';
+  return `https://t.me/ploutos_labs_bot/app?start=${currentUser.telegramId}`;
+};

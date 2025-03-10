@@ -15,14 +15,13 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import './portfolio.css';
 import { Separator } from '../common/Seperator';
-import { useCurrentUser } from '../../hooks/telegram';
+import { useCurrentUser, useReferralLink } from '../../hooks/telegram';
 import { toast } from 'react-hot-toast';
 import { FaCopy, FaEthereum, FaTelegramPlane, FaUsers } from 'react-icons/fa';
 import { formatEther, formatUnits } from 'viem';
 import { formatAddress } from '../../lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { BASE_URL } from '../../constants';
 
 const PresaleTabs = ({
   purchaseHistory,
@@ -31,6 +30,7 @@ const PresaleTabs = ({
   loading,
 }) => {
   const currentUser = useCurrentUser();
+  const referralLink = useReferralLink(currentUser);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('1');
   const { t } = useTranslation();
@@ -77,7 +77,6 @@ const PresaleTabs = ({
 
   const copyReferralLink = async () => {
     try {
-      const referralLink = `${BASE_URL}/dashboard/presales?ref=${currentUser?.telegramId}`;
       await copyTextToClipboard(referralLink);
       toast.success(t('wallet.referralLinkCopied'), {
         position: 'top-right',
@@ -96,7 +95,6 @@ const PresaleTabs = ({
   };
 
   const handleShare = () => {
-    const referralLink = `${BASE_URL}/dashboard/presales?ref=${currentUser?.telegramId}`;
     const inviteMessage = `${t('wallet.inviteMessage1')} \n\n${t(
       'wallet.inviteMessage2'
     )} { referralLink }`;
@@ -290,9 +288,19 @@ const PresaleTabs = ({
                         </div>
                         <div className="purchase-details">
                           <div className="purchase-amount">
-                            <span className="amount-label">Amount:</span>
+                            <span className="amount-label">ETH:</span>
                             <span className="amount-value">
-                              {purchase.amountUsd}
+                              {formatEther(purchase.amount)}
+                              <small>
+                                {purchase.amountUSD &&
+                                  `(${purchase.amountUSD.toFixed(2)} USD)`}
+                              </small>
+                            </span>
+                          </div>
+                          <div className="purchase-tokens">
+                            <span className="tokens-label">PLTL:</span>
+                            <span className="tokens-value">
+                              {formatUnits(purchase.tokenAmount, 9)}
                             </span>
                           </div>
                           <div className="purchase-level">
@@ -300,7 +308,9 @@ const PresaleTabs = ({
                               {t('wallet.level')}:
                             </span>
                             <span className="level-value">
-                              {purchase.directReferral ? 'Direct' : 'Indirect'}
+                              {purchase.directReferral
+                                ? t('common.direct')
+                                : t('common.indirect')}
                             </span>
                           </div>
                         </div>

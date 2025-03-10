@@ -1,11 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Spinner } from 'reactstrap';
-import { useCurrentUser } from '../../../hooks/telegram';
+import { useCurrentUser, useReferralLink } from '../../../hooks/telegram';
 import { claimReBonus, fetchReferrals } from '../../../lib/server';
 import './referrals.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { BASE_URL } from '../../../constants';
 import { WebappContext } from '../../../context/telegram';
 import ReferralTable from '../../../components/airdrop/ReferralTable';
 import { FiCopy, FiGift, FiUsers, FiTrendingUp } from 'react-icons/fi';
@@ -14,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 function Referrals() {
   const { t } = useTranslation();
   const currentUser = useCurrentUser();
+  const referralLink = useReferralLink(currentUser);
   const { setUser } = useContext(WebappContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ function Referrals() {
   }, []);
 
   const copyReferralLink = () => {
-    const link = `${BASE_URL}/auth?ref=${currentUser.telegramId}`;
+    const link = referralLink;
     navigator.clipboard.writeText(link);
     toast.success('Referral link copied to clipboard');
   };
@@ -118,7 +118,7 @@ function Referrals() {
             <div className="referral-link-box">
               <input
                 type="text"
-                value={`${BASE_URL}/auth?ref=${currentUser?.telegramId}`}
+                value={referralLink}
                 readOnly
               />
               <Button className="copy-button" onClick={copyReferralLink}>
