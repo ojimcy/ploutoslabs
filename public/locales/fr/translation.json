@@ -96,7 +96,8 @@
     "share": "Partager",
     "more": "Plus d'options",
     "noTransactionFound": "Aucune transaction trouvée",
-    "withdraw": "Retirer"
+    "withdraw": "Retirer",
+    "showMore": "Voir Plus"
   },
   "portfolio": {
     "title": "Portefeuille",

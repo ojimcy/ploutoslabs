@@ -33,7 +33,9 @@ const PresaleTabs = ({
   const referralLink = useReferralLink(currentUser);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('1');
+  const [showAllDownlines, setShowAllDownlines] = useState(false);
   const { t } = useTranslation();
+  const ITEMS_PER_PAGE = 10;
 
   const totalRefEarningn = () => {
     let total = 0;
@@ -120,6 +122,10 @@ const PresaleTabs = ({
   };
 
   console.log('downlinePurchases', downlinePurchases);
+
+  const displayedDownlines = showAllDownlines
+    ? downlinePurchases
+    : downlinePurchases.slice(0, ITEMS_PER_PAGE);
 
   return (
     <div className="portfolio">
@@ -322,7 +328,7 @@ const PresaleTabs = ({
                   </div>
                 </div>
 
-                {downlinePurchases.map((purchase, index) => (
+                {displayedDownlines.map((purchase, index) => (
                   <div key={index} className="downline-purchase-item">
                     <div className="purchase-header">
                       <div className="downline-address">
@@ -378,6 +384,19 @@ const PresaleTabs = ({
                     </div>
                   </div>
                 ))}
+
+                {downlinePurchases.length > ITEMS_PER_PAGE &&
+                  !showAllDownlines && (
+                    <div className="show-more-container">
+                      <Button
+                        className="show-more-btn"
+                        onClick={() => setShowAllDownlines(true)}
+                      >
+                        {t('common.showMore')} (
+                        {downlinePurchases.length - ITEMS_PER_PAGE})
+                      </Button>
+                    </div>
+                  )}
               </div>
             )}
           </div>

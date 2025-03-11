@@ -90,7 +90,8 @@
     "share": "Share",
     "more": "More Options",
     "noTransactionFound": "No transaction found",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "showMore": "Show More"
   },
   "portfolio": {
     "title": "Portfolio",
