@@ -150,6 +150,8 @@ const PresaleTabs = ({
     }
   };
 
+  console.log('downlinePurchases', downlinePurchases);
+
   return (
     <div className="portfolio">
       <Nav tabs>
