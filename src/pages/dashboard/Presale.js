@@ -133,6 +133,8 @@ function TokenPresale() {
         // 1b. Or public and/or wallet clients
       });
       const rate = await contract.read.rate();
+      console.log('rate', rate);
+      
       setCurrentPrice(rate / 1e9);
     };
     fetchCurrentPrice();
