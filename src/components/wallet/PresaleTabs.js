@@ -23,10 +23,41 @@ import { formatAddress } from '../../lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// Mock data for testing
+const mockDownlinePurchases = [
+  {
+    buyer: '0x1234567890abcdef1234567890abcdef12345678',
+    amount: '1000000000000000000', // 1 ETH
+    amountUSD: 2500.0,
+    tokenAmount: '138000000000', // 138 PLTL
+    date: Math.floor(Date.now() / 1000),
+    directReferrer: '0x9876543210abcdef1234567890abcdef12345678',
+    secondReferrer: '0x5432109876abcdef1234567890abcdef12345678',
+  },
+  {
+    buyer: '0x2345678901abcdef1234567890abcdef12345678',
+    amount: '500000000000000000', // 0.5 ETH
+    amountUSD: 1250.0,
+    tokenAmount: '69000000000', // 69 PLTL
+    date: Math.floor(Date.now() / 1000) - 86400,
+    directReferrer: '0x9876543210abcdef1234567890abcdef12345678',
+    secondReferrer: '0x5432109876abcdef1234567890abcdef12345678',
+  },
+  {
+    buyer: '0x3456789012abcdef1234567890abcdef12345678',
+    amount: '2000000000000000000', // 2 ETH
+    amountUSD: 5000.0,
+    tokenAmount: '276000000000', // 276 PLTL
+    date: Math.floor(Date.now() / 1000) - 172800,
+    directReferrer: '0x5432109876abcdef1234567890abcdef12345678',
+    secondReferrer: '0x9876543210abcdef1234567890abcdef12345678',
+  },
+];
+
 const PresaleTabs = ({
   purchaseHistory,
   referrals,
-  downlinePurchases,
+  downlinePurchases = mockDownlinePurchases, // Use mock data as default
   loading,
 }) => {
   const currentUser = useCurrentUser();
@@ -125,9 +156,7 @@ const PresaleTabs = ({
         <NavItem>
           <NavLink
             className={classnames({ active: activeTab === '1' })}
-            onClick={() => {
-              toggle('1');
-            }}
+            onClick={() => toggle('1')}
           >
             {t('wallet.referrals')}
           </NavLink>
@@ -135,9 +164,7 @@ const PresaleTabs = ({
         <NavItem>
           <NavLink
             className={classnames({ active: activeTab === '2' })}
-            onClick={() => {
-              toggle('2');
-            }}
+            onClick={() => toggle('2')}
           >
             {t('wallet.history')}
           </NavLink>
@@ -145,9 +172,7 @@ const PresaleTabs = ({
         <NavItem>
           <NavLink
             className={classnames({ active: activeTab === '3' })}
-            onClick={() => {
-              toggle('3');
-            }}
+            onClick={() => toggle('3')}
           >
             {t('wallet.downlinePurchases')}
           </NavLink>
@@ -253,88 +278,138 @@ const PresaleTabs = ({
           </Row>
         </TabPane>
         <TabPane tabId="3">
-          <Row className="justify-content-center align-items-center text-center">
-            <div className="mt-4">
-              <h4>{t('wallet.downlinePurchases')}</h4>
-              <p>{t('wallet.downlinePurchasesDescription')}</p>
-              <Separator />
-              {downlinePurchases.length === 0 ? (
+          <div className="mt-4">
+            <h4 className="text-center">{t('wallet.downlinePurchases')}</h4>
+            <p className="text-center text-muted">
+              {t('wallet.downlinePurchasesDescription')}
+            </p>
+            <Separator />
+
+            {downlinePurchases.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-state-icon">
+                  <FaUsers />
+                </div>
                 <p>{t('wallet.noDownlinePurchases')}</p>
-              ) : (
-                <div className="downline-purchases-list">
-                  {loading ? (
-                    <Spinner />
-                  ) : (
-                    <div className="downline-stats">
-                      <div className="downline-stat-item">
-                        <div className="stat-icon">
-                          <FaUsers />
-                        </div>
-                        <div className="stat-info">
-                          <div className="stat-label">
-                            {t('wallet.totalDownlines')}
-                          </div>
-                          <div className="stat-value">
-                            {downlinePurchases.length}
-                          </div>
-                        </div>
+              </div>
+            ) : (
+              <div className="downline-purchases-list">
+                <div className="downline-stats">
+                  <div className="downline-stat-item">
+                    <div className="stat-icon">
+                      <FaUsers />
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">
+                        {t('wallet.totalDownlines')}
+                      </div>
+                      <div className="stat-value">
+                        {downlinePurchases.length}
                       </div>
                     </div>
-                  )}
+                  </div>
 
-                  {!loading &&
-                    downlinePurchases.map((purchase, index) => (
-                      <div key={index} className="downline-purchase-item">
-                        <div className="purchase-header">
-                          <div className="downline-address">
-                            <span className="address-label">
-                              {t('wallet.downlineAddress')}:
-                            </span>
-                            <span className="address-value">
-                              {purchase.buyer}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="purchase-details">
-                          <div className="purchase-amount">
-                            <span className="amount-label">ETH:</span>
-                            <span className="amount-value">
-                              {formatEther(purchase.amount)}
-                              <small>
-                                {purchase.amountUSD &&
-                                  `(${purchase.amountUSD.toFixed(2)} USD)`}
-                              </small>
-                            </span>
-                          </div>
-                          <div className="purchase-tokens">
-                            <span className="tokens-label">PLTL:</span>
-                            <span className="tokens-value">
-                              {formatUnits(purchase.tokenAmount, 9)}
-                            </span>
-                          </div>
-                          <div className="purchase-level">
-                            <span className="level-label">
-                              {t('wallet.level')}:
-                            </span>
-                            <span className="level-value">
-                              {purchase.directReferral
-                                ? t('common.direct')
-                                : t('common.indirect')}
-                            </span>
-                          </div>
-                          <div className="purchase-ref-earning">
-                            <span className="ref-earning-label">
-                              {t('wallet.refEarning')}:
-                            </span>
-                            <span className="ref-earning-value">{refEarning(purchase)}</span>
-                          </div>
-                        </div>
+                  <div className="downline-stat-item">
+                    <div className="stat-icon">
+                      <FaEthereum />
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">
+                        {t('wallet.totalVolume')}
                       </div>
-                    ))}
+                      <div className="stat-value">
+                        {downlinePurchases
+                          .reduce(
+                            (total, purchase) =>
+                              total + parseFloat(formatEther(purchase.amount)),
+                            0
+                          )
+                          .toFixed(2)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="downline-stat-item">
+                    <div className="stat-icon">
+                      <span className="dollar-icon">$</span>
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">
+                        {t('wallet.totalVolumeUSD')}
+                      </div>
+                      <div className="stat-value">
+                        $
+                        {downlinePurchases
+                          .reduce(
+                            (total, purchase) =>
+                              total + (purchase.amountUSD || 0),
+                            0
+                          )
+                          .toFixed(2)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-          </Row>
+
+                {downlinePurchases.map((purchase, index) => (
+                  <div key={index} className="downline-purchase-item">
+                    <div className="purchase-header">
+                      <div className="downline-address">
+                        <span className="address-label">
+                          {t('wallet.downlineAddress')}:
+                        </span>
+                        <span className="address-value">
+                          {formatAddress(purchase.buyer)}
+                        </span>
+                      </div>
+                      <div className="purchase-date">
+                        {new Date(purchase.date * 1000).toLocaleDateString()}
+                      </div>
+                    </div>
+
+                    <div className="purchase-details">
+                      <div className="purchase-amount">
+                        <span className="amount-label">ETH:</span>
+                        <span className="amount-value">
+                          {formatEther(purchase.amount)}
+                          {purchase.amountUSD && (
+                            <small>(${purchase.amountUSD.toFixed(2)})</small>
+                          )}
+                        </span>
+                      </div>
+
+                      <div className="purchase-tokens">
+                        <span className="tokens-label">PLTL:</span>
+                        <span className="tokens-value">
+                          {formatUnits(purchase.tokenAmount, 9)}
+                        </span>
+                      </div>
+
+                      <div className="purchase-level">
+                        <span className="level-label">
+                          {t('wallet.level')}:
+                        </span>
+                        <span className="level-value">
+                          {purchase.directReferrer === currentUser?.address
+                            ? t('wallet.firstGeneration')
+                            : t('wallet.secondGeneration')}
+                        </span>
+                      </div>
+
+                      <div className="purchase-ref-earning">
+                        <span className="ref-earning-label">
+                          {t('wallet.refEarning')}:
+                        </span>
+                        <span className="ref-earning-value">
+                          {refEarning(purchase)} PLTL
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </TabPane>
       </TabContent>
     </div>
