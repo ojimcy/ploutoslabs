@@ -71,8 +71,7 @@ function TokenPresale() {
     seconds: 0,
   });
   const [isLoading, setIsLoading] = useState(false);
-
-  const currentPrice = 124200;
+  const [currentPrice, setCurrentPrice] = useState(0);
 
   const presaleEndTime = new Date('2025-03-31T23:59:59Z').getTime();
 
@@ -117,6 +116,25 @@ function TokenPresale() {
   useEffect(() => {
     refreshHistory();
   }, [selectedWallet]);
+
+  useEffect(() => {
+    const fetchCurrentPrice = async () => {
+      const publicClient = createPublicClient({
+        chain: base,
+        transport: http(NODE_URL),
+      });
+      const contract = getContract({
+        address: PRESALE_CONTRACT_ADDRESS,
+        abi: presaleAbi,
+        // 1a. Insert a single client
+        client: publicClient,
+        // 1b. Or public and/or wallet clients
+      });
+      const rate = await contract.read.getRate();
+      setCurrentPrice(rate / 1e9);
+    };
+    fetchCurrentPrice();
+  }, []);
 
   const refreshHistory = async () => {
     if (!selectedWallet) return;
