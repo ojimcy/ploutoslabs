@@ -30,6 +30,8 @@ const PresaleTabs = ({
   const webapp = useWebApp();
   const currentUser = useCurrentUser();
   const [activeTab, setActiveTab] = useState('1');
+  const [showAllDownlines, setShowAllDownlines] = useState(false);
+  const ITEMS_PER_PAGE = 10;
 
   const totalRefEarningn = () => {
     let total = 0;
@@ -114,6 +116,10 @@ const PresaleTabs = ({
       return tokenAmount * 0.05;
     }
   };
+
+  const displayedDownlines = showAllDownlines
+    ? downlinePurchases
+    : downlinePurchases.slice(0, ITEMS_PER_PAGE);
 
   return (
     <div className="portfolio">
@@ -282,43 +288,44 @@ const PresaleTabs = ({
                     </div>
                   )}
 
-                  {!loading &&
-                    downlinePurchases.map((purchase, index) => (
-                      <div key={index} className="downline-purchase-item">
-                        <div className="purchase-header">
-                          <div className="downline-address">
-                            <span className="address-label">
-                              Downline Address:
-                            </span>
-                            <span className="address-value">
-                              {formatAddress(purchase.buyer)}
-                            </span>
-                          </div>
-                          <div className="purchase-date">
-                            {new Date(
-                              parseInt(purchase.date) * 1000
-                            ).toLocaleDateString()}
-                          </div>
+                  {displayedDownlines.map((purchase, index) => (
+                    <div key={index} className="downline-purchase-item">
+                      <div className="purchase-header flex-column flex-md-row">
+                        <div className="downline-address w-100">
+                          <span className="address-label d-block d-md-inline">
+                            Downline Address:
+                          </span>
+                          <span className="address-value ms-0 ms-md-2 d-block d-md-inline">
+                            {formatAddress(purchase.buyer)}
+                          </span>
                         </div>
-                        <div className="purchase-details">
+                        <div className="purchase-date mt-2 mt-md-0">
+                          {new Date(
+                            parseInt(purchase.date) * 1000
+                          ).toLocaleDateString()}
+                        </div>
+                      </div>
+                      <div className="purchase-details">
+                        <div className="purchase-info-grid">
                           <div className="purchase-amount">
-                            <span className="amount-label">ETH:</span>
+                            <span className="amount-label d-block">ETH:</span>
                             <span className="amount-value">
                               {formatEther(purchase.amount)}
-                              <small>
-                                {purchase.amountUSD &&
-                                  `(${purchase.amountUSD.toFixed(2)} USD)`}
-                              </small>
+                              {purchase.amountUSD && (
+                                <small className="d-block mt-1">
+                                  (${purchase.amountUSD.toFixed(2)} USD)
+                                </small>
+                              )}
                             </span>
                           </div>
                           <div className="purchase-tokens">
-                            <span className="tokens-label">PLTL:</span>
+                            <span className="tokens-label d-block">PLTL:</span>
                             <span className="tokens-value">
                               {formatUnits(purchase.tokenAmount, 9)}
                             </span>
                           </div>
                           <div className="purchase-level">
-                            <span className="level-label">Level:</span>
+                            <span className="level-label d-block">Level:</span>
                             <span className="level-value">
                               {purchase.directReferrer === currentUser?.address
                                 ? 'First Generation'
@@ -326,14 +333,30 @@ const PresaleTabs = ({
                             </span>
                           </div>
                           <div className="purchase-tokens">
-                            <span className="tokens-label">PLTL Earned:</span>
+                            <span className="tokens-label d-block">
+                              PLTL Earned:
+                            </span>
                             <span className="tokens-value">
                               {refEarning(purchase)}
                             </span>
                           </div>
                         </div>
                       </div>
-                    ))}
+                    </div>
+                  ))}
+
+                  {downlinePurchases.length > ITEMS_PER_PAGE &&
+                    !showAllDownlines && (
+                      <div className="show-more-container">
+                        <Button
+                          className="show-more-btn"
+                          onClick={() => setShowAllDownlines(true)}
+                        >
+                          Show More ({downlinePurchases.length - ITEMS_PER_PAGE}
+                          )
+                        </Button>
+                      </div>
+                    )}
                 </div>
               )}
             </div>

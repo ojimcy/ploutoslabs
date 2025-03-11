@@ -222,3 +222,123 @@
     font-size: 1.5rem;
   }
 }
+
+/* Downline Purchase Styles */
+.downline-purchase-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.purchase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.downline-address {
+  font-size: 0.9rem;
+}
+
+.address-label,
+.amount-label,
+.tokens-label,
+.level-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.address-value,
+.amount-value,
+.tokens-value,
+.level-value {
+  color: #fff;
+  word-break: break-all;
+}
+
+.purchase-date {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.purchase-info-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+.purchase-amount small {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 768px) {
+  .purchase-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .purchase-header {
+    align-items: center;
+  }
+
+  .downline-address {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .purchase-info-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.show-more-container {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.show-more-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.show-more-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Stats Section */
+.downline-stats {
+  margin-bottom: 2rem;
+}
+
+.downline-stat-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-icon {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
