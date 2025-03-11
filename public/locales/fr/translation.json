@@ -207,7 +207,11 @@
     "downlineAddress": "Adresse",
     "level": "Niveau",
     "createAccount": "Créer un compte",
-    "refEarning": "Gains de parrainage"
+    "refEarning": "Gains de parrainage",
+    "totalVolume": "Volume total",
+    "totalVolumeUSD": "Volume total (USD)",
+    "firstGeneration": "Première génération",
+    "secondGeneration": "Deuxième génération"
   },
   "boost": {
     "success": "Boost réussi !",

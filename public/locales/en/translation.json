@@ -194,7 +194,11 @@
     "downlineAddress": "Address",
     "level": "Level",
     "createAccount": "Create Account",
-    "refEarning": "Referral Earnings"
+    "refEarning": "Referral Earnings",
+    "totalVolume": "Total Volume",
+    "totalVolumeUSD": "Total Volume (USD)",
+    "firstGeneration": "First Generation",
+    "secondGeneration": "Second Generation"
   },
   "boost": {
     "success": "Successfully boosted!",
