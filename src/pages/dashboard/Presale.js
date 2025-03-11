@@ -285,6 +285,40 @@ function TokenPresale() {
     fetchDownlinePurchases();
   }, [selectedWallet]);
 
+  console.log('downlinePurchases', downlinePurchases);
+
+  // Mock data for testing
+  const mockDownlinePurchases = [
+    {
+    buyer: '0x1234567890abcdef1234567890abcdef12345678',
+    amount: '1000000000000000000', // 1 ETH
+    amountUSD: 2500.0,
+    tokenAmount: '138000000000', // 138 PLTL
+    date: Math.floor(Date.now() / 1000),
+    directReferrer: '0x9876543210abcdef1234567890abcdef12345678',
+    secondReferrer: '0x5432109876abcdef1234567890abcdef12345678',
+  },
+  {
+    buyer: '0x2345678901abcdef1234567890abcdef12345678',
+    amount: '500000000000000000', // 0.5 ETH
+    amountUSD: 1250.0,
+    tokenAmount: '69000000000', // 69 PLTL
+    date: Math.floor(Date.now() / 1000) - 86400,
+    directReferrer: '0x9876543210abcdef1234567890abcdef12345678',
+    secondReferrer: '0x5432109876abcdef1234567890abcdef12345678',
+  },
+  {
+    buyer: '0x3456789012abcdef1234567890abcdef12345678',
+    amount: '2000000000000000000', // 2 ETH
+    amountUSD: 5000.0,
+    tokenAmount: '276000000000', // 276 PLTL
+    date: Math.floor(Date.now() / 1000) - 172800,
+    directReferrer: '0x5432109876abcdef1234567890abcdef12345678',
+    secondReferrer: '0x9876543210abcdef1234567890abcdef12345678',
+  },
+];
+
+
   return (
     <div className="presale-page">
       {!showPinPad && (
@@ -433,7 +467,7 @@ function TokenPresale() {
             purchaseHistory={histories}
             loading={isLoading}
             referrals={referrals}
-            downlinePurchases={downlinePurchases}
+            downlinePurchases={mockDownlinePurchases}
           />
         </Container>
       )}
