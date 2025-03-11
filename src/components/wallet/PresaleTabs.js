@@ -110,6 +110,15 @@ const PresaleTabs = ({
     if (activeTab !== tab) setActiveTab(tab);
   };
 
+  const refEarning = (purchase) => {
+    const tokenAmount = parseFloat(formatUnits(purchase.tokenAmount, 9));
+    if (purchase.directReferrer === currentUser?.address) {
+      return tokenAmount * 0.1;
+    } else {
+      return tokenAmount * 0.05;
+    }
+  };
+
   return (
     <div className="portfolio">
       <Nav tabs>
@@ -312,6 +321,12 @@ const PresaleTabs = ({
                                 ? t('common.direct')
                                 : t('common.indirect')}
                             </span>
+                          </div>
+                          <div className="purchase-ref-earning">
+                            <span className="ref-earning-label">
+                              {t('wallet.refEarning')}:
+                            </span>
+                            <span className="ref-earning-value">{refEarning(purchase)}</span>
                           </div>
                         </div>
                       </div>

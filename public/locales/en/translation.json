@@ -193,7 +193,8 @@
     "totalDownlines": "Total Downlines",
     "downlineAddress": "Address",
     "level": "Level",
-    "createAccount": "Create Account"
+    "createAccount": "Create Account",
+    "refEarning": "Referral Earnings"
   },
   "boost": {
     "success": "Successfully boosted!",

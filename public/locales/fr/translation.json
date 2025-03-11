@@ -206,7 +206,8 @@
     "totalDownlines": "Total des filleuls",
     "downlineAddress": "Adresse",
     "level": "Niveau",
-    "createAccount": "Créer un compte"
+    "createAccount": "Créer un compte",
+    "refEarning": "Gains de parrainage"
   },
   "boost": {
     "success": "Boost réussi !",
