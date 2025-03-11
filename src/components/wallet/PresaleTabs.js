@@ -106,6 +106,15 @@ const PresaleTabs = ({
     if (activeTab !== tab) setActiveTab(tab);
   };
 
+  const refEarning = (purchase) => {
+    const tokenAmount = parseFloat(formatUnits(purchase.tokenAmount, 9));
+    if (purchase.directReferrer === currentUser?.address) {
+      return tokenAmount * 0.1;
+    } else {
+      return tokenAmount * 0.05;
+    }
+  };
+
   return (
     <div className="portfolio">
       <Nav tabs>
@@ -314,6 +323,12 @@ const PresaleTabs = ({
                               {purchase.directReferrer === currentUser?.address
                                 ? 'First Generation'
                                 : 'Second Generation'}
+                            </span>
+                          </div>
+                          <div className="purchase-tokens">
+                            <span className="tokens-label">PLTL Earned:</span>
+                            <span className="tokens-value">
+                              {refEarning(purchase)}
                             </span>
                           </div>
                         </div>
