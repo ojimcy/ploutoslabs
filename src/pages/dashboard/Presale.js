@@ -73,7 +73,7 @@ function TokenPresale() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPrice, setCurrentPrice] = useState(0);
 
-  const presaleEndTime = new Date('2025-03-31T23:59:59Z').getTime();
+  const presaleEndTime = new Date('2025-04-23T23:59:59Z').getTime();
 
   useEffect(() => {
     // Countdown timer setup

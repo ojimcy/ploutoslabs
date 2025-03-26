@@ -161,8 +161,8 @@ const PresaleTabs = ({
             <div className="mt-4">
               <h4>Referrals</h4>
               <p>
-                Share your referral link and earn 7% of every purchase your
-                referral makes plus 3% of thei downlines purchase. Use the
+                Share your referral link and earn 10% of every purchase your
+                referral makes plus 5% of their downlines purchase. Use the
                 buttons below to share or copy your referral link.
               </p>
               <Separator />
@@ -261,8 +261,8 @@ const PresaleTabs = ({
             <div className="mt-4">
               <h4>Downline Purchases</h4>
               <p>
-                Share your referral link and earn 7% of every purchase your
-                referral makes plus 3% of their downlines purchases. Share your
+                Share your referral link and earn 10% of every purchase your
+                referral makes plus 5% of their downlines purchases. Share your
                 referral link to your downlines to earn more.
               </p>
               <Separator />
