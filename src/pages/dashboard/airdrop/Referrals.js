@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { WebappContext } from '../../../context/telegram';
 import ReferralTable from '../../../components/airdrop/ReferralTable';
-import { FiCopy, FiGift, FiUsers, FiTrendingUp } from 'react-icons/fi';
+import { FiCopy, FiGift, FiUsers } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 function Referrals() {
@@ -18,7 +18,6 @@ function Referrals() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [firstGeneration, setFirstGeneration] = useState([]);
-  const [secondGeneration, setSecondGeneration] = useState([]);
 
   useEffect(() => {
     const loadReferrals = async () => {
@@ -26,7 +25,6 @@ function Referrals() {
         setLoading(true);
         const result = await fetchReferrals();
         setFirstGeneration(result.firstGeneration || []);
-        setSecondGeneration(result.secondGeneration || []);
       } catch (error) {
         console.log('Error in getReferrals', error);
         toast.error('Failed to get referrals');
@@ -60,7 +58,7 @@ function Referrals() {
     navigate('/dashboard/ref-leaderboard');
   };
 
-  const totalReferrals = firstGeneration.length + secondGeneration.length;
+  const totalReferrals = firstGeneration.length;
 
   return (
     <div className="referral-page">
@@ -68,7 +66,7 @@ function Referrals() {
         <div className="referrals-content">
           {/* Stats Cards Row */}
           <Row className="stats-row">
-            <Col md="4" className="mb-4">
+            <Col md="6" className="mb-4">
               <div className="stats-card">
                 <div className="stats-icon">
                   <FiUsers />
@@ -79,25 +77,16 @@ function Referrals() {
                 </div>
               </div>
             </Col>
-            <Col md="4" className="mb-4">
+            <Col md="6" className="mb-4">
               <div className="stats-card">
                 <div className="stats-icon">
                   <FiGift />
                 </div>
                 <div className="stats-info">
                   <h3>{currentUser?.referralBonus?.toFixed(2) || '0.00'}</h3>
-                  <p>{t('referral.directBonus')} ({t('common.pltl')})</p>
-                </div>
-              </div>
-            </Col>
-            <Col md="4" className="mb-4">
-              <div className="stats-card">
-                <div className="stats-icon">
-                  <FiTrendingUp />
-                </div>
-                <div className="stats-info">
-                  <h3>{currentUser?.referralBonus2?.toFixed(2) || '0.00'}</h3>
-                  <p>{t('referral.indirectBonus')} ({t('common.pltl')})</p>
+                  <p>
+                    {t('referral.directBonus')} ({t('common.pltl')})
+                  </p>
                 </div>
               </div>
             </Col>
@@ -116,11 +105,7 @@ function Referrals() {
               </Button>
             </div>
             <div className="referral-link-box">
-              <input
-                type="text"
-                value={referralLink}
-                readOnly
-              />
+              <input type="text" value={referralLink} readOnly />
               <Button className="copy-button" onClick={copyReferralLink}>
                 <FiCopy /> {t('common.copy')}
               </Button>
@@ -133,14 +118,15 @@ function Referrals() {
               <h3>{t('referral.referralContest')}</h3>
               <p>{t('referral.referralContestSubtitle')}</p>
             </div>
-            <Button className="view-contest-button">{t('common.viewDetails')}</Button>
+            <Button className="view-contest-button">
+              {t('common.viewDetails')}
+            </Button>
           </div>
 
           {/* Referral Table */}
           <div className="referral-table-section">
             <ReferralTable
               firstGeneration={firstGeneration}
-              secondGeneration={secondGeneration}
               loading={loading}
             />
           </div>
