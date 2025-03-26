@@ -47,6 +47,7 @@ import {
   GET_UTILITY_TRANSACTIONS,
   GET_UTILITY_TRANSACTION,
   GET_DOWNLINE_PURCHASES,
+  GET_REFERRALS,
 } from './endpoints';
 import { getWalletsFromDb } from './db';
 
@@ -307,5 +308,10 @@ export const getUtilityTransaction = async (id) => {
 
 export const getDownlinePurchases = async (wallet) => {
   const result = await axios.get(GET_DOWNLINE_PURCHASES(wallet));
+  return result.data;
+};
+
+export const getReferrals = async () => {
+  const result = await axios.get(GET_REFERRALS());
   return result.data;
 };

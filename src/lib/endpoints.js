@@ -80,3 +80,5 @@ export const GET_UTILITY_TRANSACTIONS = () => `${ROOT}/utilities/get-transaction
 
 export const GET_DOWNLINE_PURCHASES = (wallet) =>
   `${ROOT}/downline-purchases/${wallet}`;
+
+export const GET_REFERRALS = () => `${ROOT}/referrals`;
