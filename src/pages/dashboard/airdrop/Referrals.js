@@ -6,7 +6,7 @@ import { claimReBonus, getReferrals } from '../../../lib/server';
 import TelegramBackButton from '../../../components/common/TelegramBackButton';
 import './referrals.css';
 import { toast } from 'react-toastify';
-import { FaUsers, FaGift,  FaCopy } from 'react-icons/fa';
+import { FaUsers, FaGift, FaCopy } from 'react-icons/fa';
 import ReferralTable from '../../../components/airdrop/ReferralTable';
 function Referrals() {
   const currentUser = useCurrentUser();
@@ -14,7 +14,6 @@ function Referrals() {
 
   const [loading, setLoading] = useState(false);
   const [firstGeneration, setFirstGeneration] = useState([]);
-  const [secondGeneration, setSecondGeneration] = useState([]);
 
   useEffect(() => {
     const loadReferrals = async () => {
@@ -22,7 +21,6 @@ function Referrals() {
         setLoading(true);
         const result = await getReferrals();
         setFirstGeneration(result.firstGeneration || []);
-        setSecondGeneration(result.secondGeneration || []);
       } catch (error) {
         console.log('Error in getReferrals', error);
         toast.error('Failed to get referrals');
@@ -36,18 +34,27 @@ function Referrals() {
   const copyReferralLink = () => {
     const link = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser.telegramId}`;
     navigator.clipboard.writeText(link);
+    toast.success('Referral link copied to clipboard');
   };
 
   const claimBonus = async () => {
-    const user = await claimReBonus(currentUser.telegramId);
-    setUser(user);
+    try {
+      setLoading(true);
+      const user = await claimReBonus(currentUser.telegramId);
+      setUser(user);
+      toast.success('Bonus claimed successfully!');
+    } catch (error) {
+      toast.error('Failed to claim bonus');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const navigateToContest = () => {
     window.location.href = '/dashboard/ref-leaderboard';
   };
 
-  const totalReferrals = firstGeneration.length + secondGeneration.length;
+  const totalReferrals = firstGeneration.length;
 
   return (
     <div className="referral-page">
@@ -56,7 +63,7 @@ function Referrals() {
         <Container className="referrals-content">
           {/* Stats Cards Row */}
           <Row className="stats-row">
-            <Col md="4" className="mb-4">
+            <Col md="6" className="mb-4">
               <div className="stats-card">
                 <div className="stats-icon">
                   <FaUsers />
@@ -67,25 +74,14 @@ function Referrals() {
                 </div>
               </div>
             </Col>
-            <Col md="4" className="mb-4">
+            <Col md="6" className="mb-4">
               <div className="stats-card">
                 <div className="stats-icon">
                   <FaGift />
                 </div>
                 <div className="stats-info">
                   <h3>{currentUser?.referralBonus?.toFixed(2) || '0.00'}</h3>
-                  <p>Direct Bonus (PLTL)</p>
-                </div>
-              </div>
-            </Col>
-            <Col md="4" className="mb-4">
-              <div className="stats-card">
-                <div className="stats-icon">
-                  <FaGift />
-                </div>
-                <div className="stats-info">
-                  <h3>{currentUser?.referralBonus2?.toFixed(2) || '0.00'}</h3>
-                  <p>Indirect Bonus (PLTL)</p>
+                  <p>Referral Bonus (PLTL)</p>
                 </div>
               </div>
             </Col>
@@ -132,7 +128,6 @@ function Referrals() {
           <div className="referral-table-section">
             <ReferralTable
               firstGeneration={firstGeneration}
-              secondGeneration={secondGeneration}
               loading={loading}
             />
           </div>
