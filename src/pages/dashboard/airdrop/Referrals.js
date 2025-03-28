@@ -32,7 +32,7 @@ function Referrals() {
   }, []);
 
   const copyReferralLink = () => {
-    const link = `https://t.me/ploutos_labs_bot/app?startapp=${currentUser.telegramId}`;
+    const link = `https://t.me/ploutos_labs_bot?start=${currentUser.telegramId}`;
     navigator.clipboard.writeText(link);
     toast.success('Referral link copied to clipboard');
   };
@@ -104,7 +104,7 @@ function Referrals() {
                 type="text"
                 value={
                   currentUser
-                    ? `https://t.me/ploutos_labs_bot/app?startapp=${currentUser.telegramId}`
+                    ? `https://t.me/ploutos_labs_bot?start=${currentUser.telegramId}`
                     : ''
                 }
                 readOnly
