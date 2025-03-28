@@ -169,7 +169,7 @@ const PresaleTabs = ({
                   </div>
                   <div>
                     {currentUser
-                      ? `https://t.me/ploutos_labs_bot/app?startapp=${currentUser.telegramId}`
+                      ? `https://t.me/ploutos_labs_bot?start=${currentUser.telegramId}`
                       : ''}
                   </div>
                   <div className="d-flex justify-content-between my-3">
